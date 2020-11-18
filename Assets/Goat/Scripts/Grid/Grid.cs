@@ -11,10 +11,23 @@ namespace GOAT.Grid
         private float tileOffset;
         public Tile[,] tiles;
         [SerializeField] private LayerMask gridMask;
+
+        [SerializeField] private bool debugMouseRaycast;
         
         private void Start()
         {
+            transform.localScale = new Vector3(gridSize.x, 1, gridSize.y) * tileSize;
+            transform.position = new Vector3(gridSize.x, 1, gridSize.y) * tileSize / 2;
+
             tileOffset = tileSize / 2;
+
+            InitializeTiles(gridSize, tileSize);
+        }
+
+        private void Update() {
+            Vector3 mouseHit = GetMousePosition();
+            Vector2Int tileIndex = CalculateTilePositionInArray(mouseHit);
+            Tile tileInfo = ReturnTile(tileIndex);
         }
 
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
@@ -32,10 +45,9 @@ namespace GOAT.Grid
         private Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
         {
             //tile position gaat altijd X+ Y+ vanuit 
-            Vector2 gridOrigin = new Vector2(transform.position.x, transform.position.z);
             Vector2 hitPosition = new Vector2(rayHitPosition.x, rayHitPosition.z);
 
-            Vector2 relativeHitPos = (hitPosition - gridOrigin) / tileSize;
+            Vector2 relativeHitPos = hitPosition / tileSize;
             return new Vector2Int(Mathf.FloorToInt(relativeHitPos.x), Mathf.FloorToInt(relativeHitPos.y));
         }
 
@@ -49,19 +61,35 @@ namespace GOAT.Grid
             return null;
         }
     
-        private Vector2Int GetMouseGridPosition() {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 cameraDirection = Camera.main.transform.eulerAngles;            
+        private Vector3 GetMousePosition() {
+            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
 
-            if (Physics.Raycast(mousePosition, cameraDirection, out RaycastHit hit, Mathf.Infinity, gridMask)) {
-                return CalculateTilePositionInArray(hit.point);
-            } else {
-                return Vector2Int.zero;
-            }
+            if (Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit hit, Mathf.Infinity)) {
+                return hit.point;
+            } 
+            return Vector3.zero;
         }
 
         private void HighLightTile(Tile tile) {
             tile.Select();
+        }
+
+
+        // Debug option for showing where mouse hits the collider
+        private void OnDrawGizmos() {
+            if (debugMouseRaycast) {
+                Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                Vector3 posDiff = mouseWorldPosition - Camera.main.transform.position;
+                Physics.Raycast(mouseWorldPosition, posDiff, out RaycastHit hit, Mathf.Infinity);
+
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(hit.point, 1);
+                Gizmos.DrawLine(hit.point, mouseWorldPosition);
+            }
         }
     }
 }
