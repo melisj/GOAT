@@ -16,17 +16,35 @@ namespace GOAT.Grid
         private bool isUnlocked;
         private bool isSelected;
         private TileType tileType;
-        
+
         public Tile(Vector3 centerPosition) {
             this.centerPosition = centerPosition;
         }
 
         public void Select() {
-            Debug.Log("You've selected me at: " + centerPosition);
+            GetTileInformation();
         }
 
         public void DeSelect() {
 
+        }
+
+        public TileInformation GetTileInformation()
+        {
+            // Initialize tile information
+            return new TileInformation(centerPosition, tileType);
+        }
+    }
+
+    public struct TileInformation
+    {
+        public readonly Vector3 TilePosition;
+        public readonly TileType TileType;
+
+        public TileInformation(Vector3 TilePosition, TileType TileType)
+        {
+            this.TilePosition = TilePosition;
+            this.TileType = TileType;
         }
     }
 }

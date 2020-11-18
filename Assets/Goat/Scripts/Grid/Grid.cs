@@ -4,20 +4,25 @@ using UnityEngine;
 
 namespace GOAT.Grid
 {
+    public enum SelectionMode
+    {
+        Select,
+        Edit
+    }
+
     public class Grid : MonoBehaviour {
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         public Tile[,] tiles;
         [SerializeField] private LayerMask gridMask;
 
-        private Tile selectedTile;
         private Tile clickedTile;
         [SerializeField] private Transform selectionObject;
 
 
         [Space(20)]
         [SerializeField] private bool debugMouseRaycast = false;
-
+        public SelectionMode selectionMode = SelectionMode.Select;
 
         private void Start() {
             transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
@@ -28,25 +33,42 @@ namespace GOAT.Grid
             InitializeTiles(gridSize, tileSize);
         }
 
-        private void Update() {
-            if (DoRaycastFromMouse(out RaycastHit hit)) { 
-                Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
-                selectedTile = ReturnTile(tileIndex);
+        private void Update()
+        {
+            // Highlight tiles when in edit mode.
+            // This is useful when selecting neighboring tiles without a visible border
+            if (selectionMode == SelectionMode.Edit) HighlightTile();
 
-                // Change selection tile when something was selected
-                if (selectedTile != null)
-                    selectionObject.position = new Vector3(tileIndex.x, 0, tileIndex.y) * tileSize;
+            if (Input.GetMouseButtonDown(0))
+            {
+                //left mouse button
+                Tile tempTile = SelectTile();
             }
-
-            CheckForClickOnTile();
+            if (Input.GetMouseButtonDown(1) && selectionMode != SelectionMode.Edit)
+            {
+                //right mouse button
+                Tile tempTile = SelectTile();
+            }
         }
 
-        private void CheckForClickOnTile() {
-            if (Input.GetMouseButtonDown(0)) {
-                clickedTile?.DeSelect();
-                clickedTile = selectedTile;
-                clickedTile?.Select();
+        private void HighlightTile()
+        {
+            Tile selectedTile = SelectTile();
+
+            // Change selection tile when something was selected
+            if (selectedTile != null) {
+                selectionObject.position = selectedTile.GetTileInformation().TilePosition;
             }
+        }
+
+        private Tile SelectTile() {
+            Tile selectedTile = null;
+            if (DoRaycastFromMouse(out RaycastHit hit))
+            {
+                Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
+                selectedTile = ReturnTile(tileIndex);
+            }
+            return selectedTile;
         }
 
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
