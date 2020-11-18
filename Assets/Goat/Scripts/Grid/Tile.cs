@@ -11,16 +11,21 @@ namespace GOAT.Grid
 
     public class Tile
     {
+        private Vector3 centerPosition;
         private bool isSolid;
         private bool isUnlocked;
         private bool isSelected;
         private TileType tileType;
         
-        public void Select() {
-
+        public Tile(Vector3 centerPosition) {
+            this.centerPosition = centerPosition;
         }
 
-        public void UnSelect() {
+        public void Select() {
+            Debug.Log("You've selected me at: " + centerPosition);
+        }
+
+        public void DeSelect() {
 
         }
     }
