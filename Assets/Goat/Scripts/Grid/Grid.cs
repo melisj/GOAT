@@ -30,13 +30,6 @@ namespace GOAT.Grid
             Tile tileInfo = ReturnTile(tileIndex);
         }
 
-        private void Update() {
-            Vector3 mouseHit = GetMousePosition();
-            Vector2Int tileIndex = CalculateTilePositionInArray(mouseHit);
-            Tile tileInfo = ReturnTile(tileIndex);
-            print(tileIndex);
-        }
-
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
             tiles = new Tile[gridSize.x, gridSize.y];
@@ -54,11 +47,7 @@ namespace GOAT.Grid
             //tile position gaat altijd X+ Y+ vanuit 
             Vector2 hitPosition = new Vector2(rayHitPosition.x, rayHitPosition.z);
 
-<<<<<<< HEAD
             Vector2 relativeHitPos = hitPosition / tileSize;
-=======
-            Vector2 relativeHitPos = (hitPosition) / tileSize;
->>>>>>> e132cabf5c998db7ae3edf27f4613e68f7e10017
             return new Vector2Int(Mathf.FloorToInt(relativeHitPos.x), Mathf.FloorToInt(relativeHitPos.y));
         }
 
