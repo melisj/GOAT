@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: PlayerInputSettings
   m_EditorClassIdentifier: 
   moveForward: 119
-  moveDownward: 97
-  moveLeft: 115
+  moveLeft: 97
+  moveDownward: 115
   moveRight: 100
   run: 304
   toggleMouse: 306
+  topViewMode: 116
+  thirdPersonMode: 51
+  stationaryMode: 308
+  switchTopViewMode: 114

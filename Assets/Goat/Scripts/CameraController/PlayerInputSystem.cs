@@ -8,9 +8,8 @@
         #region Private Fields
 
         [SerializeField] private PlayerInputSettings playerInputSettings;
-        [SerializeField] private bool debugMode;
         [SerializeField] private Vector3 direction;
-
+    
         #endregion Private Fields
 
         #region Public Enums
@@ -25,6 +24,7 @@
         #endregion Public Enums
 
         #region Public Methods
+
         /// <summary>
         /// Returns the move direction based on the movement input
         /// </summary>
@@ -54,6 +54,7 @@
 
             return moveDir;
         }
+
 
         /// <summary>
         /// Returns maneuverType based on input

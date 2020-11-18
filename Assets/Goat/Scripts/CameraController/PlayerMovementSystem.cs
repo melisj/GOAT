@@ -1,5 +1,4 @@
-﻿
-namespace Goat.Camera
+﻿namespace Goat.Camera
 {
     using UnityEngine;
 
@@ -7,44 +6,31 @@ namespace Goat.Camera
     {
         #region Private Fields
 
-        [SerializeField] private Rigidbody playerController;
-        [SerializeField] private Transform cameraTrans;
-
+        [SerializeField] private CharacterController playerController;
+        [SerializeField] private CameraController cameraController;
         [SerializeField] private float walkSpeed;
-        //[SerializeField] private float crouchSpeed;
-        [SerializeField] private float runSpeed;
-        [SerializeField] private float dashSpeed;
-        [SerializeField] private float dashUpPower;
         [SerializeField] private float speedSmoothTime;
-        [SerializeField] private float stopSmoothTime;
         [SerializeField] private float turnSmoothTime;
         [SerializeField] private bool turnWithMovementOnly;
-        [SerializeField]private PlayerInputSystem playerInputSystem;
+        [SerializeField] private PlayerInputSystem playerInputSystem;
 
-        //[SerializeField] private int gravity;
-        //[SerializeField] private int airControlPercent;
-        //[SerializeField] private float jumpHeight;
-        //[SerializeField] private LayerMask groundLayer;
-
-        [SerializeField] private bool debugMode;
-        [SerializeField] private Vector3 moveTo;
-        [SerializeField] private Vector3 moveToDirection;
-        [SerializeField] private Vector3 velocity;
-        [SerializeField] private float currentSpeed;
-        [SerializeField] private float turnSmoothVelocity;
-        [SerializeField] private float speedSmoothVelocity;
-        [SerializeField] private float velocityY;
+        private Vector3 moveTo;
+        private Vector3 moveToDirection;
+        private float currentSpeed;
+        private float turnSmoothVelocity;
+        private float speedSmoothVelocity;
 
         #endregion Private Fields
 
         #region Public Methods
 
-        private void Update()
+        private void FixedUpdate()
         {
-            UpdateMovement();
+            moveTo = playerInputSystem.GetMoveDirection();
+            moveToDirection = moveTo.normalized;
         }
 
-        public void UpdateMovement()
+        private void Update()
         {
             Move();
         }
@@ -55,13 +41,10 @@ namespace Goat.Camera
 
         private void Move()
         {
-            moveTo = playerInputSystem.GetMoveDirection();
-            moveToDirection = moveTo.normalized;
-
             if (turnWithMovementOnly ? moveTo != Vector3.zero : !turnWithMovementOnly)
             {
                 float targetRotation = Mathf.Atan2(moveToDirection.x, moveToDirection.z) * Mathf.Rad2Deg +
-                                       cameraTrans.eulerAngles.y;
+                    (cameraController.ThirdPersonActive ? cameraController.GetLookEuler().y : 0);
                 playerController.transform.eulerAngles = Vector3.up *
                     Mathf.SmoothDampAngle(playerController.transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
             }
@@ -69,22 +52,13 @@ namespace Goat.Camera
             float targetSpeed = GetMoveSpeed() * moveTo.magnitude;
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-
-            playerController.MovePosition(playerController.position + (playerController.transform.forward * GetMoveSpeed() * moveTo.magnitude) * Time.deltaTime);
+            playerController.Move(transform.forward * currentSpeed * Time.deltaTime);
             currentSpeed = new Vector2(playerController.velocity.x, playerController.velocity.z).magnitude;
         }
 
         private float GetMoveSpeed()
         {
             return walkSpeed;
-        }
-
-        private void Dash()
-        {
-            Vector3 forward = playerController.transform.forward;
-            forward.y += dashUpPower;
-            Vector3 dashVelocity = forward * GetMoveSpeed() * dashSpeed;
-            playerController.AddForce(dashVelocity, ForceMode.VelocityChange);
         }
 
         #endregion Private Methods

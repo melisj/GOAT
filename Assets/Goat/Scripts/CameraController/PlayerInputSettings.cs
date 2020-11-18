@@ -9,19 +9,28 @@ namespace Goat.Camera
     public class PlayerInputSettings : ScriptableObject
     {
         [SerializeField] private KeyCode moveForward;
-        [SerializeField] private KeyCode moveDownward;
         [SerializeField] private KeyCode moveLeft;
+        [SerializeField] private KeyCode moveDownward;
         [SerializeField] private KeyCode moveRight;
 
         [SerializeField] private KeyCode run;
-        
-        [SerializeField] private KeyCode toggleMouse;
-        public KeyCode MoveForward { get => moveForward; set => moveForward = value; }
-        public KeyCode MoveDownward { get => moveDownward; set => moveDownward = value; }
-        public KeyCode MoveLeft { get => moveLeft; set => moveLeft = value; }
-        public KeyCode MoveRight { get => moveRight; set => moveRight = value; }
-        public KeyCode Run { get => run; set => run = value; }
 
-        public KeyCode ToggleMouse { get => toggleMouse; set => toggleMouse = value; }
+        [SerializeField] private KeyCode toggleMouse;
+        [SerializeField] private KeyCode topViewMode;
+        [SerializeField] private KeyCode thirdPersonMode;
+        [SerializeField] private KeyCode stationaryMode;
+        [SerializeField] private KeyCode switchTopViewMode;
+
+        public KeyCode MoveForward => moveForward;
+        public KeyCode MoveDownward => moveDownward;
+        public KeyCode MoveLeft => moveLeft;
+        public KeyCode MoveRight => moveRight;
+        public KeyCode Run => run;
+        public KeyCode ToggleMouse => toggleMouse;
+        public KeyCode TopViewMode => topViewMode;
+        public KeyCode ThirdPersonMode => thirdPersonMode;
+        public KeyCode StationaryMode => stationaryMode;
+        public KeyCode SwitchTopViewMode => switchTopViewMode;
+
     }
 }
