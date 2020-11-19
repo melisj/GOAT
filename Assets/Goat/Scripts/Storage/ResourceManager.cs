@@ -6,7 +6,7 @@ namespace Goat.Resource
 {
     public class ResourceManager : MonoBehaviour
     {
-        [SerializeField]private ResourceDictionary resData;
+        [SerializeField] private ResourceDictionary resData;
 
         public Resource GetResourceInfo(ResourceType type)
         {

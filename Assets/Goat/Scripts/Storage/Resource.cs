@@ -8,8 +8,7 @@ namespace Goat.Resource
     {
         Orichalcum,
         SilverStone,
-        Nanite,
-        Money
+        Nanite
     }
 
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Resource")]
@@ -37,9 +36,9 @@ namespace Goat.Resource
                 }
                 else
                 {
-                    AmountChanged.Invoke(this, value);
                     amount = value;
                 }
+                AmountChanged.Invoke(this, value);
             } 
         }
     }

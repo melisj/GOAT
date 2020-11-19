@@ -22,6 +22,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   resourceType: 0
-  resValue: 30123
-  amount: 1
+  resValue: 233
+  amount: 482
   image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
