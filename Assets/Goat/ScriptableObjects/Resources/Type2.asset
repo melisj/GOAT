@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
   m_Name: Type2
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   resourceType: 1
-  resValue: 0
-  amount: 0
-  image: {fileID: 0}
+  resValue: 3412
+  amount: 444
+  image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}

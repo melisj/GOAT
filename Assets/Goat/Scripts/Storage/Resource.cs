@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 namespace Goat.Resource
 {
     public enum ResourceType
@@ -11,7 +11,7 @@ namespace Goat.Resource
     }
 
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Resource")]
-    public class Resource : ScriptableObject
+    public class Resource : SerializedScriptableObject
     {
         [SerializeField] private ResourceType resourceType;
         [SerializeField] private float resValue;
@@ -20,6 +20,7 @@ namespace Goat.Resource
         private int oldAmount = 0;
         public event EventHandler<int> AmountChanged;
 
+        public ResourceType ResourceType => resourceType;
         public int OldAmount => oldAmount;
         public Sprite Image => image;
         public float ResValue { get => resValue; set => resValue = value; }

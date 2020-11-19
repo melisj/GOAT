@@ -12,13 +12,13 @@ namespace Goat.Resource
         private void Awake()
         {
             image.sprite = resource.Image;
-            textMesh.text = resource.ToString();
+            textMesh.text = resource.ResourceType.ToString() + ": " + resource.Amount.ToString();
             resource.AmountChanged += Resource_AmountChanged;
         }
 
         private void Resource_AmountChanged(object sender, int amount)
         {
-            textMesh.text = amount.ToString();
+            textMesh.text = resource.ResourceType.ToString() + ": " + resource.Amount.ToString();
         }
 
         private void OnDisable()
