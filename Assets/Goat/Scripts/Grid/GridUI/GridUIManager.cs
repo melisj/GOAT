@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GOAT.Grid
 {
+    // Basic element for grid UI elements
+    // Is used to manage showing and hiding the UI
     public class BasicGridUIElement : MonoBehaviour
     {
         [SerializeField] private GameObject PanelToHide;
@@ -21,32 +17,40 @@ namespace GOAT.Grid
         }
     }
 
+    // Manages the UI Elements to make certain that only one element is visible at a time
     public class GridUIManager : MonoBehaviour
     {
+        [HideInInspector] public TileEditUI tileEditUI;
+        [HideInInspector] public SelectionModeUI selectionModeUI;
         private static BasicGridUIElement currentUIOpen;
 
+        public void Awake() {
+            tileEditUI = FindObjectOfType<TileEditUI>();
+            selectionModeUI = FindObjectOfType<SelectionModeUI>();
+        }
+
+        // Disable, and enable a new element
         public static void ShowNewUI(BasicGridUIElement UIElement) {
             if(!IsSelectedSame(UIElement)) {
-                HideUI(currentUIOpen);
+                HideUI();
                 currentUIOpen = UIElement;
                 currentUIOpen.ShowUI();
             }
         }
 
-        public static void HideUI(BasicGridUIElement UIElement) {
-            if (UIElement != null)
-                UIElement.HideUI();
+        // Hide the current element
+        public static void HideUI() {
+            if (currentUIOpen != null)
+                currentUIOpen.HideUI();
             currentUIOpen = null; 
         }
 
-        public static void HideUI() {
-            HideUI(currentUIOpen);
-        }
-
+        // Check if a element is selected
         public static bool IsElementSelected() {
             return currentUIOpen != null;
         }
 
+        // Check if the given element is same as current selected
         public static bool IsSelectedSame(BasicGridUIElement UIElement) {
             return currentUIOpen == UIElement;
         }

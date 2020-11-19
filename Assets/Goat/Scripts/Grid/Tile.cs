@@ -17,6 +17,7 @@ namespace GOAT.Grid
         Steel
     }
 
+    // Class for storing tile data
     public class Tile
     {
         private Vector3 centerPosition;
@@ -30,6 +31,7 @@ namespace GOAT.Grid
             this.centerPosition = centerPosition;
         }
 
+        // Select this tile
         public void Select() {
             Debug.Log(GetTileInformation());
         }
@@ -38,21 +40,25 @@ namespace GOAT.Grid
 
         }
 
+        // Returns a tile info struct
         public TileInformation GetTileInformation()
         {
             // Initialize tile information
             return new TileInformation(centerPosition, floorType, buildingType);
         }
 
+        // Change the tile type 
+        // Spawns a floor object on this tile
         public void EditFloor(FloorType floorType)
         {
             MonoBehaviour.Destroy(floorObject);
             GameObject newObject = TileAssets.FindAsset(floorType);
             floorObject = newObject != null ? GameObject.Instantiate(newObject, centerPosition, Quaternion.identity) : null;
             this.floorType = floorType;
-            //isFloor = newObject != null;
         }
 
+        // Change the building type
+        // Spawns a building object on this tile
         public void EditBuilding(BuildingType buildingType)
         {
             MonoBehaviour.Destroy(buildingObject);
@@ -63,6 +69,7 @@ namespace GOAT.Grid
         }
     }
 
+    // Structure for storing data
     public struct TileInformation
     {
         public readonly Vector3 TilePosition;

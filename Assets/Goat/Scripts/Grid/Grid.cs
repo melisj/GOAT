@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 namespace GOAT.Grid
 {
@@ -21,16 +20,15 @@ namespace GOAT.Grid
 
         private Tile clickedTile;
         [SerializeField] private Transform selectionObject;
+        private GameObject placingObject;
+        private FloorType placingFloor;
+        private BuildingType placingBuilding;
 
         [Space(20)]
         [SerializeField] private bool debugMouseRaycast = false;
         public SelectionMode interactionMode = SelectionMode.Universal;
 
-        public FloorType floorType;
-
         // UI
-        [SerializeField] private TileEditUI tileEditUI;
-        [SerializeField] private SelectionModeUI selectionModeUI;
         [SerializeField] private GridUIManager UIManager;
 
 
@@ -54,30 +52,34 @@ namespace GOAT.Grid
                 if (Input.GetMouseButtonDown(0))
                 {
                     //left mouse button
-                    if (!GridUIManager.IsElementSelected()) {
-                        Tile tempTile = SelectTile();
-                        GridUIManager.ShowNewUI(selectionModeUI);
-                        selectionModeUI.SetTileInfo(tempTile.GetTileInformation());
+                    if (!GridUIManager.IsElementSelected())
+                    {
+                        TileInformation tileInfo = SelectTile().GetTileInformation();
+                        GridUIManager.ShowNewUI(UIManager.selectionModeUI);
+                        UIManager.selectionModeUI.SetTileInfo(tileInfo);
 
                         selectionObject.gameObject.SetActive(false);
-                    } 
-                    else if (!GridUIManager.IsSelectedSame(tileEditUI)) {
+                    }
+                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
+                    {
                         GridUIManager.HideUI();
                     }
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
                     //right mouse button
-                    if (!GridUIManager.IsElementSelected()) {
+                    if (!GridUIManager.IsElementSelected())
+                    {
 
                         Tile tempTile = SelectTile();
-                        GridUIManager.ShowNewUI(tileEditUI);
-                        tileEditUI.SetSelectedTile(tempTile);
+                        GridUIManager.ShowNewUI(UIManager.tileEditUI);
+                        UIManager.tileEditUI.SetSelectedTile(tempTile);
 
                         selectionObject.gameObject.SetActive(true);
                         HighlightTile(tempTile);
                     }
-                    else {
+                    else
+                    {
                         GridUIManager.HideUI();
                     }
                 }
@@ -88,9 +90,9 @@ namespace GOAT.Grid
                 {
                     Tile tempTile = SelectTile();
                     TileInformation tempTileInformation = tempTile.GetTileInformation();
-                    if(tempTileInformation.floorType != FloorType.Empty)
+                    if (tempTileInformation.floorType != FloorType.Empty)
                     {
-                        if(tempTileInformation.buildingType == BuildingType.Empty)
+                        if (tempTileInformation.buildingType == BuildingType.Empty)
                         {
                             // Navigate to tile
                         }
@@ -104,59 +106,17 @@ namespace GOAT.Grid
                 else if (interactionMode == SelectionMode.Edit)
                 {
                     // Highlight tile with selected building/floor
+                    Tile tempTile = SelectTile();
+                    HighlightTile(tempTile);
+
                     if (Input.GetMouseButtonDown(0))
                     {
+                        // Check new old tile type vs new tile type
 
+                        // Check if floor or building should be changed
                     }
                 }
             }
-
-
-            /*
-            if (interactionMode == InteractionMode.Mouse) {
-                if (Input.GetMouseButtonDown(0)) {
-                    //left mouse button
-                    Tile tempTile = SelectTile();
-                    tempTile?.Select();
-                }
-                if (Input.GetMouseButtonDown(1)) {
-                    //right mouse button
-                    Tile tempTile = SelectTile();
-                    tempTile?.EditFloor(floorType);
-                }
-            } else if (interactionMode == InteractionMode.UI) {
-                if (Input.GetMouseButtonDown(0)) {
-                    //left mouse button
-                    Tile tempTile = SelectTile();
-
-                    if (selectionMode == SelectionMode.Edit) {
-                        tempTile?.EditFloor(floorType);
-                    } else if (selectionMode == SelectionMode.Select) {
-                        tempTile?.Select();
-                    }
-                }
-
-                // Highlight tiles when in edit mode.
-                // This is useful when selecting neighboring tiles without a visible border
-                if (selectionMode == SelectionMode.Edit)
-                    HighlightTile();
-            }*/
-
-            /*// Highlight tiles when in edit mode.
-            // This is useful when selecting neighboring tiles without a visible border
-            if (selectionMode == SelectionMode.Edit) HighlightTile();
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                //left mouse button
-                Tile tempTile = SelectTile();
-            }
-            if (Input.GetMouseButtonDown(1) && selectionMode != SelectionMode.Edit)
-            {
-                //right mouse button
-                Tile tempTile = SelectTile();
-                tempTile?.EditFloor(floorType);
-            }*/
         }
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
@@ -176,6 +136,10 @@ namespace GOAT.Grid
             transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
         }
 
+        /// <summary>
+        /// Visualises which tile is being raycast.
+        /// </summary>
+        /// <param name="selectedTile"> Tile being raycast.</param>
         private void HighlightTile(Tile selectedTile)
         {
             // Change selection tile when something was selected
@@ -183,8 +147,44 @@ namespace GOAT.Grid
             {
                 selectionObject.position = selectedTile.GetTileInformation().TilePosition;
             }
+
+            if (selectedTile != null && placingObject != null)
+            {
+                placingObject.transform.position = selectedTile.GetTileInformation().TilePosition;
+            }
+            else if(selectedTile == null && placingObject != null)
+            {
+                placingObject.transform.position = new Vector3(0,200,0);
+            }
         }
 
+        /// <summary>
+        /// Instantiate a new gameobject al highlight object which is a preview of the object to be placed on the highlighted tile.
+        /// Call with UI buttons in edit mode.
+        /// </summary>
+        /// <param name="isFloor"> Is tile to be placed a floor or building</param>
+        /// <param name="type"> Int pointing to enum </param>
+        public void SetSelectionObject(bool isFloor, int type)
+        {
+            if (placingObject != null) Destroy(placingObject);
+            GameObject tempObject = null;
+            if (isFloor)
+            {
+                placingFloor = (FloorType)type;
+                tempObject = TileAssets.FindAsset(placingFloor);
+            }
+            else
+            {
+                placingBuilding = (BuildingType)type;
+                tempObject = TileAssets.FindAsset(placingBuilding);             
+            }
+            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+        }
+
+        /// <summary>
+        /// Returns tile in grid that is being selected by the mouse
+        /// </summary>
+        /// <returns></returns>
         private Tile SelectTile()
         {
             Tile selectedTile = null;
@@ -196,6 +196,12 @@ namespace GOAT.Grid
             return selectedTile;
         }
 
+        /// <summary>
+        /// Returns a Vector2 int which points to a position in the 2D Array of tiles.
+        /// Casts position.x and position.y to int taking into account the tile size and grid origin.
+        /// </summary>
+        /// <param name="rayHitPosition"> Hit point of ray on collider of the grid.</param>
+        /// <returns></returns>
         private Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
         {
             Vector2 gridPositionOffset = new Vector2(startingPosition.x, startingPosition.z);
@@ -206,6 +212,11 @@ namespace GOAT.Grid
             return new Vector2Int(Mathf.FloorToInt(relativeHitPos.x), Mathf.FloorToInt(relativeHitPos.y));
         }
 
+        /// <summary>
+        /// Looks up tile in array and returns it.
+        /// </summary>
+        /// <param name="tilePositionInArray"> Vector2Int which points to location in 2D Array of tiles.</param>
+        /// <returns></returns>
         private Tile ReturnTile(Vector2Int tilePositionInArray)
         {
             if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1))
