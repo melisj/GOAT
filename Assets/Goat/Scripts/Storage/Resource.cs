@@ -8,7 +8,8 @@ namespace Goat.Resource
     {
         Orichalcum,
         SilverStone,
-        Nanite
+        Nanite,
+        Money
     }
 
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Resource")]
