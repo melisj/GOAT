@@ -31,6 +31,7 @@ namespace GOAT.Grid
         // UI
         [SerializeField] private TileEditUI tileEditUI;
         [SerializeField] private SelectionModeUI selectionModeUI;
+        [SerializeField] private GridUIManager UIManager;
 
 
         private void Start()
@@ -53,18 +54,32 @@ namespace GOAT.Grid
                 if (Input.GetMouseButtonDown(0))
                 {
                     //left mouse button
-                    Tile tempTile = SelectTile();
-                    selectionModeUI.ShowTileInfo(tempTile.GetTileInformation());
+                    if (!GridUIManager.IsElementSelected()) {
+                        Tile tempTile = SelectTile();
+                        GridUIManager.ShowNewUI(selectionModeUI);
+                        selectionModeUI.SetTileInfo(tempTile.GetTileInformation());
 
-                    tileEditUI.HideUI();
+                        selectionObject.gameObject.SetActive(false);
+                    } 
+                    else if (!GridUIManager.IsSelectedSame(tileEditUI)) {
+                        GridUIManager.HideUI();
+                    }
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
                     //right mouse button
-                    Tile tempTile = SelectTile();
-                    tileEditUI.ShowUI(tempTile);
+                    if (!GridUIManager.IsElementSelected()) {
 
-                    selectionModeUI.HideTileInfo();
+                        Tile tempTile = SelectTile();
+                        GridUIManager.ShowNewUI(tileEditUI);
+                        tileEditUI.SetSelectedTile(tempTile);
+
+                        selectionObject.gameObject.SetActive(true);
+                        HighlightTile(tempTile);
+                    }
+                    else {
+                        GridUIManager.HideUI();
+                    }
                 }
             }
             else
@@ -161,10 +176,8 @@ namespace GOAT.Grid
             transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
         }
 
-        private void HighlightTile()
+        private void HighlightTile(Tile selectedTile)
         {
-            Tile selectedTile = SelectTile();
-
             // Change selection tile when something was selected
             if (selectedTile != null)
             {

@@ -4,25 +4,23 @@ using UnityEngine;
 
 namespace GOAT.Grid
 {
-    public class TileEditUI : MonoBehaviour
+    public class TileEditUI : BasicGridUIElement
     {
-        private Tile latestSelectedTile; 
+        private Tile latestSelectedTile;
+        [SerializeField] private GameObject tileEditPanel;
         
-        public void ShowUI(Tile selectedTile) {
-            latestSelectedTile = selectedTile; 
-            gameObject.SetActive(true); 
+        public void SetSelectedTile(Tile selectedTile) {
+            latestSelectedTile = selectedTile;
         }
 
-        public void HideUI() { 
-            gameObject.SetActive(false); 
+        public void OnClickFloor(int type) { 
+            latestSelectedTile?.EditFloor((FloorType)type);
+            //GridUIManager.HideUI();
         }
 
-        public void OnClickFloor(FloorType type) { 
-            latestSelectedTile?.EditFloor(type); 
-        }
-
-        public void OnClickBuilding(BuildingType type) {
-            latestSelectedTile?.EditBuilding(type); 
+        public void OnClickBuilding(int type) {
+            latestSelectedTile?.EditBuilding((BuildingType)type);
+           // GridUIManager.HideUI();
         }
 
     }
