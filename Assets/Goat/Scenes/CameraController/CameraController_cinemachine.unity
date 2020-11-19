@@ -943,15 +943,12 @@ MonoBehaviour:
   thirdPersonCamera: {fileID: 629319608}
   topviewCamera: {fileID: 1588034095}
   stationaryCamera: {fileID: 104689002}
+  maincam: {fileID: 1550622140}
   player: {fileID: 522942576}
   panningObject: {fileID: 853426522}
   currentTopViewMode: 0
   speed: 10
-  zoomAmount: 10
-  maxZoom: 10
-  minZoom: 0
-  minZoom3rdPerson: 0
-  maxZoom3rdPerson: 10
+  panWithinScreenOnly: 0
   rotSmoothTime: 0.2
   sensitivity: 4
   pitchMinMax: {x: -40, y: 85}

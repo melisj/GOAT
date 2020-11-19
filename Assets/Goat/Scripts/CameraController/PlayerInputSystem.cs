@@ -1,4 +1,4 @@
-﻿namespace Goat.Camera
+﻿namespace Goat.CameraControls
 {
     using System;
     using UnityEngine;

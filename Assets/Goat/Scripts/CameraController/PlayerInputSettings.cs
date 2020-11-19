@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Goat.Camera
+namespace Goat.CameraControls
 {
     /// <summary>
     /// Holds keycodes for all input of the player

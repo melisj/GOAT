@@ -1,7 +1,8 @@
 ﻿using Cinemachine;
+using System;
 using UnityEngine;
 
-namespace Goat.Camera
+namespace Goat.CameraControls
 {
     public class CameraController : MonoBehaviour
     {
@@ -18,17 +19,13 @@ namespace Goat.Camera
         [SerializeField] private CinemachineVirtualCamera thirdPersonCamera;
         [SerializeField] private CinemachineVirtualCamera topviewCamera;
         [SerializeField] private CinemachineVirtualCamera stationaryCamera;
+        [SerializeField] private Camera maincam;
         [SerializeField] private Transform player;
         [SerializeField] private Transform panningObject;
         [SerializeField] private TopViewMode currentTopViewMode;
-        [Header("Zoom")]
-        [SerializeField] private float speed = 40f;
-        [SerializeField] private float zoomAmount = 10f;
-        [SerializeField] private int maxZoom = 10;
-        [SerializeField] private int minZoom = 0;
-        [SerializeField] private int minZoom3rdPerson = 0;
-        [SerializeField] private int maxZoom3rdPerson = 10;
-
+        [Header("Panning")]
+        [SerializeField] private float speed;
+        [SerializeField] private bool panWithinScreenOnly;
         [Header("3rd person turning")]
         [SerializeField] private float rotSmoothTime = 0.2f;
         [SerializeField] private float sensitivity = 4f;
@@ -43,6 +40,9 @@ namespace Goat.Camera
         private float yaw;
         private float pitch;
         private Vector2 mousePos;
+        private bool isDragging;
+        private Vector3 panOrigin;
+        private Vector3 oldPanningPos;
 
         public bool ThirdPersonActive => currentActiveCamera == thirdPersonCamera;
         /// <summary>
@@ -75,11 +75,8 @@ namespace Goat.Camera
         private void Update()
         {
             CheckInput();
-        }
-
-        private void FixedUpdate()
-        {
             MoveCamera();
+
         }
 
         #endregion Unity Methods
@@ -96,7 +93,6 @@ namespace Goat.Camera
         private void CheckInput()
         {
             mousePos = Input.mousePosition;
-
             if (Input.GetKeyDown(inputSettings.SwitchTopViewMode))
             {
                 SwitchTopViewMode();
@@ -113,8 +109,6 @@ namespace Goat.Camera
             {
                 SwitchCamera(stationaryCamera);
             }
-
-            Zoom();
 
             ToggleMouse();
         }
@@ -143,57 +137,49 @@ namespace Goat.Camera
             }
         }
 
-        private void Zoom()
-        {
-            if (currentActiveCamera == thirdPersonCamera)
-            {
-                ZoomThirdPerson();
-                return;
-            }
-
-            Transform cameraTrans = currentActiveCamera.transform;
-
-            // Zoom in when we are scrolling up and aren't on the closest zoom level
-            if (Input.mouseScrollDelta.y > 0 && currentZoom > minZoom)
-            {
-                cameraTrans.position += Vector3.up * zoomAmount;
-                currentZoom--;
-            }
-
-            // Zoom in when we are scrolling down and aren't on the farthest zoom level
-            if (Input.mouseScrollDelta.y < 0 && currentZoom < maxZoom)
-            {
-                cameraTrans.position += Vector3.up * -zoomAmount;
-                currentZoom++;
-            }
-        }
-
-        private void ZoomThirdPerson()
-        {
-            // Zoom in when we are scrolling up and aren't on the closest zoom level
-            if (Input.mouseScrollDelta.y > 0 && currentZoom > minZoom3rdPerson)
-            {
-            ///    thirdPersonBody.CameraDistance += zoomAmount;
-                currentZoom--;
-            }
-
-            // Zoom in when we are scrolling down and aren't on the farthest zoom level
-            if (Input.mouseScrollDelta.y < 0 && currentZoom < maxZoom3rdPerson)
-            {
-               // thirdPersonBody.CameraDistance -= zoomAmount;
-                currentZoom++;
-            }
-        }
-
         private void MoveCamera()
         {
             if (!topviewCamera.gameObject.activeInHierarchy || currentTopViewMode == TopViewMode.followPlayer) return;
 
             float mouseVelocity = Time.deltaTime * speed;
             // Only move the camera when the cursor is insize the window
-            //if (mousePos.x >= 0 && mousePos.x <= Screen.width &&
-            //    mousePos.y >= 0 && mousePos.y <= Screen.height)
-            //{
+        
+            DragCamera(mouseVelocity);
+            if (panWithinScreenOnly ? 
+                mousePos.x >= 0 && mousePos.x <= Screen.width &&
+                mousePos.y >= 0 && mousePos.y <= Screen.height : true)
+            {
+                PanCamera(mouseVelocity);
+            }
+        }
+
+        private void DragCamera(float mouseVelocity)
+        {
+     
+            if (Input.GetMouseButtonDown(0)) 
+            {
+                isDragging = true;
+                oldPanningPos = panningObject.position;
+                panOrigin = maincam.ScreenToViewportPoint(mousePos);
+            }
+
+            if (Input.GetMouseButton(0)) 
+            {
+                Vector3 screenPos = maincam.ScreenToViewportPoint(mousePos) - panOrigin;
+                screenPos.z = screenPos.y;
+                screenPos.y = 0;
+                panningObject.position = oldPanningPos + -screenPos * speed;
+            }
+
+            if (Input.GetMouseButtonUp(0)) 
+            {
+                isDragging = false;
+            }
+        }
+
+        private void PanCamera(float mouseVelocity) 
+        {
+            if (isDragging) return;
             if ((mousePos.x >= Screen.width - 25))
             {
                 panningObject.position += new Vector3(mouseVelocity, 0.0f);
@@ -213,7 +199,6 @@ namespace Goat.Camera
             {
                 panningObject.position += new Vector3(0.0f, 0.0f, -mouseVelocity);
             }
-            //  }
         }
 
         private void ToggleMouse()
