@@ -1,13 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
+
 namespace Goat.Resource
 {
     public enum ResourceType
     {
-        type1,
-        type2,
-        type3
+        Orichalcum,
+        SilverStone,
+        Nanite
     }
 
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Resource")]
