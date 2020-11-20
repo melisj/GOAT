@@ -26,7 +26,6 @@ namespace GOAT.Grid
         private FloorType floorType;
         private GameObject floorObject, buildingObject;
 
-
         public Tile(Vector3 centerPosition) {
             this.centerPosition = centerPosition;
         }
@@ -38,6 +37,17 @@ namespace GOAT.Grid
 
         public void DeSelect() {
 
+        }
+
+        public void ShowFloor(bool show)
+        {
+            if (floorObject != null)
+                floorObject.SetActive(show);
+        }
+        public void ShowBuilding(bool show)
+        {
+            if (buildingObject != null)
+                buildingObject.SetActive(show);
         }
 
         // Returns a tile info struct

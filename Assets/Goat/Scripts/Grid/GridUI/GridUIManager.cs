@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GOAT.Grid
+namespace GOAT.Grid.UI
 {
     // Basic element for grid UI elements
     // Is used to manage showing and hiding the UI
@@ -21,12 +21,14 @@ namespace GOAT.Grid
     public class GridUIManager : MonoBehaviour
     {
         [HideInInspector] public TileEditUI tileEditUI;
+        [HideInInspector] public EditModeUI editModeUI;
         [HideInInspector] public SelectionModeUI selectionModeUI;
         private static BasicGridUIElement currentUIOpen;
 
         public void Awake() {
             tileEditUI = FindObjectOfType<TileEditUI>();
             selectionModeUI = FindObjectOfType<SelectionModeUI>();
+            editModeUI = FindObjectOfType<EditModeUI>();
         }
 
         // Disable, and enable a new element

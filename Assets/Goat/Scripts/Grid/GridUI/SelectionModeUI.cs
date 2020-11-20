@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GOAT.Grid
+namespace GOAT.Grid.UI
 {
     public class SelectionModeUI : BasicGridUIElement
     {

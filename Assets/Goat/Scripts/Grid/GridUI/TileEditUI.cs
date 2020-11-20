@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GOAT.Grid
+namespace GOAT.Grid.UI
 {
     public class TileEditUI : BasicGridUIElement
     {

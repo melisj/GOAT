@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using GOAT.Grid.UI;
 using System;
+using UnityEngine.EventSystems;
 
 namespace GOAT.Grid
 {
@@ -20,9 +22,13 @@ namespace GOAT.Grid
 
         private Tile clickedTile;
         [SerializeField] private Transform selectionObject;
+
+        // Variables used for highlighting and placing object on grid when in edit mode
         private GameObject placingObject;
-        private FloorType placingFloor;
-        private BuildingType placingBuilding;
+        private FloorType placingFloorType;
+        private BuildingType placingBuildingType;
+        bool editingFloor;
+        private Tile previousTile = null;
 
         [Space(20)]
         [SerializeField] private bool debugMouseRaycast = false;
@@ -54,11 +60,15 @@ namespace GOAT.Grid
                     //left mouse button
                     if (!GridUIManager.IsElementSelected())
                     {
-                        TileInformation tileInfo = SelectTile().GetTileInformation();
-                        GridUIManager.ShowNewUI(UIManager.selectionModeUI);
-                        UIManager.selectionModeUI.SetTileInfo(tileInfo);
+                        Tile tempTile = SelectTile();
+                        if (tempTile != null)
+                        {
+                            TileInformation tileInfo = tempTile.GetTileInformation();
+                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
+                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
 
-                        selectionObject.gameObject.SetActive(false);
+                            selectionObject.gameObject.SetActive(false);
+                        }
                     }
                     else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
                     {
@@ -89,18 +99,21 @@ namespace GOAT.Grid
                 if (interactionMode == SelectionMode.Select && Input.GetMouseButtonDown(0))
                 {
                     Tile tempTile = SelectTile();
-                    TileInformation tempTileInformation = tempTile.GetTileInformation();
-                    if (tempTileInformation.floorType != FloorType.Empty)
+                    //left mouse button
+                    if (!GridUIManager.IsElementSelected())
                     {
-                        if (tempTileInformation.buildingType == BuildingType.Empty)
+                        if (tempTile != null)
                         {
-                            // Navigate to tile
+                            TileInformation tileInfo = tempTile.GetTileInformation();
+                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
+                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
+
+                            selectionObject.gameObject.SetActive(false);
                         }
-                        else
-                        {
-                            // Show tile information
-                            Debug.Log(tempTileInformation);
-                        }
+                    }
+                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
+                    {
+                        GridUIManager.HideUI();
                     }
                 }
                 else if (interactionMode == SelectionMode.Edit)
@@ -108,12 +121,19 @@ namespace GOAT.Grid
                     // Highlight tile with selected building/floor
                     Tile tempTile = SelectTile();
                     HighlightTile(tempTile);
+                    previousTile = tempTile;
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && tempTile != null)
                     {
                         // Check new old tile type vs new tile type
-
-                        // Check if floor or building should be changed
+                        if (editingFloor && tempTile.GetTileInformation().floorType != placingFloorType)
+                        {
+                            tempTile.EditFloor(placingFloorType);
+                        }
+                        else if (!editingFloor && tempTile.GetTileInformation().buildingType != placingBuildingType)
+                        {
+                            tempTile.EditBuilding(placingBuildingType);
+                        }
                     }
                 }
             }
@@ -134,6 +154,7 @@ namespace GOAT.Grid
 
             transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
             transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
+            
         }
 
         /// <summary>
@@ -143,43 +164,89 @@ namespace GOAT.Grid
         private void HighlightTile(Tile selectedTile)
         {
             // Change selection tile when something was selected
+            //if (selectedTile != null)
+            //{
+            //    selectionObject.position = selectedTile.GetTileInformation().TilePosition;
+            //}
+
+            // Show/Hide objects on selected tile
+            if (previousTile != null)
+            {
+                previousTile.ShowFloor(true);
+                previousTile.ShowBuilding(true);
+            }
             if (selectedTile != null)
             {
-                selectionObject.position = selectedTile.GetTileInformation().TilePosition;
+                if (editingFloor)
+                    selectedTile.ShowFloor(false);
+                else
+                    selectedTile.ShowBuilding(false);
             }
 
-            if (selectedTile != null && placingObject != null)
+            // Selected placingtile on position of tile hit by raycast
+            if (placingObject != null && selectedTile != null)
             {
                 placingObject.transform.position = selectedTile.GetTileInformation().TilePosition;
+                placingObject.SetActive(true);
             }
-            else if(selectedTile == null && placingObject != null)
+            else if (selectedTile == null && placingObject != null)
             {
-                placingObject.transform.position = new Vector3(0,200,0);
+                placingObject.SetActive(false);
             }
         }
+
+        //===========================================================================================================================================================================================================================================================================
+
 
         /// <summary>
         /// Instantiate a new gameobject al highlight object which is a preview of the object to be placed on the highlighted tile.
         /// Call with UI buttons in edit mode.
         /// </summary>
-        /// <param name="isFloor"> Is tile to be placed a floor or building</param>
         /// <param name="type"> Int pointing to enum </param>
-        public void SetSelectionObject(bool isFloor, int type)
+        public void SetSelectionBuilding(int type)
         {
-            if (placingObject != null) Destroy(placingObject);
+            editingFloor = false;
             GameObject tempObject = null;
-            if (isFloor)
+
+            if ((BuildingType)type == placingBuildingType) return;
+
+            placingBuildingType = (BuildingType)type;
+            if (placingObject != null) Destroy(placingObject);
+
+            tempObject = TileAssets.FindAsset(placingBuildingType);
+
+            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+        }
+        public void SetSelectionFloor(int type)
+        {
+            editingFloor = true;
+            GameObject tempObject = null;
+
+            if ((FloorType)type == placingFloorType) return;
+
+            if (placingObject != null) Destroy(placingObject);
+            placingFloorType = (FloorType)type;
+            tempObject = TileAssets.FindAsset(placingFloorType);
+
+            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+        }
+        public void EnterExitEditMode()
+        {
+            if (interactionMode != SelectionMode.Edit)
             {
-                placingFloor = (FloorType)type;
-                tempObject = TileAssets.FindAsset(placingFloor);
+                interactionMode = SelectionMode.Edit;
+                GridUIManager.ShowNewUI(UIManager.editModeUI);
             }
             else
             {
-                placingBuilding = (BuildingType)type;
-                tempObject = TileAssets.FindAsset(placingBuilding);             
+                interactionMode = SelectionMode.Select;
+                GridUIManager.HideUI();
             }
-            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+            SetSelectionFloor(0);
+            SetSelectionBuilding(0);
         }
+
+        //===========================================================================================================================================================================================================================================================================
 
         /// <summary>
         /// Returns tile in grid that is being selected by the mouse
@@ -238,10 +305,15 @@ namespace GOAT.Grid
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
 
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity, gridMask);
+            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity);
             hit = mouseHit;
+
+            if (EventSystem.current.IsPointerOverGameObject())
+                return false;
             return isHitting;
         }
+
+        //===========================================================================================================================================================================================================================================================================
 
         // Debug option for showing where mouse hits the collider
         private void OnDrawGizmos()
