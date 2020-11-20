@@ -56,7 +56,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void UpdateClock()
     {
-        transitionTimer += Time.deltaTime;
+        transitionTimer += Time.unscaledDeltaTime;
         timeOfDayMinutes += Time.deltaTime * timeSpeed;
 
         timeText.text = $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
