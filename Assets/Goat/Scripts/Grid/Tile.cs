@@ -6,7 +6,9 @@ namespace GOAT.Grid
     public enum BuildingType
     {
         Empty,
-        Building
+        Building,
+        lowtable,
+        table
     }
 
     public enum FloorType
