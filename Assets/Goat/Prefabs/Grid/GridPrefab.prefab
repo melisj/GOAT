@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1645605060535691354}
   - component: {fileID: 7365122302955107358}
   - component: {fileID: 7389141701046452352}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GridScript
-  m_TagString: Untagged
+  m_TagString: Grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,13 +50,10 @@ MonoBehaviour:
   tileSize: 1
   gridMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   selectionObject: {fileID: 5640939771922031620}
   debugMouseRaycast: 0
   interactionMode: 0
-  floorType: 1
-  tileEditUI: {fileID: 0}
-  selectionModeUI: {fileID: 0}
   UIManager: {fileID: 0}
 --- !u!65 &1645605060535691354
 BoxCollider:

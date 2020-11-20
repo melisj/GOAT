@@ -25,9 +25,11 @@ namespace GOAT.Grid
         private BuildingType buildingType;
         private FloorType floorType;
         private GameObject floorObject, buildingObject;
+        private Grid grid;
 
-        public Tile(Vector3 centerPosition) {
+        public Tile(Vector3 centerPosition, Grid grid) {
             this.centerPosition = centerPosition;
+            this.grid = grid;
         }
 
         // Select this tile
@@ -64,6 +66,7 @@ namespace GOAT.Grid
             MonoBehaviour.Destroy(floorObject);
             GameObject newObject = TileAssets.FindAsset(floorType);
             floorObject = newObject != null ? GameObject.Instantiate(newObject, centerPosition, Quaternion.identity) : null;
+            floorObject.transform.localScale = Vector3.one * grid.GetTileSize;
             this.floorType = floorType;
         }
 
@@ -75,6 +78,7 @@ namespace GOAT.Grid
 
             GameObject newObject = TileAssets.FindAsset(buildingType);
             buildingObject = newObject != null ? MonoBehaviour.Instantiate(newObject, centerPosition, Quaternion.identity) : null;
+            buildingObject.transform.localScale = Vector3.one * grid.GetTileSize;
             this.buildingType = buildingType;
         }
     }

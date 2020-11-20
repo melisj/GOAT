@@ -5,16 +5,10 @@ using UnityEngine;
 namespace GOAT.Grid.UI {
     public class EditModeUI : BasicGridUIElement
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [SerializeField] private GameObject switchButton;
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+        public void ToggleSwitchButton(bool active) {
+            switchButton.SetActive(active);
         }
     }
 }

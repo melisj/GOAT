@@ -12,13 +12,14 @@ namespace GOAT.Grid
         Select
     }
 
-    public class Grid : MonoBehaviour
-    {
+    public class Grid : MonoBehaviour {
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
         public Tile[,] tiles;
         [SerializeField] private LayerMask gridMask;
+
+        public float GetTileSize { get { return tileSize; } }
 
         private Tile clickedTile;
         [SerializeField] private Transform selectionObject;
@@ -49,15 +50,21 @@ namespace GOAT.Grid
 
         private void Update()
         {
-            // Check if the selection object is needed
-            //bool isSelectionObjectVisible = (interactionMode == InteractionMode.UI) && (interactionMode == SelectionMode.Edit);
-            //selectionObject.gameObject.SetActive(isSelectionObjectVisible);
+            if(Input.GetKeyDown(KeyCode.C)) {
+                if (interactionMode != SelectionMode.Universal)
+                    interactionMode = SelectionMode.Universal;
+                else
+                    interactionMode = SelectionMode.Select;
+            }
 
             if (interactionMode == SelectionMode.Universal)
             {
+                UIManager.editModeUI.ToggleSwitchButton(false);
+
+                //left mouse button
                 if (Input.GetMouseButtonDown(0))
                 {
-                    //left mouse button
+
                     if (!GridUIManager.IsElementSelected())
                     {
                         Tile tempTile = SelectTile();
@@ -78,6 +85,8 @@ namespace GOAT.Grid
                 if (Input.GetMouseButtonDown(1))
                 {
                     //right mouse button
+                    selectionObject.gameObject.SetActive(false);
+
                     if (!GridUIManager.IsElementSelected())
                     {
 
@@ -86,9 +95,9 @@ namespace GOAT.Grid
                         UIManager.tileEditUI.SetSelectedTile(tempTile);
 
                         selectionObject.gameObject.SetActive(true);
-                        HighlightTile(tempTile);
-                    }
-                    else
+                        if (tempTile != null)
+                            selectionObject.position = tempTile.GetTileInformation().TilePosition;
+                    } else
                     {
                         GridUIManager.HideUI();
                     }
@@ -96,6 +105,9 @@ namespace GOAT.Grid
             }
             else
             {
+                UIManager.editModeUI.ToggleSwitchButton(true);
+                selectionObject.gameObject.SetActive(false);
+
                 if (interactionMode == SelectionMode.Select && Input.GetMouseButtonDown(0))
                 {
                     Tile tempTile = SelectTile();
@@ -148,7 +160,7 @@ namespace GOAT.Grid
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    tiles[x, y] = new Tile(new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition);
+                    tiles[x, y] = new Tile(new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition, this);
                 }
             }
 
@@ -164,10 +176,7 @@ namespace GOAT.Grid
         private void HighlightTile(Tile selectedTile)
         {
             // Change selection tile when something was selected
-            //if (selectedTile != null)
-            //{
-            //    selectionObject.position = selectedTile.GetTileInformation().TilePosition;
-            //}
+            //
 
             // Show/Hide objects on selected tile
             if (previousTile != null)
@@ -215,7 +224,11 @@ namespace GOAT.Grid
 
             tempObject = TileAssets.FindAsset(placingBuildingType);
 
-            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+            if (tempObject != null)
+            {
+                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
+                placingObject.transform.localScale = tileSize * Vector3.one;
+            }
         }
         public void SetSelectionFloor(int type)
         {
@@ -228,7 +241,11 @@ namespace GOAT.Grid
             placingFloorType = (FloorType)type;
             tempObject = TileAssets.FindAsset(placingFloorType);
 
-            placingObject = tempObject != null ? Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity) : null;
+            if (tempObject != null)
+            {
+                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
+                placingObject.transform.localScale = tileSize * Vector3.one;
+            }
         }
         public void EnterExitEditMode()
         {
@@ -274,7 +291,7 @@ namespace GOAT.Grid
             Vector2 gridPositionOffset = new Vector2(startingPosition.x, startingPosition.z);
             Vector2 hitPosition = new Vector2(rayHitPosition.x, rayHitPosition.z);
 
-            Vector2 relativeHitPos = (hitPosition / tileSize) - gridPositionOffset;
+            Vector2 relativeHitPos = (hitPosition - gridPositionOffset) / tileSize;
 
             return new Vector2Int(Mathf.FloorToInt(relativeHitPos.x), Mathf.FloorToInt(relativeHitPos.y));
         }
