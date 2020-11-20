@@ -18,15 +18,15 @@ public class DayNightCycle : MonoBehaviour
 
     //transition timer for lerping the time of day
     private float transitionTimer;
-    private bool isDay;
+    public bool isDay;
 
     //current hours and day
-    private float TimeOfDayMinutes;
-    private int TimeOfDayHours;
+    private float timeOfDayMinutes;
+    private int timeOfDayHours;
 
     //which hour of day the sun rises and sets
-    private int TimeOfSunrise = 8;
-    private int TimeOfSunset = 20;
+    private int timeOfSunrise = 8;
+    private int timeOfSunset = 20;
     
 
     //the regular speed of the day + clock. not to be confused with time manipulation
@@ -36,43 +36,46 @@ public class DayNightCycle : MonoBehaviour
     void Start()
     {
         mainLight = this.gameObject.GetComponent<Light>();
+        //day starts at night
         setTimeNight();
+        //TimeOfDayHours = zet hier een tijd om de dag te beginnen
         transitionTimer = 1f;
+        mainLight.color = targetTimeColor;
     }
 
     void Update()
     {
-        transitionTimer += Time.deltaTime;
-
         UpdateClock();
         
         if (transitionTimer < 1)
+        {
+            transitionTimer += Time.deltaTime;
             mainLight.color = Color.Lerp(currentTimeColor, targetTimeColor, transitionTimer);
-        
+        }
     }
 
     private void UpdateClock()
     {
         transitionTimer += Time.deltaTime;
-        TimeOfDayMinutes += Time.deltaTime * timeSpeed;
+        timeOfDayMinutes += Time.deltaTime * timeSpeed;
 
-        timeText.text = $"{TimeOfDayHours}:{Mathf.Floor(TimeOfDayMinutes)}";
+        timeText.text = $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
 
-        if (TimeOfDayMinutes > 60)
+        if (timeOfDayMinutes > 60)
         {
-            TimeOfDayMinutes = 0;
-            TimeOfDayHours += 1;
+            timeOfDayMinutes = 0;
+            timeOfDayHours += 1;
 
             //check if its morning, nighttime or midnight
-            if (TimeOfDayHours == TimeOfSunrise)
+            if (timeOfDayHours == timeOfSunrise)
             {
                 setTimeDay();
-            } else if (TimeOfDayHours == TimeOfSunset)
+            } else if (timeOfDayHours == timeOfSunset)
             {
                 setTimeNight();
-            } else if (TimeOfDayHours == 24)
+            } else if (timeOfDayHours == 24)
             {
-                TimeOfDayHours = 0;
+                timeOfDayHours = 0;
             }
         }
     }
