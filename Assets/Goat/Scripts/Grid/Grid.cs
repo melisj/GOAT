@@ -216,11 +216,12 @@ namespace GOAT.Grid
         {
             editingFloor = false;
             GameObject tempObject = null;
+            
+            if (placingObject != null) Destroy(placingObject);
 
             if ((BuildingType)type == placingBuildingType) return;
 
             placingBuildingType = (BuildingType)type;
-            if (placingObject != null) Destroy(placingObject);
 
             tempObject = TileAssets.FindAsset(placingBuildingType);
 
@@ -235,9 +236,10 @@ namespace GOAT.Grid
             editingFloor = true;
             GameObject tempObject = null;
 
+            if (placingObject != null) Destroy(placingObject);
+
             if ((FloorType)type == placingFloorType) return;
 
-            if (placingObject != null) Destroy(placingObject);
             placingFloorType = (FloorType)type;
             tempObject = TileAssets.FindAsset(placingFloorType);
 
