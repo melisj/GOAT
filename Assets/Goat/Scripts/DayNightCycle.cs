@@ -23,6 +23,7 @@ public class DayNightCycle : MonoBehaviour
     //current hours and day
     private float timeOfDayMinutes;
     private int timeOfDayHours;
+    private int daysIn;
 
     //which hour of day the sun rises and sets
     private int timeOfSunrise = 8;
@@ -59,7 +60,7 @@ public class DayNightCycle : MonoBehaviour
         transitionTimer += Time.unscaledDeltaTime;
         timeOfDayMinutes += Time.deltaTime * timeSpeed;
 
-        timeText.text = $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
+        timeText.text = $"Day {daysIn}  {timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
 
         if (timeOfDayMinutes > 60)
         {
@@ -75,6 +76,7 @@ public class DayNightCycle : MonoBehaviour
                 setTimeNight();
             } else if (timeOfDayHours == 24)
             {
+                daysIn++;
                 timeOfDayHours = 0;
             }
         }
