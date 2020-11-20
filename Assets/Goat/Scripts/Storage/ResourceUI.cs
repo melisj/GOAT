@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     public class ResourceUI : MonoBehaviour
     {
@@ -28,6 +28,7 @@ namespace Goat.Resource
         {
             textMesh.text = resource.Amount.ToString();
         }
+        
 
     }
 }

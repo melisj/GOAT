@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     public class ResourceManager : MonoBehaviour
     {

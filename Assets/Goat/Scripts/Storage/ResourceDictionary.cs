@@ -2,7 +2,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     [CreateAssetMenu(fileName = "ResourceDictionary", menuName = "ScriptableObjects/ResourceDictionary")]
     public class ResourceDictionary : SerializedScriptableObject

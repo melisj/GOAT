@@ -1,18 +1,20 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Selling;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     public class ResourceGridFiller : MonoBehaviour
     {
         [SerializeField] private ResourceDictionary resData;
-        [SerializeField] private GameObject amountVerifyObj;
+        [SerializeField] private GameObject sellingUIObject;
         [SerializeField] private GameObject cellPrefab;
-        [SerializeField] private ResourceRevalue revalue;
+        [SerializeField] private SellingUI sellingUI;
         private Resource currentRes;
         private GameObject cell;
+
         [ButtonGroup]
         private void FillUIGrid()
         {
@@ -33,12 +35,12 @@ namespace Goat.Resource
 
         private void SetupCell(Resource resource)
         {
-             cell = Instantiate(cellPrefab, transform);
+            cell = Instantiate(cellPrefab, transform);
             Button imageButton = cell.GetComponent<Button>();
-            imageButton.onClick.AddListener(() => amountVerifyObj.SetActive(true));
-            imageButton.onClick.AddListener(() => revalue.SelectItem(resource));
+            imageButton.onClick.AddListener(() => sellingUIObject.SetActive(true));
+            imageButton.onClick.AddListener(() => sellingUI.Resource = resource);
             //cell.GetComponent<Button>().onClick.AddListener(delegate { ActivateVerify(); });
-           // cell.GetComponent<Button>().onClick.AddListener(delegate { SelectItem(); });
+            // cell.GetComponent<Button>().onClick.AddListener(delegate { SelectItem(); });
             cell.name = resource.ResourceType.ToString();
             ResourceUI resUI = cell.GetComponent<ResourceUI>();
             Debug.Log(imageButton);
@@ -52,14 +54,10 @@ namespace Goat.Resource
                 FillUIGrid();
             }
         }
+
         private void ActivateVerify()
         {
-            amountVerifyObj.SetActive(true);
-        }
-
-        private void SelectItem()
-        {
-            revalue.SelectItem(currentRes);
+            sellingUIObject.SetActive(true);
         }
     }
 }

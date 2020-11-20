@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     public class ResourceRevalue : MonoBehaviour
     {

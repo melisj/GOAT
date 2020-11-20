@@ -2,7 +2,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Goat.Resource
+namespace Goat.Storage
 {
     public enum ResourceType
     {
