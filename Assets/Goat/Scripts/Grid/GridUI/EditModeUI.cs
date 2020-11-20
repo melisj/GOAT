@@ -20,6 +20,10 @@ namespace GOAT.Grid.UI
         {
             grid.SetSelectionFloor(type);
         }
+        public void EnterExitEditMode()
+        {
+            grid.EnterExitEditMode();
+        }
     }
 }
 
