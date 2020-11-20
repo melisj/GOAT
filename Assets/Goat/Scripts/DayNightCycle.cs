@@ -30,7 +30,7 @@ public class DayNightCycle : MonoBehaviour
     
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    private int timeSpeed = 90;
+    private int timeSpeed = 3;
 
 
     void Start()
