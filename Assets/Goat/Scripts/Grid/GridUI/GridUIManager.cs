@@ -7,6 +7,12 @@ namespace GOAT.Grid.UI
     public class BasicGridUIElement : MonoBehaviour
     {
         [SerializeField] private GameObject PanelToHide;
+        [HideInInspector] public Grid grid;
+
+        private void Awake()
+        {
+            grid = FindObjectOfType<Grid>();
+        }
 
         public virtual void ShowUI() {
             PanelToHide.SetActive(true);
