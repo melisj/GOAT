@@ -1,18 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NPCScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private Transform target;
+    [SerializeField]
+    private Transform entrance;
+
+    private NavMeshAgent agent;
+    
+    [SerializeField]
+    private float interactionDistance = 0.5f;
+
     void Start()
     {
-        
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
+        agent.SetDestination(target.position);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (agent.remainingDistance < interactionDistance)
+        {
+            agent.SetDestination(entrance.position);
+        }
     }
 }
