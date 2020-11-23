@@ -30,26 +30,6 @@ namespace GOAT.Grid
             }
         }
 
-/*        private static void Godver(Type enumType) {
-            Array buildingValues = Enum.GetValues(enumType);
-            for (int i = 0; i < buildingValues.Length; i++) {
-                enumType type = (enumType.GetType())i;
-                string typeName = type.ToString();
-                buildingAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Building-" + typeName));
-            }
-        }
-
-        private static void Kaas<T>(T value) where T : Enum
-        {
-            Array buildingValues = Enum.GetValues(typeof(value));
-            for (int i = 0; i < buildingValues.Length; i++)
-            {
-                value type = (value)i;
-                string typeName = type.ToString();
-                buildingAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Building-" + typeName));
-            }
-        }*/
-
         public static GameObject FindAsset(FloorType type)
         {
             if (floorAssets.ContainsKey(type))
