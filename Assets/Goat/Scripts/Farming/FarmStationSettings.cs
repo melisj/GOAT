@@ -19,31 +19,30 @@ namespace Goat.Farming
         Self
     }
 
-    [CreateAssetMenu(fileName = "FarmBuildingSettings", menuName = "ScriptableObjects/FarmBuildingSettings")]
-    public class FarmBuildingSettings : SerializedScriptableObject
+    [CreateAssetMenu(fileName = "FarmStationSettings", menuName = "ScriptableObjects/FarmStationSettings")]
+    public class FarmStationSettings : Buyable
     {
-        [SerializeField] private GameObject prefabBuilding;
-        [SerializeField] private Sprite buildingImage;
-        [SerializeField] private float price;
-        [SerializeField] private float storageCapacity;
-        [SerializeField] private ResourceCost[] buyCost;
-        [SerializeField] private Resource resourceFarm;
-        [SerializeField] private int amountPerSecond;
+        [SerializeField, Space(10)] private Resource resourceFarm;
         [SerializeField, EnumToggleButtons()] private FarmType farmType;
-        [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
-
+        [SerializeField] private float storageCapacity = 1;
+        [SerializeField] private int amountPerSecond = 2;
         [SerializeField, ShowIf("farmType", FarmType.OverTimeCost)] private int costPerSecond;
+        [SerializeField] private ResourceCost[] resourceCost;
+        [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
+        [SerializeField, AssetList(Path = "/Goat/Prefabs/FarmStations")] private GameObject prefabBuilding;
 
         public string Name => resourceFarm.ResourceType.ToString() + " Farm";
         public GameObject PrefabBuilding => prefabBuilding;
-        public Sprite BuildingImage => buildingImage;
-        public ResourceCost[] BuyCost => buyCost;
+
+        public ResourceCost[] ResourceCost => resourceCost;
+
         public Resource ResourceFarm => resourceFarm;
         public int AmountPerSecond => amountPerSecond;
         public int CostPerSecond => costPerSecond;
         public FarmType FarmType => farmType;
-        public float Price => price;
+
         public FarmDeliverType FarmDeliverType => farmDeliverType;
+
         public float StorageCapacity => storageCapacity;
     }
 

@@ -1,15 +1,14 @@
-﻿using Goat.Storage;
-using Goat.Pooling;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Goat.Pooling;
+using Goat.Storage;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Goat.Farming
 {
-    public class FarmBuilding : MonoBehaviour
+    public class FarmStation : MonoBehaviour
     {
         private const float delay = 1f;
-        [SerializeField] private FarmBuildingSettings farmBuildingSettings;
+        [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStationSettings farmStationSettings;
         [SerializeField] private GameObject resPackPrefab;
         [SerializeField] private int currentCapacity;
         private float timer;
@@ -23,9 +22,9 @@ namespace Goat.Farming
         public void CreateResourcePack(int capacity, Transform parent)
         {
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
-            resPackObj.name = "ResourcePack-" + farmBuildingSettings.ResourceFarm.ResourceType.ToString();
+            resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.ResourceType.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.Resource = farmBuildingSettings.ResourceFarm;
+            resPack.Resource = farmStationSettings.ResourceFarm;
             resPack.SetupResPack();
             int amount = capacity < currentCapacity ? capacity : currentCapacity;
             resPack.Amount = amount;
@@ -34,7 +33,7 @@ namespace Goat.Farming
 
         private void AddResource()
         {
-            if (currentCapacity < farmBuildingSettings.StorageCapacity)
+            if (currentCapacity >= farmStationSettings.StorageCapacity)
             {
                 timer = 0;
                 return;
@@ -43,9 +42,17 @@ namespace Goat.Farming
             if (timer >= delay)
             {
                 timer = 0;
-                currentCapacity += farmBuildingSettings.AmountPerSecond;
+                currentCapacity += farmStationSettings.AmountPerSecond;
                 //GetAsteroidInfo.Capacity(farmBuildingSettings.ResourceFarm.ResourceType) -= farmBuildingSettings.AmountPerSecond;
-                if (farmBuildingSettings.FarmType == FarmType.OverTimeCost)
+
+                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously)
+                {
+                    //&& isConnected
+                    currentCapacity -= farmStationSettings.AmountPerSecond;
+                    farmStationSettings.ResourceFarm.Amount += farmStationSettings.AmountPerSecond;
+                }
+
+                if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
                     //GameManager.Instance.Money -= farmBuildingSettings.CostPerSecond;
                 }
