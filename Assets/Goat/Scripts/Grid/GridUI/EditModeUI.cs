@@ -14,11 +14,11 @@ namespace GOAT.Grid.UI
         }
         public void SetSelectionBuilding(int type)
         {
-            grid.SetSelectionBuilding(type);
+            grid.ChangePreviewObject(false, type);
         }
         public void SetSelectionFloor(int type)
         {
-            grid.SetSelectionFloor(type);
+            grid.ChangePreviewObject(true, type);
         }
         public void EnterExitEditMode()
         {

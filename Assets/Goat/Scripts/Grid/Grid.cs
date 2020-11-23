@@ -25,9 +25,9 @@ namespace GOAT.Grid
         [SerializeField] private Transform selectionObject;
 
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject placingObject;
-        private FloorType placingFloorType;
-        private BuildingType placingBuildingType;
+        private GameObject previewObject;
+        private FloorType previewFloorType;
+        private BuildingType previewBuildingType;
         bool editingFloor;
         private Tile previousTile = null;
 
@@ -50,6 +50,7 @@ namespace GOAT.Grid
 
         private void Update()
         {
+            // Change spaghet after test which spaghet is best for editing
             if(Input.GetKeyDown(KeyCode.C)) {
                 if (interactionMode != SelectionMode.Universal)
                     interactionMode = SelectionMode.Universal;
@@ -138,13 +139,13 @@ namespace GOAT.Grid
                     if (Input.GetMouseButtonDown(0) && tempTile != null)
                     {
                         // Check new old tile type vs new tile type
-                        if (editingFloor && tempTile.GetTileInformation().floorType != placingFloorType)
+                        if (editingFloor && tempTile.GetTileInformation().floorType != previewFloorType)
                         {
-                            tempTile.EditFloor(placingFloorType);
+                            tempTile.EditFloor(previewFloorType);
                         }
-                        else if (!editingFloor && tempTile.GetTileInformation().buildingType != placingBuildingType)
+                        else if (!editingFloor && tempTile.GetTileInformation().buildingType != previewBuildingType)
                         {
-                            tempTile.EditBuilding(placingBuildingType);
+                            tempTile.EditBuilding(previewBuildingType);
                         }
                     }
                 }
@@ -175,9 +176,6 @@ namespace GOAT.Grid
         /// <param name="selectedTile"> Tile being raycast.</param>
         private void HighlightTile(Tile selectedTile)
         {
-            // Change selection tile when something was selected
-            //
-
             // Show/Hide objects on selected tile
             if (previousTile != null)
             {
@@ -193,62 +191,54 @@ namespace GOAT.Grid
             }
 
             // Selected placingtile on position of tile hit by raycast
-            if (placingObject != null && selectedTile != null)
+            if (previewObject != null && selectedTile != null)
             {
-                placingObject.transform.position = selectedTile.GetTileInformation().TilePosition;
-                placingObject.SetActive(true);
+                previewObject.transform.position = selectedTile.GetTileInformation().TilePosition;
+                previewObject.SetActive(true);
             }
-            else if (selectedTile == null && placingObject != null)
+            else if (selectedTile == null && previewObject != null)
             {
-                placingObject.SetActive(false);
+                previewObject.SetActive(false);
             }
         }
 
         //===========================================================================================================================================================================================================================================================================
 
-
-        /// <summary>
-        /// Instantiate a new gameobject al highlight object which is a preview of the object to be placed on the highlighted tile.
-        /// Call with UI buttons in edit mode.
-        /// </summary>
-        /// <param name="type"> Int pointing to enum </param>
-        public void SetSelectionBuilding(int type)
+        public void ChangePreviewObject(bool _editingFloor, int type)
         {
-            editingFloor = false;
             GameObject tempObject = null;
-            
-            if (placingObject != null) Destroy(placingObject);
-
-            if ((BuildingType)type == placingBuildingType) return;
-
-            placingBuildingType = (BuildingType)type;
-
-            tempObject = TileAssets.FindAsset(placingBuildingType);
-
-            if (tempObject != null)
+            // If we go from edit floor to edit building destroy preview object
+            if(editingFloor != _editingFloor)
             {
-                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
-                placingObject.transform.localScale = tileSize * Vector3.one;
+                editingFloor = _editingFloor;
+                previewBuildingType = BuildingType.Empty;
+                previewFloorType = FloorType.Empty;
+                if (previewObject) Destroy(previewObject);
+            }
+
+            // If we are still editing the floor but select a different FloorType the preview object needs to be replaced.
+            if (editingFloor && previewFloorType != (FloorType)type)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewFloorType = (FloorType)type;
+                tempObject = TileAssets.FindAsset(previewFloorType);
+            }
+            // If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
+            else if (!editingFloor && previewBuildingType != (BuildingType)type)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewBuildingType = (BuildingType)type;
+                tempObject = TileAssets.FindAsset(previewBuildingType);
+            }
+
+            // If the temp object we selected != null instantiate it as previewObject.
+            if (tempObject)
+            {
+                previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.identity);
+                previewObject.transform.localScale = Vector3.one * tileSize;
             }
         }
-        public void SetSelectionFloor(int type)
-        {
-            editingFloor = true;
-            GameObject tempObject = null;
 
-            if (placingObject != null) Destroy(placingObject);
-
-            if ((FloorType)type == placingFloorType) return;
-
-            placingFloorType = (FloorType)type;
-            tempObject = TileAssets.FindAsset(placingFloorType);
-
-            if (tempObject != null)
-            {
-                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
-                placingObject.transform.localScale = tileSize * Vector3.one;
-            }
-        }
         public void EnterExitEditMode()
         {
             if (interactionMode != SelectionMode.Edit)
@@ -261,8 +251,8 @@ namespace GOAT.Grid
                 interactionMode = SelectionMode.Select;
                 GridUIManager.HideUI();
             }
-            SetSelectionFloor(0);
-            SetSelectionBuilding(0);
+            ChangePreviewObject(true, 0);
+            ChangePreviewObject(false, 0);
         }
 
         //===========================================================================================================================================================================================================================================================================
