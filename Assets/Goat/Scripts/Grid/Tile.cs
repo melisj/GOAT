@@ -29,17 +29,20 @@ namespace GOAT.Grid
         private GameObject floorObject, buildingObject;
         private Grid grid;
 
-        public Tile(Vector3 centerPosition, Grid grid) {
+        public Tile(Vector3 centerPosition, Grid grid)
+        {
             this.centerPosition = centerPosition;
             this.grid = grid;
         }
 
         // Select this tile
-        public void Select() {
+        public void Select()
+        {
             Debug.Log(GetTileInformation());
         }
 
-        public void DeSelect() {
+        public void DeSelect()
+        {
 
         }
 
@@ -67,8 +70,11 @@ namespace GOAT.Grid
         {
             MonoBehaviour.Destroy(floorObject);
             GameObject newObject = TileAssets.FindAsset(floorType);
-            floorObject = newObject != null ? GameObject.Instantiate(newObject, centerPosition, Quaternion.identity) : null;
-            floorObject.transform.localScale = Vector3.one * grid.GetTileSize;
+            if (newObject)
+            {
+                floorObject = GameObject.Instantiate(newObject, centerPosition, Quaternion.identity);
+                floorObject.transform.localScale = Vector3.one * grid.GetTileSize;
+            }
             this.floorType = floorType;
         }
 
@@ -79,8 +85,11 @@ namespace GOAT.Grid
             MonoBehaviour.Destroy(buildingObject);
 
             GameObject newObject = TileAssets.FindAsset(buildingType);
-            buildingObject = newObject != null ? MonoBehaviour.Instantiate(newObject, centerPosition, Quaternion.identity) : null;
-            buildingObject.transform.localScale = Vector3.one * grid.GetTileSize;
+            if (newObject)
+            {
+                buildingObject = MonoBehaviour.Instantiate(newObject, centerPosition, Quaternion.identity);
+                buildingObject.transform.localScale = Vector3.one * grid.GetTileSize;
+            }
             this.buildingType = buildingType;
         }
     }
