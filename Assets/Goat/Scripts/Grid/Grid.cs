@@ -26,6 +26,7 @@ namespace GOAT.Grid
 
         // Variables used for highlighting and placing object on grid when in edit mode
         private GameObject previewObject;
+        private Quaternion previewObjectRotation;
         private FloorType previewFloorType;
         private BuildingType previewBuildingType;
         bool editingFloor;
@@ -145,8 +146,13 @@ namespace GOAT.Grid
                         }
                         else if (!editingFloor && tempTile.GetTileInformation().buildingType != previewBuildingType)
                         {
-                            tempTile.EditBuilding(previewBuildingType);
+                            tempTile.EditBuilding(previewBuildingType, previewObjectRotation);
                         }
+                    }
+                    if(Input.GetMouseButtonDown(1) && previewObject)
+                    {
+                        previewObject.transform.Rotate(new Vector3(0, 45, 0), Space.World);
+                        previewObjectRotation = previewObject.transform.rotation;
                     }
                 }
             }
@@ -314,7 +320,7 @@ namespace GOAT.Grid
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
 
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity);
+            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity, gridMask);
             hit = mouseHit;
 
             if (EventSystem.current.IsPointerOverGameObject())

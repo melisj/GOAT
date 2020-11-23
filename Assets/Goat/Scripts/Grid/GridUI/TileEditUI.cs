@@ -19,7 +19,7 @@ namespace GOAT.Grid.UI
         }
 
         public void OnClickBuilding(int type) {
-            latestSelectedTile?.EditBuilding((BuildingType)type);
+            latestSelectedTile?.EditBuilding((BuildingType)type, Quaternion.AxisAngle(Vector3.up, 0));
            // GridUIManager.HideUI();
         }
 
