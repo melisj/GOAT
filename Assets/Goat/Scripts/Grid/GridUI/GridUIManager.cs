@@ -28,12 +28,12 @@ namespace GOAT.Grid.UI
     {
         [HideInInspector] public TileEditUI tileEditUI;
         [HideInInspector] public EditModeUI editModeUI;
-        [HideInInspector] public SelectionModeUI selectionModeUI;
+        [HideInInspector] public InteractableUI interactableUI;
         private static BasicGridUIElement currentUIOpen;
 
         public void Awake() {
             tileEditUI = FindObjectOfType<TileEditUI>();
-            selectionModeUI = FindObjectOfType<SelectionModeUI>();
+            interactableUI = FindObjectOfType<InteractableUI>();
             editModeUI = FindObjectOfType<EditModeUI>();
         }
 
