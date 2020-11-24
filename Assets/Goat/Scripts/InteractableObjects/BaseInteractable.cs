@@ -23,28 +23,40 @@ namespace GOAT.Grid.UI
         [InteractableInfo] public string testText;
         [InteractableInfo] public int testInt;
 
+        protected delegate void InformationChangeEvent();
+        protected event InformationChangeEvent InformationChanged;
+
         private void OnEnable() {
             InteractableManager.InteractableClickEvt += IsClicked;
-            PrintObject<BaseInteractable>();
+            InformationChanged += UpdateUI;
         }
 
         private void OnDisable() {
             InteractableManager.InteractableClickEvt -= IsClicked;
+            InformationChanged -= UpdateUI;
         }
 
-        private void IsClicked(Transform clickedObj) {
+        protected virtual void IsClicked(Transform clickedObj) {
             if (clickedObj == transform) {
                 OpenUI();
             }
         }
 
-        public void OpenUI() {
+        public virtual void OpenUI() {
             GridUIManager.ShowNewUI(InteractableManager.instance.interactableUI);
-            InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
+            InvokeChange();
         }
 
-        public void CloseUI() {
+        public virtual void CloseUI() {
             GridUIManager.HideUI();
+        }
+
+        protected virtual void InvokeChange() {
+            InformationChanged.Invoke();
+        }
+
+        protected virtual void UpdateUI() {
+            InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
         }
 
         private string PrintObject<T>() {
@@ -58,6 +70,6 @@ namespace GOAT.Grid.UI
             }
 
             return infoList;
-         }
+        }
     }
 }
