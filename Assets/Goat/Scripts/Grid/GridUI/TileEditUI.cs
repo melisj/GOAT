@@ -14,12 +14,12 @@ namespace GOAT.Grid.UI
         }
 
         public void OnClickFloor(int type) { 
-            latestSelectedTile?.EditFloor((FloorType)type);
+            latestSelectedTile?.EditFloor((FloorType)type, 0);
             //GridUIManager.HideUI();
         }
 
         public void OnClickBuilding(int type) {
-            latestSelectedTile?.EditBuilding((BuildingType)type, Quaternion.AxisAngle(Vector3.up, 0));
+            latestSelectedTile?.EditBuilding((BuildingType)type, 0);
            // GridUIManager.HideUI();
         }
 

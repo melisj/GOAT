@@ -12,6 +12,14 @@ namespace GOAT.Grid
         Select
     }
 
+    public enum TilePartEditing
+    {
+        None,
+        Floor,
+        Building,
+        Wall
+    }
+
     public class Grid : MonoBehaviour {
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
@@ -25,10 +33,12 @@ namespace GOAT.Grid
         [SerializeField] private Transform selectionObject;
 
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject previewObject;
-        private Quaternion previewObjectRotation;
+        private GameObject previewObject;                               // Preview object shown on grid
+        private float objectRotationAngle;                              // Rotation of preview object
         private FloorType previewFloorType;
         private BuildingType previewBuildingType;
+        private WallType previewWallType;
+        private TilePartEditing editing = TilePartEditing.None;
         bool editingFloor;
         private Tile previousTile = null;
 
@@ -62,23 +72,15 @@ namespace GOAT.Grid
 
             if (interactionMode == SelectionMode.Universal)
             {
+                //Universal Mode
                 UIManager.editModeUI.ToggleSwitchButton(false);
 
                 //left mouse button
                 if (Input.GetMouseButtonDown(0))
                 {
 
-                    if (!GridUIManager.IsElementSelected())
-                    {
+                    if (!GridUIManager.IsElementSelected()) {
                         interactableManager.CheckForInteractable();
-
-                        Tile tempTile = SelectTile();
-                        if (tempTile != null)
-                            selectionObject.gameObject.SetActive(false);
-                    }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
-                    {
-                        GridUIManager.HideUI();
                     }
                 }
                 if (Input.GetMouseButtonDown(1))
@@ -104,6 +106,7 @@ namespace GOAT.Grid
             }
             else
             {
+                //Editing/Seleting Mode
                 UIManager.editModeUI.ToggleSwitchButton(true);
                 selectionObject.gameObject.SetActive(false);
 
@@ -118,7 +121,7 @@ namespace GOAT.Grid
                         if (tempTile != null)
                             selectionObject.gameObject.SetActive(false);
                     }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
+                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI) && !EventSystem.current.IsPointerOverGameObject())
                     {
                         GridUIManager.HideUI();
                     }
@@ -132,20 +135,26 @@ namespace GOAT.Grid
 
                     if (Input.GetMouseButtonDown(0) && tempTile != null)
                     {
+                        TileInformation tileInfo = tempTile.GetTileInformation();
                         // Check new old tile type vs new tile type
-                        if (editingFloor && tempTile.GetTileInformation().floorType != previewFloorType)
+                        if(editing == TilePartEditing.Floor)
                         {
-                            tempTile.EditFloor(previewFloorType);
+                            tempTile.EditFloor(previewFloorType, objectRotationAngle);
                         }
-                        else if (!editingFloor && tempTile.GetTileInformation().buildingType != previewBuildingType)
+                        else if(editing == TilePartEditing.Building)
                         {
-                            tempTile.EditBuilding(previewBuildingType, previewObjectRotation);
+                            tempTile.EditBuilding(previewBuildingType, objectRotationAngle);
+                        }
+                        else if(editing == TilePartEditing.Wall)
+                        {
+                            tempTile.EditWall(previewWallType, (WallPosition)objectRotationAngle);
                         }
                     }
-                    if(Input.GetMouseButtonDown(1) && previewObject)
+                    if(Input.GetMouseButtonDown(1))
                     {
-                        previewObject.transform.Rotate(new Vector3(0, 45, 0), Space.World);
-                        previewObjectRotation = previewObject.transform.rotation;
+                        // Always has to rotate a 90 degrees 
+                        objectRotationAngle = (objectRotationAngle + 90) % 360;
+                        if(previewObject) previewObject.transform.rotation = Quaternion.Euler(0 , objectRotationAngle, 0);
                     }
                 }
             }
@@ -175,65 +184,79 @@ namespace GOAT.Grid
         /// <param name="selectedTile"> Tile being raycast.</param>
         private void HighlightTile(Tile selectedTile)
         {
-            // Show/Hide objects on selected tile
+            // Show al objects on previous tile
             if (previousTile != null)
             {
                 previousTile.ShowFloor(true);
                 previousTile.ShowBuilding(true);
+                previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
             }
+
+            // Hide target object on selected tile
             if (selectedTile != null)
             {
-                if (editingFloor)
+                if (editing == TilePartEditing.Floor)
                     selectedTile.ShowFloor(false);
-                else
+                else if (editing == TilePartEditing.Building)
                     selectedTile.ShowBuilding(false);
+                else if (editing == TilePartEditing.Wall)
+                    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
+                else
+                    Debug.LogWarning("Trying to highlight Nothing");
             }
 
             // Selected placingtile on position of tile hit by raycast
-            if (previewObject != null && selectedTile != null)
+            if (previewObject && selectedTile != null)
             {
                 previewObject.transform.position = selectedTile.GetTileInformation().TilePosition;
                 previewObject.SetActive(true);
             }
-            else if (selectedTile == null && previewObject != null)
+            else if (selectedTile == null && previewObject)
             {
                 previewObject.SetActive(false);
             }
         }
 
         //===========================================================================================================================================================================================================================================================================
-
-        public void ChangePreviewObject(bool _editingFloor, int type)
+        public void ChangePreviewObject(TilePartEditing _editing, int type)
         {
             GameObject tempObject = null;
-            // If we go from edit floor to edit building destroy preview object
-            if(editingFloor != _editingFloor)
+            // If we start editing an other part of the tile.
+            if(editing != _editing)
             {
-                editingFloor = _editingFloor;
-                previewBuildingType = BuildingType.Empty;
-                previewFloorType = FloorType.Empty;
+                editing = _editing;
                 if (previewObject) Destroy(previewObject);
+                previewFloorType = FloorType.Empty;
+                previewBuildingType = BuildingType.Empty;
+                previewWallType = WallType.Empty;
             }
 
             // If we are still editing the floor but select a different FloorType the preview object needs to be replaced.
-            if (editingFloor && previewFloorType != (FloorType)type)
+            if (editing == TilePartEditing.Floor && (FloorType)type != previewFloorType)
             {
                 if (previewObject) Destroy(previewObject);
                 previewFloorType = (FloorType)type;
                 tempObject = TileAssets.FindAsset(previewFloorType);
             }
-            // If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
-            else if (!editingFloor && previewBuildingType != (BuildingType)type)
+            //If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
+            else if(editing == TilePartEditing.Building && (BuildingType)type != previewBuildingType)
             {
                 if (previewObject) Destroy(previewObject);
                 previewBuildingType = (BuildingType)type;
                 tempObject = TileAssets.FindAsset(previewBuildingType);
             }
+            // If we are still editing the wall but select a different WallType the preview object needs to be replaced.
+            else if (editing == TilePartEditing.Wall && (WallType)type != previewWallType)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewWallType = (WallType)type;
+                tempObject = TileAssets.FindAsset(previewWallType);
+            }
 
             // If the temp object we selected != null instantiate it as previewObject.
             if (tempObject)
             {
-                previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.identity);
+                previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.Euler(0, objectRotationAngle, 0));
                 previewObject.transform.localScale = Vector3.one * tileSize;
             }
         }
@@ -250,8 +273,7 @@ namespace GOAT.Grid
                 interactionMode = SelectionMode.Select;
                 GridUIManager.HideUI();
             }
-            ChangePreviewObject(true, 0);
-            ChangePreviewObject(false, 0);
+            ChangePreviewObject(TilePartEditing.None, 0);
         }
 
         //===========================================================================================================================================================================================================================================================================
