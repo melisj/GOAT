@@ -12,14 +12,19 @@ namespace GOAT.Grid.UI
         {
             switchButton.SetActive(active);
         }
-        public void SetSelectionBuilding(int type)
+        public void SetPreviewFloor(int type)
         {
-            grid.ChangePreviewObject(false, type);
+            grid.ChangePreviewObject(TilePartEditing.Floor, type);
         }
-        public void SetSelectionFloor(int type)
+        public void SetPreviewBuilding(int type)
         {
-            grid.ChangePreviewObject(true, type);
+            grid.ChangePreviewObject(TilePartEditing.Building, type);
         }
+        public void SetPreviewWall(int type)
+        {
+            grid.ChangePreviewObject(TilePartEditing.Wall, type);
+        }
+
         public void EnterExitEditMode()
         {
             grid.EnterExitEditMode();
