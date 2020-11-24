@@ -7,8 +7,7 @@ namespace Goat.Farming
     [CreateAssetMenu(fileName = "FarmStationList", menuName = "ScriptableObjects/FarmStationList")]
     public class FarmStationList : SerializedScriptableObject
     {
-        [SerializeField, InlineEditor]
-        private List<FarmStationSettings> farmStations;
+        [SerializeField] private List<FarmStationSettings> farmStations;
         public List<FarmStationSettings> FarmStations => farmStations;
     }
 }

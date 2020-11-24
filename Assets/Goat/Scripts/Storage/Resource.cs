@@ -16,36 +16,14 @@ namespace Goat.Storage
     {
         [SerializeField, Space(10)] private ResourceType resourceType;
         [SerializeField] private float resValue;
-        [SerializeField] private int amount;
+        //[SerializeField] private int amount;
         // [SerializeField] private Sprite image;
-        private int oldAmount = 0;
-
-        public event EventHandler<int> AmountChanged;
+        //  private int oldAmount = 0;
 
         //  public float Price => resValue * 1.5f;
         public ResourceType ResourceType => resourceType;
 
-        public int OldAmount => oldAmount;
-
         // public Sprite Image => image;
         public float ResValue { get => resValue; set => resValue = value; }
-
-        public int Amount
-        {
-            get => amount;
-            set
-            {
-                oldAmount = amount;
-                if (amount <= 0 && value <= 0)
-                {
-                    amount = 0;
-                }
-                else
-                {
-                    amount = value;
-                }
-                AmountChanged?.Invoke(this, value);
-            }
-        }
     }
 }

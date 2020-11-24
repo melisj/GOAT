@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
-  m_Name: Type3
+  m_Name: Orichalcum
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  resourceType: 2
-  resValue: 5
-  amount: 482
-  image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  price: 5
+  image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  summary: 'This unnatural ore is largely found in small asteroids.
+
+    It is often
+    used to reinforce.'
+  amount: 6934
+  deliveryTime: 150
+  resourceType: 0
+  resValue: 233

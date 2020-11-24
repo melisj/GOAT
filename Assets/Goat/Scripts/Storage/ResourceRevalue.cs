@@ -19,7 +19,7 @@ namespace Goat.Storage
             sellButton.onClick.AddListener(ConfirmSale);
         }
 
-        public void SelectItem(Resource resource) 
+        public void SelectItem(Resource resource)
         {
             Debug.Log("selecting resource " + resource.ResourceType.ToString());
             selectedResource = resource;
@@ -28,12 +28,11 @@ namespace Goat.Storage
         private void OnEndEditAmount(string s)
         {
             amountChange = int.Parse(s);
-            if (amountChange > selectedResource.Amount) 
+            if (amountChange > selectedResource.Amount)
             {
                 amountChange = selectedResource.Amount;
                 inputAmount.text = amountChange.ToString();
             }
-           
         }
 
         private void OnEndEditPrice(string s)
@@ -41,10 +40,9 @@ namespace Goat.Storage
             selectedResource.ResValue = int.Parse(s);
         }
 
-        private void ConfirmSale() 
+        private void ConfirmSale()
         {
             selectedResource.Amount -= amountChange;
         }
-
     }
 }
