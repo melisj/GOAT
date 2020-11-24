@@ -61,7 +61,7 @@ namespace GOAT.Grid.UI
 
                     if (args[2] is StorageInteractable) {
                         int index = i;
-                        itemButtons[i].onClick.AddListener(() => { ((StorageInteractable)args[2]).RemoveResource(index);  });
+                        itemButtons[i].onClick.AddListener(() => { ((StorageInteractable)args[2]).GetResource(index);  });
                     }
                 }
             }

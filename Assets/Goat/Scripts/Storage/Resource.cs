@@ -11,10 +11,18 @@ namespace Goat.Storage
         Nanite
     }
 
+    public enum StorageEnviroment
+    {
+        normal,
+        hot,
+        cold
+    }
+
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Resource")]
     public class Resource : SerializedScriptableObject
     {
         [SerializeField] private ResourceType resourceType;
+        [SerializeField] private StorageEnviroment storageEnviroment;
         [SerializeField] private float resValue;
         [SerializeField] private int amount;
         [SerializeField] private Sprite image;
@@ -22,6 +30,7 @@ namespace Goat.Storage
         public event EventHandler<int> AmountChanged;
 
         public ResourceType ResourceType => resourceType;
+        public StorageEnviroment StorageEnviroment => storageEnviroment;
         public int OldAmount => oldAmount;
         public Sprite Image => image;
         public float ResValue { get => resValue; set => resValue = value; }

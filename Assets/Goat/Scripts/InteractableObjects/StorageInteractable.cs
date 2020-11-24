@@ -8,21 +8,13 @@ using UnityEngine.UI;
 
 namespace GOAT.Grid
 {
-    public enum StorageEnviroment
-    {
-        normal,
-        hot,
-        cold
-    }
-
     public class StorageInteractable : BaseInteractable
     {
-        [SerializeField]
-        private List<ItemInstance> resourceList = new List<ItemInstance>();
+
+        [SerializeField] private List<ItemInstance> resourceList = new List<ItemInstance>();
         private readonly int maxResource = 8;
 
-        StorageEnviroment enviroment;
-
+        [SerializeField] private StorageEnviroment enviroment;
 
         // Properties
         private int GetResourceCount { get { return resourceList.Count; } }
@@ -51,7 +43,7 @@ namespace GOAT.Grid
             return true;
         } 
 
-        public ItemInstance RemoveResource(int index) {
+        public ItemInstance GetResource(int index) {
             ItemInstance items = resourceList[index];
             resourceList.RemoveAt(index);
 
@@ -79,12 +71,6 @@ namespace GOAT.Grid
         public void TestAdd() {
             List<ItemInstance> insc = instances.ToList();
             AddResource(ref insc);
-        }
-
-        public int index;
-        [Button("test remove")]
-        public void TestRemove() {
-            RemoveResource(index);
         }
     }
 }
