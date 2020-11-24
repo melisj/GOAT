@@ -33,10 +33,12 @@ namespace GOAT.Grid
         [SerializeField] private Transform selectionObject;
 
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject previewObject;
+        private GameObject previewObject;                               // Preview object shown on grid
         private Quaternion previewObjectRotation;
         private FloorType previewFloorType;
         private BuildingType previewBuildingType;
+        private WallType previewWallType;
+        private TilePartEditing editing = TilePartEditing.None;
         bool editingFloor;
         private Tile previousTile = null;
 
@@ -238,6 +240,49 @@ namespace GOAT.Grid
                 if (previewObject) Destroy(previewObject);
                 previewBuildingType = (BuildingType)type;
                 tempObject = TileAssets.FindAsset(previewBuildingType);
+            }
+
+            // If the temp object we selected != null instantiate it as previewObject.
+            if (tempObject)
+            {
+                previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.identity);
+                previewObject.transform.localScale = Vector3.one * tileSize;
+            }
+        }
+
+        public void ChangePreviewObject(TilePartEditing _editing, int type)
+        {
+            GameObject tempObject = null;
+            // If we start editing an other part of the tile.
+            if(editing != _editing)
+            {
+                editing = _editing;
+                if (previewObject) Destroy(previewObject);
+                previewFloorType = FloorType.Empty;
+                previewBuildingType = BuildingType.Empty;
+                previewWallType = WallType.Empty;
+            }
+
+            // If we are still editing the floor but select a different FloorType the preview object needs to be replaced.
+            if (editing == TilePartEditing.Floor && (FloorType)type != previewFloorType)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewFloorType = (FloorType)type;
+                tempObject = TileAssets.FindAsset(previewFloorType);
+            }
+            //If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
+            else if(editing == TilePartEditing.Building && (BuildingType)type != previewBuildingType)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewBuildingType = (BuildingType)type;
+                tempObject = TileAssets.FindAsset(previewBuildingType);
+            }
+            // If we are still editing the wall but select a different WallType the preview object needs to be replaced.
+            else if (editing == TilePartEditing.Wall && (WallType)type != previewWallType)
+            {
+                if (previewObject) Destroy(previewObject);
+                previewWallType = (WallType)type;
+                tempObject = TileAssets.FindAsset(previewWallType);
             }
 
             // If the temp object we selected != null instantiate it as previewObject.
