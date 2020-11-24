@@ -12,6 +12,14 @@ namespace GOAT.Grid
         Select
     }
 
+    public enum TilePartEditing
+    {
+        None,
+        Floor,
+        Building,
+        Wall
+    }
+
     public class Grid : MonoBehaviour {
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
@@ -62,6 +70,7 @@ namespace GOAT.Grid
 
             if (interactionMode == SelectionMode.Universal)
             {
+                //Universal Mode
                 UIManager.editModeUI.ToggleSwitchButton(false);
 
                 //left mouse button
@@ -104,6 +113,7 @@ namespace GOAT.Grid
             }
             else
             {
+                //Editing/Seleting Mode
                 UIManager.editModeUI.ToggleSwitchButton(true);
                 selectionObject.gameObject.SetActive(false);
 

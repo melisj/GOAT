@@ -67,19 +67,6 @@ namespace GOAT.Grid
             wallObjects.Add(WallPosition.Bottom, null);
         }
 
-        public void EditWall(WallPosition position, WallType type)
-        {
-            if(wallPositions[position] != type)
-            {
-                if (wallObjects[position]) MonoBehaviour.Destroy(wallObjects[position]);
-                // Find gameobject
-                //GameObject newObject =TileAssets.FindAsset(WallType);
-                // Instantiate gameobject
-                //wallObjects[position] = GameObject.Instantiate(newObject, centerPosition, Quaterion.AngleAxis((float)(int)position, Vector3.up));
-                //wallObjects[position].transform.localScale = Vector3.one * grid.GetTileSize;
-            }
-        }
-
         // Select this tile
         public void Select()
         {
@@ -100,6 +87,12 @@ namespace GOAT.Grid
         {
             if (buildingObject != null)
                 buildingObject.SetActive(show);
+        }
+        public void ShowWall(bool show)
+        {
+            //code
+            //check what wall to show
+            //check what wall to hide
         }
 
         // Returns a tile info struct
@@ -138,7 +131,25 @@ namespace GOAT.Grid
             this.buildingType = buildingType;
         }
 
-
+        /// <summary>
+        /// Edit wall at given position on tile
+        /// </summary>
+        /// <param name="position"> Position in degrees north=0, east=90, south=180, west=270 </param>
+        /// <param name="type"> Type of wall to be placed at the given position </param>
+        public void EditWall(WallPosition position, WallType type)
+        {
+            // If walltype at position is a different type then the type yo be placed
+            if (wallPositions[position] != type)
+            {
+                // If walltype at position exists
+                if (wallObjects[position]) MonoBehaviour.Destroy(wallObjects[position]);
+                // Find gameobject
+                GameObject newObject = TileAssets.FindAsset(type);
+                // Instantiate gameobject
+                wallObjects[position] = GameObject.Instantiate(newObject, centerPosition, Quaternion.AngleAxis((float)(int)position, Vector3.up));
+                wallObjects[position].transform.localScale = Vector3.one * grid.GetTileSize;
+            }
+        }
 
 
     }
