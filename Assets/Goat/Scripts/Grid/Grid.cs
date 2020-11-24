@@ -29,7 +29,6 @@ namespace GOAT.Grid
 
         public float GetTileSize { get { return tileSize; } }
 
-        private Tile clickedTile;
         [SerializeField] private Transform selectionObject;
 
         // Variables used for highlighting and placing object on grid when in edit mode
@@ -39,7 +38,6 @@ namespace GOAT.Grid
         private BuildingType previewBuildingType;
         private WallType previewWallType;
         private TilePartEditing editing = TilePartEditing.None;
-        bool editingFloor;
         private Tile previousTile = null;
 
         [Space(20)]

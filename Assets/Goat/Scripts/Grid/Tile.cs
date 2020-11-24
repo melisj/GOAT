@@ -164,7 +164,7 @@ namespace GOAT.Grid
         /// <param name="type"> Type of wall to be placed at the given position </param>
         public void EditWall(WallType type, WallPosition position)
         {
-            Debug.Log("Old type: " + wallPositions[position].ToString() + " New type: " + type.ToString());
+            //Debug.Log("Old type: " + wallPositions[position].ToString() + " New type: " + type.ToString());
             // If walltype at position is a different type then the type yo be placed
             if (wallPositions[position] != type)
             {
