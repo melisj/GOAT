@@ -36,8 +36,9 @@ namespace GOAT.Grid
         [SerializeField] private bool debugMouseRaycast = false;
         public SelectionMode interactionMode = SelectionMode.Universal;
 
-        // UI
+        // Managers
         [SerializeField] private GridUIManager UIManager;
+        [SerializeField] private InteractableManager interactableManager;
 
 
         private void Start()
@@ -69,15 +70,11 @@ namespace GOAT.Grid
 
                     if (!GridUIManager.IsElementSelected())
                     {
+                        interactableManager.CheckForInteractable();
+
                         Tile tempTile = SelectTile();
                         if (tempTile != null)
-                        {
-                            TileInformation tileInfo = tempTile.GetTileInformation();
-                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
-                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
-
                             selectionObject.gameObject.SetActive(false);
-                        }
                     }
                     else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
                     {
@@ -116,14 +113,10 @@ namespace GOAT.Grid
                     //left mouse button
                     if (!GridUIManager.IsElementSelected())
                     {
-                        if (tempTile != null)
-                        {
-                            TileInformation tileInfo = tempTile.GetTileInformation();
-                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
-                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
+                        interactableManager.CheckForInteractable();
 
+                        if (tempTile != null)
                             selectionObject.gameObject.SetActive(false);
-                        }
                     }
                     else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
                     {
@@ -314,13 +307,13 @@ namespace GOAT.Grid
         /// </summary>
         /// <param name="hit"></param>
         /// <returns> Returns whether it hit something </returns>
-        private bool DoRaycastFromMouse(out RaycastHit hit)
+        public static bool DoRaycastFromMouse(out RaycastHit hit)
         {
             Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
 
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity, gridMask);
+            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity);
             hit = mouseHit;
 
             if (EventSystem.current.IsPointerOverGameObject())
