@@ -24,5 +24,6 @@ namespace GOAT.Grid
                     InteractableClickEvt?.Invoke(hit.transform);
             }
         }
+
     }
 }

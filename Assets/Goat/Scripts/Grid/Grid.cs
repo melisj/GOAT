@@ -79,17 +79,8 @@ namespace GOAT.Grid
                 if (Input.GetMouseButtonDown(0))
                 {
 
-                    if (!GridUIManager.IsElementSelected())
-                    {
+                    if (!GridUIManager.IsElementSelected()) {
                         interactableManager.CheckForInteractable();
-
-                        Tile tempTile = SelectTile();
-                        if (tempTile != null)
-                            selectionObject.gameObject.SetActive(false);
-                    }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
-                    {
-                        GridUIManager.HideUI();
                     }
                 }
                 if (Input.GetMouseButtonDown(1))
@@ -130,7 +121,7 @@ namespace GOAT.Grid
                         if (tempTile != null)
                             selectionObject.gameObject.SetActive(false);
                     }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
+                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI) && !EventSystem.current.IsPointerOverGameObject())
                     {
                         GridUIManager.HideUI();
                     }
