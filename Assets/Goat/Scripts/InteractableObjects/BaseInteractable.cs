@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace GOAT.Grid.UI
 {
+    /// <summary>
+    /// This attribute is for tagging value that should be printed out on the informations tab
+    /// This attribute can also be used to give a custom name
+    /// [TODO] can also flag the way a attribute should be displayed (eg. just numbers or health bar type display or something else)
+    /// </summary>
     public class InteractableInfo : Attribute {
 
         public string customName;
@@ -15,7 +20,10 @@ namespace GOAT.Grid.UI
         }
     }
 
-
+    /// <summary>
+    /// Base script for every interactable object in the game
+    /// Contains information of the object
+    /// </summary>
     public class BaseInteractable : MonoBehaviour
     {
         [TextArea]
@@ -36,29 +44,36 @@ namespace GOAT.Grid.UI
             InformationChanged -= UpdateUI;
         }
 
+        // Get the event when the object has been clicked
+        // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj) {
             if (clickedObj == transform) {
                 OpenUI();
             }
         }
 
+        // Open the UI for the this 
         public virtual void OpenUI() {
             GridUIManager.ShowNewUI(InteractableManager.instance.interactableUI);
             InvokeChange();
         }
 
+        // Hide this UI
         public virtual void CloseUI() {
             GridUIManager.HideUI();
         }
 
+        // Update the UI when something has changed
         protected virtual void InvokeChange() {
             InformationChanged.Invoke();
         }
 
+        // Update all the variables of the UI
         protected virtual void UpdateUI() {
             InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
         }
 
+        // Print out all the variables tagged with "InteractableInfo"
         private string PrintObject<T>() {
             string infoList = "";
 

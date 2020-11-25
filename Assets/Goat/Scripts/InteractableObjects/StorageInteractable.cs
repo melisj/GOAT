@@ -8,9 +8,13 @@ using UnityEngine.UI;
 
 namespace GOAT.Grid
 {
+    /// <summary>
+    /// Storage object placed on the grid
+    /// Contains info about the resources it holds
+    /// Contains info about its enviroment conditions
+    /// </summary>
     public class StorageInteractable : BaseInteractable
     {
-
         [SerializeField] private List<ItemInstance> resourceList = new List<ItemInstance>();
         private readonly int maxResource = 8;
 
@@ -43,6 +47,11 @@ namespace GOAT.Grid
             return true;
         } 
 
+        /// <summary>
+        /// Get an item with given index
+        /// </summary>
+        /// <param name="index"> Index of the item you want </param>
+        /// <returns> Returns the selected item </returns>
         public ItemInstance GetResource(int index) {
             ItemInstance items = resourceList[index];
             resourceList.RemoveAt(index);
@@ -51,10 +60,12 @@ namespace GOAT.Grid
             return items;
         }
 
+        // Show UI
         public override void OpenUI() {
             base.OpenUI();
         }
 
+        // Update the text of the UI
         protected override void UpdateUI() {
             base.UpdateUI();
 

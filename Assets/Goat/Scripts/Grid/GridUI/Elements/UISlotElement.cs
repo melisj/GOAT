@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UISlotElement : MonoBehaviour
 {
-    public virtual void InitStorageUI(object[] args) {
+    public virtual void InitUI() {
     }
 
     public virtual void SetUI(object[] args) {
