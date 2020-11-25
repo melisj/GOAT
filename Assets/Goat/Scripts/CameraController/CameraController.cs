@@ -143,9 +143,9 @@ namespace Goat.CameraControls
 
             float mouseVelocity = Time.deltaTime * speed;
             // Only move the camera when the cursor is insize the window
-        
+
             DragCamera(mouseVelocity);
-            if (panWithinScreenOnly ? 
+            if (panWithinScreenOnly ?
                 mousePos.x >= 0 && mousePos.x <= Screen.width &&
                 mousePos.y >= 0 && mousePos.y <= Screen.height : true)
             {
@@ -155,15 +155,14 @@ namespace Goat.CameraControls
 
         private void DragCamera(float mouseVelocity)
         {
-     
-            if (Input.GetMouseButtonDown(0)) 
+            if (Input.GetMouseButtonDown(0))
             {
                 isDragging = true;
                 oldPanningPos = panningObject.position;
                 panOrigin = maincam.ScreenToViewportPoint(mousePos);
             }
 
-            if (Input.GetMouseButton(0)) 
+            if (Input.GetMouseButton(0))
             {
                 Vector3 screenPos = maincam.ScreenToViewportPoint(mousePos) - panOrigin;
                 screenPos.z = screenPos.y;
@@ -171,13 +170,14 @@ namespace Goat.CameraControls
                 panningObject.position = oldPanningPos + -screenPos * speed;
             }
 
-            if (Input.GetMouseButtonUp(0)) 
+            if (Input.GetMouseButtonUp(0))
             {
                 isDragging = false;
             }
+
         }
 
-        private void PanCamera(float mouseVelocity) 
+        private void PanCamera(float mouseVelocity)
         {
             if (isDragging) return;
             if ((mousePos.x >= Screen.width - 25))
