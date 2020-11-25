@@ -5,25 +5,29 @@ using UnityEngine;
 public class TimeManipulation : MonoBehaviour
 {
     public float scaleOfTime = 1f;
+    public float pausetime = 0f;
+    public float forwardTime = 10f;
+    public float fastForwardTime = 15f;
+
     void Update()
     {          
             Time.timeScale = scaleOfTime;       
     }
     public void Pause() 
     {
-        scaleOfTime = 0f;
+        scaleOfTime = pausetime ;
       
     }
    public void Play()
     {
-        scaleOfTime = 01f;
+        scaleOfTime = scaleOfTime;
     }
     public void Forward()
     {
-        scaleOfTime = 10f;
+        scaleOfTime = forwardTime;
     }
     public void FastforwardForward()
     {
-        scaleOfTime = 15f;
+        scaleOfTime = fastForwardTime;
     }
 }
