@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 101b9ff1b00158d44bb36c5180b00b2c, type: 3}
-  m_Name: FarmStationList
+  m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
+  m_Name: Solid Wall
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,5 +21,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  farmStations:
-  - {fileID: 11400000, guid: fa0a0ae59075b7843814d7f7b03305b5, type: 2}
+  price: 0
+  image: {fileID: 21300000, guid: b53a3eb3f41fe8b4f967d3c27bfb7d42, type: 3}
+  summary: 
+  amount: 99
+  deliveryTime: 0
+  prefab: {fileID: 8065333641304272209, guid: f4f327bbdcf118447960334987ad0612, type: 3}

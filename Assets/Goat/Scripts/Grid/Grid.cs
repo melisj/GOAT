@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using GOAT.Grid.UI;
 using System;
+using Goat.Pooling;
 using UnityEngine.EventSystems;
 
 namespace GOAT.Grid
@@ -20,7 +21,8 @@ namespace GOAT.Grid
         Wall
     }
 
-    public class Grid : MonoBehaviour {
+    public class Grid : MonoBehaviour
+    {
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
@@ -37,8 +39,12 @@ namespace GOAT.Grid
         private FloorType previewFloorType;
         private BuildingType previewBuildingType;
         private WallType previewWallType;
+        private Placeable previewPlaceable;
         private TilePartEditing editing = TilePartEditing.None;
+        public bool IsEditing;
         private Tile previousTile = null;
+
+        public bool DestroyMode { get; set; }
 
         [Space(20)]
         [SerializeField] private bool debugMouseRaycast = false;
@@ -47,7 +53,6 @@ namespace GOAT.Grid
         // Managers
         [SerializeField] private GridUIManager UIManager;
         [SerializeField] private InteractableManager interactableManager;
-
 
         private void Start()
         {
@@ -61,7 +66,8 @@ namespace GOAT.Grid
         private void Update()
         {
             // Change spaghet after test which spaghet is best for editing
-            if(Input.GetKeyDown(KeyCode.C)) {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
                 if (interactionMode != SelectionMode.Universal)
                     interactionMode = SelectionMode.Universal;
                 else
@@ -76,8 +82,8 @@ namespace GOAT.Grid
                 //left mouse button
                 if (Input.GetMouseButtonDown(0))
                 {
-
-                    if (!GridUIManager.IsElementSelected()) {
+                    if (!GridUIManager.IsElementSelected())
+                    {
                         interactableManager.CheckForInteractable();
                     }
                 }
@@ -88,7 +94,6 @@ namespace GOAT.Grid
 
                     if (!GridUIManager.IsElementSelected())
                     {
-
                         Tile tempTile = SelectTile();
                         GridUIManager.ShowNewUI(UIManager.tileEditUI);
                         UIManager.tileEditUI.SetSelectedTile(tempTile);
@@ -96,7 +101,8 @@ namespace GOAT.Grid
                         selectionObject.gameObject.SetActive(true);
                         if (tempTile != null)
                             selectionObject.position = tempTile.GetTileInformation().TilePosition;
-                    } else
+                    }
+                    else
                     {
                         GridUIManager.HideUI();
                     }
@@ -135,28 +141,35 @@ namespace GOAT.Grid
                     {
                         TileInformation tileInfo = tempTile.GetTileInformation();
                         // Check new old tile type vs new tile type
-                        if(editing == TilePartEditing.Floor)
+
+                        if (IsEditing)
+                        {
+                            tempTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
+                        }
+
+                        if (editing == TilePartEditing.Floor)
                         {
                             tempTile.EditFloor(previewFloorType, objectRotationAngle);
                         }
-                        else if(editing == TilePartEditing.Building)
+                        else if (editing == TilePartEditing.Building)
                         {
                             tempTile.EditBuilding(previewBuildingType, objectRotationAngle);
                         }
-                        else if(editing == TilePartEditing.Wall)
+                        else if (editing == TilePartEditing.Wall)
                         {
                             tempTile.EditWall(previewWallType, (WallPosition)objectRotationAngle);
                         }
                     }
-                    if(Input.GetMouseButtonDown(1))
+                    if (Input.GetMouseButtonDown(1))
                     {
-                        // Always has to rotate a 90 degrees 
+                        // Always has to rotate a 90 degrees
                         objectRotationAngle = (objectRotationAngle + 90) % 360;
-                        if(previewObject) previewObject.transform.rotation = Quaternion.Euler(0 , objectRotationAngle, 0);
+                        if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                     }
                 }
             }
         }
+
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
             float tileOffset = tileSize / 2;
@@ -173,7 +186,6 @@ namespace GOAT.Grid
 
             transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
             transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
-            
         }
 
         /// <summary>
@@ -185,14 +197,20 @@ namespace GOAT.Grid
             // Show al objects on previous tile
             if (previousTile != null)
             {
+                previousTile.ShowTile(true, objectRotationAngle);
                 previousTile.ShowFloor(true);
                 previousTile.ShowBuilding(true);
                 previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
+                //previousTile.ShowAnyWall(true, objectRotationAngle);
             }
 
             // Hide target object on selected tile
             if (selectedTile != null)
             {
+                if (IsEditing)
+                {
+                    selectedTile.ShowTile(false, objectRotationAngle);
+                }
                 if (editing == TilePartEditing.Floor)
                     selectedTile.ShowFloor(false);
                 else if (editing == TilePartEditing.Building)
@@ -220,7 +238,7 @@ namespace GOAT.Grid
         {
             GameObject tempObject = null;
             // If we start editing an other part of the tile.
-            if(editing != _editing)
+            if (editing != _editing)
             {
                 editing = _editing;
                 if (previewObject) Destroy(previewObject);
@@ -237,7 +255,7 @@ namespace GOAT.Grid
                 tempObject = TileAssets.FindAsset(previewFloorType);
             }
             //If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
-            else if(editing == TilePartEditing.Building && (BuildingType)type != previewBuildingType)
+            else if (editing == TilePartEditing.Building && (BuildingType)type != previewBuildingType)
             {
                 if (previewObject) Destroy(previewObject);
                 previewBuildingType = (BuildingType)type;
@@ -255,6 +273,33 @@ namespace GOAT.Grid
             if (tempObject)
             {
                 previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.Euler(0, objectRotationAngle, 0));
+                previewObject.transform.localScale = Vector3.one * tileSize;
+            }
+        }
+
+        public void DestroyPreview()
+        {
+            if (previewObject)
+            {
+                Destroy(previewObject);
+            }
+        }
+
+        public void ChangePreviewObject(Placeable placeable)
+        {
+            //Change to pooling if destroy is really destroying
+            IsEditing = true;
+            if (previewPlaceable != placeable)
+            {
+                previewPlaceable = placeable;
+
+                if (previewObject) Destroy(previewObject);
+            }
+            if (previewObject) Destroy(previewObject);
+
+            if (!DestroyMode)
+            {
+                previewObject = Instantiate(placeable.Prefab, new Vector3(0, 200, 0), Quaternion.Euler(0, objectRotationAngle, 0));
                 previewObject.transform.localScale = Vector3.one * tileSize;
             }
         }
@@ -322,6 +367,7 @@ namespace GOAT.Grid
             return null;
         }
 
+        //
         /// <summary>
         /// Raycast from the position of the mouse to the world
         /// </summary>
@@ -357,4 +403,3 @@ namespace GOAT.Grid
         }
     }
 }
-

@@ -5,7 +5,7 @@ using Goat.Pooling;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Goat.Buying
+namespace Goat.UI
 {
     public class DeliveryUI : MonoBehaviour, IPoolObject
     {
