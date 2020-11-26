@@ -46,11 +46,14 @@ namespace Goat.Grid.Interactions
             }
         }
 
+        protected void Awake() {
+            itemMaterial = Resources.Load<Material>(InteractableManager.ItemMaterialName);
+        }
+
         protected override void OnEnable() {
             base.OnEnable();
             InformationChanged.AddListener(UpdateVisuals);
             InitStorage();
-            itemMaterial = Resources.Load<Material>(InteractableManager.ItemMaterialName);
         }
 
         #region Item Holders
@@ -154,12 +157,14 @@ namespace Goat.Grid.Interactions
         /// Removes item from the storage and returns it
         /// </summary>
         /// <param name="index"> Index of the item you want </param>
+        /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
         /// <returns> Returns the selected item </returns>
-        public ItemInstance GetResource(int index) {
+        public ItemInstance GetResource(int index, bool returnToStock = true) {
             ItemInstance item = resourceList[index];
             resourceList.RemoveAt(index);
 
-            item.Resource.Amount++;
+            if(returnToStock)
+                item.Resource.Amount++;
 
             InvokeChange();
             return item;
