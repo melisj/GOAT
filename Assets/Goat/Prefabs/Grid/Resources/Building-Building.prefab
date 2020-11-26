@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8779004711259294859}
   - component: {fileID: 7440730086812338546}
   - component: {fileID: 6429042764067207757}
-  - component: {fileID: 1028494113}
+  - component: {fileID: 476270417}
   m_Layer: 8
   m_Name: Rod
   m_TagString: Untagged
@@ -94,7 +94,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &1028494113
+--- !u!114 &476270417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,17 +103,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 527555706240991814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba2d9ce12bc1c2747b8b0676bb81d9da, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ccb93c55d909da40beba88df6254703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: 'Description Text
-
-'
-  testText: '[Information]'
-  testInt: 20
-  resourceList: []
-  instances: []
-  index: 0
+  description: This is a description
+  testText: test text
+  testInt: 23
 --- !u!1 &4264523467222440616
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using GOAT.Grid.UI;
+using Goat.Grid.UI;
 using System;
 using UnityEngine.EventSystems;
+using Goat.Grid.Interactions;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
     public enum SelectionMode
     {

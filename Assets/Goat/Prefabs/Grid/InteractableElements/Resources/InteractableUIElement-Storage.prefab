@@ -237,10 +237,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsText: {fileID: 5058131760992905997}
   gridParent: {fileID: 5058131762215923443}
-  ItemIconName: ItemIcon
-  customEvens:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1987791712
 MonoBehaviour:
   m_ObjectHideFlags: 0

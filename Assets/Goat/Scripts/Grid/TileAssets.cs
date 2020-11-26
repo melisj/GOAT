@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
     public static class TileAssets
     {

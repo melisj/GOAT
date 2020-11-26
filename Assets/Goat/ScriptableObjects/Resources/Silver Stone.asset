@@ -23,11 +23,13 @@ MonoBehaviour:
     SerializationNodes: []
   price: 2
   image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  mesh: {fileID: -1550514412580984892, guid: 721b98fa1f9400f4398e7b88288318c4, type: 3}
   summary: 'This ore is commonly found in any asteroid.
 
     It is used for creating
     low-grade stations.'
-  amount: 4486
+  amount: 4465
   deliveryTime: 70
   resourceType: 1
+  storageEnviroment: 0
   resValue: 3412

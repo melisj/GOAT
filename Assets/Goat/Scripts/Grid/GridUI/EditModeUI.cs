@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.UI
 {
     public class EditModeUI : BasicGridUIElement
     {

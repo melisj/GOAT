@@ -1,8 +1,9 @@
-﻿using Goat.Storage;
-using Goat.Selling;
+﻿using Goat.Selling;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Goat.Storage
@@ -12,7 +13,10 @@ namespace Goat.Storage
         [SerializeField] private ResourceDictionary resData;
         [SerializeField] private GameObject sellingUIObject;
         [SerializeField] private GameObject cellPrefab;
-        [SerializeField] private SellingUI sellingUI;
+
+        [Serializable] private class SelectedResourceChanged : UnityEvent<Resource> { }
+        [SerializeField] private SelectedResourceChanged selectedResourceChangeEvt;
+
         private Resource currentRes;
         private GameObject cell;
 
@@ -39,7 +43,7 @@ namespace Goat.Storage
             cell = Instantiate(cellPrefab, transform);
             Button imageButton = cell.GetComponent<Button>();
             imageButton.onClick.AddListener(() => sellingUIObject.SetActive(true));
-            imageButton.onClick.AddListener(() => sellingUI.Resource = resource);
+            imageButton.onClick.AddListener(() => selectedResourceChangeEvt?.Invoke(resource));
             //cell.GetComponent<Button>().onClick.AddListener(delegate { ActivateVerify(); });
             // cell.GetComponent<Button>().onClick.AddListener(delegate { SelectItem(); });
             cell.name = resource.ResourceType.ToString();

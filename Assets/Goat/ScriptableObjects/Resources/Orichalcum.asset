@@ -23,11 +23,13 @@ MonoBehaviour:
     SerializationNodes: []
   price: 5
   image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  mesh: {fileID: 4444728127320036556, guid: e992381462b156f4fbbdefd7ebaac337, type: 3}
   summary: 'This unnatural ore is largely found in small asteroids.
 
     It is often
     used to reinforce.'
-  amount: 6934
+  amount: 6919
   deliveryTime: 150
   resourceType: 0
+  storageEnviroment: 0
   resValue: 233

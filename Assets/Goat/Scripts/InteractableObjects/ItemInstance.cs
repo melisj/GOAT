@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GOAT
+namespace Goat.Grid.Interactions
 {
-    public class ItemInstance : MonoBehaviour
+    public class ItemInstance
     {
-        [SerializeField] private Resource resource;
-
         public ItemInstance(Resource type) {
-            resource = type;
+            Resource = type;
         }
 
-        public Resource GetResource => resource;
+        public Resource Resource { get; private set; }
     }
 }

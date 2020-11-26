@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Goat.Grid.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.Interactions
 {
     /// <summary>
     /// This attribute is for tagging value that should be printed out on the informations tab
@@ -28,34 +30,32 @@ namespace GOAT.Grid.UI
     {
         [TextArea]
         [SerializeField] private string description;
-        [InteractableInfo] public string testText;
-        [InteractableInfo] public int testInt;
 
-        protected delegate void InformationChangeEvent();
-        protected event InformationChangeEvent InformationChanged;
+        protected UnityEvent InformationChanged = new UnityEvent();
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             InteractableManager.InteractableClickEvt += IsClicked;
-            InformationChanged += UpdateUI;
+            InformationChanged.AddListener(UpdateUI);
+            InformationChanged.AddListener(OpenUI);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             InteractableManager.InteractableClickEvt -= IsClicked;
-            InformationChanged -= UpdateUI;
+            InformationChanged.RemoveAllListeners();
         }
 
         // Get the event when the object has been clicked
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj) {
             if (clickedObj == transform) {
-                OpenUI();
+                InvokeChange();
+                InteractableManager.ChangeSelectedInteractable(this);
             }
         }
 
         // Open the UI for the this 
         public virtual void OpenUI() {
             GridUIManager.ShowNewUI(InteractableManager.instance.interactableUI);
-            InvokeChange();
         }
 
         // Hide this UI
@@ -70,6 +70,7 @@ namespace GOAT.Grid.UI
 
         // Update all the variables of the UI
         protected virtual void UpdateUI() {
+            InteractableManager.instance.interactableUI.UnloadElement();
             InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
         }
 

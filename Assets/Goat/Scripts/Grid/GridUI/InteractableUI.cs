@@ -1,11 +1,11 @@
-﻿using Goat.Storage;
+﻿using Goat.Grid.Interactions.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.UI
 {
     public enum InteractableUIElement 
     { 
@@ -23,6 +23,7 @@ namespace GOAT.Grid.UI
         [SerializeField] private Image interactableIcon;
 
         [SerializeField] private Transform UIElementSlot;
+        [SerializeField] private Transform StockingUI;
 
         // Keeps track of all UI elements available
         private Dictionary<InteractableUIElement, UISlotElement> UIElements = new Dictionary<InteractableUIElement, UISlotElement>();
@@ -55,20 +56,24 @@ namespace GOAT.Grid.UI
         }
 
         // Load a new UI element
-        public void LoadElement(InteractableUIElement elementId) {
+        public void LoadElement(InteractableUIElement elementId, object[] args) {
+            StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
+
             UIElements.TryGetValue(elementId, out UISlotElement element);
-            UnloadElement();
             activeElement = element;
             activeElement.gameObject.SetActive(true);
+
+            SetElementValues(args);
         }
 
         // Unload the specific UI element
         public void UnloadElement() {
+            StockingUI.gameObject.SetActive(false);
             activeElement?.gameObject.SetActive(false);
         }
 
         // Pass the arguments for the UI to the element currently in use
-        public void SetElementValue(object[] args) {
+        private void SetElementValues(object[] args) {
             activeElement.SetUI(args);
         } 
     }

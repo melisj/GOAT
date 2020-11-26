@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.UI
 {
     // Basic element for grid UI elements
     // Is used to manage showing and hiding the UI

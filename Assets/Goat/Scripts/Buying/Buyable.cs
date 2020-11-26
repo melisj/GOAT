@@ -6,6 +6,7 @@ public class Buyable : SerializedScriptableObject
 {
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private Mesh mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
@@ -38,5 +39,6 @@ public class Buyable : SerializedScriptableObject
     }
 
     public Sprite Image => image;
+    public Mesh Mesh => mesh;
     public string Summary => summary;
 }
