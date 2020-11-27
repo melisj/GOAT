@@ -34,7 +34,8 @@ public class Buyable : SerializedScriptableObject
             {
                 amount = value;
             }
-            AmountChanged?.Invoke(this, value);
+            if(Application.isPlaying)
+                AmountChanged?.Invoke(this, value);
         }
     }
 

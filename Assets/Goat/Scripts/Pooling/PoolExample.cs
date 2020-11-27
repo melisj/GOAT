@@ -14,6 +14,7 @@ public class PoolExample : MonoBehaviour, IPoolObject
 
     public void OnReturnObject()
     {
+        gameObject.transform.position = new Vector3(-1000, 0);
         gameObject.SetActive(false);
     }
 }

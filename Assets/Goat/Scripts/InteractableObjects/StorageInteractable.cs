@@ -23,6 +23,7 @@ namespace Goat.Grid.Interactions
         // Properties
         public int GetResourceCount { get => resourceList.Count; }
         public int SpaceLeft { get => Mathf.Abs(GetResourceCount - maxResources); }
+        public List<ItemInstance> GetItems { get => resourceList; }
         private object[] GetArgsForUI
         {
             get => new object[] {

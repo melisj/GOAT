@@ -325,6 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 782337956263827250}
+  - component: {fileID: -3881613789800861139}
   m_Layer: 8
   m_Name: Building-table
   m_TagString: Untagged
@@ -347,6 +348,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3881613789800861139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2539897548063923676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &4703288524227721421
 BoxCollider:
   m_ObjectHideFlags: 0

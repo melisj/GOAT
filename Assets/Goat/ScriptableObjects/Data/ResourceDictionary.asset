@@ -26,11 +26,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: resources
       Entry: 7
-      Data: 0|UnityEngine.Rendering.SerializedDictionary`2[[Goat.Resource.ResourceType,
-        Assembly-CSharp],[Goat.Resource.Resource, Assembly-CSharp]], Unity.RenderPipelines.Core.Runtime
+      Data: 0|System.Collections.Generic.Dictionary`2[[Goat.Storage.ResourceType,
+        Assembly-CSharp],[Goat.Storage.Resource, Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Goat.Resource.ResourceType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Goat.Storage.ResourceType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
