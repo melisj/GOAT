@@ -14,7 +14,6 @@ namespace Goat.Grid.Interactions
         public delegate void SelectedInteractableChangeEvent(BaseInteractable interactable);
         public static event SelectedInteractableChangeEvent SelectedInteractableChangeEvt;
 
-        [HideInInspector] public InteractableUI interactableUI;
         [SerializeField] private LayerMask interactableMask;
 
         public const string StorageIconPrefabname = "ItemIcon";
@@ -25,13 +24,8 @@ namespace Goat.Grid.Interactions
 
         public static Material ItemMaterial;
 
-
-        public static InteractableManager instance;
-
         public void Awake() {
-            instance = this;
             ItemMaterial = Resources.Load<Material>(ItemMaterialName);
-            interactableUI = FindObjectOfType<InteractableUI>();
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
         }
@@ -40,10 +34,10 @@ namespace Goat.Grid.Interactions
             if (inputMode == InputMode.Select) {
                 if (code == KeyCode.Mouse0 && keyMode == InputManager.KeyMode.Down) {
                     if (!EventSystem.current.IsPointerOverGameObject()) {
-                        if (!GridUIManager.IsElementSelected())
+                        if (!GridUIManager.Instance.IsElementSelected())
                             CheckForInteractable();
                         else
-                            GridUIManager.HideUI();
+                            GridUIManager.Instance.HideUI();
                     }
                 }
             }

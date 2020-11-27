@@ -1,5 +1,7 @@
 ﻿using Goat.UI;
+using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Goat.Grid.UI
 {
@@ -20,18 +22,37 @@ namespace Goat.Grid.UI
         }
     }
 
-    // Manages the UI Elements to make certain that only one element is visible at a time
-    public class GridUIManager : MonoBehaviour
+    public enum GridUIElement
     {
-        [SerializeField] private BasicGridUIElement buildingUI;
+        building,
+        buying,
+        interactable
+    }
+
+    // Manages the UI Elements to make certain that only one element is visible at a time
+    public class GridUIManager : SerializedMonoBehaviour
+    {
+        /*[SerializeField] private BasicGridUIElement buildingUI;
         [SerializeField] private BasicGridUIElement buyingUI;
+        [SerializeField] private BasicGridUIElement int;*/
+        [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
         private static BasicGridUIElement currentUIOpen;
+
+        private static GridUIManager instance;
+
+        public static GridUIManager Instance
+        {
+            get
+            {
+                if (!instance) {
+                    instance = FindObjectOfType<GridUIManager>();
+                }
+                return instance;
+            }
+        }
 
         public void Awake()
         {
-            //BuildingUI = FindObjectOfType<BuildingUI>();
-            //BuyingUI = FindObjectOfType<BuyingUI>();
-
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
         }
 
@@ -39,21 +60,22 @@ namespace Goat.Grid.UI
         {
             if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down)
             {
-                ShowNewUI(buildingUI);
+                ShowNewUI(GridUIElement.building);
             }
             if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down)
             {
-                ShowNewUI(buyingUI);
+                ShowNewUI(GridUIElement.buying);
             }
         }
 
         // Disable, and enable a new element
-        public static void ShowNewUI(BasicGridUIElement UIElement)
+        public void ShowNewUI(GridUIElement UIElement)
         {
-            if (!IsSelectedSame(UIElement))
+            UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
+            if (!IsSelectedSame(element))
             {
                 HideUI();
-                currentUIOpen = UIElement;
+                currentUIOpen = element;
                 currentUIOpen.ShowUI();
             }
             else
@@ -61,7 +83,7 @@ namespace Goat.Grid.UI
         }
 
         // Hide the current element
-        public static void HideUI()
+        public void HideUI()
         {
             if (currentUIOpen != null)
                 currentUIOpen.HideUI();
@@ -69,17 +91,22 @@ namespace Goat.Grid.UI
         }
 
         // Check if a element is selected
-        public static bool IsElementSelected()
+        public bool IsElementSelected()
         {
             return currentUIOpen != null;
         }
 
         // Check if the given element is same as current selected
-        public static bool IsSelectedSame(BasicGridUIElement UIElement)
+        public bool IsSelectedSame(BasicGridUIElement UIElement)
         {
             if (currentUIOpen != null && !currentUIOpen.gameObject.activeInHierarchy)
                 currentUIOpen = null;
             return currentUIOpen == UIElement;
+        }
+        
+        public BasicGridUIElement ReturnElement(GridUIElement UIElement) {
+            UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
+            return element;
         }
     }
 }

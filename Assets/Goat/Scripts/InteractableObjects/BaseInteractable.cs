@@ -36,7 +36,6 @@ namespace Goat.Grid.Interactions
         protected virtual void OnEnable() {
             InteractableManager.InteractableClickEvt += IsClicked;
             InformationChanged.AddListener(UpdateUI);
-            InformationChanged.AddListener(OpenUI);
         }
 
         protected virtual void OnDisable() {
@@ -48,6 +47,7 @@ namespace Goat.Grid.Interactions
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj) {
             if (clickedObj == transform) {
+                OpenUI();
                 InvokeChange();
                 InteractableManager.ChangeSelectedInteractable(this);
             }
@@ -55,12 +55,12 @@ namespace Goat.Grid.Interactions
 
         // Open the UI for the this 
         public virtual void OpenUI() {
-            GridUIManager.ShowNewUI(InteractableManager.instance.interactableUI);
+            GridUIManager.Instance.ShowNewUI(GridUIElement.interactable);
         }
 
         // Hide this UI
         public virtual void CloseUI() {
-            GridUIManager.HideUI();
+            GridUIManager.Instance.HideUI();
         }
 
         // Update the UI when something has changed
@@ -70,12 +70,13 @@ namespace Goat.Grid.Interactions
 
         // Update all the variables of the UI
         protected virtual void UpdateUI() {
-            InteractableManager.instance.interactableUI.UnloadElement();
-            InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
+            InteractableUI interactableUI = (InteractableUI)GridUIManager.Instance.ReturnElement(GridUIElement.interactable);
+            interactableUI.UnloadElement();
+            interactableUI.SetUI(name, description, this);
         }
 
         // Print out all the variables tagged with "InteractableInfo"
-        private string PrintObject<T>() {
+        public virtual string PrintObject<T>() {
             string infoList = "";
 
             FieldInfo[] fields = typeof(T).GetFields();

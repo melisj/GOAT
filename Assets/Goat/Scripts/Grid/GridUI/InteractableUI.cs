@@ -1,4 +1,5 @@
-﻿using Goat.Grid.Interactions.UI;
+﻿using Goat.Grid.Interactions;
+using Goat.Grid.Interactions.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -29,8 +30,9 @@ namespace Goat.Grid.UI
         private Dictionary<InteractableUIElement, UISlotElement> UIElements = new Dictionary<InteractableUIElement, UISlotElement>();
         private UISlotElement activeElement;
 
-        public void Awake() {
-            HideUI();
+        private bool IsThisActive => gameObject.activeInHierarchy;
+
+        protected virtual void Awake() {
             SpawnUIElements();
         }
 
@@ -49,27 +51,33 @@ namespace Goat.Grid.UI
         }
 
         // Set the default UI elements to the given params
-        public void SetUI(string title, string description, string info) {
-            titleText.text = title;
-            descriptionText.text = description;
-            infoText.text = info;
+        public void SetUI(string title, string description, BaseInteractable info) {
+            if (IsThisActive) {
+                titleText.text = title;
+                descriptionText.text = description;
+                infoText.text = info.PrintObject<BaseInteractable>();
+            }
         }
 
         // Load a new UI element
         public void LoadElement(InteractableUIElement elementId, object[] args) {
-            StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
+            if (IsThisActive) {
+                StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
 
-            UIElements.TryGetValue(elementId, out UISlotElement element);
-            activeElement = element;
-            activeElement.gameObject.SetActive(true);
+                UIElements.TryGetValue(elementId, out UISlotElement element);
+                activeElement = element;
+                activeElement.gameObject.SetActive(true);
 
-            SetElementValues(args);
+                SetElementValues(args);
+            }
         }
 
         // Unload the specific UI element
         public void UnloadElement() {
-            StockingUI.gameObject.SetActive(false);
-            activeElement?.gameObject.SetActive(false);
+            if (IsThisActive) {
+                StockingUI.gameObject.SetActive(false);
+                activeElement?.gameObject.SetActive(false);
+            }
         }
 
         // Pass the arguments for the UI to the element currently in use

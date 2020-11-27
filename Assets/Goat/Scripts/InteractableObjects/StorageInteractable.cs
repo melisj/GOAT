@@ -194,7 +194,8 @@ namespace Goat.Grid.Interactions
         // Update the text of the UI
         protected override void UpdateUI() {
             base.UpdateUI();
-            InteractableManager.instance.interactableUI.LoadElement(InteractableUIElement.Storage, GetArgsForUI);
+            InteractableUI interactableUI = (InteractableUI)GridUIManager.Instance.ReturnElement(GridUIElement.interactable);
+            interactableUI.LoadElement(InteractableUIElement.Storage, GetArgsForUI);
         }
 
         // Update the meshes on the grid

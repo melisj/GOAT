@@ -42,7 +42,7 @@ namespace Goat.UI
             {
                 //  grid.interactionMode = Goat.Grid.SelectionMode.Edit;
                 grid.ChangePreviewObject((Placeable)buyable);
-                GridUIManager.HideUI();
+                GridUIManager.Instance.HideUI();
                 //gameObject.SetActive(false);
             }
         }

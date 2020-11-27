@@ -52,9 +52,8 @@ MonoBehaviour:
   gridMask:
     serializedVersion: 2
     m_Bits: 256
+  previewObject: {fileID: 0}
   IsEditing: 0
-  interactionMode: 0
-  UIManager: {fileID: 0}
 --- !u!65 &1645605060535691354
 BoxCollider:
   m_ObjectHideFlags: 0
