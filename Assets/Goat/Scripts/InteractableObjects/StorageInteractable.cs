@@ -1,5 +1,6 @@
 ﻿using Goat.Storage;
 using Goat.Grid.UI;
+using Goat.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,6 +55,12 @@ namespace Goat.Grid.Interactions
 
         private void OnDestroy() {
             GetAllResources();
+            NpcManager.Instance.RemoveStorageShelve(this);
+        }
+
+        private void Awake()
+        {
+            NpcManager.Instance.AddStorageShelve(this);
         }
 
         #region Item Holders
@@ -121,8 +128,10 @@ namespace Goat.Grid.Interactions
             // Store items in the list
             for (int i = amountBeingStored - 1; i >= 0; i--) {
                 resourceList.Add(items[i]);
+                NpcManager.Instance.AddAvailableResource(items[i].Resource.ResourceType, 1);
                 items.RemoveAt(i);
             }
+
 
             InvokeChange();
 
@@ -161,6 +170,7 @@ namespace Goat.Grid.Interactions
         /// <returns> Returns the selected item </returns>
         public ItemInstance GetResource(int index, bool returnToStock = true) {
             ItemInstance item = resourceList[index];
+            NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
             resourceList.RemoveAt(index);
 
             if(returnToStock)
@@ -182,6 +192,7 @@ namespace Goat.Grid.Interactions
 
             if (returnToStock) {
                 foreach (ItemInstance item in resourceList) {
+                    NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
                     item.Resource.Amount++;
                 }
             }
@@ -202,6 +213,15 @@ namespace Goat.Grid.Interactions
             for (int i = 0; i < itemHolderMeshList.Count; i++) {
                 itemHolderMeshList[i].mesh = i < resourceList.Count ? resourceList[i].Resource.Mesh : null;
             }
+        }
+
+        public bool HasResource(ResourceType type)
+        {
+            for (int i = 0; i < GetResourceCount; i++)
+            {
+                if (type == resourceList[i].Resource.ResourceType) return true;
+            }
+            return false;
         }
 
         #endregion
