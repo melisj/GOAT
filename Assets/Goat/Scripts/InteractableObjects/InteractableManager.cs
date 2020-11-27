@@ -21,11 +21,14 @@ namespace Goat.Grid.Interactions
         public const string ItemHolderParentName = "ItemHolderParent";
         public const string ItemMaterialName = "VertexColorShader";
 
+        public static Material ItemMaterial;
+
 
         public static InteractableManager instance;
 
         public void Awake() {
             instance = this;
+            ItemMaterial = Resources.Load<Material>(InteractableManager.ItemMaterialName);
             interactableUI = FindObjectOfType<InteractableUI>();
         }
 

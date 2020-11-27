@@ -19,7 +19,6 @@ namespace Goat.Grid.Interactions
         [SerializeField] private StorageEnviroment enviroment;
 
         private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
-        private Material itemMaterial;
 
         // Properties
         public int GetResourceCount { get => resourceList.Count; }
@@ -44,10 +43,6 @@ namespace Goat.Grid.Interactions
 
                 return ItemHolderParent;
             }
-        }
-
-        protected void Awake() {
-            itemMaterial = Resources.Load<Material>(InteractableManager.ItemMaterialName);
         }
 
         protected override void OnEnable() {
@@ -80,7 +75,7 @@ namespace Goat.Grid.Interactions
             }
 
             // Set material and save the meshfilter
-            itemHolder.GetComponent<MeshRenderer>().material = itemMaterial;
+            itemHolder.GetComponent<MeshRenderer>().material = InteractableManager.ItemMaterial;
             itemHolderMeshList.Add(itemHolder.GetComponent<MeshFilter>());
         } 
 
