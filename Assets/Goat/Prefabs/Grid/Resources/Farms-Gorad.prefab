@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5513815684422228834}
   - component: {fileID: 5513815684422228835}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Farms-Gorad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5513815684714166149}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,10 +155,35 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: -3438264724286160937, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -2387713629585297344, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e84fabd7709406240a3b267e40c8419c,
         type: 3}
       propertyPath: m_Name
       value: barrels_rail (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598419493678936200, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607266569062314062, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84fabd7709406240a3b267e40c8419c, type: 3}
@@ -245,10 +270,35 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: -3438264724286160937, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -2387713629585297344, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e84fabd7709406240a3b267e40c8419c,
         type: 3}
       propertyPath: m_Name
       value: barrels_rail
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598419493678936200, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607266569062314062, guid: e84fabd7709406240a3b267e40c8419c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84fabd7709406240a3b267e40c8419c, type: 3}
@@ -335,10 +385,25 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: -7631519033783230797, guid: d1e8bf53228797b4e948335af2a51158,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d1e8bf53228797b4e948335af2a51158,
         type: 3}
       propertyPath: m_Name
       value: hangar_smallB
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d1e8bf53228797b4e948335af2a51158,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629838243058712215, guid: d1e8bf53228797b4e948335af2a51158,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1e8bf53228797b4e948335af2a51158, type: 3}
@@ -429,6 +494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: machine_barrelLarge
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c69cb8a3494b2ce44928ec4763a166a4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c69cb8a3494b2ce44928ec4763a166a4, type: 3}

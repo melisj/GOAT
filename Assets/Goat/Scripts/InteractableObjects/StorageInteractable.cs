@@ -141,7 +141,7 @@ namespace Goat.Grid.Interactions
             List<ItemInstance> items = new List<ItemInstance>();
 
             if (amount != amountBeingStored)
-                Debug.LogErrorFormat("Could not add {0} of type {1} to inventory!", amount - amountBeingStored, type.ResourceType);
+                Debug.LogWarningFormat("Could not add {0} of type {1} to inventory!", amount - amountBeingStored, type.ResourceType);
 
             // Store items in the list
             for (int i = 0; i < amount; i++) {

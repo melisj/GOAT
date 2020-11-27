@@ -44,7 +44,7 @@ public class DirtyInput : MonoBehaviour
         if (newUI)
         {
             grid.DestroyMode = false;
-            grid.DestroyPreview();
+            //grid.DestroyPreview();
         }
     }
 }

@@ -28,7 +28,7 @@ MonoBehaviour:
 
     Being compressed over
     ages, the ore is mostly used for research.'
-  amount: 483
+  amount: 453
   deliveryTime: 100
   resourceType: 2
   storageEnviroment: 0

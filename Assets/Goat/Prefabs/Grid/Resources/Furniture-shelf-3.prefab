@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6241447738366768352}
   - component: {fileID: 3455903007926880252}
   - component: {fileID: 1984592980254241897}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1703776076925522039}
   - component: {fileID: 3137077420876642289}
   - component: {fileID: 2837316344076347229}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1354016424724658122}
   - component: {fileID: 2694759336945580143}
   - component: {fileID: 180498161047833765}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: corridor_wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 2481289656649996092}
   - component: {fileID: 1567415804448102553}
   - component: {fileID: 3613121753463041107}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: corridor_wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3015741995689482277}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 5917360949903174010}
   - component: {fileID: 5917360949903174008}
   - component: {fileID: 5917360949903174009}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: corridor_wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 5917360950145907192}
   - component: {fileID: 5917360950145907174}
   - component: {fileID: 5917360950145907175}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: platform_large (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 5917360950252696361}
   - component: {fileID: 5917360950252696407}
   - component: {fileID: 5917360950252696360}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: corridor_wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5917360950691678402}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 5917360951046226127}
   - component: {fileID: 5917360951046226125}
   - component: {fileID: 5917360951046226126}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: platform_large (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,7 +725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5555500996034654769}
   - component: {fileID: 8125991503069351683}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Furniture-shelf-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 193084894012587893}
   - component: {fileID: 95709032174968683}
   - component: {fileID: 9014188509567691505}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 6166563771042617672}
   - component: {fileID: 7078482715393578733}
   - component: {fileID: 5034784480986276391}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: platform_large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -930,7 +930,7 @@ GameObject:
   - component: {fileID: 8468416402671879164}
   - component: {fileID: 1063208689663540646}
   - component: {fileID: 6233163152835435347}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1009,7 +1009,7 @@ GameObject:
   - component: {fileID: 8527461491819624658}
   - component: {fileID: 692497277308333243}
   - component: {fileID: 2626471160858293696}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

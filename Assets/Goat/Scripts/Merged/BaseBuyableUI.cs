@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Goat.Grid.UI;
 using Sirenix.OdinInspector;
 using System;
 using TMPro;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Goat.UI
 {
-    public class BaseBuyableUI : MonoBehaviour
+    public class BaseBuyableUI : BasicGridUIElement
     {
         [Title("Base Grid Window")]
         [SerializeField, FoldoutGroup("Base")] protected TMP_InputField searchField;

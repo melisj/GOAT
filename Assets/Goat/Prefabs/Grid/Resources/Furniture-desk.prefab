@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4942198154265336807}
   - component: {fileID: 4277760592947433358}
   - component: {fileID: 2428124575019661415}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9212267769164321028}
   - component: {fileID: 4757142840224656438}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Furniture-desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,6 +189,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: corridor_wall (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 414b750a218c32d4e994c0f2cdccf1f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414b750a218c32d4e994c0f2cdccf1f8, type: 3}
 --- !u!4 &56016679393657639 stripped
@@ -278,6 +283,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: corridor_wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 414b750a218c32d4e994c0f2cdccf1f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414b750a218c32d4e994c0f2cdccf1f8, type: 3}
@@ -369,6 +379,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: corridor_wall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 414b750a218c32d4e994c0f2cdccf1f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414b750a218c32d4e994c0f2cdccf1f8, type: 3}
 --- !u!4 &2309212742355604735 stripped
@@ -459,6 +474,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: platform_long
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0268a1f289ce92468dfcf4f97d72281,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0268a1f289ce92468dfcf4f97d72281, type: 3}
 --- !u!4 &5693770255165800299 stripped
@@ -548,6 +568,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: desk_chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e17dd638529b543468d6d1dfc6aa4a85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e17dd638529b543468d6d1dfc6aa4a85, type: 3}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Goat.Grid.UI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +42,8 @@ namespace Goat.UI
             {
                 grid.interactionMode = Goat.Grid.SelectionMode.Edit;
                 grid.ChangePreviewObject((Placeable)buyable);
-                gameObject.SetActive(false);
+                GridUIManager.HideUI();
+                //gameObject.SetActive(false);
             }
         }
 

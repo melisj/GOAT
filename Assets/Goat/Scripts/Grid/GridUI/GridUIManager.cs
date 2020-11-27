@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Goat.UI;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Goat.Grid.UI
 {
@@ -7,12 +10,6 @@ namespace Goat.Grid.UI
     public class BasicGridUIElement : MonoBehaviour
     {
         [SerializeField] private GameObject PanelToHide;
-        [HideInInspector] public Grid grid;
-
-        private void Awake()
-        {
-            grid = FindObjectOfType<Grid>();
-        }
 
         public virtual void ShowUI() {
             PanelToHide.SetActive(true);
@@ -26,24 +23,34 @@ namespace Goat.Grid.UI
     // Manages the UI Elements to make certain that only one element is visible at a time
     public class GridUIManager : MonoBehaviour
     {
-        [HideInInspector] public TileEditUI tileEditUI;
-        [HideInInspector] public EditModeUI editModeUI;
-        [HideInInspector] public InteractableUI interactableUI;
+        [HideInInspector] public BasicGridUIElement BuildingUI;
+        [HideInInspector] public BasicGridUIElement BuyingUI;
         private static BasicGridUIElement currentUIOpen;
 
         public void Awake() {
-            tileEditUI = FindObjectOfType<TileEditUI>();
-            interactableUI = FindObjectOfType<InteractableUI>();
-            editModeUI = FindObjectOfType<EditModeUI>();
+            BuildingUI = FindObjectOfType<BuildingUI>();
+            BuyingUI = FindObjectOfType<BuyingUI>();
+
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+        }
+
+        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode) {
+            if(code == KeyCode.C && keyMode == InputManager.KeyMode.Down) {
+                ShowNewUI(BuildingUI);
+            }
+            if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down) {
+                ShowNewUI(BuyingUI);
+            }
         }
 
         // Disable, and enable a new element
         public static void ShowNewUI(BasicGridUIElement UIElement) {
-            if(!IsSelectedSame(UIElement)) {
+            if (!IsSelectedSame(UIElement)) {
                 HideUI();
                 currentUIOpen = UIElement;
                 currentUIOpen.ShowUI();
-            }
+            } else
+                HideUI();
         }
 
         // Hide the current element
@@ -60,6 +67,8 @@ namespace Goat.Grid.UI
 
         // Check if the given element is same as current selected
         public static bool IsSelectedSame(BasicGridUIElement UIElement) {
+            if(currentUIOpen != null && !currentUIOpen.gameObject.activeInHierarchy)
+                currentUIOpen = null;
             return currentUIOpen == UIElement;
         }
     }

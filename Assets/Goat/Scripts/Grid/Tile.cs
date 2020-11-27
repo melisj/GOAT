@@ -1,5 +1,4 @@
-﻿using Goat.Pooling;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Goat.Grid
@@ -92,10 +91,14 @@ namespace Goat.Grid
             {
                 ShowAnyWall(show, rotation);
             }
+            if(buildingObject) {
+                ShowBuilding(show);
+            }
 
-            if (tileObject)
+            if (floorObject)
             {
-                tileObject.SetActive(show ? show : (this.placeable is Floor && placeable is Floor));
+                //tileObject.SetActive(show ? show : (this.placeable is Floor && placeable is Floor));
+                floorObject.SetActive(show);
             }
         }
 
@@ -123,18 +126,18 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show);
         }
 
-        public void ShowWall(bool show, WallPosition position)
-        {
-            //code
-            if (wallObjects[WallPosition.North]) wallObjects[WallPosition.North].SetActive(true);
-            if (wallObjects[WallPosition.East]) wallObjects[WallPosition.East].SetActive(true);
-            if (wallObjects[WallPosition.South]) wallObjects[WallPosition.South].SetActive(true);
-            if (wallObjects[WallPosition.West]) wallObjects[WallPosition.West].SetActive(true);
+        //public void ShowWall(bool show, WallPosition position)
+        //{
+        //    //code
+        //    if (wallObjects[WallPosition.North]) wallObjects[WallPosition.North].SetActive(true);
+        //    if (wallObjects[WallPosition.East]) wallObjects[WallPosition.East].SetActive(true);
+        //    if (wallObjects[WallPosition.South]) wallObjects[WallPosition.South].SetActive(true);
+        //    if (wallObjects[WallPosition.West]) wallObjects[WallPosition.West].SetActive(true);
 
-            if (wallObjects[position]) wallObjects[position].SetActive(show);
-            //check what wall to show
-            //check what wall to hide
-        }
+        //    if (wallObjects[position]) wallObjects[position].SetActive(show);
+        //    //check what wall to show
+        //    //check what wall to hide
+        //}
 
         // Returns a tile info struct
         public TileInformation GetTileInformation()
@@ -153,18 +156,16 @@ namespace Goat.Grid
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
 
-            // If type and rotation remain the same as before
-            //  if (tileObject != null && tileObject.transform.rotation == rotation) return;
-            // If rotation changes rotate object
             if (this.placeable == placeable & tileObject != null && tileObject.transform.rotation != rotation) tileObject.transform.rotation = rotation;
-            // If type changes instantiate new object
-            //else if (this.placeable != placeable)
-            //{
-            //  Debug.LogFormat("{0}, {1}:{2}, {3}:{4}", tileObject, this.placeable, this.placeable is Floor, placeable, placeable is Floor);
-            if (tileObject && (this.placeable is Floor && placeable is Floor) | destroyMode)
+
+            if((tileObject && this.placeable == placeable) && !destroyMode) {
+                return;
+            }
+
+            if (buildingObject && (!(placeable is Floor) | destroyMode))
             {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
                 this.placeable.Amount++;
-                MonoBehaviour.Destroy(tileObject);
+                MonoBehaviour.Destroy(buildingObject);
             }
             else if (floorObject && destroyMode)
             {
@@ -182,6 +183,9 @@ namespace Goat.Grid
                 if (placeable is Floor)
                 {
                     floorObject = tileObject;
+                }
+                else if (placeable is Furniture) {
+                    buildingObject = tileObject;
                 }
             }
             //}
@@ -215,7 +219,7 @@ namespace Goat.Grid
             }
             //this.placeable = wall;
         }
-
+/*
         // Change the tile type
         // Spawns a floor object on this tile
         public void EditFloor(FloorType floorType, float rotationAngle)
@@ -291,7 +295,7 @@ namespace Goat.Grid
                     wallObjects[position].transform.localScale = size;
                 }
             }
-        }
+        }*/
     }
 
     // Structure for storing data
