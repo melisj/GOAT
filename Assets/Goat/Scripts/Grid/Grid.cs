@@ -34,7 +34,7 @@ namespace Goat.Grid
         public float GetTileSize { get { return tileSize; } }
 
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject previewObject;                               // Preview object shown on grid
+        [SerializeField] private GameObject previewObject;                               // Preview object shown on grid
         private float objectRotationAngle;                              // Rotation of preview object
                                                                         // private FloorType previewFloorType;
                                                                         // private BuildingType previewBuildingType;
@@ -46,8 +46,8 @@ namespace Goat.Grid
 
         public bool DestroyMode { get; set; }
 
-        [Space(20)]
-        public SelectionMode interactionMode = SelectionMode.Edit;
+        //  [Space(20)]
+        //    public SelectionMode interactionMode = SelectionMode.Edit;
 
         private void Start()
         {
@@ -64,6 +64,17 @@ namespace Goat.Grid
             if (previewObject)
             {
                 bool inEditMode = mode == InputMode.Edit;
+                previewObject.name = previewObject.GetInstanceID().ToString();
+                //Destroy(previewObject);
+                if (!inEditMode)
+                {
+                    currentTile = SelectTile();
+                    if (currentTile != null)
+                    {
+                        currentTile.ShowTile(true, objectRotationAngle);
+                    }
+                    previousTile = currentTile;
+                }
                 previewObject.SetActive(inEditMode);
             }
         }
@@ -143,7 +154,7 @@ namespace Goat.Grid
             // Hide target object on selected tile
             if (selectedTile != null)
             {
-                if (IsEditing)
+                if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
                     selectedTile.ShowTile(false, objectRotationAngle);
                 }

@@ -40,7 +40,7 @@ namespace Goat.UI
             currentCell = cellIndex;
             if (buyable.Amount > 0)
             {
-                grid.interactionMode = Goat.Grid.SelectionMode.Edit;
+                //  grid.interactionMode = Goat.Grid.SelectionMode.Edit;
                 grid.ChangePreviewObject((Placeable)buyable);
                 GridUIManager.HideUI();
                 //gameObject.SetActive(false);

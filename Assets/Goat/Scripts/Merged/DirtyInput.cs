@@ -18,7 +18,7 @@ public class DirtyInput : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            grid.interactionMode = Goat.Grid.SelectionMode.Edit;
+            //   grid.interactionMode = Goat.Grid.SelectionMode.Edit;
             grid.DestroyMode = true;
             ChangeUI();
         }
