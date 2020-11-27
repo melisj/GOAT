@@ -199,10 +199,10 @@ namespace GOAT.Grid
                 }
                 if (wallObjs[index]) MonoBehaviour.Destroy(wallObjs[index]);
                 // Find gameobject
-                GameObject newObject = wall.Prefab;
                 // Instantiate gameobject
                 if (wall != null && !destroyMode)
                 {
+                    GameObject newObject = wall.Prefab;
                     Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                     //Quaternion newRotation = Quaternion.Euler(0, (float)(int)position, 0);
                     Vector3 size = Vector3.one * grid.GetTileSize;
