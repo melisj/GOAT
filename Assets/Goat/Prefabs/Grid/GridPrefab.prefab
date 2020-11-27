@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7365122302955107358}
   - component: {fileID: 7389141701046452352}
   - component: {fileID: 488900680}
+  - component: {fileID: 4356951853088913811}
   m_Layer: 8
   m_Name: GridScript
   m_TagString: Grid
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4620ccd9452a5714b89d7476ec138284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 40, y: 20}
+  gridSize: {x: 20, y: 20}
   tileSize: 1
   gridMask:
     serializedVersion: 2
@@ -126,10 +127,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8cc007985d88441aadbd658721919e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableUI: {fileID: 0}
   interactableMask:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &4356951853088913811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313977843192553651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &2865852851123103614
 GameObject:
   m_ObjectHideFlags: 0
