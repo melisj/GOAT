@@ -144,12 +144,13 @@ namespace Goat.UI
             currentDeliveryAmount++;
             GameObject deliveryCell = PoolManager.Instance.GetFromPool(deliveryPrefab, Vector3.zero, Quaternion.identity, grid.transform);
             deliveryCell.transform.localScale = Vector3.one;
+            deliveryCell.name = buyable.name;
 
             DeliveryUI delivery = deliveryCell.GetComponent<DeliveryUI>();
-            deliveryCell.name = buyable.name;
-            delivery.Amount.text = "x" + amount.ToString();
-            delivery.Name.text = deliveryCell.name;
-            delivery.Image.sprite = buyable.Image;
+            delivery.Setup(buyable, amount);
+            //delivery.Amount.text = "x" + amount.ToString();
+            //delivery.Name.text = deliveryCell.name;
+            //delivery.Image.sprite = buyable.Image;
             delivery.ProgressBar.DOFillAmount(1, buyable.DeliveryTime).OnComplete(() =>
             {
                 buyable.Amount += amount;

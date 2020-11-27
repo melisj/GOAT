@@ -520,4 +520,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageIcon: {fileID: 5285459698611114225}
-  amount: {fileID: 6907880496640682156}
+  amountText: {fileID: 6907880496640682156}

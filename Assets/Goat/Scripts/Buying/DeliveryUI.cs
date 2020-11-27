@@ -7,21 +7,22 @@ using TMPro;
 
 namespace Goat.UI
 {
-    public class DeliveryUI : MonoBehaviour, IPoolObject
+    public class DeliveryUI : CellWithAmount, IPoolObject
     {
         [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private TextMeshProUGUI amountText;
-
         [SerializeField] private Image image;
         [SerializeField] private Image progressBar;
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
-        public TextMeshProUGUI Name => nameText;
-        public TextMeshProUGUI Amount => amountText;
-
-        public Image Image => image;
         public Image ProgressBar => progressBar;
+
+        public void Setup(Buyable buyable, int amount)
+        {
+            nameText.text = buyable.name;
+            image.sprite = buyable.Image;
+            ChangeText(amount);
+        }
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {

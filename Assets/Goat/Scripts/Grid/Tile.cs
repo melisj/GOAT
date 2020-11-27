@@ -88,7 +88,7 @@ namespace GOAT.Grid
 
         public void ShowTile(bool show, float rotation = -1)
         {
-            if (rotation > -1)
+            if (this.placeable is Wall)
             {
                 ShowAnyWall(show, rotation);
             }
@@ -163,11 +163,14 @@ namespace GOAT.Grid
             //  Debug.LogFormat("{0}, {1}:{2}, {3}:{4}", tileObject, this.placeable, this.placeable is Floor, placeable, placeable is Floor);
             if (tileObject && (this.placeable is Floor && placeable is Floor) | destroyMode)
             {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
+                this.placeable.Amount++;
                 MonoBehaviour.Destroy(tileObject);
             }
             else if (floorObject && destroyMode)
             {
                 //So we deleted the building most likely, now it's time to delete the floor
+                this.placeable.Amount++;
+
                 MonoBehaviour.Destroy(floorObject);
             }
             if (placeable != null && !destroyMode)

@@ -9,24 +9,24 @@ using TMPro;
 /// </summary>
 public class CellWithAmount : MonoBehaviour
 {
-    [SerializeField] private RectTransform imageIcon;
-    [SerializeField] private TextMeshProUGUI amount;
+    [SerializeField] protected RectTransform imageIcon;
+    [SerializeField] protected TextMeshProUGUI amountText;
 
-    public void Setup(Buyable buyable)
+    public virtual void Setup(Buyable buyable)
     {
         ChangeText(buyable.Amount);
         buyable.AmountChanged += Buyable_AmountChanged;
     }
 
-    private void Buyable_AmountChanged(object sender, int e)
+    protected void Buyable_AmountChanged(object sender, int e)
     {
         ChangeText(e);
     }
 
-    private void ChangeText(int change)
+    protected void ChangeText(int change)
     {
         float iconWidth = 11 + (26 / 6 * (change.ToString().Length - 1));
         imageIcon.sizeDelta = new Vector2(iconWidth, imageIcon.sizeDelta.y);
-        amount.text = change.ToString();
+        amountText.text = change.ToString();
     }
 }
