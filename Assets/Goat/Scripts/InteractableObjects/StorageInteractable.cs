@@ -51,6 +51,10 @@ namespace Goat.Grid.Interactions
             InitStorage();
         }
 
+        private void OnDestroy() {
+            GetAllResources();
+        }
+
         #region Item Holders
 
         /// <summary>
@@ -163,6 +167,27 @@ namespace Goat.Grid.Interactions
 
             InvokeChange();
             return item;
+        }
+
+        /// <summary>
+        /// Returns all items from the storage
+        /// Remove all items from the shelf
+        /// </summary>
+        /// <param name="index"> Index of the item you want </param>
+        /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
+        /// <returns> Returns all the stored items </returns>
+        public List<ItemInstance> GetAllResources(bool returnToStock = true) {
+            List<ItemInstance> itemList = resourceList;
+
+            if (returnToStock) {
+                foreach (ItemInstance item in resourceList) {
+                    item.Resource.Amount++;
+                }
+            }
+            resourceList.Clear();
+            InvokeChange();
+
+            return itemList;
         }
 
         // Update the text of the UI
