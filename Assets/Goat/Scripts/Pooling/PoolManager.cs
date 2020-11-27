@@ -71,7 +71,6 @@ namespace Goat.Pooling
         public GameObject GetFromPool(GameObject prefab, Vector3 pos, Quaternion rot, Transform parent = null)
         {
             int poolKey = prefab.GetInstanceID();
-            //Debug.Log(parent);
             if (!poolDictionary.ContainsKey(poolKey))
             {
                 CreatePool(prefab, 1, parent);
@@ -89,7 +88,7 @@ namespace Goat.Pooling
 
             objInstance.SetParent(parent ? parent : parentDictionary[poolKey].transform);
             objInstance.GetObject(pos, rot, poolKey);
-            //Debug.LogFormat("Getting object {0} from pool {1}", objInstance.GameObject, poolKey);
+            Debug.LogFormat("Getting object {0} from pool {1}", objInstance.GameObject, poolKey);
             return objInstance.GameObject;
         }
 
@@ -114,7 +113,7 @@ namespace Goat.Pooling
                 {
                     poolDictionary[poolObject.PoolKey].Enqueue(poolObject.ObjInstance);
                 }
-
+                Debug.Log(objToReturn + " returned");
                 poolObject.OnReturnObject();
             }
             else
