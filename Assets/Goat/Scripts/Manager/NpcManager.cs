@@ -4,9 +4,9 @@ using Goat.Storage;
 
 namespace Goat.Manager
 {
-    public class GameManager
+    public class NpcManager
     {
-        private static GameManager instance;
+        private static NpcManager instance;
         // targets
         private List<StorageInteractable> storageShelves = new List<StorageInteractable>();
         // boodschappen
@@ -17,11 +17,11 @@ namespace Goat.Manager
 
         public int money = 1;
 
-        private GameManager()
+        private NpcManager()
         {
         }
 
-        public static GameManager Instance { get { if (instance == null) { instance = new GameManager(); } return instance; } }
+        public static NpcManager Instance { get { if (instance == null) { instance = new NpcManager(); } return instance; } }
 
         public void AddStorageShelve(StorageInteractable storage)
         {

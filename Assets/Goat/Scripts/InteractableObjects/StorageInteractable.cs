@@ -55,12 +55,12 @@ namespace Goat.Grid.Interactions
 
         private void OnDestroy() {
             GetAllResources();
-            GameManager.Instance.RemoveStorageShelve(this);
+            NpcManager.Instance.RemoveStorageShelve(this);
         }
 
         private void Awake()
         {
-            GameManager.Instance.AddStorageShelve(this);
+            NpcManager.Instance.AddStorageShelve(this);
         }
 
         #region Item Holders
@@ -128,7 +128,7 @@ namespace Goat.Grid.Interactions
             // Store items in the list
             for (int i = amountBeingStored - 1; i >= 0; i--) {
                 resourceList.Add(items[i]);
-                GameManager.Instance.AddAvailableResource(items[i].Resource.ResourceType, 1);
+                NpcManager.Instance.AddAvailableResource(items[i].Resource.ResourceType, 1);
                 items.RemoveAt(i);
             }
 
@@ -170,7 +170,7 @@ namespace Goat.Grid.Interactions
         /// <returns> Returns the selected item </returns>
         public ItemInstance GetResource(int index, bool returnToStock = true) {
             ItemInstance item = resourceList[index];
-            GameManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
+            NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
             resourceList.RemoveAt(index);
 
             if(returnToStock)
@@ -192,7 +192,7 @@ namespace Goat.Grid.Interactions
 
             if (returnToStock) {
                 foreach (ItemInstance item in resourceList) {
-                    GameManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
+                    NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
                     item.Resource.Amount++;
                 }
             }
