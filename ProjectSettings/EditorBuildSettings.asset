@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Goat/Scenes/Farming/FarmResource.unity
+    guid: cfc4a2efb92aa3f4abbee979e62679b7
   m_configObjects: {}

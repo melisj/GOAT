@@ -62,10 +62,8 @@ MonoBehaviour:
   testText: '[Information]'
   testInt: 20
   resourceList: []
-  instances:
-  - {fileID: 0}
-  - {fileID: 0}
-  index: 0
+  enviroment: 0
+  instances: []
 --- !u!1001 &4484255978170807163
 PrefabInstance:
   m_ObjectHideFlags: 0

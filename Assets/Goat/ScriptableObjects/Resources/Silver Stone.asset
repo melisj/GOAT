@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
-  m_Name: Type1
+  m_Name: Silver Stone
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  resourceType: 0
-  resValue: 233
-  amount: 482
-  image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  price: 2
+  image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  summary: 'This ore is commonly found in any asteroid.
+
+    It is used for creating
+    low-grade stations.'
+  amount: 4486
+  deliveryTime: 70
+  resourceType: 1
+  resValue: 3412
