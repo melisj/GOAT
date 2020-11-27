@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Goat.Grid.Interactions;
 
 public class NPCScript : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class NPCScript : MonoBehaviour
 
     [SerializeField]
     private float interactionDistance = 0.5f;
+
+    private StorageInteractable targetStorage;
 
     enum actionState
     {
@@ -48,6 +51,7 @@ public class NPCScript : MonoBehaviour
         if (agent.remainingDistance < interactionDistance && !arrivedAtTarget)
         {
             StartCoroutine(IsInteracting());
+
         }
     }
 
@@ -92,10 +96,17 @@ public class NPCScript : MonoBehaviour
     }
 
     IEnumerator IsInteracting()
-    {
-        
+    {     
         arrivedAtTarget = true;
         yield return new WaitForSeconds(3f);
-        targetDestination();
+        if (currentAction == actionState.Pickup)
+        {
+            // Grab items from shelf
+            targetStorage.GetResource(0, false);
+        } else if (currentAction == actionState.Checkout)
+        {
+            //paymoney
+        }            
+            targetDestination();
     }
 }
