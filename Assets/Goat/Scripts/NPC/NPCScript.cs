@@ -145,6 +145,7 @@ public class NPCScript : MonoBehaviour
 
         for (int i = 0; i < amountOfItems; i++)
         {
+            Random.seed = (int)Time.time + i;
             ResourceType typeToAdd = availableTypes[Random.Range(0, availableTypes.Count - 1)];
             AddGroceries(typeToAdd, 1);
         }
@@ -158,10 +159,10 @@ public class NPCScript : MonoBehaviour
         if (currentAction == actionState.Pickup)
         {
 
-            bool foundProduct = false;
             bool continueSearch = true;
-            while (continueSearch)
+            while (continueSearch && groceries.Count > 0)
             {
+                bool foundProduct = false;
                 // If target still has item grab item.
                 for (int i = 0; i < targetStorage.GetItems.Count; i++)
                 {
@@ -176,19 +177,20 @@ public class NPCScript : MonoBehaviour
                 }
                 if (!foundProduct) continueSearch = false;
             }
-
-            targetDestination();
-
             // Repeat until item is no longer needed or until target is empty.
             // Look for new target.
 
             // Grab items from shelf
-            targetStorage.GetResource(0, false);
+            //targetStorage.GetResource(0, false);
         } else if (currentAction == actionState.Checkout)
         {
             NpcManager.Instance.money += groceriesCost;
             //NPCManager.Instance.reputation += :) * groceriesamount;
             //paymoney
+        }
+        else if(currentAction == actionState.Leave)
+        {
+            Destroy(this.gameObject);
         }
         targetDestination();
     }

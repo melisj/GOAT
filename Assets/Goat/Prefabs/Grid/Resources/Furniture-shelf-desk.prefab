@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 1436549084878163354}
   - component: {fileID: 7792417409197611507}
   - component: {fileID: 4740915301479891080}
+  - component: {fileID: 3832498479780151849}
   m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
@@ -105,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775673227731998496}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4010091174090423690}
@@ -124,8 +125,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.99999994, y: 0.49999997, z: 0.99999994}
-  m_Center: {x: 0, y: 0.24999999, z: 0}
+  m_Size: {x: 0.5, y: 0.3, z: 0.5}
+  m_Center: {x: 0, y: 0.35, z: -0.3}
 --- !u!114 &4740915301479891080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +144,22 @@ MonoBehaviour:
 '
   maxResources: 4
   enviroment: 0
+--- !u!114 &3832498479780151849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775673227731998496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1870670631329189000
 GameObject:
   m_ObjectHideFlags: 0
