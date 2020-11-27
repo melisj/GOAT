@@ -36,9 +36,9 @@ namespace Goat.Grid
         // Variables used for highlighting and placing object on grid when in edit mode
         private GameObject previewObject;                               // Preview object shown on grid
         private float objectRotationAngle;                              // Rotation of preview object
-       // private FloorType previewFloorType;
-       // private BuildingType previewBuildingType;
-       // private WallType previewWallType;
+                                                                        // private FloorType previewFloorType;
+                                                                        // private BuildingType previewBuildingType;
+                                                                        // private WallType previewWallType;
         private Placeable previewPlaceable;
         //private TilePartEditing editing = TilePartEditing.None;
         public bool IsEditing;
@@ -59,21 +59,30 @@ namespace Goat.Grid
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
         }
 
-        private void Instance_InputModeChanged(object sender, InputMode mode) {
-            if(previewObject)
-                previewObject.SetActive(mode == InputMode.Edit);
+        private void Instance_InputModeChanged(object sender, InputMode mode)
+        {
+            if (previewObject)
+            {
+                bool inEditMode = mode == InputMode.Edit;
+                previewObject.SetActive(inEditMode);
+            }
         }
 
-        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode) {
-            if (inputMode == InputMode.Edit) {
-                if (keyCode == KeyCode.Mouse0 && keyMode == InputManager.KeyMode.Down) {
-                    if (currentTile != null) {
+        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            if (inputMode == InputMode.Edit)
+            {
+                if (keyCode == KeyCode.Mouse0 && keyMode == InputManager.KeyMode.Down)
+                {
+                    if (currentTile != null)
+                    {
                         //TileInformation tileInfo = currentTile.GetTileInformation();
                         if (IsEditing)
                             currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
                     }
                 }
-                if (keyCode == KeyCode.Mouse1 && keyMode == InputManager.KeyMode.Down) {
+                if (keyCode == KeyCode.Mouse1 && keyMode == InputManager.KeyMode.Down)
+                {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
@@ -86,7 +95,7 @@ namespace Goat.Grid
             EditTile();
         }
 
-        private void EditTile() 
+        private void EditTile()
         {
             if (InputManager.Instance.InputMode == InputMode.Edit)
             {
@@ -96,8 +105,6 @@ namespace Goat.Grid
                 previousTile = currentTile;
             }
         }
-
-
 
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
@@ -128,7 +135,7 @@ namespace Goat.Grid
             {
                 previousTile.ShowTile(true, objectRotationAngle);
                 previousTile.ShowFloor(true);
-               // previousTile.ShowBuilding(true);
+                // previousTile.ShowBuilding(true);
                 //previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
                 //previousTile.ShowAnyWall(true, objectRotationAngle);
             }
@@ -141,18 +148,18 @@ namespace Goat.Grid
                     selectedTile.ShowTile(false, objectRotationAngle);
                 }
                 //if (editing == TilePartEditing.Floor)
-                    //selectedTile.ShowFloor(false);
+                //selectedTile.ShowFloor(false);
                 //else if (editing == TilePartEditing.Building)
                 //    selectedTile.ShowBuilding(false);
                 //else if (editing == TilePartEditing.Wall)
                 //    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
-               // else
-                   // Debug.LogWarning("Trying to highlight Nothing");
+                // else
+                // Debug.LogWarning("Trying to highlight Nothing");
             }
 
             // Selected placingtile on position of tile hit by raycast
             if (previewObject && selectedTile != null)
-            { 
+            {
                 previewObject.transform.position = selectedTile.GetTileInformation().TilePosition;
                 previewObject.SetActive(true);
             }
@@ -188,8 +195,6 @@ namespace Goat.Grid
                 previewObject.transform.localScale = Vector3.one * tileSize;
             }
         }
-
-
 
         //===========================================================================================================================================================================================================================================================================
 
