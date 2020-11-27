@@ -7,15 +7,17 @@ namespace Goat.Manager
     public class NpcManager
     {
         private static NpcManager instance;
-        // targets
+
         private List<StorageInteractable> storageShelves = new List<StorageInteractable>();
-        // boodschappen
         private Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
         public List<StorageInteractable> StorageShelves { get => storageShelves; }
 
         public Dictionary<ResourceType, int> AvailableResources { get => resources; }
 
-        public int money = 1;
+        
+        public float money = 1;
+        //out of 100
+        public int reputation = 50;
 
         private NpcManager()
         {

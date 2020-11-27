@@ -55,7 +55,7 @@ public class NPCScript : MonoBehaviour
         if (groceries.ContainsKey(type))
         {
             groceries[type] -= amount;
-            if (groceries[type] <= 0) ;
+            if (groceries[type] <= 0)
                 groceries.Remove(type);
         }
     }
@@ -186,8 +186,8 @@ public class NPCScript : MonoBehaviour
             targetStorage.GetResource(0, false);
         } else if (currentAction == actionState.Checkout)
         {
-            //NPCManager global money += groceriesCost;
-            //NPCManager shop reputation += :) * groceriesamount;
+            NpcManager.Instance.money += groceriesCost;
+            //NPCManager.Instance.reputation += :) * groceriesamount;
             //paymoney
         }
         targetDestination();
