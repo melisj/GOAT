@@ -1,9 +1,4 @@
 ﻿using UnityEngine;
-using Goat.Grid.UI;
-using System;
-using Goat.Pooling;
-using UnityEngine.EventSystems;
-using Goat.Grid.Interactions;
 
 namespace Goat.Grid
 {
@@ -61,11 +56,10 @@ namespace Goat.Grid
 
         private void Instance_InputModeChanged(object sender, InputMode mode)
         {
+            DestroyMode = mode == InputMode.Destroy;
             if (previewObject)
             {
                 bool inEditMode = mode == InputMode.Edit;
-                previewObject.name = previewObject.GetInstanceID().ToString();
-                //Destroy(previewObject);
                 if (!inEditMode)
                 {
                     currentTile = SelectTile();
@@ -81,18 +75,18 @@ namespace Goat.Grid
 
         private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            if (inputMode == InputMode.Edit)
+            if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode == InputManager.KeyMode.Down)
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
                     if (currentTile != null)
                     {
                         //TileInformation tileInfo = currentTile.GetTileInformation();
-                        if (IsEditing)
-                            currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
+                        //  if (IsEditing)
+                        currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
                     }
                 }
-                if (keyCode == KeyCode.Mouse1 && keyMode == InputManager.KeyMode.Down)
+                if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
@@ -108,7 +102,7 @@ namespace Goat.Grid
 
         private void EditTile()
         {
-            if (InputManager.Instance.InputMode == InputMode.Edit)
+            if (InputManager.Instance.InputMode == InputMode.Edit | InputManager.Instance.InputMode == InputMode.Destroy)
             {
                 // Highlight tile with selected building/floor
                 currentTile = SelectTile();
@@ -145,7 +139,7 @@ namespace Goat.Grid
             if (previousTile != null)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
-                previousTile.ShowFloor(true);
+                //    previousTile.ShowFloor(true);
                 // previousTile.ShowBuilding(true);
                 //previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
                 //previousTile.ShowAnyWall(true, objectRotationAngle);
@@ -156,7 +150,7 @@ namespace Goat.Grid
             {
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
-                    selectedTile.ShowTile(false, objectRotationAngle);
+                    selectedTile.ShowTile(false, objectRotationAngle, previewPlaceable);
                 }
                 //if (editing == TilePartEditing.Floor)
                 //selectedTile.ShowFloor(false);

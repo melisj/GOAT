@@ -15,6 +15,7 @@ namespace Goat.Storage
         [SerializeField] private GameObject cellPrefab;
 
         [Serializable] private class SelectedResourceChanged : UnityEvent<Resource> { }
+
         [SerializeField] private SelectedResourceChanged selectedResourceChangeEvt;
 
         private Resource currentRes;
@@ -23,9 +24,10 @@ namespace Goat.Storage
         [ButtonGroup]
         private void FillUIGrid()
         {
-            foreach (KeyValuePair<ResourceType, Resource> res in resData.Resources)
+            Resource[] resources = Resources.LoadAll<Resource>("Resource");
+            for (int i = 0; i < resources.Length; i++)
             {
-                SetupCell(res.Value);
+                SetupCell(resources[i], i);
             }
         }
 
@@ -38,18 +40,16 @@ namespace Goat.Storage
             }
         }
 
-        private void SetupCell(Resource resource)
+        private void SetupCell(Resource resource, int index)
         {
             cell = Instantiate(cellPrefab, transform);
-            Button imageButton = cell.GetComponent<Button>();
-            imageButton.onClick.AddListener(() => sellingUIObject.SetActive(true));
-            imageButton.onClick.AddListener(() => selectedResourceChangeEvt?.Invoke(resource));
+            ResourceUI resUI = cell.GetComponent<ResourceUI>();
+            resUI.ImageButton.onClick.AddListener(() => sellingUIObject.SetActive(true));
+            resUI.ImageButton.onClick.AddListener(() => selectedResourceChangeEvt?.Invoke(resource));
             //cell.GetComponent<Button>().onClick.AddListener(delegate { ActivateVerify(); });
             // cell.GetComponent<Button>().onClick.AddListener(delegate { SelectItem(); });
             cell.name = resource.ResourceType.ToString();
-            ResourceUI resUI = cell.GetComponent<ResourceUI>();
-            Debug.Log(imageButton);
-            resUI.SetupUI(resource);
+            resUI.SetupUI(resource, index);
         }
 
         private void Start()

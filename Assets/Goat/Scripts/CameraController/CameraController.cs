@@ -16,21 +16,25 @@ namespace Goat.CameraControls
         [SerializeField] private PlayerInputSettings inputSettings;
 
         [Header("Camera")]
-        [SerializeField] private CinemachineVirtualCamera thirdPersonCamera;
+        private CinemachineVirtualCamera thirdPersonCamera;
         [SerializeField] private CinemachineVirtualCamera topviewCamera;
-        [SerializeField] private CinemachineVirtualCamera stationaryCamera;
+        private CinemachineVirtualCamera stationaryCamera;
         [SerializeField] private Camera maincam;
-        [SerializeField] private Transform player;
+        private Transform player;
         [SerializeField] private Transform panningObject;
         [SerializeField] private TopViewMode currentTopViewMode;
         [Header("Panning")]
         [SerializeField] private float speed;
         [SerializeField] private bool panWithinScreenOnly;
-        [Header("3rd person turning")]
-        [SerializeField] private float rotSmoothTime = 0.2f;
-        [SerializeField] private float sensitivity = 4f;
-        [SerializeField] private Vector2 pitchMinMax = new Vector2(-40, 85);
-        [SerializeField] private float cameraMoveSpeed = 120f;
+        [SerializeField] private float zoomAmount = 10f;
+        private int minZoom = 5;
+        [SerializeField] private int maxZoom;
+
+        //[Header("3rd person turning")]
+        private float rotSmoothTime = 0.2f;
+        private float sensitivity = 4f;
+        private Vector2 pitchMinMax = new Vector2(-40, 85);
+        private float cameraMoveSpeed = 120f;
 
         private int currentZoom = 8;
         private CinemachineVirtualCamera currentActiveCamera;
@@ -45,6 +49,7 @@ namespace Goat.CameraControls
         private Vector3 oldPanningPos;
 
         public bool ThirdPersonActive => currentActiveCamera == thirdPersonCamera;
+
         /// <summary>
         /// Returns euler rotation based on mouse positions
         /// </summary>
@@ -69,17 +74,46 @@ namespace Goat.CameraControls
         private void Awake()
         {
             currentActiveCamera = topviewCamera;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+        }
+
+        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            ToggleMouse(code, keyMode);
+
+            if (code == KeyCode.Home && keyMode == InputManager.KeyMode.Down)
+            {
+                panningObject.position = Vector3.zero;
+                oldPanningPos = panningObject.position;
+            }
         }
 
         private void Update()
         {
-            CheckInput();
+            mousePos = Input.mousePosition;
             MoveCamera();
-
+            Zoom();
         }
 
         #endregion Unity Methods
+
+        private void Zoom()
+        {
+            // Zoom in when we are scrolling up and aren't on the closest zoom level
+            if (Input.mouseScrollDelta.y > 0 && currentZoom > minZoom)
+            {
+                panningObject.transform.position += Vector3.up * -zoomAmount;
+                currentZoom--;
+            }
+
+            // Zoom in when we are scrolling down and aren't on the farthest zoom level
+            if (Input.mouseScrollDelta.y < 0 && currentZoom < maxZoom)
+            {
+                panningObject.transform.position += Vector3.up * zoomAmount;
+                currentZoom++;
+            }
+        }
 
         private Vector2 GetInputAxis()
         {
@@ -93,24 +127,22 @@ namespace Goat.CameraControls
         private void CheckInput()
         {
             mousePos = Input.mousePosition;
-            if (Input.GetKeyDown(inputSettings.SwitchTopViewMode))
-            {
-                SwitchTopViewMode();
-            }
-            if (Input.GetKeyDown(inputSettings.TopViewMode))
-            {
-                SwitchCamera(topviewCamera);
-            }
-            if (Input.GetKeyDown(inputSettings.ThirdPersonMode))
-            {
-                SwitchCamera(thirdPersonCamera);
-            }
-            if (Input.GetKeyDown(inputSettings.StationaryMode))
-            {
-                SwitchCamera(stationaryCamera);
-            }
-
-            ToggleMouse();
+            //if (Input.GetKeyDown(inputSettings.SwitchTopViewMode))
+            //{
+            //    SwitchTopViewMode();
+            //}
+            //if (Input.GetKeyDown(inputSettings.TopViewMode))
+            //{
+            //    SwitchCamera(topviewCamera);
+            //}
+            //if (Input.GetKeyDown(inputSettings.ThirdPersonMode))
+            //{
+            //    SwitchCamera(thirdPersonCamera);
+            //}
+            //if (Input.GetKeyDown(inputSettings.StationaryMode))
+            //{
+            //    SwitchCamera(stationaryCamera);
+            //}
         }
 
         private void SwitchCamera(CinemachineVirtualCamera nextCam)
@@ -137,15 +169,15 @@ namespace Goat.CameraControls
             }
         }
 
-        private void MoveCamera()
+        private void MoveCamera(KeyCode code = KeyCode.None, Goat.InputManager.KeyMode keyMode = InputManager.KeyMode.None)
         {
             if (!topviewCamera.gameObject.activeInHierarchy || currentTopViewMode == TopViewMode.followPlayer) return;
 
             float mouseVelocity = Time.deltaTime * speed;
             // Only move the camera when the cursor is insize the window
-        
-            DragCamera(mouseVelocity);
-            if (panWithinScreenOnly ? 
+
+            //  DragCamera(mouseVelocity, code, keyMode);
+            if (panWithinScreenOnly ?
                 mousePos.x >= 0 && mousePos.x <= Screen.width &&
                 mousePos.y >= 0 && mousePos.y <= Screen.height : true)
             {
@@ -155,29 +187,53 @@ namespace Goat.CameraControls
 
         private void DragCamera(float mouseVelocity)
         {
-     
-            if (Input.GetMouseButtonDown(0)) 
+            if (Input.GetMouseButtonDown(0))
             {
                 isDragging = true;
                 oldPanningPos = panningObject.position;
                 panOrigin = maincam.ScreenToViewportPoint(mousePos);
             }
 
-            if (Input.GetMouseButton(0)) 
+            if (Input.GetMouseButton(0))
             {
                 Vector3 screenPos = maincam.ScreenToViewportPoint(mousePos) - panOrigin;
                 screenPos.z = screenPos.y;
                 screenPos.y = 0;
+
                 panningObject.position = oldPanningPos + -screenPos * speed;
             }
 
-            if (Input.GetMouseButtonUp(0)) 
+            if (Input.GetMouseButtonUp(0))
             {
                 isDragging = false;
             }
         }
 
-        private void PanCamera(float mouseVelocity) 
+        private void DragCamera(float mouseVelocity, KeyCode code, Goat.InputManager.KeyMode keyMode)
+        {
+            if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
+            {
+                isDragging = true;
+                oldPanningPos = panningObject.position;
+                panOrigin = maincam.ScreenToViewportPoint(mousePos);
+            }
+
+            if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
+            {
+                Vector3 screenPos = maincam.ScreenToViewportPoint(mousePos) - panOrigin;
+                screenPos.z = screenPos.y;
+                screenPos.y = 0;
+                Debug.LogFormat("{0}+{1}+{2}", oldPanningPos, -screenPos, speed);
+                panningObject.position = oldPanningPos + -screenPos * speed;
+            }
+
+            if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Up))
+            {
+                isDragging = false;
+            }
+        }
+
+        private void PanCamera(float mouseVelocity)
         {
             if (isDragging) return;
             if ((mousePos.x >= Screen.width - 25))
@@ -201,15 +257,18 @@ namespace Goat.CameraControls
             }
         }
 
-        private void ToggleMouse()
+        private void ToggleMouse(KeyCode code, Goat.InputManager.KeyMode keyMode)
         {
-            if (Input.GetKeyDown(inputSettings.ToggleMouse) && Cursor.lockState == CursorLockMode.Locked)
+            if (keyMode == InputManager.KeyMode.Down)
             {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else if (Input.GetKeyDown(inputSettings.ToggleMouse) && Cursor.lockState == CursorLockMode.None)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
+                if (code == (inputSettings.ToggleMouse) && Cursor.lockState == CursorLockMode.Locked)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else if (code == (inputSettings.ToggleMouse) && Cursor.lockState == CursorLockMode.None)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
             }
         }
     }

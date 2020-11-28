@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
-  m_Name: Orichalcum
+  m_Name: Geode
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   price: 5
-  image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  image: {fileID: 21300000, guid: 53c8480bdba2a3248ae3566339723206, type: 3}
   mesh: {fileID: 4444728127320036556, guid: e992381462b156f4fbbdefd7ebaac337, type: 3}
   summary: 'This unnatural ore is largely found in small asteroids.
 

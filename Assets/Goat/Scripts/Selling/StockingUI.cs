@@ -14,9 +14,10 @@ namespace Goat.Grid.Interactions.UI
     {
         [Header("Resource UI")]
         [SerializeField] private Resource resource;
-        [SerializeField] private TextMeshProUGUI resourceName;
-        [SerializeField] private TextMeshProUGUI stock;
-        [SerializeField] private Image resourceImage;
+        [SerializeField] private GameObject stockingUI;
+        //[SerializeField] private TextMeshProUGUI resourceName;
+        //[SerializeField] private TextMeshProUGUI stock;
+        //[SerializeField] private Image resourceImage;
         [Header("Inputs")]
         [SerializeField] private TMP_InputField amountInput;
         [Header("Buttons")]
@@ -35,54 +36,83 @@ namespace Goat.Grid.Interactions.UI
             set
             {
                 resource = value;
-                if (previousResource != resource) {
+                if (previousResource != resource)
+                {
                     OnResourceChanged();
                 }
             }
         }
 
-
-        private void Awake() {
+        private void Awake()
+        {
             InteractableManager.SelectedInteractableChangeEvt += SelectedInteractableChanged;
             previousResource = resource;
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             SetupUI();
         }
 
-        private void OnDestroy() {
+        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            if (keyMode == InputManager.KeyMode.Down)
+            {
+                if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
+                {
+                    ConfirmStocking();
+                }
+
+                if (code == KeyCode.F)
+                {
+                    MaxAmount();
+                }
+
+                if (code == KeyCode.E)
+                {
+                    MinAmount();
+                }
+            }
+        }
+
+        private void OnDestroy()
+        {
             InteractableManager.SelectedInteractableChangeEvt -= SelectedInteractableChanged;
         }
 
-        private void SelectedInteractableChanged(BaseInteractable interactable) {
-            if(interactable is StorageInteractable)
+        private void SelectedInteractableChanged(BaseInteractable interactable)
+        {
+            if (interactable is StorageInteractable)
                 Interactable = interactable as StorageInteractable;
         }
-        
 
-        private void OnResourceChanged() {
+        private void OnResourceChanged()
+        {
             RemoveListeners();
             previousResource = resource;
             SetupUI();
         }
 
-        private void SetupUI() {
+        private void SetupUI()
+        {
             SetupResourceUI();
             SetupInputUI();
             SetButtonUI();
         }
 
-        private void SetupResourceUI() {
-            resourceName.text = resource.ResourceType.ToString();
-            stock.text = resource.Amount.ToString();
-            resourceImage.sprite = resource.Image;
+        private void SetupResourceUI()
+        {
+            //resourceName.text = resource.ResourceType.ToString();
+            //stock.text = resource.Amount.ToString();
+            //resourceImage.sprite = resource.Image;
             resource.AmountChanged += Resource_AmountChanged;
         }
 
-        private void SetupInputUI() {
+        private void SetupInputUI()
+        {
             amountInput.onValueChanged.AddListener(OnEndEditAmount);
             MinAmount();
         }
 
-        private void SetButtonUI() {
+        private void SetButtonUI()
+        {
             minAmountButton.onClick.AddListener(MinAmount);
             maxAmountButton.onClick.AddListener(MaxAmount);
             sellButton.onClick.AddListener(ConfirmStocking);
@@ -90,27 +120,36 @@ namespace Goat.Grid.Interactions.UI
 
         #region EventMethods
 
-        private void MaxAmount() {
+        private void MaxAmount()
+        {
             amountInput.text = Interactable.SpaceLeft.ToString();
         }
 
-        private void MinAmount() {
-            if(Interactable)
+        private void MinAmount()
+        {
+            if (Interactable)
                 amountInput.text = Interactable.SpaceLeft > 0 ? 1.ToString() : Interactable.SpaceLeft.ToString();
         }
 
-        private void ConfirmStocking() {
-            if(Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+        private void ConfirmStocking()
+        {
+            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            {
                 resource.Amount -= actualStoredAmount;
+                stockingUI.SetActive(false);
+            }
         }
 
-        private void Resource_AmountChanged(object sender, int amount) {
-            stock.text = resource.Amount.ToString();
+        private void Resource_AmountChanged(object sender, int amount)
+        {
+            // stock.text = resource.Amount.ToString();
         }
 
-        private void OnEndEditAmount(string s) {
+        private void OnEndEditAmount(string s)
+        {
             currentAmount = int.Parse(s);
-            if (currentAmount > resource.Amount) {
+            if (currentAmount > resource.Amount)
+            {
                 currentAmount = resource.Amount;
                 amountInput.text = currentAmount.ToString();
             }
@@ -118,7 +157,8 @@ namespace Goat.Grid.Interactions.UI
 
         #endregion EventMethods
 
-        private void RemoveListeners() {
+        private void RemoveListeners()
+        {
             if (previousResource == null) return;
             previousResource.AmountChanged -= Resource_AmountChanged;
             amountInput.onValueChanged.RemoveListener(OnEndEditAmount);

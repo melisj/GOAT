@@ -3,23 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NavManager : MonoBehaviour
+namespace Goat.AI
 {
-
-    private NavMeshSurface surface;
-    // Start is called before the first frame update
-    void Start()
+    public class NavManager : MonoBehaviour
     {
-        surface = GetComponent<NavMeshSurface>();
-        surface.BuildNavMesh();
-    }
+        private NavMeshSurface surface;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.N))
+        // Start is called before the first frame update
+        private void Start()
         {
+            surface = GetComponent<NavMeshSurface>();
             surface.BuildNavMesh();
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+        }
+
+        private void Instance_InputModeChanged(object sender, InputMode e)
+        {
+            if (e != InputMode.Edit)
+            {
+                surface.BuildNavMesh();
+            }
+        }
+
+        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            if (code == KeyCode.N && keyMode == InputManager.KeyMode.Down)
+            {
+                surface.BuildNavMesh();
+            }
         }
     }
 }

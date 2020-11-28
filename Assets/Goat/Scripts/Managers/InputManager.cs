@@ -22,13 +22,13 @@ namespace Goat
         {
             get
             {
-                if (!instance) {
+                if (!instance)
+                {
                     instance = FindObjectOfType<InputManager>();
                 }
                 return instance;
             }
         }
-
 
         [Flags]
         public enum KeyMode
@@ -40,17 +40,21 @@ namespace Goat
             All = 7
         }
 
-        public InputMode InputMode { 
-            get => inputMode; 
-            set { 
-                if(value != inputMode)
-                    InputModeChanged.Invoke(this, value); 
-                inputMode = value; 
-            } 
+        public InputMode InputMode
+        {
+            get => inputMode;
+            set
+            {
+                if (value != inputMode)
+                    InputModeChanged.Invoke(this, value);
+                inputMode = value;
+            }
         }
+
         [SerializeField] private InputMode inputMode;
 
         public delegate void OnInput(KeyCode code, KeyMode keyMode, InputMode inputMode);
+
         public event OnInput OnInputEvent;
 
         public event EventHandler<InputMode> InputModeChanged;
@@ -59,12 +63,15 @@ namespace Goat
 
         private Dictionary<KeyCode, KeyMode> inputKeys => data.InputKeys;
 
+        public bool InputFieldSelected { get; set; }
+
         /// <summary>
         /// Raycast from the position of the mouse to the world
         /// </summary>
         /// <param name="hit"></param>
         /// <returns> Returns whether it hit something </returns>
-        public bool DoRaycastFromMouse(out RaycastHit hit, LayerMask mask) {
+        public bool DoRaycastFromMouse(out RaycastHit hit, LayerMask mask)
+        {
             Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
@@ -77,27 +84,47 @@ namespace Goat
             return isHitting;
         }
 
-        private void Update() {
+        private void Update()
+        {
             CheckKeys();
         }
 
-        private void CheckKeys() {
+        private void CheckKeys()
+        {
             var enumerator = inputKeys.GetEnumerator();
-            while (enumerator.MoveNext()) {
+            while (enumerator.MoveNext())
+            {
                 KeyCode currentCode = enumerator.Current.Key;
-                KeyMode currentMode = enumerator.Current.Value;
-
-                if (currentMode.HasFlag(KeyMode.Up)) {
+                KeyMode toCheckMode = enumerator.Current.Value;
+                KeyMode currentMode = KeyMode.None;
+                if (toCheckMode.HasFlag(KeyMode.Up))
+                {
                     if (Input.GetKeyUp(currentCode))
+                    {
+                        currentMode |= KeyMode.Up;
                         OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        currentMode &= ~KeyMode.Up;
+                    }
                 }
-                if (enumerator.Current.Value.HasFlag(KeyMode.Down)) {
+                if (toCheckMode.HasFlag(KeyMode.Down))
+                {
                     if (Input.GetKeyDown(currentCode))
+                    {
+                        currentMode |= KeyMode.Down;
+
                         OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        currentMode &= ~KeyMode.Down;
+                    }
                 }
-                if (enumerator.Current.Value.HasFlag(KeyMode.Pressed)) {
+                if (toCheckMode.HasFlag(KeyMode.Pressed))
+                {
                     if (Input.GetKey(currentCode))
+                    {
+                        currentMode |= KeyMode.Pressed;
+
                         OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        currentMode &= ~KeyMode.Pressed;
+                    }
                 }
             }
         }

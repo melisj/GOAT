@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
-  m_Name: Silver Stone
+  m_Name: Oil
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,15 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  price: 2
-  image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  mesh: {fileID: -1550514412580984892, guid: 721b98fa1f9400f4398e7b88288318c4, type: 3}
-  summary: 'This ore is commonly found in any asteroid.
+  price: 99
+  image: {fileID: 21300000, guid: 3ab5071f3581fbd4ab0221f1d9be04b2, type: 3}
+  mesh: {fileID: 2534964839176971238, guid: 1bcf7d1f55a03864b87070ecf8bcb2e9, type: 3}
+  summary: 'This liquid is very rarely found in asteroids.
 
-    It is used for creating
-    low-grade stations.'
-  amount: 4465
-  deliveryTime: 70
-  resourceType: 1
+    Being compressed
+    over ages, it''s mostly used for research.'
+  amount: 445
+  deliveryTime: 100
+  resourceType: 2
   storageEnviroment: 0
-  resValue: 3412
+  resValue: 5
