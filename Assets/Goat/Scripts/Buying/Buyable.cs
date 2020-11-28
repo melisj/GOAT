@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Buyable : SerializedScriptableObject
 {
+    [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Mesh mesh;
@@ -15,10 +16,45 @@ public class Buyable : SerializedScriptableObject
 
     public event EventHandler<int> AmountChanged;
 
+    public Money Money => money;
     private int oldAmount = 0;
     public int OldAmount => oldAmount;
 
     public float Price => price;
+
+    /// <summary>
+    /// Buys the buyable
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="price">If not set, you use the default price</param>
+    public void Buy(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
+    {
+        price = price < 0 ? Price : price;
+        float total = this.money.Amount - (price * amount);
+        float newMoney = total < 0 ? this.money.Amount / price : total;
+
+        if (payNow)
+            this.money.Amount = newMoney;
+        if (deliverNow)
+            Amount += amount;
+    }
+
+    /// <summary>
+    /// Sells the buyable
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="price">If not set, you use the default price</param>
+    public void Sell(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
+    {
+        price = price < 0 ? Price : price;
+        int total = Amount - amount;
+        int newTotal = total <= 0 ? Amount : total;
+
+        if (deliverNow)
+            Amount -= newTotal;
+        if (payNow)
+            this.money.Amount += newTotal * price;
+    }
 
     public int Amount
     {
@@ -34,7 +70,7 @@ public class Buyable : SerializedScriptableObject
             {
                 amount = value;
             }
-            if(Application.isPlaying)
+            if (Application.isPlaying)
                 AmountChanged?.Invoke(this, value);
         }
     }
