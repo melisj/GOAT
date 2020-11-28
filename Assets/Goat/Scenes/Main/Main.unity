@@ -2446,9 +2446,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 7153189292212590677}
-    - {fileID: 3728153778521060684}
     - {fileID: 1216315056}
+    - {fileID: 3728153778521060684}
+    - {fileID: 7153189292212590677}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2479,22 +2479,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: $v
       Entry: 10
       Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 10
-      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -2504,6 +2492,18 @@ MonoBehaviour:
     - Name: $k
       Entry: 3
       Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 10
       Data: 2
@@ -5392,6 +5392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: 72135646792511f4e96d6c2998d5d140, type: 2}
   stockingUI: {fileID: 1378142098905886166}
+  resourceName: {fileID: 97404366815035258}
   amountInput: {fileID: 4110491467683312497}
   minAmountButton: {fileID: 7788110317998210431}
   maxAmountButton: {fileID: 3509405010138115834}
