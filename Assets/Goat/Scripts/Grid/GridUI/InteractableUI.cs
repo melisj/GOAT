@@ -10,6 +10,7 @@ namespace Goat.Grid.UI
 {
     public enum InteractableUIElement 
     { 
+        None,
         Storage
     }
 
@@ -29,6 +30,7 @@ namespace Goat.Grid.UI
         // Keeps track of all UI elements available
         private Dictionary<InteractableUIElement, UISlotElement> UIElements = new Dictionary<InteractableUIElement, UISlotElement>();
         private UISlotElement activeElement;
+        private InteractableUIElement loadedType;
 
         private bool IsThisActive => gameObject.activeInHierarchy;
 
@@ -42,41 +44,56 @@ namespace Goat.Grid.UI
             for (int i = 0; i < elementAmount; i++) {
                 string uiElementName = ((InteractableUIElement)i).ToString();
                 GameObject prefab = (GameObject)Resources.Load("InteractableUIElement-" + uiElementName);
-                UISlotElement instance = Instantiate(prefab, UIElementSlot).GetComponent<UISlotElement>();
-                instance.InitUI();
+                if (prefab) {
+                    UISlotElement instance = Instantiate(prefab, UIElementSlot).GetComponent<UISlotElement>();
+                    instance.InitUI();
 
-                UIElements.Add((InteractableUIElement)i, instance);
-                instance.gameObject.SetActive(false);
+                    UIElements.Add((InteractableUIElement)i, instance);
+                    instance.gameObject.SetActive(false);
+                }
             }
         }
 
         // Set the default UI elements to the given params
-        public void SetUI(string title, string description, BaseInteractable info) {
+        public void SetUI(string title, 
+            string description, 
+            InteractableUIElement elementToLoad, 
+            BaseInteractable info,
+            object[] args) {
+
             if (IsThisActive) {
                 titleText.text = title;
                 descriptionText.text = description;
                 infoText.text = info.PrintObject<BaseInteractable>();
             }
+            LoadElement(elementToLoad, args);
         }
 
         // Load a new UI element
         public void LoadElement(InteractableUIElement elementId, object[] args) {
-            if (IsThisActive) {
+            if(elementId == InteractableUIElement.None || loadedType != elementId)
+                UnloadElement();
+
+            if (IsThisActive && elementId != InteractableUIElement.None) {
                 StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
+                loadedType = elementId;
 
                 UIElements.TryGetValue(elementId, out UISlotElement element);
                 activeElement = element;
-                activeElement.gameObject.SetActive(true);
 
-                SetElementValues(args);
+                if (activeElement) {
+                    activeElement.gameObject.SetActive(true);
+                    SetElementValues(args);
+                }
             }
         }
 
         // Unload the specific UI element
         public void UnloadElement() {
-            if (IsThisActive) {
+            if (IsThisActive && activeElement) {
                 StockingUI.gameObject.SetActive(false);
-                activeElement?.gameObject.SetActive(false);
+                activeElement.gameObject.SetActive(false);
+                loadedType = InteractableUIElement.None;
             }
         }
 

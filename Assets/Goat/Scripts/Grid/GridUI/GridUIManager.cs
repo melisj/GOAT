@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Goat.Grid.Interactions;
 
 namespace Goat.Grid.UI
 {
@@ -32,9 +33,6 @@ namespace Goat.Grid.UI
     // Manages the UI Elements to make certain that only one element is visible at a time
     public class GridUIManager : SerializedMonoBehaviour
     {
-        /*[SerializeField] private BasicGridUIElement buildingUI;
-        [SerializeField] private BasicGridUIElement buyingUI;
-        [SerializeField] private BasicGridUIElement int;*/
         [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
         private static BasicGridUIElement currentUIOpen;
 
@@ -104,9 +102,13 @@ namespace Goat.Grid.UI
             return currentUIOpen == UIElement;
         }
         
-        public BasicGridUIElement ReturnElement(GridUIElement UIElement) {
-            UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
-            return element;
+        public void SetInteractableUI(string title,
+            string description,
+            InteractableUIElement elementToLoad,
+            BaseInteractable info,
+            object[] args) {
+            if (currentUIOpen is InteractableUI)
+                ((InteractableUI)currentUIOpen).SetUI(title, description, elementToLoad, info, args);
         }
     }
 }

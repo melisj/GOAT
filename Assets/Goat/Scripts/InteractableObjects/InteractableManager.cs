@@ -39,7 +39,6 @@ namespace Goat.Grid.Interactions
             {
                 if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
-                    Debug.Log("");
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
                         if (!GridUIManager.Instance.IsElementSelected())

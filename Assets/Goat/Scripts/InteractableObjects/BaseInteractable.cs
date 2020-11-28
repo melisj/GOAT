@@ -29,7 +29,7 @@ namespace Goat.Grid.Interactions
     public class BaseInteractable : MonoBehaviour
     {
         [TextArea]
-        [SerializeField] private string description;
+        [SerializeField] protected string description;
 
         protected UnityEvent InformationChanged = new UnityEvent();
 
@@ -70,15 +70,13 @@ namespace Goat.Grid.Interactions
 
         // Update all the variables of the UI
         protected virtual void UpdateUI() {
-            InteractableUI interactableUI = (InteractableUI)GridUIManager.Instance.ReturnElement(GridUIElement.interactable);
-            interactableUI.UnloadElement();
-            interactableUI.SetUI(name, description, this);
+            GridUIManager.Instance.SetInteractableUI(name, description, InteractableUIElement.None, this, null);
         }
 
         // Print out all the variables tagged with "InteractableInfo"
         public virtual string PrintObject<T>() {
             string infoList = "";
-
+            
             FieldInfo[] fields = typeof(T).GetFields();
             foreach (FieldInfo field in fields) {
                 InteractableInfo meta = (InteractableInfo)field.GetCustomAttribute(typeof(InteractableInfo), true);

@@ -4053,7 +4053,7 @@ MonoBehaviour:
   PanelToHide: {fileID: 1216315052}
   titleText: {fileID: 561557323}
   descriptionText: {fileID: 1976722658}
-  infoText: {fileID: 1040861419}
+  infoText: {fileID: 2031731419}
   interactableIcon: {fileID: 1241753026}
   UIElementSlot: {fileID: 6125897099473782921}
   StockingUI: {fileID: 439366953730410025}
