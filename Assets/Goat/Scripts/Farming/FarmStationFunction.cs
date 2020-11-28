@@ -54,6 +54,7 @@ namespace Goat.Farming
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
+                    farmStationSettings.ResourceFarm.Money.Amount -= farmStationSettings.CostPerSecond;
                     //GameManager.Instance.Money -= farmBuildingSettings.CostPerSecond;
                 }
             }

@@ -29,8 +29,8 @@ MonoBehaviour:
 
     Being compressed
     over ages, it''s mostly used for research.'
-  amount: 445
-  deliveryTime: 100
+  amount: 1
+  deliveryTime: 5
   resourceType: 2
   storageEnviroment: 0
   resValue: 5

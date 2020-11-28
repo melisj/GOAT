@@ -54,8 +54,8 @@ namespace Goat.Grid.Interactions.UI
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            if (keyMode == InputManager.KeyMode.Down && 
-                inputMode == InputMode.Select && 
+            if (keyMode == InputManager.KeyMode.Down &&
+                inputMode == InputMode.Select &&
                 stockingUI.activeInHierarchy)
             {
                 if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
@@ -136,7 +136,7 @@ namespace Goat.Grid.Interactions.UI
 
         private void ConfirmStocking()
         {
-            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            if (resource.Amount > 0 && Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
             {
                 resource.Amount -= actualStoredAmount;
                 stockingUI.SetActive(false);

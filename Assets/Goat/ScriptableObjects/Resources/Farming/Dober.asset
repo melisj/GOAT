@@ -22,15 +22,15 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 30
+  price: 300
   image: {fileID: 21300000, guid: 0088edb6b766c084dbff3072bd098582, type: 3}
   mesh: {fileID: 0}
   summary: 'The dober is a regular farm station.
 
     Used to get orichalcum out
     of asteroid ground.'
-  amount: 2004
-  deliveryTime: 300
+  amount: 0
+  deliveryTime: 10
   prefab: {fileID: 6537295259919212493, guid: ba5b2b731ae4a974b8e4c4d82dfca704, type: 3}
   resourceFarm: {fileID: 11400000, guid: 9ebcf876b28e3154081b2aab550df9c5, type: 2}
   farmType: 1
