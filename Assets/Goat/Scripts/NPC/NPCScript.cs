@@ -14,6 +14,7 @@ public class NPCScript : MonoBehaviour
     private Vector3 target;
     [SerializeField]
     private Transform entrance;
+    private Money money;
 
     private NavMeshAgent agent;
 
@@ -168,6 +169,9 @@ public class NPCScript : MonoBehaviour
                 {
                     if (targetStorage.GetItems[i].Resource.ResourceType == groceries.Keys.First())
                     {
+                        if (money == null)
+                            money = targetStorage.GetItems[i].Resource.Money;
+
                         groceriesCost += targetStorage.GetItems[i].Resource.Price; // kosten die de npc moet betalen
                         targetStorage.GetResource(i, false);
                         RemoveGroceries(groceries.Keys.First(), 1);
@@ -184,7 +188,7 @@ public class NPCScript : MonoBehaviour
             //targetStorage.GetResource(0, false);
         } else if (currentAction == actionState.Checkout)
         {
-            NpcManager.Instance.money += groceriesCost;
+            money.Amount += groceriesCost;
             //NPCManager.Instance.reputation += :) * groceriesamount;
             //paymoney
         }
