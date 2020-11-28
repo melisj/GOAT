@@ -6,9 +6,9 @@ namespace Goat.Storage
 {
     public enum ResourceType
     {
-        Orichalcum,
-        SilverStone,
-        Nanite
+        Geode,
+        Gold,
+        Oil
     }
 
     public enum StorageEnviroment

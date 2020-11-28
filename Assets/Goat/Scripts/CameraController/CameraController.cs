@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using Goat.Grid.UI;
 using System;
 using UnityEngine;
 
@@ -236,6 +237,7 @@ namespace Goat.CameraControls
         private void PanCamera(float mouseVelocity)
         {
             if (isDragging) return;
+            if (GridUIManager.IsUIActive) return;
             if ((mousePos.x >= Screen.width - 25))
             {
                 panningObject.position += new Vector3(mouseVelocity, 0.0f);

@@ -1,4 +1,5 @@
-﻿using Goat.Selling;
+﻿using Goat.Grid.UI;
+using Goat.Selling;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace Goat.Storage
             {
                 SetupCell(resources[i], i);
             }
+
         }
 
         [ButtonGroup]
@@ -58,6 +60,12 @@ namespace Goat.Storage
             {
                 FillUIGrid();
             }
+            GridUIManager.GridUIChangedEvent += GridUIManager_GridUIChangedEvent;
+        }
+
+        private void GridUIManager_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI) {
+            if (currentUI == GridUIElement.None && prevUI == GridUIElement.Interactable)
+                sellingUIObject.SetActive(false);
         }
 
         private void ActivateVerify()
