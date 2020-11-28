@@ -25,9 +25,10 @@ namespace Goat.Grid.UI
 
     public enum GridUIElement
     {
-        building,
-        buying,
-        interactable
+        None,
+        Building,
+        Buying,
+        Interactable
     }
 
     // Manages the UI Elements to make certain that only one element is visible at a time
@@ -35,6 +36,16 @@ namespace Goat.Grid.UI
     {
         [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
         private static BasicGridUIElement currentUIOpen;
+
+        private static GridUIElement currentUI;
+        public static GridUIElement CurrentUIElement { get => currentUI; 
+            private set { 
+                if(currentUI != value)
+                    GridUIChangedEvent?.Invoke(value, currentUI);
+                currentUI = value;
+            }
+        }
+        public static bool IsUIActive { get => CurrentUIElement != GridUIElement.None; }
 
         private static GridUIManager instance;
 
@@ -49,6 +60,9 @@ namespace Goat.Grid.UI
             }
         }
 
+        public delegate void GridUIChanged(GridUIElement currentUI, GridUIElement prevUI);
+        public static event GridUIChanged GridUIChangedEvent;
+
         public void Awake()
         {
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
@@ -58,34 +72,35 @@ namespace Goat.Grid.UI
         {
             if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down)
             {
-                ShowNewUI(GridUIElement.building);
+                ShowNewUI(GridUIElement.Building);
             }
             if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down)
             {
-                ShowNewUI(GridUIElement.buying);
+                ShowNewUI(GridUIElement.Buying);
             }
         }
 
         // Disable, and enable a new element
-        public void ShowNewUI(GridUIElement UIElement)
-        {
+        public void ShowNewUI(GridUIElement UIElement) {
             UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
-            if (!IsSelectedSame(element))
-            {
-                HideUI();
+            if (!IsSelectedSame(element)) {
+                HideUI(false);
                 currentUIOpen = element;
                 currentUIOpen.ShowUI();
-            }
-            else
+                CurrentUIElement = UIElement;
+            } else {
                 HideUI();
+            }
         }
 
         // Hide the current element
-        public void HideUI()
+        public void HideUI(bool changeElement = true)
         {
             if (currentUIOpen != null)
                 currentUIOpen.HideUI();
             currentUIOpen = null;
+            if(changeElement)
+                CurrentUIElement = GridUIElement.None;
         }
 
         // Check if a element is selected

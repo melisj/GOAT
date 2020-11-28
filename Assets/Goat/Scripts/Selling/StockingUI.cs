@@ -1,4 +1,5 @@
-﻿using Goat.Storage;
+﻿using Goat.Grid.UI;
+using Goat.Storage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ namespace Goat.Grid.Interactions.UI
         [Header("Resource UI")]
         [SerializeField] private Resource resource;
         [SerializeField] private GameObject stockingUI;
-        //[SerializeField] private TextMeshProUGUI resourceName;
+        [SerializeField] private TextMeshProUGUI resourceName;
         //[SerializeField] private TextMeshProUGUI stock;
         //[SerializeField] private Image resourceImage;
         [Header("Inputs")]
@@ -53,7 +54,9 @@ namespace Goat.Grid.Interactions.UI
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            if (keyMode == InputManager.KeyMode.Down)
+            if (keyMode == InputManager.KeyMode.Down && 
+                inputMode == InputMode.Select && 
+                stockingUI.activeInHierarchy)
             {
                 if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
                 {
@@ -99,7 +102,7 @@ namespace Goat.Grid.Interactions.UI
 
         private void SetupResourceUI()
         {
-            //resourceName.text = resource.ResourceType.ToString();
+            resourceName.text = resource.ResourceType.ToString();
             //stock.text = resource.Amount.ToString();
             //resourceImage.sprite = resource.Image;
             resource.AmountChanged += Resource_AmountChanged;

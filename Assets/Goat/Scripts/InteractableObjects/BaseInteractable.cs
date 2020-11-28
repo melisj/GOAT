@@ -55,7 +55,7 @@ namespace Goat.Grid.Interactions
 
         // Open the UI for the this 
         public virtual void OpenUI() {
-            GridUIManager.Instance.ShowNewUI(GridUIElement.interactable);
+            GridUIManager.Instance.ShowNewUI(GridUIElement.Interactable);
         }
 
         // Hide this UI
