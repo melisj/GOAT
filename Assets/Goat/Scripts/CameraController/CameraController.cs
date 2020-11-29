@@ -27,7 +27,7 @@ namespace Goat.CameraControls
         [Header("Panning")]
         [SerializeField] private float speed;
         [SerializeField] private bool panWithinScreenOnly;
-        [SerializeField] private float zoomAmount = 10f;
+        [SerializeField] private float zoomStrength = 10f;
         private int minZoom = 5;
         [SerializeField] private int maxZoom;
 
@@ -104,14 +104,14 @@ namespace Goat.CameraControls
             // Zoom in when we are scrolling up and aren't on the closest zoom level
             if (Input.mouseScrollDelta.y > 0 && currentZoom > minZoom)
             {
-                panningObject.transform.position += Vector3.up * -zoomAmount;
+                panningObject.transform.position += Vector3.up * -zoomStrength;
                 currentZoom--;
             }
 
             // Zoom in when we are scrolling down and aren't on the farthest zoom level
             if (Input.mouseScrollDelta.y < 0 && currentZoom < maxZoom)
             {
-                panningObject.transform.position += Vector3.up * zoomAmount;
+                panningObject.transform.position += Vector3.up * zoomStrength;
                 currentZoom++;
             }
         }
@@ -174,7 +174,7 @@ namespace Goat.CameraControls
         {
             if (!topviewCamera.gameObject.activeInHierarchy || currentTopViewMode == TopViewMode.followPlayer) return;
 
-            float mouseVelocity = Time.deltaTime * speed;
+            float mouseVelocity = Time.unscaledDeltaTime * speed;
             // Only move the camera when the cursor is insize the window
 
             //  DragCamera(mouseVelocity, code, keyMode);

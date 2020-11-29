@@ -8,10 +8,12 @@ public class Money : ScriptableObject
 {
     private float oldAmount;
     [SerializeField] private float amount;
-
+    [SerializeField] private int starterAmount;
     public float OldAmount => oldAmount;
 
     public event EventHandler<float> AmountChanged;
+
+    public int StarterAmount => starterAmount;
 
     public float Amount
     {

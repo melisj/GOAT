@@ -29,8 +29,8 @@ MonoBehaviour:
 
     It is used for creating
     low-grade stations.'
-  amount: 2
+  amount: 0
   deliveryTime: 5
   resourceType: 1
   storageEnviroment: 0
-  resValue: 3412
+  starterAmount: 5

@@ -29,8 +29,8 @@ MonoBehaviour:
 
     It is often
     used to reinforce.'
-  amount: 15
+  amount: 0
   deliveryTime: 3
   resourceType: 0
   storageEnviroment: 0
-  resValue: 233
+  starterAmount: 15

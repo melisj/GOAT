@@ -26,6 +26,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 8a81a5cabbd98934eb1b6099e6f7cb51, type: 3}
   mesh: {fileID: 0}
   summary: 
-  amount: 99
+  amount: 99999
   deliveryTime: 0
   prefab: {fileID: 2539897548063923676, guid: ca2aa6adc53167e4087b6e825c3e64f5, type: 3}

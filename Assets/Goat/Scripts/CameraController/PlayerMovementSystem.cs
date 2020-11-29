@@ -34,8 +34,8 @@
             if (keyMode == InputManager.KeyMode.Pressed)
             {
                 moveTo = GetMoveDirection(code);
+                Move();
             }
-            Move();
         }
 
         public Vector3 GetMoveDirection(KeyCode code, Goat.InputManager.KeyMode keyMode = InputManager.KeyMode.Pressed)
@@ -96,7 +96,7 @@
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
             // playerController.Move(transform.forward * currentSpeed * Time.deltaTime);
-            transform.Translate(moveTo * currentSpeed * Time.deltaTime);
+            transform.Translate(moveTo * currentSpeed * Time.unscaledDeltaTime);
             //  currentSpeed = new Vector2(playerController.velocity.x, playerController.velocity.z).magnitude;
         }
 

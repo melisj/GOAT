@@ -51,7 +51,7 @@ public class Buyable : SerializedScriptableObject
         int newTotal = total <= 0 ? Amount : total;
 
         if (deliverNow)
-            Amount -= newTotal;
+            Amount = newTotal;
         if (payNow)
             this.money.Amount += newTotal * price;
     }
@@ -70,8 +70,9 @@ public class Buyable : SerializedScriptableObject
             {
                 amount = value;
             }
+
             if (Application.isPlaying)
-                AmountChanged?.Invoke(this, value);
+                AmountChanged?.Invoke(this, amount);
         }
     }
 

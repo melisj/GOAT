@@ -136,7 +136,8 @@ namespace Goat.Grid.Interactions.UI
 
         private void ConfirmStocking()
         {
-            if (resource.Amount > 0 && Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            currentAmount = (resource.Amount - currentAmount) <= 0 ? resource.Amount : currentAmount;
+            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
             {
                 resource.Amount -= actualStoredAmount;
                 stockingUI.SetActive(false);

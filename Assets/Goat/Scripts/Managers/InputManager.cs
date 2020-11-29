@@ -46,7 +46,7 @@ namespace Goat
             set
             {
                 if (value != inputMode)
-                    InputModeChanged.Invoke(this, value);
+                    InputModeChanged?.Invoke(this, value);
                 inputMode = value;
             }
         }
@@ -86,7 +86,10 @@ namespace Goat
 
         private void Update()
         {
-            CheckKeys();
+            if (!InputFieldSelected)
+            {
+                CheckKeys();
+            }
         }
 
         private void CheckKeys()

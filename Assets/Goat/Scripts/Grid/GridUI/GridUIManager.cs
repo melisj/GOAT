@@ -38,13 +38,18 @@ namespace Goat.Grid.UI
         private static BasicGridUIElement currentUIOpen;
 
         private static GridUIElement currentUI;
-        public static GridUIElement CurrentUIElement { get => currentUI; 
-            private set { 
-                if(currentUI != value)
+
+        public static GridUIElement CurrentUIElement
+        {
+            get => currentUI;
+            private set
+            {
+                if (currentUI != value)
                     GridUIChangedEvent?.Invoke(value, currentUI);
                 currentUI = value;
             }
         }
+
         public static bool IsUIActive { get => CurrentUIElement != GridUIElement.None; }
 
         private static GridUIManager instance;
@@ -53,7 +58,8 @@ namespace Goat.Grid.UI
         {
             get
             {
-                if (!instance) {
+                if (!instance)
+                {
                     instance = FindObjectOfType<GridUIManager>();
                 }
                 return instance;
@@ -61,6 +67,7 @@ namespace Goat.Grid.UI
         }
 
         public delegate void GridUIChanged(GridUIElement currentUI, GridUIElement prevUI);
+
         public static event GridUIChanged GridUIChangedEvent;
 
         public void Awake()
@@ -70,10 +77,10 @@ namespace Goat.Grid.UI
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down)
-            {
-                ShowNewUI(GridUIElement.Building);
-            }
+            //if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down && inputMode == InputMode.Edit)
+            //{
+            //    ShowNewUI(GridUIElement.Building);
+            //}
             if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down)
             {
                 ShowNewUI(GridUIElement.Buying);
@@ -81,14 +88,18 @@ namespace Goat.Grid.UI
         }
 
         // Disable, and enable a new element
-        public void ShowNewUI(GridUIElement UIElement) {
+        public void ShowNewUI(GridUIElement UIElement)
+        {
             UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
-            if (!IsSelectedSame(element)) {
+            if (!IsSelectedSame(element))
+            {
                 HideUI(false);
                 currentUIOpen = element;
                 currentUIOpen.ShowUI();
                 CurrentUIElement = UIElement;
-            } else {
+            }
+            else
+            {
                 HideUI();
             }
         }
@@ -99,7 +110,7 @@ namespace Goat.Grid.UI
             if (currentUIOpen != null)
                 currentUIOpen.HideUI();
             currentUIOpen = null;
-            if(changeElement)
+            if (changeElement)
                 CurrentUIElement = GridUIElement.None;
         }
 
@@ -116,12 +127,13 @@ namespace Goat.Grid.UI
                 currentUIOpen = null;
             return currentUIOpen == UIElement;
         }
-        
+
         public void SetInteractableUI(string title,
             string description,
             InteractableUIElement elementToLoad,
             BaseInteractable info,
-            object[] args) {
+            object[] args)
+        {
             if (currentUIOpen is InteractableUI)
                 ((InteractableUI)currentUIOpen).SetUI(title, description, elementToLoad, info, args);
         }

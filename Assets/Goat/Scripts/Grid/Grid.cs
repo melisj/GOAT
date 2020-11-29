@@ -77,7 +77,7 @@ namespace Goat.Grid
         {
             if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
                 {
                     if (currentTile != null)
                     {
