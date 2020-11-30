@@ -28,7 +28,7 @@ namespace Goat.CameraControls
         [SerializeField] private float speed;
         [SerializeField] private bool panWithinScreenOnly;
         [SerializeField] private float zoomStrength = 10f;
-        private int minZoom = 5;
+        [SerializeField] private int minZoom;
         [SerializeField] private int maxZoom;
 
         //[Header("3rd person turning")]
@@ -102,17 +102,17 @@ namespace Goat.CameraControls
         private void Zoom()
         {
             // Zoom in when we are scrolling up and aren't on the closest zoom level
-            if (Input.mouseScrollDelta.y > 0 && currentZoom > minZoom)
+            if (Input.mouseScrollDelta.y > 0 && panningObject.transform.position.y > minZoom)
             {
-                panningObject.transform.position += Vector3.up * -zoomStrength;
-                currentZoom--;
+                panningObject.transform.position += Vector3.up * -zoomStrength * Time.unscaledDeltaTime;
+                //currentZoom--;
             }
 
             // Zoom in when we are scrolling down and aren't on the farthest zoom level
-            if (Input.mouseScrollDelta.y < 0 && currentZoom < maxZoom)
+            if (Input.mouseScrollDelta.y < 0 && panningObject.transform.position.y < maxZoom)
             {
-                panningObject.transform.position += Vector3.up * zoomStrength;
-                currentZoom++;
+                panningObject.transform.position += Vector3.up * zoomStrength * Time.unscaledDeltaTime;
+                //currentZoom++;
             }
         }
 
