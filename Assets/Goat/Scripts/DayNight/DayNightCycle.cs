@@ -39,7 +39,8 @@ public class DayNightCycle : MonoBehaviour
     private int timeOfSunset = 17;
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    private int timeSpeed = 3;
+    [Range(1,3)]
+    public int timeSpeed = 1;
 
     //Events for OnDayTime and OnNightTime
     public event EventHandler<bool> OnChangeCycle;

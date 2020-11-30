@@ -2566,6 +2566,7 @@ MonoBehaviour:
   sun: {fileID: 21300000, guid: 1f53fad5d215dc24fa50005aaf2f5405, type: 3}
   moon: {fileID: 21300000, guid: dffe89993af4a05408226bcabcfd8078, type: 3}
   isDay: 0
+  timeSpeed: 1
 --- !u!1 &715675203
 GameObject:
   m_ObjectHideFlags: 0
@@ -7304,8 +7305,9 @@ MonoBehaviour:
   currentTopViewMode: 1
   speed: 20
   panWithinScreenOnly: 1
-  zoomStrength: 10
-  maxZoom: 10
+  zoomStrength: 100
+  minZoom: -25
+  maxZoom: 0
 --- !u!4 &1948101036
 Transform:
   m_ObjectHideFlags: 0
