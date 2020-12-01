@@ -9,29 +9,30 @@ namespace Goat.CameraControls
     {
         public enum TopViewMode
         {
-            followPlayer = 0,
-            panning = 1
+            thirdPerson = 0,
+            clickToMove = 1
         }
 
         [Header("Input settings")]
         [SerializeField] private PlayerInputSettings inputSettings;
-
+        [SerializeField] private float zoomStrength = 10f;
         [Header("Camera")]
-        private CinemachineVirtualCamera thirdPersonCamera;
+        [SerializeField] private Camera maincam;
+        [SerializeField] private CinemachineVirtualCamera thirdPersonCamera;
         [SerializeField] private CinemachineVirtualCamera topviewCamera;
         private CinemachineVirtualCamera stationaryCamera;
-        [SerializeField] private Camera maincam;
-        private Transform player;
-        [SerializeField] private Transform panningObject;
+        [Header("TopView")]
+        [SerializeField] private Vector2 minMaxZoomTopView;
         [SerializeField] private TopViewMode currentTopViewMode;
+        [SerializeField] private GameObject pointToClickObj;
         [Header("Panning")]
         [SerializeField] private float speed;
         [SerializeField] private bool panWithinScreenOnly;
-        [SerializeField] private float zoomStrength = 10f;
-        [SerializeField] private int minZoom;
-        [SerializeField] private int maxZoom;
+        [Header("3rdPerson")]
+        [SerializeField] private Vector2 minMaxZoom3rdPerson;
+        [SerializeField] private GameObject thirdPersonObj;
 
-        //[Header("3rd person turning")]
+        private Transform currentObject;
         private float rotSmoothTime = 0.2f;
         private float sensitivity = 4f;
         private Vector2 pitchMinMax = new Vector2(-40, 85);
@@ -74,9 +75,20 @@ namespace Goat.CameraControls
 
         private void Awake()
         {
-            currentActiveCamera = topviewCamera;
+            currentActiveCamera = thirdPersonCamera;
+            currentObject = currentTopViewMode == TopViewMode.thirdPerson ? thirdPersonObj.transform : pointToClickObj.transform;
+
             Cursor.lockState = CursorLockMode.None;
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+        }
+
+        private void Instance_InputModeChanged(object sender, InputMode e)
+        {
+            if (e != InputMode.Select)
+            {
+                SwitchToTopView();
+            }
         }
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
@@ -85,8 +97,13 @@ namespace Goat.CameraControls
 
             if (code == KeyCode.Home && keyMode == InputManager.KeyMode.Down)
             {
-                panningObject.position = Vector3.zero;
-                oldPanningPos = panningObject.position;
+                currentObject.position = Vector3.zero;
+                oldPanningPos = currentObject.position;
+            }
+            if (code == KeyCode.Alpha3 && keyMode == InputManager.KeyMode.Down)
+            {
+                SwitchTopViewMode();
+                InputManager.Instance.InputMode = InputMode.Select;
             }
         }
 
@@ -94,25 +111,33 @@ namespace Goat.CameraControls
         {
             mousePos = Input.mousePosition;
             MoveCamera();
+            RotateCamera();
             Zoom();
+        }
+
+        private void RotateCamera()
+        {
+            if (currentTopViewMode == TopViewMode.thirdPerson)
+                thirdPersonObj.transform.eulerAngles = GetLookEuler();
         }
 
         #endregion Unity Methods
 
         private void Zoom()
         {
+            currentObject = currentTopViewMode == TopViewMode.thirdPerson ? thirdPersonObj.transform : pointToClickObj.transform;
+            Vector3 zoomVector = currentTopViewMode == TopViewMode.thirdPerson ? Vector3.forward : Vector3.up;
+            Vector2 minMaxZoom = currentTopViewMode == TopViewMode.thirdPerson ? minMaxZoom3rdPerson : minMaxZoomTopView;
             // Zoom in when we are scrolling up and aren't on the closest zoom level
-            if (Input.mouseScrollDelta.y > 0 && panningObject.transform.position.y > minZoom)
+            if (Input.mouseScrollDelta.y > 0 && currentObject.transform.position.y > minMaxZoom.x)
             {
-                panningObject.transform.position += Vector3.up * -zoomStrength * Time.unscaledDeltaTime;
-                //currentZoom--;
+                currentObject.transform.position += Vector3.up * -zoomStrength * Time.unscaledDeltaTime;
             }
 
             // Zoom in when we are scrolling down and aren't on the farthest zoom level
-            if (Input.mouseScrollDelta.y < 0 && panningObject.transform.position.y < maxZoom)
+            if (Input.mouseScrollDelta.y < 0 && currentObject.transform.position.y < minMaxZoom.y)
             {
-                panningObject.transform.position += Vector3.up * zoomStrength * Time.unscaledDeltaTime;
-                //currentZoom++;
+                currentObject.transform.position += Vector3.up * zoomStrength * Time.unscaledDeltaTime;
             }
         }
 
@@ -123,27 +148,6 @@ namespace Goat.CameraControls
             mouseAxis.y = Input.GetAxis("Mouse Y");
 
             return mouseAxis;
-        }
-
-        private void CheckInput()
-        {
-            mousePos = Input.mousePosition;
-            //if (Input.GetKeyDown(inputSettings.SwitchTopViewMode))
-            //{
-            //    SwitchTopViewMode();
-            //}
-            //if (Input.GetKeyDown(inputSettings.TopViewMode))
-            //{
-            //    SwitchCamera(topviewCamera);
-            //}
-            //if (Input.GetKeyDown(inputSettings.ThirdPersonMode))
-            //{
-            //    SwitchCamera(thirdPersonCamera);
-            //}
-            //if (Input.GetKeyDown(inputSettings.StationaryMode))
-            //{
-            //    SwitchCamera(stationaryCamera);
-            //}
         }
 
         private void SwitchCamera(CinemachineVirtualCamera nextCam)
@@ -157,27 +161,46 @@ namespace Goat.CameraControls
         {
             switch (currentTopViewMode)
             {
-                case TopViewMode.panning:
-                    currentTopViewMode = TopViewMode.followPlayer;
-                    topviewCamera.Follow = player;
+                case TopViewMode.clickToMove:
+                    SwitchTo3rdPerson();
                     break;
 
-                case TopViewMode.followPlayer:
-                    currentTopViewMode = TopViewMode.panning;
-                    Cursor.lockState = CursorLockMode.None;
-                    topviewCamera.Follow = panningObject;
+                case TopViewMode.thirdPerson:
+                    SwitchToTopView();
                     break;
             }
         }
 
-        private void MoveCamera(KeyCode code = KeyCode.None, Goat.InputManager.KeyMode keyMode = InputManager.KeyMode.None)
+        private void SwitchTo3rdPerson()
         {
-            if (!topviewCamera.gameObject.activeInHierarchy || currentTopViewMode == TopViewMode.followPlayer) return;
+            currentTopViewMode = TopViewMode.thirdPerson;
+            Cursor.lockState = CursorLockMode.Locked;
+            currentObject = thirdPersonObj.transform;
+            pointToClickObj.transform.position = thirdPersonObj.transform.position;
+            SwitchCamera(thirdPersonCamera);
+            pointToClickObj.SetActive(false);
+            thirdPersonObj.SetActive(true);
+        }
+
+        private void SwitchToTopView()
+        {
+            currentTopViewMode = TopViewMode.clickToMove;
+            Cursor.lockState = CursorLockMode.None;
+            currentObject = pointToClickObj.transform;
+
+            SwitchCamera(topviewCamera);
+            thirdPersonObj.SetActive(false);
+            pointToClickObj.SetActive(true);
+        }
+
+        private void MoveCamera()
+        {
+            if (!topviewCamera.gameObject.activeInHierarchy || currentTopViewMode == TopViewMode.thirdPerson) return;
 
             float mouseVelocity = Time.unscaledDeltaTime * speed;
             // Only move the camera when the cursor is insize the window
 
-            //  DragCamera(mouseVelocity, code, keyMode);
+            DragCamera(mouseVelocity);
             if (panWithinScreenOnly ?
                 mousePos.x >= 0 && mousePos.x <= Screen.width &&
                 mousePos.y >= 0 && mousePos.y <= Screen.height : true)
@@ -188,24 +211,36 @@ namespace Goat.CameraControls
 
         private void DragCamera(float mouseVelocity)
         {
-            if (Input.GetMouseButtonDown(0))
+            Vector3 msPos = GetInputAxis();
+            if (Input.GetMouseButtonDown(1))
             {
                 isDragging = true;
-                oldPanningPos = panningObject.position;
-                panOrigin = maincam.ScreenToViewportPoint(mousePos);
+                oldPanningPos = topviewCamera.transform.eulerAngles;
+                panOrigin = maincam.ScreenToViewportPoint(msPos);
+                //        Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(1))
             {
-                Vector3 screenPos = maincam.ScreenToViewportPoint(mousePos) - panOrigin;
-                screenPos.z = screenPos.y;
-                screenPos.y = 0;
+                Vector3 screenPos = maincam.ScreenToViewportPoint(msPos) - panOrigin;
+                screenPos.z = 0;
 
-                panningObject.position = oldPanningPos + -screenPos * speed;
+                Vector3 switchedPos = screenPos;
+                switchedPos.x = screenPos.y;
+                switchedPos.y = screenPos.x;
+                //screenPos.y = 0;
+
+                // topviewCamera.transform.eulerAngles = oldPanningPos + -switchedPos * speed;
+
+                topviewCamera.transform.eulerAngles = GetLookEuler();
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(1))
             {
+                //     Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
                 isDragging = false;
             }
         }
@@ -215,7 +250,7 @@ namespace Goat.CameraControls
             if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
             {
                 isDragging = true;
-                oldPanningPos = panningObject.position;
+                oldPanningPos = currentObject.position;
                 panOrigin = maincam.ScreenToViewportPoint(mousePos);
             }
 
@@ -225,7 +260,7 @@ namespace Goat.CameraControls
                 screenPos.z = screenPos.y;
                 screenPos.y = 0;
                 Debug.LogFormat("{0}+{1}+{2}", oldPanningPos, -screenPos, speed);
-                panningObject.position = oldPanningPos + -screenPos * speed;
+                currentObject.position = oldPanningPos + -screenPos * speed;
             }
 
             if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Up))
@@ -240,22 +275,22 @@ namespace Goat.CameraControls
             if (GridUIManager.IsUIActive) return;
             if ((mousePos.x >= Screen.width - 25))
             {
-                panningObject.position += new Vector3(mouseVelocity, 0.0f);
+                currentObject.position += new Vector3(mouseVelocity, 0.0f);
             }
 
             if ((mousePos.x <= 25))
             {
-                panningObject.position += new Vector3(-mouseVelocity, 0.0f);
+                currentObject.position += new Vector3(-mouseVelocity, 0.0f);
             }
 
             if ((mousePos.y >= Screen.height - 25))
             {
-                panningObject.position += new Vector3(0.0f, 0.0f, mouseVelocity);
+                currentObject.position += new Vector3(0.0f, 0.0f, mouseVelocity);
             }
 
             if ((mousePos.y <= 25))
             {
-                panningObject.position += new Vector3(0.0f, 0.0f, -mouseVelocity);
+                currentObject.position += new Vector3(0.0f, 0.0f, -mouseVelocity);
             }
         }
 
