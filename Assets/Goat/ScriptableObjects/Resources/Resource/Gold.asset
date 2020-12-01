@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
+  m_Name: Gold
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  price: 30
+  image: {fileID: 21300000, guid: 7545f74ad66039744a8c0fbcad06308a, type: 3}
+  mesh: {fileID: -1550514412580984892, guid: 721b98fa1f9400f4398e7b88288318c4, type: 3}
+  summary: 'This ore is commonly found in any asteroid.
+
+    It is used for creating
+    low-grade stations.'
+  amount: 0
+  deliveryTime: 5
+  resourceType: 1
+  storageEnviroment: 0
+  starterAmount: 5

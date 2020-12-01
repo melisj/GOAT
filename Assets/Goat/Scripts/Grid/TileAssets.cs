@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
     public static class TileAssets
     {
-        private static Dictionary<FloorType, GameObject> floorAssets = new Dictionary<FloorType, GameObject>() { };
+        private static Dictionary<FloorType, GameObject> floorAssets = new Dictionary<FloorType, GameObject>();
         private static Dictionary<BuildingType, GameObject> buildingAssets = new Dictionary<BuildingType, GameObject>();
+        private static Dictionary<WallType, GameObject> wallAssets = new Dictionary<WallType, GameObject>();
         //private static Dictionary<Enum, string> testassets = new Dictionary<Enum, string>() { };
 
         public static void InitializeAssetsDictionary()
@@ -28,27 +29,14 @@ namespace GOAT.Grid
                 string typeName = type.ToString();
                 buildingAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Building-" + typeName));
             }
-        }
-
-/*        private static void Godver(Type enumType) {
-            Array buildingValues = Enum.GetValues(enumType);
-            for (int i = 0; i < buildingValues.Length; i++) {
-                enumType type = (enumType.GetType())i;
-                string typeName = type.ToString();
-                buildingAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Building-" + typeName));
-            }
-        }
-
-        private static void Kaas<T>(T value) where T : Enum
-        {
-            Array buildingValues = Enum.GetValues(typeof(value));
-            for (int i = 0; i < buildingValues.Length; i++)
+            Array wallValues = Enum.GetValues(typeof(WallType));
+            for (int i = 0; i < wallValues.Length; i++)
             {
-                value type = (value)i;
-                string typeName = type.ToString();
-                buildingAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Building-" + typeName));
+                WallType type = ((WallType)i);
+                string typename = type.ToString();
+                wallAssets.Add(type, (GameObject)UnityEngine.Resources.Load("Wall-" + typename));
             }
-        }*/
+        }
 
         public static GameObject FindAsset(FloorType type)
         {
@@ -64,5 +52,13 @@ namespace GOAT.Grid
             else
                 return null;
         }
+        public static GameObject FindAsset(WallType type)
+        {
+            if (wallAssets.ContainsKey(type))
+                return wallAssets[type];
+            else
+                return null;
+        }
+
     }
 }

@@ -24,16 +24,59 @@
 
         #region Public Methods
 
-        private void FixedUpdate()
+        private void Awake()
         {
-            moveTo = playerInputSystem.GetMoveDirection();
-            moveToDirection = moveTo.normalized;
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
         }
 
-        private void Update()
+        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            Move();
+            if (keyMode == InputManager.KeyMode.Pressed)
+            {
+                moveTo = GetMoveDirection(code);
+                Move();
+            }
         }
+
+        public Vector3 GetMoveDirection(KeyCode code, Goat.InputManager.KeyMode keyMode = InputManager.KeyMode.Pressed)
+        {
+            Vector3 moveDir = Vector3.zero;
+
+            if (code == (KeyCode.S))
+            {
+                moveDir += (Vector3.back);
+            }
+
+            if (code == (KeyCode.W))
+            {
+                moveDir += (Vector3.forward);
+            }
+
+            if (code == (KeyCode.A))
+            {
+                moveDir += (Vector3.left);
+            }
+
+            if (code == (KeyCode.D))
+            {
+                moveDir += (Vector3.right);
+            }
+
+            return moveDir;
+        }
+
+        //private void FixedUpdate()
+        //{
+        //    moveTo = playerInputSystem.GetMoveDirection();
+        //    moveToDirection = moveTo.normalized;
+        //}
+
+        //private void Update()
+        //{
+        //    moveTo = playerInputSystem.GetMoveDirection();
+        //    moveToDirection = moveTo.normalized;
+        //    Move();
+        //}
 
         #endregion Public Methods
 
@@ -41,19 +84,20 @@
 
         private void Move()
         {
-            if (turnWithMovementOnly ? moveTo != Vector3.zero : !turnWithMovementOnly)
-            {
-                float targetRotation = Mathf.Atan2(moveToDirection.x, moveToDirection.z) * Mathf.Rad2Deg +
-                    (cameraController.ThirdPersonActive ? cameraController.GetLookEuler().y : 0);
-                playerController.transform.eulerAngles = Vector3.up *
-                    Mathf.SmoothDampAngle(playerController.transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
-            }
+            //if (turnWithMovementOnly ? moveTo != Vector3.zero : !turnWithMovementOnly)
+            //{
+            //    float targetRotation = Mathf.Atan2(moveToDirection.x, moveToDirection.z) * Mathf.Rad2Deg +
+            //        (cameraController.ThirdPersonActive ? cameraController.GetLookEuler().y : 0);
+            //    playerController.transform.eulerAngles = Vector3.up *
+            //        Mathf.SmoothDampAngle(playerController.transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+            //}
 
             float targetSpeed = GetMoveSpeed() * moveTo.magnitude;
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-            playerController.Move(transform.forward * currentSpeed * Time.deltaTime);
-            currentSpeed = new Vector2(playerController.velocity.x, playerController.velocity.z).magnitude;
+            // playerController.Move(transform.forward * currentSpeed * Time.deltaTime);
+            transform.Translate(moveTo * currentSpeed * Time.unscaledDeltaTime);
+            //  currentSpeed = new Vector2(playerController.velocity.x, playerController.velocity.z).magnitude;
         }
 
         private float GetMoveSpeed()
