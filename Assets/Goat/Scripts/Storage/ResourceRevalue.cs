@@ -37,7 +37,7 @@ namespace Goat.Storage
 
         private void OnEndEditPrice(string s)
         {
-            selectedResource.ResValue = int.Parse(s);
+            //   selectedResource.ResValue = int.Parse(s);
         }
 
         private void ConfirmSale()

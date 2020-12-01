@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 3641714057981498173}
   - component: {fileID: 5727182482078242543}
   - component: {fileID: 6725248218837192819}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3641714057981498173
 Transform:
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3972410875210923654}
   - component: {fileID: 731961042217192185}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor-Steel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

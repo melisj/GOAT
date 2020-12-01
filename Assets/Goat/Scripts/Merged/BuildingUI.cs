@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Goat.Grid.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using Grid = GOAT.Grid.Grid;
 
 namespace Goat.UI
 {
+    using Grid = Grid.Grid;
+
     public class BuildingUI : BaseBuyableUI
     {
         [SerializeField] private RectTransform floorGrid;
@@ -38,9 +38,10 @@ namespace Goat.UI
             currentCell = cellIndex;
             if (buyable.Amount > 0)
             {
-                grid.interactionMode = GOAT.Grid.SelectionMode.Edit;
+                //  grid.interactionMode = Goat.Grid.SelectionMode.Edit;
                 grid.ChangePreviewObject((Placeable)buyable);
-                gameObject.SetActive(false);
+                GridUIManager.Instance.HideUI();
+                //gameObject.SetActive(false);
             }
         }
 

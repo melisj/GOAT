@@ -1,13 +1,13 @@
 ﻿using DG.Tweening;
+using Goat.Grid.UI;
 using Sirenix.OdinInspector;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Goat.UI
 {
-    public class BaseBuyableUI : MonoBehaviour
+    public class BaseBuyableUI : BasicGridUIElement
     {
         [Title("Base Grid Window")]
         [SerializeField, FoldoutGroup("Base")] protected TMP_InputField searchField;
@@ -55,6 +55,8 @@ namespace Goat.UI
 
             selectedCellImage = selectedCell.GetChild(0).GetComponent<Image>();
             startAlphaCellImage = selectedCellImage.color.a;
+            searchField.onSelect.AddListener((string s) => ToggleInput(true));
+            searchField.onDeselect.AddListener((string s) => ToggleInput(false));
 
             searchField.onValueChanged.AddListener(SearchFor);
         }
@@ -178,6 +180,8 @@ namespace Goat.UI
             currentCell = 0;
         }
 
+        ///
+
         #endregion Setup
 
         #region Selecting
@@ -241,6 +245,11 @@ namespace Goat.UI
         }
 
         #endregion Selecting
+
+        protected void ToggleInput(bool enable)
+        {
+            InputManager.Instance.InputFieldSelected = enable;
+        }
 
         /// <summary>
         /// Toggles cells in the currentgrid based on the input of the searchbar

@@ -1,14 +1,16 @@
-﻿using Goat.Storage;
+﻿using Goat.Grid.Interactions;
+using Goat.Grid.Interactions.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.UI
 {
     public enum InteractableUIElement 
     { 
+        None,
         Storage
     }
 
@@ -23,13 +25,16 @@ namespace GOAT.Grid.UI
         [SerializeField] private Image interactableIcon;
 
         [SerializeField] private Transform UIElementSlot;
+        [SerializeField] private Transform StockingUI;
 
         // Keeps track of all UI elements available
         private Dictionary<InteractableUIElement, UISlotElement> UIElements = new Dictionary<InteractableUIElement, UISlotElement>();
         private UISlotElement activeElement;
+        private InteractableUIElement loadedType;
 
-        public void Awake() {
-            HideUI();
+        private bool IsThisActive => gameObject.activeInHierarchy;
+
+        protected virtual void Awake() {
             SpawnUIElements();
         }
 
@@ -39,36 +44,61 @@ namespace GOAT.Grid.UI
             for (int i = 0; i < elementAmount; i++) {
                 string uiElementName = ((InteractableUIElement)i).ToString();
                 GameObject prefab = (GameObject)Resources.Load("InteractableUIElement-" + uiElementName);
-                UISlotElement instance = Instantiate(prefab, UIElementSlot).GetComponent<UISlotElement>();
-                instance.InitUI();
+                if (prefab) {
+                    UISlotElement instance = Instantiate(prefab, UIElementSlot).GetComponent<UISlotElement>();
+                    instance.InitUI();
 
-                UIElements.Add((InteractableUIElement)i, instance);
-                instance.gameObject.SetActive(false);
+                    UIElements.Add((InteractableUIElement)i, instance);
+                    instance.gameObject.SetActive(false);
+                }
             }
         }
 
         // Set the default UI elements to the given params
-        public void SetUI(string title, string description, string info) {
-            titleText.text = title;
-            descriptionText.text = description;
-            infoText.text = info;
+        public void SetUI(string title, 
+            string description, 
+            InteractableUIElement elementToLoad, 
+            BaseInteractable info,
+            object[] args) {
+
+            if (IsThisActive) {
+                titleText.text = title;
+                descriptionText.text = description;
+                infoText.text = info.PrintObject<BaseInteractable>();
+            }
+            LoadElement(elementToLoad, args);
         }
 
         // Load a new UI element
-        public void LoadElement(InteractableUIElement elementId) {
-            UIElements.TryGetValue(elementId, out UISlotElement element);
-            UnloadElement();
-            activeElement = element;
-            activeElement.gameObject.SetActive(true);
+        public void LoadElement(InteractableUIElement elementId, object[] args) {
+            if(elementId == InteractableUIElement.None || loadedType != elementId)
+                UnloadElement();
+
+            if (IsThisActive && elementId != InteractableUIElement.None) {
+                StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
+                loadedType = elementId;
+
+                UIElements.TryGetValue(elementId, out UISlotElement element);
+                activeElement = element;
+
+                if (activeElement) {
+                    activeElement.gameObject.SetActive(true);
+                    SetElementValues(args);
+                }
+            }
         }
 
         // Unload the specific UI element
         public void UnloadElement() {
-            activeElement?.gameObject.SetActive(false);
+            if (IsThisActive && activeElement) {
+                StockingUI.gameObject.SetActive(false);
+                activeElement.gameObject.SetActive(false);
+                loadedType = InteractableUIElement.None;
+            }
         }
 
         // Pass the arguments for the UI to the element currently in use
-        public void SetElementValue(object[] args) {
+        private void SetElementValues(object[] args) {
             activeElement.SetUI(args);
         } 
     }

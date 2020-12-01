@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
     public enum BuildingType
     {
@@ -86,17 +86,40 @@ namespace GOAT.Grid
             if (floorObject) floorObject.SetActive(show);
         }
 
-        public void ShowTile(bool show, float rotation = -1)
+        public void ShowTile(bool show, float rotation = -1, Placeable placeable = null)
         {
-            if (rotation > -1)
+            //Placeable is what you are going to be place
+            //If (wallObjs is active) | buildingObj | floorObj
+            if (this.placeable is Wall)
             {
                 ShowAnyWall(show, rotation);
             }
 
-            if (tileObject)
+            if (buildingObject)
             {
-                tileObject.SetActive(show ? show : (this.placeable is Floor && placeable is Floor));
+                //  Debug.LogFormat("Building:{0}\tPlaceable=Floor:{1}", buildingObject, placeable);
+                //  buildingObject.SetActive(show ? show : buildingObject && placeable is Floor);
+                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Furniture));
             }
+
+            if (floorObject)
+            {
+                //tileObject.SetActive(show ? show : (this.placeable is Floor && placeable is Floor));
+                //Debug.LogFormat("Floor:{0}\tPlaceable=Furniture:{1}", floorObject, placeable);
+                //floorObject.SetActive(show ? show : floorObject && placeable is Furniture);
+                floorObject.SetActive(show ? show : placeable != null && !(placeable is Floor));
+            }
+            //When there is a building and you want to place/replace a floor don't hide building
+            //if (buildingObject && placeable is Floor)
+            //{
+            //    show = true;
+            //}
+
+            ////When there is a floor, and you want to place a building, don't hide floor
+            //if (floorObject && placeable is Furniture)
+            //{
+            //    show = true;
+            //}
         }
 
         public void ShowBuilding(bool show)
@@ -123,18 +146,18 @@ namespace GOAT.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show);
         }
 
-        public void ShowWall(bool show, WallPosition position)
-        {
-            //code
-            if (wallObjects[WallPosition.North]) wallObjects[WallPosition.North].SetActive(true);
-            if (wallObjects[WallPosition.East]) wallObjects[WallPosition.East].SetActive(true);
-            if (wallObjects[WallPosition.South]) wallObjects[WallPosition.South].SetActive(true);
-            if (wallObjects[WallPosition.West]) wallObjects[WallPosition.West].SetActive(true);
+        //public void ShowWall(bool show, WallPosition position)
+        //{
+        //    //code
+        //    if (wallObjects[WallPosition.North]) wallObjects[WallPosition.North].SetActive(true);
+        //    if (wallObjects[WallPosition.East]) wallObjects[WallPosition.East].SetActive(true);
+        //    if (wallObjects[WallPosition.South]) wallObjects[WallPosition.South].SetActive(true);
+        //    if (wallObjects[WallPosition.West]) wallObjects[WallPosition.West].SetActive(true);
 
-            if (wallObjects[position]) wallObjects[position].SetActive(show);
-            //check what wall to show
-            //check what wall to hide
-        }
+        //    if (wallObjects[position]) wallObjects[position].SetActive(show);
+        //    //check what wall to show
+        //    //check what wall to hide
+        //}
 
         // Returns a tile info struct
         public TileInformation GetTileInformation()
@@ -153,21 +176,23 @@ namespace GOAT.Grid
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
 
-            // If type and rotation remain the same as before
-            //  if (tileObject != null && tileObject.transform.rotation == rotation) return;
-            // If rotation changes rotate object
             if (this.placeable == placeable & tileObject != null && tileObject.transform.rotation != rotation) tileObject.transform.rotation = rotation;
-            // If type changes instantiate new object
-            //else if (this.placeable != placeable)
-            //{
-            //  Debug.LogFormat("{0}, {1}:{2}, {3}:{4}", tileObject, this.placeable, this.placeable is Floor, placeable, placeable is Floor);
-            if (tileObject && (this.placeable is Floor && placeable is Floor) | destroyMode)
-            {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
-                MonoBehaviour.Destroy(tileObject);
+
+            if ((tileObject && this.placeable == placeable) && !destroyMode)
+            {
+                return;
             }
-            else if (floorObject && destroyMode)
+
+            if (buildingObject && (!(placeable is Floor) | destroyMode))
+            {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
+                this.placeable.Amount++;
+                MonoBehaviour.Destroy(buildingObject);
+            }
+            else if (floorObject && (!(placeable is Furniture) | destroyMode))
             {
                 //So we deleted the building most likely, now it's time to delete the floor
+                this.placeable.Amount++;
+
                 MonoBehaviour.Destroy(floorObject);
             }
             if (placeable != null && !destroyMode)
@@ -175,10 +200,15 @@ namespace GOAT.Grid
                 GameObject newObject = placeable.Prefab;
                 placeable.Amount--;
                 tileObject = GameObject.Instantiate(newObject, centerPosition, rotation);
+                // tileObject = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 tileObject.transform.localScale = size;
                 if (placeable is Floor)
                 {
                     floorObject = tileObject;
+                }
+                else if (placeable is Furniture)
+                {
+                    buildingObject = tileObject;
                 }
             }
             //}
@@ -213,82 +243,83 @@ namespace GOAT.Grid
             //this.placeable = wall;
         }
 
-        // Change the tile type
-        // Spawns a floor object on this tile
-        public void EditFloor(FloorType floorType, float rotationAngle)
-        {
-            Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
-            Vector3 size = Vector3.one * grid.GetTileSize;
-
-            // If type and rotation remain the same as before
-            if (this.floorType == floorType & floorObject && floorObject.transform.rotation == rotation && floorObject) return;
-            // If rotation changes rotate object
-            else if (this.floorType == floorType & floorObject && floorObject.transform.rotation != rotation) floorObject.transform.rotation = rotation;
-            // If type changes instantiate new object
-            else if (this.floorType != floorType)
-            {
-                if (floorObject) MonoBehaviour.Destroy(floorObject);
-                if (floorType != FloorType.Empty)
+        /*
+                // Change the tile type
+                // Spawns a floor object on this tile
+                public void EditFloor(FloorType floorType, float rotationAngle)
                 {
-                    GameObject newObject = TileAssets.FindAsset(floorType);
-                    floorObject = GameObject.Instantiate(newObject, centerPosition, rotation);
-                    floorObject.transform.localScale = size;
-                }
-            }
-            this.floorType = floorType;
-        }
-
-        // Change the building type
-        // Spawns a building object on this tile
-        public void EditBuilding(BuildingType buildingType, float rotationAngle)
-        {
-            Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
-            Vector3 size = Vector3.one * grid.GetTileSize;
-
-            // If type and rotation remain the same as before
-            if (this.buildingType == buildingType & buildingObject && buildingObject.transform.rotation == rotation) return;
-            // If rotation changes rotate object
-            else if (this.buildingType == buildingType & buildingObject && buildingObject.transform.rotation != rotation) buildingObject.transform.rotation = rotation;
-            // If type changes instantiate new object
-            else if (this.buildingType != buildingType)
-            {
-                if (buildingObject) MonoBehaviour.Destroy(buildingObject);
-                if (buildingType != BuildingType.Empty)
-                {
-                    GameObject newObject = TileAssets.FindAsset(buildingType);
-                    buildingObject = GameObject.Instantiate(newObject, centerPosition, rotation);
-                    buildingObject.transform.localScale = size;
-                }
-            }
-            this.buildingType = buildingType;
-        }
-
-        /// <summary>
-        /// Edit wall at given position on tile
-        /// </summary>
-        /// <param name="position"> Position in degrees north=0, east=90, south=180, west=270 </param>
-        /// <param name="type"> Type of wall to be placed at the given position </param>
-        public void EditWall(WallType type, WallPosition position)
-        {
-            //Debug.Log("Old type: " + wallPositions[position].ToString() + " New type: " + type.ToString());
-            // If walltype at position is a different type then the type yo be placed
-            if (wallPositions[position] != type)
-            {
-                wallPositions[position] = type;
-                // If walltype at position exists
-                if (wallObjects[position]) MonoBehaviour.Destroy(wallObjects[position]);
-                // Find gameobject
-                GameObject newObject = TileAssets.FindAsset(type);
-                // Instantiate gameobject
-                if (type != WallType.Empty)
-                {
-                    Quaternion rotation = Quaternion.Euler(0, (float)(int)position, 0);
+                    Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                     Vector3 size = Vector3.one * grid.GetTileSize;
-                    wallObjects[position] = GameObject.Instantiate(newObject, centerPosition, rotation);
-                    wallObjects[position].transform.localScale = size;
+
+                    // If type and rotation remain the same as before
+                    if (this.floorType == floorType & floorObject && floorObject.transform.rotation == rotation && floorObject) return;
+                    // If rotation changes rotate object
+                    else if (this.floorType == floorType & floorObject && floorObject.transform.rotation != rotation) floorObject.transform.rotation = rotation;
+                    // If type changes instantiate new object
+                    else if (this.floorType != floorType)
+                    {
+                        if (floorObject) MonoBehaviour.Destroy(floorObject);
+                        if (floorType != FloorType.Empty)
+                        {
+                            GameObject newObject = TileAssets.FindAsset(floorType);
+                            floorObject = GameObject.Instantiate(newObject, centerPosition, rotation);
+                            floorObject.transform.localScale = size;
+                        }
+                    }
+                    this.floorType = floorType;
                 }
-            }
-        }
+
+                // Change the building type
+                // Spawns a building object on this tile
+                public void EditBuilding(BuildingType buildingType, float rotationAngle)
+                {
+                    Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
+                    Vector3 size = Vector3.one * grid.GetTileSize;
+
+                    // If type and rotation remain the same as before
+                    if (this.buildingType == buildingType & buildingObject && buildingObject.transform.rotation == rotation) return;
+                    // If rotation changes rotate object
+                    else if (this.buildingType == buildingType & buildingObject && buildingObject.transform.rotation != rotation) buildingObject.transform.rotation = rotation;
+                    // If type changes instantiate new object
+                    else if (this.buildingType != buildingType)
+                    {
+                        if (buildingObject) MonoBehaviour.Destroy(buildingObject);
+                        if (buildingType != BuildingType.Empty)
+                        {
+                            GameObject newObject = TileAssets.FindAsset(buildingType);
+                            buildingObject = GameObject.Instantiate(newObject, centerPosition, rotation);
+                            buildingObject.transform.localScale = size;
+                        }
+                    }
+                    this.buildingType = buildingType;
+                }
+
+                /// <summary>
+                /// Edit wall at given position on tile
+                /// </summary>
+                /// <param name="position"> Position in degrees north=0, east=90, south=180, west=270 </param>
+                /// <param name="type"> Type of wall to be placed at the given position </param>
+                public void EditWall(WallType type, WallPosition position)
+                {
+                    //Debug.Log("Old type: " + wallPositions[position].ToString() + " New type: " + type.ToString());
+                    // If walltype at position is a different type then the type yo be placed
+                    if (wallPositions[position] != type)
+                    {
+                        wallPositions[position] = type;
+                        // If walltype at position exists
+                        if (wallObjects[position]) MonoBehaviour.Destroy(wallObjects[position]);
+                        // Find gameobject
+                        GameObject newObject = TileAssets.FindAsset(type);
+                        // Instantiate gameobject
+                        if (type != WallType.Empty)
+                        {
+                            Quaternion rotation = Quaternion.Euler(0, (float)(int)position, 0);
+                            Vector3 size = Vector3.one * grid.GetTileSize;
+                            wallObjects[position] = GameObject.Instantiate(newObject, centerPosition, rotation);
+                            wallObjects[position].transform.localScale = size;
+                        }
+                    }
+                }*/
     }
 
     // Structure for storing data

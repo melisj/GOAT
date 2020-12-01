@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: {fileID: 8400000, guid: 3bf0c4bfbccb1aa4b88f057ea3e66ecd, type: 2}
-  meshPrefab: {fileID: 8065333641304272209, guid: f4f327bbdcf118447960334987ad0612,
+  meshPrefab: {fileID: 919132149155446097, guid: 1bcf7d1f55a03864b87070ecf8bcb2e9,
     type: 3}
   width: 256
   height: 256
@@ -313,7 +313,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 8
+  field of view: 4
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -339,7 +339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2070562654}
   m_LocalRotation: {x: 0.25360712, y: -0.34514236, z: 0.09743497, w: 0.8983689}
-  m_LocalPosition: {x: 5.51, y: 4.99, z: -5.61}
+  m_LocalPosition: {x: 5.54, y: 5.26, z: -6.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

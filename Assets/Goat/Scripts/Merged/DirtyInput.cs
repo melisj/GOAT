@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Grid = GOAT.Grid.Grid;
+using Grid = Goat.Grid.Grid;
 
 public class DirtyInput : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class DirtyInput : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            grid.interactionMode = GOAT.Grid.SelectionMode.Edit;
+            //   grid.interactionMode = Goat.Grid.SelectionMode.Edit;
             grid.DestroyMode = true;
             ChangeUI();
         }
@@ -44,7 +44,7 @@ public class DirtyInput : MonoBehaviour
         if (newUI)
         {
             grid.DestroyMode = false;
-            grid.DestroyPreview();
+            //grid.DestroyPreview();
         }
     }
 }

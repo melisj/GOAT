@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6551674377976064840}
   - component: {fileID: 4465276694541328299}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor-side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 26872734973559803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,6 +141,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: platform_side
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7dc4665f251181e4291a56743cb8e1b0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7dc4665f251181e4291a56743cb8e1b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dc4665f251181e4291a56743cb8e1b0, type: 3}

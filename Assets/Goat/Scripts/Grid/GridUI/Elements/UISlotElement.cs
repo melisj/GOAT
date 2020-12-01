@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISlotElement : MonoBehaviour
+namespace Goat.Grid.Interactions.UI
 {
-    public virtual void InitUI() {
-    }
+    public class UISlotElement : MonoBehaviour
+    {
+        public virtual void InitUI() { }
 
-    public virtual void SetUI(object[] args) {
-
+        public virtual void SetUI(object[] args) { }
     }
 }

@@ -7,11 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.Interactions.UI
 {
-    [Serializable]
-    public class OnClickStorageItem : UnityEvent<ItemInstance> { }
-
     /// <summary>
     /// UI element for storage objects
     /// </summary>
@@ -19,13 +16,14 @@ namespace GOAT.Grid.UI
     {
         [SerializeField] private TextMeshProUGUI itemsText;
         [SerializeField] private Transform gridParent;
-        [SerializeField] private string StorageIconPrefabname = "ItemIcon";
         private GameObject StorageIconPrefab;
+
         private List<Image> itemIcons = new List<Image>();
         private List<Button> itemButtons = new List<Button>();
 
         private int amountOfPrewarmedStorageElements = 10;
 
+        [Serializable] private class OnClickStorageItem : UnityEvent<ItemInstance> { }
         private OnClickStorageItem onClickItemEvt = new OnClickStorageItem();
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace GOAT.Grid.UI
         /// </summary>
         public override void InitUI() {
             base.InitUI();
-            StorageIconPrefab = (GameObject)Resources.Load(StorageIconPrefabname);
+            StorageIconPrefab = (GameObject)Resources.Load(InteractableManager.StorageIconPrefabname);
 
             for (int i = 0; i < amountOfPrewarmedStorageElements; i++) {
                 AddStorageIcon();
@@ -82,7 +80,8 @@ namespace GOAT.Grid.UI
             if (args.Length != 3)
                 return;
 
-            itemsText.text = args[0].ToString();
+            SetStorageLimitUI(args[0].ToString());
+
             if (args[1] is List<ItemInstance>) {
                 List<ItemInstance> itemList = (List<ItemInstance>)args[1];
                 // Add icons if pool is not enough
@@ -97,7 +96,7 @@ namespace GOAT.Grid.UI
                         continue;
                     }
 
-                    EnableIcon(i, itemList[i].GetResource.Image);
+                    EnableIcon(i, itemList[i].Resource.Image);
 
                     // Add the custom event to the resource
                     if (args[2] is StorageInteractable) {
@@ -108,6 +107,10 @@ namespace GOAT.Grid.UI
                     }
                 }
             }
+        }
+
+        private void SetStorageLimitUI(string text) {
+            itemsText.text = text;
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Sirenix.OdinInspector;
 using System.IO;
-using Sirenix.OdinInspector;
 using UnityEditor;
+using UnityEngine;
 
 public class MeshToImage : MonoBehaviour
 {
@@ -28,6 +26,7 @@ public class MeshToImage : MonoBehaviour
     private void CreateMesh()
     {
         mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
+        mesh.transform.localScale = Vector3.one;
     }
 
     private void DeleteMesh()

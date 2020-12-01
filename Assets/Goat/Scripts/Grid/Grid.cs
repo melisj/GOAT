@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
-using GOAT.Grid.UI;
-using System;
-using Goat.Pooling;
-using UnityEngine.EventSystems;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
     public enum SelectionMode
     {
-        Universal,
         Edit,
         Select
     }
@@ -27,146 +22,92 @@ namespace GOAT.Grid
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
         public Tile[,] tiles;
+
         [SerializeField] private LayerMask gridMask;
+        private Tile currentTile;
 
         public float GetTileSize { get { return tileSize; } }
 
-        [SerializeField] private Transform selectionObject;
-
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject previewObject;                               // Preview object shown on grid
+        [SerializeField] private GameObject previewObject;                               // Preview object shown on grid
         private float objectRotationAngle;                              // Rotation of preview object
-        private FloorType previewFloorType;
-        private BuildingType previewBuildingType;
-        private WallType previewWallType;
+                                                                        // private FloorType previewFloorType;
+                                                                        // private BuildingType previewBuildingType;
+                                                                        // private WallType previewWallType;
         private Placeable previewPlaceable;
-        private TilePartEditing editing = TilePartEditing.None;
+        //private TilePartEditing editing = TilePartEditing.None;
         public bool IsEditing;
         private Tile previousTile = null;
 
         public bool DestroyMode { get; set; }
 
-        [Space(20)]
-        [SerializeField] private bool debugMouseRaycast = false;
-        public SelectionMode interactionMode = SelectionMode.Universal;
-
-        // Managers
-        [SerializeField] private GridUIManager UIManager;
-        [SerializeField] private InteractableManager interactableManager;
+        //  [Space(20)]
+        //    public SelectionMode interactionMode = SelectionMode.Edit;
 
         private void Start()
         {
-            selectionObject.localScale = new Vector3(tileSize, 1, tileSize);
-
             InitializeTiles(gridSize, tileSize);
 
             TileAssets.InitializeAssetsDictionary();
+
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+        }
+
+        private void Instance_InputModeChanged(object sender, InputMode mode)
+        {
+            DestroyMode = mode == InputMode.Destroy;
+            if (previewObject)
+            {
+                bool inEditMode = mode == InputMode.Edit;
+                if (!inEditMode)
+                {
+                    currentTile = SelectTile();
+                    if (currentTile != null)
+                    {
+                        currentTile.ShowTile(true, objectRotationAngle);
+                    }
+                    previousTile = currentTile;
+                }
+                previewObject.SetActive(inEditMode);
+            }
+        }
+
+        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
+            {
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
+                {
+                    if (currentTile != null)
+                    {
+                        //TileInformation tileInfo = currentTile.GetTileInformation();
+                        //  if (IsEditing)
+                        currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
+                    }
+                }
+                if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                {
+                    // Always has to rotate a 90 degrees
+                    objectRotationAngle = (objectRotationAngle + 90) % 360;
+                    if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+            }
         }
 
         private void Update()
         {
-            // Change spaghet after test which spaghet is best for editing
-            if (Input.GetKeyDown(KeyCode.C))
+            EditTile();
+        }
+
+        private void EditTile()
+        {
+            if (InputManager.Instance.InputMode == InputMode.Edit | InputManager.Instance.InputMode == InputMode.Destroy)
             {
-                if (interactionMode != SelectionMode.Universal)
-                    interactionMode = SelectionMode.Universal;
-                else
-                    interactionMode = SelectionMode.Select;
-            }
-
-            if (interactionMode == SelectionMode.Universal)
-            {
-                //Universal Mode
-                UIManager.editModeUI.ToggleSwitchButton(false);
-
-                //left mouse button
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (!GridUIManager.IsElementSelected())
-                    {
-                        interactableManager.CheckForInteractable();
-                    }
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    //right mouse button
-                    selectionObject.gameObject.SetActive(false);
-
-                    if (!GridUIManager.IsElementSelected())
-                    {
-                        Tile tempTile = SelectTile();
-                        GridUIManager.ShowNewUI(UIManager.tileEditUI);
-                        UIManager.tileEditUI.SetSelectedTile(tempTile);
-
-                        selectionObject.gameObject.SetActive(true);
-                        if (tempTile != null)
-                            selectionObject.position = tempTile.GetTileInformation().TilePosition;
-                    }
-                    else
-                    {
-                        GridUIManager.HideUI();
-                    }
-                }
-            }
-            else
-            {
-                //Editing/Seleting Mode
-                UIManager.editModeUI.ToggleSwitchButton(true);
-                selectionObject.gameObject.SetActive(false);
-
-                if (interactionMode == SelectionMode.Select && Input.GetMouseButtonDown(0))
-                {
-                    Tile tempTile = SelectTile();
-                    //left mouse button
-                    if (!GridUIManager.IsElementSelected())
-                    {
-                        interactableManager.CheckForInteractable();
-
-                        if (tempTile != null)
-                            selectionObject.gameObject.SetActive(false);
-                    }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI) && !EventSystem.current.IsPointerOverGameObject())
-                    {
-                        GridUIManager.HideUI();
-                    }
-                }
-                else if (interactionMode == SelectionMode.Edit)
-                {
-                    // Highlight tile with selected building/floor
-                    Tile tempTile = SelectTile();
-                    HighlightTile(tempTile);
-                    previousTile = tempTile;
-
-                    if (Input.GetMouseButtonDown(0) && tempTile != null)
-                    {
-                        TileInformation tileInfo = tempTile.GetTileInformation();
-                        // Check new old tile type vs new tile type
-
-                        if (IsEditing)
-                        {
-                            tempTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
-                        }
-
-                        if (editing == TilePartEditing.Floor)
-                        {
-                            tempTile.EditFloor(previewFloorType, objectRotationAngle);
-                        }
-                        else if (editing == TilePartEditing.Building)
-                        {
-                            tempTile.EditBuilding(previewBuildingType, objectRotationAngle);
-                        }
-                        else if (editing == TilePartEditing.Wall)
-                        {
-                            tempTile.EditWall(previewWallType, (WallPosition)objectRotationAngle);
-                        }
-                    }
-                    if (Input.GetMouseButtonDown(1))
-                    {
-                        // Always has to rotate a 90 degrees
-                        objectRotationAngle = (objectRotationAngle + 90) % 360;
-                        if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
-                    }
-                }
+                // Highlight tile with selected building/floor
+                currentTile = SelectTile();
+                HighlightTile(currentTile);
+                previousTile = currentTile;
             }
         }
 
@@ -198,27 +139,27 @@ namespace GOAT.Grid
             if (previousTile != null)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
-                previousTile.ShowFloor(true);
-                previousTile.ShowBuilding(true);
-                previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
+                //    previousTile.ShowFloor(true);
+                // previousTile.ShowBuilding(true);
+                //previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
                 //previousTile.ShowAnyWall(true, objectRotationAngle);
             }
 
             // Hide target object on selected tile
             if (selectedTile != null)
             {
-                if (IsEditing)
+                if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
-                    selectedTile.ShowTile(false, objectRotationAngle);
+                    selectedTile.ShowTile(false, objectRotationAngle, previewPlaceable);
                 }
-                if (editing == TilePartEditing.Floor)
-                    selectedTile.ShowFloor(false);
-                else if (editing == TilePartEditing.Building)
-                    selectedTile.ShowBuilding(false);
-                else if (editing == TilePartEditing.Wall)
-                    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
-                else
-                    Debug.LogWarning("Trying to highlight Nothing");
+                //if (editing == TilePartEditing.Floor)
+                //selectedTile.ShowFloor(false);
+                //else if (editing == TilePartEditing.Building)
+                //    selectedTile.ShowBuilding(false);
+                //else if (editing == TilePartEditing.Wall)
+                //    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
+                // else
+                // Debug.LogWarning("Trying to highlight Nothing");
             }
 
             // Selected placingtile on position of tile hit by raycast
@@ -233,55 +174,11 @@ namespace GOAT.Grid
             }
         }
 
-        //===========================================================================================================================================================================================================================================================================
-        public void ChangePreviewObject(TilePartEditing _editing, int type)
-        {
-            GameObject tempObject = null;
-            // If we start editing an other part of the tile.
-            if (editing != _editing)
-            {
-                editing = _editing;
-                if (previewObject) Destroy(previewObject);
-                previewFloorType = FloorType.Empty;
-                previewBuildingType = BuildingType.Empty;
-                previewWallType = WallType.Empty;
-            }
-
-            // If we are still editing the floor but select a different FloorType the preview object needs to be replaced.
-            if (editing == TilePartEditing.Floor && (FloorType)type != previewFloorType)
-            {
-                if (previewObject) Destroy(previewObject);
-                previewFloorType = (FloorType)type;
-                tempObject = TileAssets.FindAsset(previewFloorType);
-            }
-            //If we are still editing the building but select a different BuildingType the preview object needs to be replaced.
-            else if (editing == TilePartEditing.Building && (BuildingType)type != previewBuildingType)
-            {
-                if (previewObject) Destroy(previewObject);
-                previewBuildingType = (BuildingType)type;
-                tempObject = TileAssets.FindAsset(previewBuildingType);
-            }
-            // If we are still editing the wall but select a different WallType the preview object needs to be replaced.
-            else if (editing == TilePartEditing.Wall && (WallType)type != previewWallType)
-            {
-                if (previewObject) Destroy(previewObject);
-                previewWallType = (WallType)type;
-                tempObject = TileAssets.FindAsset(previewWallType);
-            }
-
-            // If the temp object we selected != null instantiate it as previewObject.
-            if (tempObject)
-            {
-                previewObject = Instantiate(tempObject, new Vector3(0, 200, 0), Quaternion.Euler(0, objectRotationAngle, 0));
-                previewObject.transform.localScale = Vector3.one * tileSize;
-            }
-        }
-
         public void DestroyPreview()
         {
             if (previewObject)
             {
-                Destroy(previewObject);
+                previewObject.SetActive(false);
             }
         }
 
@@ -304,21 +201,6 @@ namespace GOAT.Grid
             }
         }
 
-        public void EnterExitEditMode()
-        {
-            if (interactionMode != SelectionMode.Edit)
-            {
-                interactionMode = SelectionMode.Edit;
-                GridUIManager.ShowNewUI(UIManager.editModeUI);
-            }
-            else
-            {
-                interactionMode = SelectionMode.Select;
-                GridUIManager.HideUI();
-            }
-            ChangePreviewObject(TilePartEditing.None, 0);
-        }
-
         //===========================================================================================================================================================================================================================================================================
 
         /// <summary>
@@ -328,7 +210,7 @@ namespace GOAT.Grid
         private Tile SelectTile()
         {
             Tile selectedTile = null;
-            if (DoRaycastFromMouse(out RaycastHit hit))
+            if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, gridMask))
             {
                 Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
                 selectedTile = ReturnTile(tileIndex);
@@ -365,41 +247,6 @@ namespace GOAT.Grid
             }
             else Debug.LogError("Grid Selection is outside of tile bounds");
             return null;
-        }
-
-        //
-        /// <summary>
-        /// Raycast from the position of the mouse to the world
-        /// </summary>
-        /// <param name="hit"></param>
-        /// <returns> Returns whether it hit something </returns>
-        public static bool DoRaycastFromMouse(out RaycastHit hit)
-        {
-            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
-
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity);
-            hit = mouseHit;
-
-            if (EventSystem.current.IsPointerOverGameObject())
-                return false;
-            return isHitting;
-        }
-
-        //===========================================================================================================================================================================================================================================================================
-
-        // Debug option for showing where mouse hits the collider
-        private void OnDrawGizmos()
-        {
-            if (debugMouseRaycast)
-            {
-                DoRaycastFromMouse(out RaycastHit hit);
-
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(hit.point, 1);
-                Gizmos.DrawLine(hit.point, Camera.main.transform.position);
-            }
         }
     }
 }

@@ -81,10 +81,12 @@ namespace Goat.UI
             //7 DIGITS
             //11 WIDTH TO 37 WIDTH
             //26/6 * (X DIGITS -1)
-            bool enoughMoney = true;
-            if (!AnimateBuyButton(currentAmount > 0 && enoughMoney)) return;
+            bool notEnoughMoney = (currentAmount * currentBuyable.Price) < currentBuyable.Money.Amount;
+            if (!AnimateBuyButton(currentAmount > 0 && notEnoughMoney)) return;
             if (currentBuyable.DeliveryTime > 0)
             {
+                currentBuyable.Buy(currentAmount, -1, true, false);
+
                 deliveryAmountIcon.gameObject.SetActive(true);
                 float iconWidth = 11 + (26 / 6 * (currentDeliveryAmount.ToString().Length - 1));
                 SetupDeliveryCell(currentBuyable, deliveryGrid, currentAmount);
@@ -98,7 +100,7 @@ namespace Goat.UI
             }
             else
             {
-                currentBuyable.Amount++;
+                currentBuyable.Buy(currentAmount);
             }
         }
 
@@ -144,15 +146,17 @@ namespace Goat.UI
             currentDeliveryAmount++;
             GameObject deliveryCell = PoolManager.Instance.GetFromPool(deliveryPrefab, Vector3.zero, Quaternion.identity, grid.transform);
             deliveryCell.transform.localScale = Vector3.one;
+            deliveryCell.name = buyable.name;
 
             DeliveryUI delivery = deliveryCell.GetComponent<DeliveryUI>();
-            deliveryCell.name = buyable.name;
-            delivery.Amount.text = "x" + amount.ToString();
-            delivery.Name.text = deliveryCell.name;
-            delivery.Image.sprite = buyable.Image;
+            delivery.Setup(buyable, amount);
+            //delivery.Amount.text = "x" + amount.ToString();
+            //delivery.Name.text = deliveryCell.name;
+            //delivery.Image.sprite = buyable.Image;
             delivery.ProgressBar.DOFillAmount(1, buyable.DeliveryTime).OnComplete(() =>
             {
-                buyable.Amount += amount;
+                //buyable.Amount += amount;
+                buyable.Buy(amount, -1, false, true);
                 currentDeliveryAmount--;
                 if (currentDeliveryAmount == 0)
                 {

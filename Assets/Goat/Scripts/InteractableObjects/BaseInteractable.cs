@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Goat.Grid.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace GOAT.Grid.UI
+namespace Goat.Grid.Interactions
 {
     /// <summary>
     /// This attribute is for tagging value that should be printed out on the informations tab
@@ -27,21 +29,18 @@ namespace GOAT.Grid.UI
     public class BaseInteractable : MonoBehaviour
     {
         [TextArea]
-        [SerializeField] private string description;
-        [InteractableInfo] public string testText;
-        [InteractableInfo] public int testInt;
+        [SerializeField] protected string description;
 
-        protected delegate void InformationChangeEvent();
-        protected event InformationChangeEvent InformationChanged;
+        protected UnityEvent InformationChanged = new UnityEvent();
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             InteractableManager.InteractableClickEvt += IsClicked;
-            InformationChanged += UpdateUI;
+            InformationChanged.AddListener(UpdateUI);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             InteractableManager.InteractableClickEvt -= IsClicked;
-            InformationChanged -= UpdateUI;
+            InformationChanged.RemoveAllListeners();
         }
 
         // Get the event when the object has been clicked
@@ -49,18 +48,19 @@ namespace GOAT.Grid.UI
         protected virtual void IsClicked(Transform clickedObj) {
             if (clickedObj == transform) {
                 OpenUI();
+                InvokeChange();
+                InteractableManager.ChangeSelectedInteractable(this);
             }
         }
 
         // Open the UI for the this 
         public virtual void OpenUI() {
-            GridUIManager.ShowNewUI(InteractableManager.instance.interactableUI);
-            InvokeChange();
+            GridUIManager.Instance.ShowNewUI(GridUIElement.Interactable);
         }
 
         // Hide this UI
         public virtual void CloseUI() {
-            GridUIManager.HideUI();
+            GridUIManager.Instance.HideUI();
         }
 
         // Update the UI when something has changed
@@ -70,13 +70,13 @@ namespace GOAT.Grid.UI
 
         // Update all the variables of the UI
         protected virtual void UpdateUI() {
-            InteractableManager.instance.interactableUI.SetUI(name, description, PrintObject<BaseInteractable>());
+            GridUIManager.Instance.SetInteractableUI(name, description, InteractableUIElement.None, this, null);
         }
 
         // Print out all the variables tagged with "InteractableInfo"
-        private string PrintObject<T>() {
+        public virtual string PrintObject<T>() {
             string infoList = "";
-
+            
             FieldInfo[] fields = typeof(T).GetFields();
             foreach (FieldInfo field in fields) {
                 InteractableInfo meta = (InteractableInfo)field.GetCustomAttribute(typeof(InteractableInfo), true);
