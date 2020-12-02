@@ -25,7 +25,19 @@ namespace Goat.Grid.Interactions
         // Properties
         public int GetItemCount { get => itemList.Count; }
         public int SpaceLeft { get => Mathf.Abs(GetItemCount - maxResources); }
+
         public List<ItemInstance> GetItems { get => itemList; }
+        public ItemInstance[] PhysicalItemList
+        {
+            get => itemPhysicalHolderArray; 
+            set {
+                itemPhysicalHolderArray = value;
+                itemList = itemPhysicalHolderArray.ToList();
+                itemList.RemoveAll((item) => item == null);
+                InformationChanged.Invoke();
+            }
+        }
+
         private object[] GetArgsForUI
         {
             get => new object[] {

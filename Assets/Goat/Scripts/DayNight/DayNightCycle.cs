@@ -39,7 +39,7 @@ public class DayNightCycle : MonoBehaviour
     private int timeOfSunset = 17;
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    [Range(1,3)]
+    [Range(1, 3)]
     public int timeSpeed = 1;
 
     //Events for OnDayTime and OnNightTime
@@ -53,7 +53,7 @@ public class DayNightCycle : MonoBehaviour
         //TimeOfDayHours = zet hier een tijd om de dag te beginnen
         transitionTimer = 1f;
         mainLight.color = targetTimeColor;
-        Time.timeScale = 10;
+        Time.timeScale = 1;
     }
 
     private void Update()
