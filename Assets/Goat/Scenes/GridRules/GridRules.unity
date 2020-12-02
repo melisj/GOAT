@@ -1843,6 +1843,54 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &236792523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236792524}
+  - component: {fileID: 236792525}
+  m_Layer: 0
+  m_Name: OnChangeMode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &236792524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236792523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 549377978}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &236792525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236792523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 702a9a494a0219c468af9c0748322212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
+  gridTexture: {fileID: 2800000, guid: da2d9d524bad5ac43b7cd2e2cf8a626e, type: 3}
+  emptyTexture: {fileID: 2800000, guid: 57f2c64137ae755459efff2bcf496d97, type: 3}
+  rend: {fileID: 855670216}
+  fadeDuration: 2
 --- !u!1 &240374380
 GameObject:
   m_ObjectHideFlags: 0
@@ -5118,6 +5166,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2126114393}
+  - {fileID: 236792524}
   m_Father: {fileID: 260393478}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8249,7 +8298,7 @@ MonoBehaviour:
   gridMask:
     serializedVersion: 2
     m_Bits: 256
-  previewMaterial: {fileID: 0}
+  previewMaterial: {fileID: 2100000, guid: 37dad2dd8857d604f8970ebbc54e663d, type: 2}
 --- !u!114 &855670220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15726,6 +15775,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   inputMode: 0
+  onInputModeChanged: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
   data: {fileID: 11400000, guid: 03f974c6378e1004eb749292f89f0e6d, type: 2}
 --- !u!1 &1434636360
 GameObject:

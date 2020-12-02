@@ -94,7 +94,8 @@ namespace Goat.Grid
                     {
                         checkedTiles.Clear();
                         currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
-                        SetupNeighborTiles(currentTileIndex);
+                        if (!(previewPlaceableInfo is Wall))
+                            SetupNeighborTiles(currentTileIndex);
                     }
                 }
                 if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
@@ -181,6 +182,8 @@ namespace Goat.Grid
         {
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
+            Material material = GetComponent<Renderer>().material;
+            material.mainTextureScale = gridSize;
             startingPosition = transform.parent.position;
 
             for (int x = 0; x < gridSize.x; x++)

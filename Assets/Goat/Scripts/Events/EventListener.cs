@@ -53,4 +53,6 @@ namespace Goat.Events
     public abstract class EventListenerBool : EventListener<bool, BoolEvent> { }
 
     public abstract class EventListenerString : EventListener<string, StringEvent> { }
+
+    public abstract class EventListenerInputMode : EventListener<InputMode, InputModeEvent> { }
 }
