@@ -55,7 +55,9 @@ namespace Goat.Grid.Interactions
             if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
             {
                 if (hit.transform != null)
+                {
                     InteractableClickEvt?.Invoke(hit.transform);
+                }
             }
         }
 

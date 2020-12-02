@@ -33,7 +33,7 @@ namespace Goat
 
         private void SwitchMode(bool toSelectMode)
         {
-            InputManager.Instance.InputMode = toSelectMode ? InputMode.Select : InputMode.Edit;
+            InputManager.Instance.InputMode = toSelectMode ? InputMode.Select : InputMode.Select;
         }
 
         private void SpawnNpc(bool spawn)
