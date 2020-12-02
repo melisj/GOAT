@@ -7,7 +7,7 @@ namespace Goat.AI.States
 {
     public class MoveToTarget : IState
     {
-        private Transform agent;
+        private NPC npc;
         private Vector3 target;
         private NavMeshAgent navMeshAgent;
         private Animator animator;
@@ -16,9 +16,9 @@ namespace Goat.AI.States
         public float timeStuck;
 
 
-        public MoveToTarget(Transform agent, Vector3 target, NavMeshAgent navMeshAgent, Animator animator)
+        public MoveToTarget(NPC npc, Vector3 target, NavMeshAgent navMeshAgent, Animator animator)
         {
-            this.agent = agent;
+            this.npc = npc;
             this.target = target;
             this.navMeshAgent = navMeshAgent;
             //this.animator = animator;
@@ -27,10 +27,10 @@ namespace Goat.AI.States
         public void Tick()
         {
             // Check if agent is stuck while navigating to target
-            if (Vector3.Distance(agent.position, lastLocation) <= 0)
+            if (Vector3.Distance(npc.transform.position, lastLocation) <= 0)
                 timeStuck += Time.deltaTime;
 
-            lastLocation = agent.position;
+            lastLocation = npc.transform.position;
         }
 
         public void OnEnter()

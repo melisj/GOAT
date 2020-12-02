@@ -9,38 +9,28 @@ using Goat.Grid.Interactions;
 
 namespace Goat.AI
 {
-    public class Customer : MonoBehaviour
+    public class Customer : NPC
     {
-        private StateMachine stateMachine;
+        public float size = 1, wanderRange = 10;
 
-        private StorageInteractable targetStorage;
+        public Dictionary<Resource, int> groceries = new Dictionary<Resource, int>();
+        public StorageInteractable targetStorage;
 
-        void Awake()
+        protected override void Awake()
         {
-            //code
-            var navMeshAgent = GetComponent<NavMeshAgent>();
-            //var animator = GetComponent<Animator>();
-            stateMachine = new StateMachine();
+            base.Awake();
 
             // States
+            SearchForGroceries searchForGroceries = new SearchForGroceries(this);
+            MoveToTarget moveToTarget = new MoveToTarget(this, targetDestination, navMeshAgent, animator);
 
-            // Enter store
-            // Setup shopping list
-            // Search for targets
-            // Move to target
-            var moveToTarget = new MoveToTarget(gameObject.transform, Vector3.zero, navMeshAgent, new Animator());
-            // Take from target
-            // Go to checkout
-            // Pay
-            // Exit store
+            // Conditions
+            Func<bool> HasTarget() => () => targetStorage != null;
+            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= size;
+            Func<bool> StuckForSeconds() => () =>  moveToTarget.timeStuck > 1f;
+            Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < size;
 
             // Transitions
-
-
-            // Functions
-
-            Func<bool> StuckForSeconds() => () => moveToTarget.timeStuck > 1f;
-            Func<bool> HasTarget() => () => targetStorage != null;
         }
     }
 }
