@@ -13,11 +13,12 @@ namespace Goat.Grid.Interactions
     /// This attribute can also be used to give a custom name
     /// [TODO] can also flag the way a attribute should be displayed (eg. just numbers or health bar type display or something else)
     /// </summary>
-    public class InteractableInfo : Attribute {
-
+    public class InteractableInfo : Attribute
+    {
         public string customName;
 
-        public InteractableInfo(string customName = "") {
+        public InteractableInfo(string customName = "")
+        {
             this.customName = customName;
         }
     }
@@ -32,55 +33,72 @@ namespace Goat.Grid.Interactions
         [SerializeField] protected string description;
 
         protected UnityEvent InformationChanged = new UnityEvent();
+        public bool IsClickedOn { get; set; }
 
-        protected virtual void OnEnable() {
+        protected virtual void OnEnable()
+        {
             InteractableManager.InteractableClickEvt += IsClicked;
             InformationChanged.AddListener(UpdateUI);
         }
 
-        protected virtual void OnDisable() {
+        protected virtual void OnDisable()
+        {
             InteractableManager.InteractableClickEvt -= IsClicked;
             InformationChanged.RemoveAllListeners();
         }
 
         // Get the event when the object has been clicked
         // If clicked then open UI
-        protected virtual void IsClicked(Transform clickedObj) {
-            if (clickedObj == transform) {
-                OpenUI();
-                InvokeChange();
-                InteractableManager.ChangeSelectedInteractable(this);
+        protected virtual void IsClicked(Transform clickedObj)
+        {
+            if (clickedObj == transform)
+            {
+                IsClickedOn = clickedObj == transform;
             }
         }
 
-        // Open the UI for the this 
-        public virtual void OpenUI() {
+        public void OpenUIFully()
+        {
+            OpenUI();
+            InvokeChange();
+            InteractableManager.ChangeSelectedInteractable(this);
+        }
+
+        // Open the UI for the this
+        public virtual void OpenUI()
+        {
             GridUIManager.Instance.ShowNewUI(GridUIElement.Interactable);
         }
 
         // Hide this UI
-        public virtual void CloseUI() {
+        public virtual void CloseUI()
+        {
             GridUIManager.Instance.HideUI();
+            IsClickedOn = false;
         }
 
         // Update the UI when something has changed
-        protected virtual void InvokeChange() {
+        protected virtual void InvokeChange()
+        {
             InformationChanged.Invoke();
         }
 
         // Update all the variables of the UI
-        protected virtual void UpdateUI() {
+        protected virtual void UpdateUI()
+        {
             GridUIManager.Instance.SetInteractableUI(name, description, InteractableUIElement.None, this, null);
         }
 
         // Print out all the variables tagged with "InteractableInfo"
-        public virtual string PrintObject<T>() {
+        public virtual string PrintObject<T>()
+        {
             string infoList = "";
-            
+
             FieldInfo[] fields = typeof(T).GetFields();
-            foreach (FieldInfo field in fields) {
+            foreach (FieldInfo field in fields)
+            {
                 InteractableInfo meta = (InteractableInfo)field.GetCustomAttribute(typeof(InteractableInfo), true);
-                if(meta != null)
+                if (meta != null)
                     infoList += field.Name + " - " + field.GetValue(this).ToString() + "\n";
             }
 
