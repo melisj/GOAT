@@ -1,9 +1,12 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Storage;
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Buyable : SerializedScriptableObject
 {
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier = -1;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
@@ -21,6 +24,22 @@ public class Buyable : SerializedScriptableObject
     public int OldAmount => oldAmount;
 
     public float Price => price;
+
+    public int ID => identifier;
+
+    public void OnValidate() {
+        SetIdentifiers();
+    }
+
+    [Button("Set ID's")]
+    public void SetIdentifiers() {
+        Object[] list = Resources.LoadAll("", typeof(Buyable));
+        int i = 0;
+        foreach (Object obj in list) {
+            Buyable placeable = (Buyable)obj;
+            placeable.identifier = i++;
+        }
+    } 
 
     /// <summary>
     /// Buys the buyable

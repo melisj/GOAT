@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Goat.Storage;
+using UnityEngine;
 
 namespace Goat.Grid
 {
@@ -16,43 +17,61 @@ namespace Goat.Grid
         Wall
     }
 
+    [RequireComponent(typeof(GridDataHandler))]
     public class Grid : MonoBehaviour
     {
+        [Header("Generation")]
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
         public Tile[,] tiles;
 
+        [Space(10), Header("Hit Detection")]
         [SerializeField] private LayerMask gridMask;
-        private Tile currentTile;
 
-        public float GetTileSize { get { return tileSize; } }
 
         // Variables used for highlighting and placing object on grid when in edit mode
-        [SerializeField] private GameObject previewObject;                               // Preview object shown on grid
+        [Space(10), Header("Preview Object")]
+        [SerializeField] private Material previewMaterial;
+        private GameObject previewObject;              // Preview object shown on grid
+        private MeshFilter previewObjectMesh;
+        private Placeable previewPlaceableInfo;
+
         private float objectRotationAngle;                              // Rotation of preview object
-                                                                        // private FloorType previewFloorType;
-                                                                        // private BuildingType previewBuildingType;
-                                                                        // private WallType previewWallType;
-        private Placeable previewPlaceable;
-        //private TilePartEditing editing = TilePartEditing.None;
-        public bool IsEditing;
+
+        private GridDataHandler dataHandler;
+
+        private Tile currentTile;
         private Tile previousTile = null;
 
         public bool DestroyMode { get; set; }
+        public float GetTileSize { get { return tileSize; } }
+        public Vector2Int GetGridSize { get { return gridSize; } }
 
-        //  [Space(20)]
-        //    public SelectionMode interactionMode = SelectionMode.Edit;
 
         private void Start()
         {
             InitializeTiles(gridSize, tileSize);
+            InitializePreviewObject();
 
-            TileAssets.InitializeAssetsDictionary();
+            dataHandler = GetComponent<GridDataHandler>();
+            dataHandler.LoadGrid();
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
         }
+
+        public void Reset() {
+            if (tiles != null) {
+                for (int x = 0; x < gridSize.x; x++) {
+                    for (int y = 0; y < gridSize.y; y++) {
+                        tiles[x, y].Reset();
+                    }
+                }
+            }
+        }
+
+        #region Input
 
         private void Instance_InputModeChanged(object sender, InputMode mode)
         {
@@ -83,7 +102,7 @@ namespace Goat.Grid
                     {
                         //TileInformation tileInfo = currentTile.GetTileInformation();
                         //  if (IsEditing)
-                        currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
+                        currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
                     }
                 }
                 if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
@@ -94,6 +113,8 @@ namespace Goat.Grid
                 }
             }
         }
+
+        #endregion
 
         private void Update()
         {
@@ -121,7 +142,10 @@ namespace Goat.Grid
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    tiles[x, y] = new Tile(new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition, this);
+                    tiles[x, y] = new Tile(
+                        new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition, 
+                        new Vector2Int(x, y),
+                        this);
                 }
             }
 
@@ -139,10 +163,6 @@ namespace Goat.Grid
             if (previousTile != null)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
-                //    previousTile.ShowFloor(true);
-                // previousTile.ShowBuilding(true);
-                //previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
-                //previousTile.ShowAnyWall(true, objectRotationAngle);
             }
 
             // Hide target object on selected tile
@@ -150,58 +170,60 @@ namespace Goat.Grid
             {
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
-                    selectedTile.ShowTile(false, objectRotationAngle, previewPlaceable);
+                    selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
-                //if (editing == TilePartEditing.Floor)
-                //selectedTile.ShowFloor(false);
-                //else if (editing == TilePartEditing.Building)
-                //    selectedTile.ShowBuilding(false);
-                //else if (editing == TilePartEditing.Wall)
-                //    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
-                // else
-                // Debug.LogWarning("Trying to highlight Nothing");
             }
 
             // Selected placingtile on position of tile hit by raycast
             if (previewObject && selectedTile != null)
             {
-                previewObject.transform.position = selectedTile.GetTileInformation().TilePosition;
-                previewObject.SetActive(true);
+                EnablePreview(selectedTile.Position);
             }
-            else if (selectedTile == null && previewObject)
+            else if (previewObject && selectedTile == null)
             {
-                previewObject.SetActive(false);
+                DisablePreview();
             }
         }
 
-        public void DestroyPreview()
+        #region Preview Functions 
+
+        private void InitializePreviewObject() {
+            previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            previewObject.transform.SetParent(transform.parent);
+            previewObject.transform.localScale = Vector3.one * tileSize;
+
+            previewObjectMesh = previewObject.GetComponent<MeshFilter>();
+            previewObjectMesh.GetComponent<MeshRenderer>().material = previewMaterial;
+        }
+
+        public void EnablePreview(Vector3 position) {
+            previewObject.transform.position = position;
+            previewObject.SetActive(true);
+        }
+
+        public void DisablePreview()
         {
-            if (previewObject)
-            {
-                previewObject.SetActive(false);
-            }
+            previewObject.SetActive(false);
+        }
+
+        public void SetPreviewActiveMesh(Mesh newMesh) {
+            previewObject.SetActive(true);
+            previewObjectMesh.mesh = newMesh;
         }
 
         public void ChangePreviewObject(Placeable placeable)
         {
             //Change to pooling if destroy is really destroying
-            IsEditing = true;
-            if (previewPlaceable != placeable)
-            {
-                previewPlaceable = placeable;
-
-                if (previewObject) Destroy(previewObject);
-            }
-            if (previewObject) Destroy(previewObject);
+            if (previewPlaceableInfo != placeable)
+                previewPlaceableInfo = placeable;
 
             if (!DestroyMode)
-            {
-                previewObject = Instantiate(placeable.Prefab, new Vector3(0, 200, 0), Quaternion.Euler(0, objectRotationAngle, 0));
-                previewObject.transform.localScale = Vector3.one * tileSize;
-            }
+                SetPreviewActiveMesh(placeable.Mesh);
         }
 
-        //===========================================================================================================================================================================================================================================================================
+        #endregion
+
+        #region Tile Functions
 
         /// <summary>
         /// Returns tile in grid that is being selected by the mouse
@@ -248,5 +270,7 @@ namespace Goat.Grid
             else Debug.LogError("Grid Selection is outside of tile bounds");
             return null;
         }
+
+        #endregion
     }
 }
