@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityAtoms.BaseAtoms;
+using Sirenix.OdinInspector;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -39,11 +41,13 @@ public class DayNightCycle : MonoBehaviour
     private int timeOfSunset = 17;
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    [Range(1, 3)]
     public int timeSpeed = 1;
 
+    [SerializeField] private BoolEvent OnChangeCycle;
+    [SerializeField, ProgressBar(1, 10)] private int timeScale;
+
     //Events for OnDayTime and OnNightTime
-    public event EventHandler<bool> OnChangeCycle;
+    //public event EventHandler<bool> OnChangeCycle;
 
     private void Start()
     {
@@ -53,7 +57,7 @@ public class DayNightCycle : MonoBehaviour
         //TimeOfDayHours = zet hier een tijd om de dag te beginnen
         transitionTimer = 1f;
         mainLight.color = targetTimeColor;
-        Time.timeScale = 1;
+        Time.timeScale = timeScale;
     }
 
     private void Update()
@@ -108,7 +112,7 @@ public class DayNightCycle : MonoBehaviour
         dayNightIcon.sprite = sun;
         // englishTime = PM;
         isDay = true;
-        OnChangeCycle.Invoke(this, isDay);
+        OnChangeCycle.Raise(isDay);
         transitionTimer = 0f;
     }
 
@@ -120,7 +124,8 @@ public class DayNightCycle : MonoBehaviour
         dayNightIcon.sprite = moon;
         //   englishTime = AM;
         isDay = false;
-        OnChangeCycle.Invoke(this, isDay);
+        OnChangeCycle.Raise(isDay);
+
         transitionTimer = 0f;
     }
 }
