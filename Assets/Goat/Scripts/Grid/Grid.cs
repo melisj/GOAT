@@ -88,12 +88,10 @@ namespace Goat.Grid
         {
             if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
                 {
                     if (currentTile != null)
                     {
-                        //TileInformation tileInfo = currentTile.GetTileInformation();
-                        //  if (IsEditing)
                         checkedTiles.Clear();
                         currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
                         SetupNeighborTiles(currentTileIndex);
@@ -147,8 +145,16 @@ namespace Goat.Grid
                 return;
             }
 
+            if (tile.FloorObj == null)
+            {
+                tile.EditAnyWall(defaultWall, rotation, true);
+            }
+            else
+            {
+                tile.EditAnyWall(defaultWall, rotation, false);
+            }
+
             //Placewalls
-            tile.EditAnyWall(defaultWall, rotation, false);
         }
 
         private Tile GetNeighbourTile(Vector2Int index)

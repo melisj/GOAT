@@ -18239,7 +18239,7 @@ MonoBehaviour:
   isDay: 0
   timeSpeed: 1
   OnChangeCycle: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  timeScale: 10
+  timeScale: 1
 --- !u!108 &1717257142
 Light:
   m_ObjectHideFlags: 0

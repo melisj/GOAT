@@ -20,6 +20,8 @@ namespace Goat.Grid
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
+        public int PoolKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ObjectInstance ObjInstance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Tile(Vector3 centerPosition, Vector2Int gridPosition, Grid grid)
         {
@@ -37,6 +39,22 @@ namespace Goat.Grid
             if (floorObject) MonoBehaviour.Destroy(floorObject);
             if (buildingObject) MonoBehaviour.Destroy(buildingObject);
             if (tileObject) MonoBehaviour.Destroy(tileObject);
+            placeable = null;
+        }
+
+        public void ResetPooled()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (wallObjs[i]) PoolManager.Instance.ReturnToPool((wallObjs[i]));
+                wallObjs[i] = null;
+            }
+            if (floorObject) PoolManager.Instance.ReturnToPool(floorObject);
+            if (buildingObject) PoolManager.Instance.ReturnToPool(buildingObject);
+            if (tileObject) PoolManager.Instance.ReturnToPool(tileObject);
+            floorObject = null;
+            buildingObject = null;
+            tileObject = null;
             placeable = null;
         }
 
@@ -89,19 +107,6 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show);
         }
 
-        //public void ShowWall(bool show, WallPosition position)
-        //{
-        //    //code
-        //    if (wallObjects[WallPosition.North]) wallObjects[WallPosition.North].SetActive(true);
-        //    if (wallObjects[WallPosition.East]) wallObjects[WallPosition.East].SetActive(true);
-        //    if (wallObjects[WallPosition.South]) wallObjects[WallPosition.South].SetActive(true);
-        //    if (wallObjects[WallPosition.West]) wallObjects[WallPosition.West].SetActive(true);
-
-        //    if (wallObjects[position]) wallObjects[position].SetActive(show);
-        //    //check what wall to show
-        //    //check what wall to hide
-        //}
-
         private bool CheckForFloor(Placeable placeable)
 
         {
@@ -111,13 +116,15 @@ namespace Goat.Grid
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
-            if (CheckForFloor(placeable)) { return false; }
 
             if (placeable is Wall)
             {
                 EditAnyWall(placeable, rotationAngle, destroyMode);
                 return true;
             }
+
+            if (CheckForFloor(placeable)) { return false; }
+
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
 
@@ -141,7 +148,8 @@ namespace Goat.Grid
                 //this.placeable.Amount++;
 
                 SaveData.SetBuilding(-1, 0);
-                MonoBehaviour.Destroy(buildingObject);
+                PoolManager.Instance.ReturnToPool(buildingObject);
+                buildingObject = null;
             }
             else if (floorObject && (!(placeable is Furniture) | destroyMode))
             {
@@ -149,15 +157,16 @@ namespace Goat.Grid
                 //this.placeable.Amount++;
 
                 SaveData.SetFloor(-1, 0);
-                MonoBehaviour.Destroy(floorObject);
+                PoolManager.Instance.ReturnToPool(floorObject);
+                floorObject = null;
             }
             if (placeable != null && !destroyMode)
             {
                 GameObject newObject = placeable.Prefab;
                 //placeable.Amount--;
-                tileObject = GameObject.Instantiate(newObject, centerPosition, rotation);
+                // tileObject = GameObject.Instantiate(newObject, centerPosition, rotation);
 
-                // tileObject = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                tileObject = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 tileObject.transform.localScale = size;
                 if (placeable is Floor)
                 {
@@ -192,31 +201,18 @@ namespace Goat.Grid
                 }
                 if (wallObjs[index])
                 {
-                    MonoBehaviour.Destroy(wallObjs[index]);
+                    PoolManager.Instance.ReturnToPool(wallObjs[index]);
+                    wallObjs[index] = null;
                     SaveData.SetWall(-1, index);
                 }
 
-                //for (int i = index; i < wallObjs.Length; i++)
-                //{
-                //    if (wallObjs[i] == null)
-                //    {
-                //        index = i;
-                //        break;
-                //    }
-                //    rotationAngle += 90;
-                //}
-                ///Debug.Log(index);
-                //Debug.Log(rotationAngle);
-
-                // Find gameobject
-                // Instantiate gameobject
                 if (wall != null && !destroyMode)
                 {
                     GameObject newObject = wall.Prefab;
                     Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
-                    //Quaternion newRotation = Quaternion.Euler(0, (float)(int)position, 0);
                     Vector3 size = Vector3.one * grid.GetTileSize;
-                    wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
+                    //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
+                    wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                     wallObjs[index].transform.localScale = size;
 
                     SaveData.SetWall(wall.ID, index);
