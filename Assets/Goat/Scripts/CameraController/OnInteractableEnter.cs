@@ -11,7 +11,6 @@ public class OnInteractableEnter : MonoBehaviour
 
     private void Awake()
     {
-        collisionDetection.OnColliderEnter += CollisionDetection_OnColliderEnter;
     }
 
     private void CollisionDetection_OnColliderEnter(object sender, Collider e)

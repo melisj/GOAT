@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 namespace Goat.Player
 {
@@ -43,7 +44,8 @@ namespace Goat.Player
 
             //player.SetDestination(mousePos);
 
-            var ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            var ray = mainCam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo))
                 player.destination = m_HitInfo.point;
         }

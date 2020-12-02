@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Grid.Interactions;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,9 +16,11 @@ public class CollisionDetection : MonoBehaviour
     [SerializeField] private bool updateDetectionOnIdleOnly;
     private Vector3 oldPos;
     private bool isMoving;
-    private Collider latestCollider;
+    private Collider latestCollider, previousCollider;
 
-    public event EventHandler<Collider> OnColliderEnter;
+    private BaseInteractable previousInteractable;
+
+    //public event EventHandler<Collider> OnColliderEnter;
 
     private void Awake()
     {
@@ -30,24 +33,45 @@ public class CollisionDetection : MonoBehaviour
         isMoving = (transform.position != oldPos);
         oldPos = transform.position;
 
-        if (!isMoving && updateDetectionOnIdleOnly)
+        if (!isMoving && updateDetectionOnIdleOnly && !latestCollider)
         {
             DetectNearest();
+        }
+
+        if (isMoving)
+        {
+            ResetUI();
+        }
+    }
+
+    private void ResetUI()
+    {
+        if (previousInteractable)
+        {
+            previousInteractable.CloseUI();
+            previousInteractable = null;
+            latestCollider = null;
         }
     }
 
     private void DetectNearest()
     {
         latestCollider = GetNearest(DetectOverlap());
+
         if (latestCollider != null)
         {
-            OnColliderEnter?.Invoke(this, latestCollider);
+            previousInteractable = latestCollider.GetComponent<BaseInteractable>();
+            if (previousInteractable.IsClickedOn)
+            {
+                previousInteractable.OpenUIFully();
+            }
         }
+        previousCollider = latestCollider;
     }
 
     private Collider GetNearest(Collider[] colls)
     {
-        float nearestDist = 0;
+        float nearestDist = 9999;
         Collider nearestCollider = null;
         for (int i = 0; i < colls.Length; i++)
         {

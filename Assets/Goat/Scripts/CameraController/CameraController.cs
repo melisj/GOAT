@@ -105,6 +105,17 @@ namespace Goat.CameraControls
                 SwitchTopViewMode();
                 InputManager.Instance.InputMode = InputMode.Select;
             }
+            if (code == KeyCode.Alpha4 && keyMode == InputManager.KeyMode.Down)
+            {
+                GoToPlayer();
+            }
+        }
+
+        private void GoToPlayer()
+        {
+            Vector3 newPos = thirdPersonObj.transform.position;
+            newPos.y = pointToClickObj.transform.position.y;
+            pointToClickObj.transform.position = newPos;
         }
 
         private void Update()
@@ -176,7 +187,7 @@ namespace Goat.CameraControls
             currentTopViewMode = TopViewMode.thirdPerson;
             Cursor.lockState = CursorLockMode.Locked;
             currentObject = thirdPersonObj.transform;
-            pointToClickObj.transform.position = thirdPersonObj.transform.position;
+            GoToPlayer();
             SwitchCamera(thirdPersonCamera);
             pointToClickObj.SetActive(false);
             thirdPersonObj.SetActive(true);
