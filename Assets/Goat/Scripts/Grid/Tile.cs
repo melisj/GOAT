@@ -166,12 +166,20 @@ namespace Goat.Grid
             return new TileInformation(centerPosition, floorType, buildingType, wallPositions, placeable);
         }
 
-        public void EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
+        private bool CheckForFloor(Placeable placeable)
         {
+            return (!floorObject && !(placeable is Floor));
+        }
+
+        public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
+        {
+            //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
+            if (CheckForFloor(placeable)) { return false; }
+
             if (placeable is Wall)
             {
                 EditAnyWall(placeable, rotationAngle, destroyMode);
-                return;
+                return true;
             }
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
@@ -180,7 +188,8 @@ namespace Goat.Grid
 
             if ((tileObject && this.placeable == placeable) && !destroyMode)
             {
-                return;
+                //No need to destroy if you want to edit the same tile with the same type
+                return true;
             }
 
             if (buildingObject && (!(placeable is Floor) | destroyMode))
@@ -211,23 +220,37 @@ namespace Goat.Grid
                     buildingObject = tileObject;
                 }
             }
-            //}
-
             this.placeable = placeable;
+            return true;
         }
 
-        public void EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode)
+        //Detect tile has neighbouring tiles
+        //if no neighbouring tiles, add wall in that direction
+        //if neighbouring tiles, delete wall there
+        public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode)
         {
             if (this.placeable != wall)
             {
                 // If walltype at position exists
 
                 int index = 0;
+
                 if (rotationAngle > 0)
                 {
                     index = (int)(rotationAngle / 90);
                 }
                 if (wallObjs[index]) MonoBehaviour.Destroy(wallObjs[index]);
+
+                for (int i = index; i < wallObjs.Length; i++)
+                {
+                    if (wallObjs[i] == null)
+                    {
+                        index = i;
+                        break;
+                    }
+                    rotationAngle += 90;
+                }
+
                 // Find gameobject
                 GameObject newObject = wall.Prefab;
                 // Instantiate gameobject
@@ -240,6 +263,7 @@ namespace Goat.Grid
                     wallObjs[index].transform.localScale = size;
                 }
             }
+            return true;
             //this.placeable = wall;
         }
 

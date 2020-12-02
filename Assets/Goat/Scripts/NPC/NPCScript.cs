@@ -48,6 +48,7 @@ public class NPCScript : MonoBehaviour, IPoolObject
     private actionState currentAction = actionState.Pickup;
     private Queue<desiredItem> desireds = new Queue<desiredItem>();
     private Dictionary<ResourceType, int> groceries = new Dictionary<ResourceType, int>();
+    private Dictionary<Resource, int> groceriesResource = new Dictionary<Resource, int>();
 
     public void OnGetObject(ObjectInstance objectInstance, int poolKey)
     {
@@ -190,6 +191,9 @@ public class NPCScript : MonoBehaviour, IPoolObject
                 // If target still has item grab item.
                 for (int i = 0; i < targetStorage.GetItems.Count; i++)
                 {
+                    if (targetStorage.GetItems[i].Resource == groceriesResource.Keys.First())
+                    {
+                    }
                     if (targetStorage.GetItems[i].Resource.ResourceType == groceries.Keys.First())
                     {
                         if (money == null)

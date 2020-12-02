@@ -25,6 +25,10 @@ namespace Goat.Grid
 
         [SerializeField] private LayerMask gridMask;
         private Tile currentTile;
+        private Tile tileUp;
+        private Tile tileLeft;
+        private Tile tileRight;
+        private Tile tileDown;
 
         public float GetTileSize { get { return tileSize; } }
 
@@ -86,7 +90,7 @@ namespace Goat.Grid
                         currentTile.EditAny(previewPlaceable, objectRotationAngle, DestroyMode);
                     }
                 }
-                if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
@@ -95,9 +99,16 @@ namespace Goat.Grid
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         private void Update()
         {
             EditTile();
+        }
+
+        private void FillNeighbourTiles(Vector2Int index)
+        {
         }
 
         private void EditTile()
@@ -139,10 +150,6 @@ namespace Goat.Grid
             if (previousTile != null)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
-                //    previousTile.ShowFloor(true);
-                // previousTile.ShowBuilding(true);
-                //previousTile.ShowWall(true, (WallPosition)objectRotationAngle);
-                //previousTile.ShowAnyWall(true, objectRotationAngle);
             }
 
             // Hide target object on selected tile
@@ -152,14 +159,6 @@ namespace Goat.Grid
                 {
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceable);
                 }
-                //if (editing == TilePartEditing.Floor)
-                //selectedTile.ShowFloor(false);
-                //else if (editing == TilePartEditing.Building)
-                //    selectedTile.ShowBuilding(false);
-                //else if (editing == TilePartEditing.Wall)
-                //    selectedTile.ShowWall(false, (WallPosition)objectRotationAngle);
-                // else
-                // Debug.LogWarning("Trying to highlight Nothing");
             }
 
             // Selected placingtile on position of tile hit by raycast
