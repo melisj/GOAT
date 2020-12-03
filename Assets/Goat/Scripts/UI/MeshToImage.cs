@@ -28,8 +28,13 @@ public class MeshToImage : MonoBehaviour
         //     mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
         for (int i = 0; i < mesh.Length; i++)
         {
-            mesh[i].mesh = place.Mesh[i];
             mesh[i].transform.localScale = Vector3.one;
+            if (i >= place.Mesh.Length)
+            {
+                mesh[i].mesh = null;
+                continue;
+            }
+            mesh[i].mesh = place.Mesh[i];
         }
     }
 
