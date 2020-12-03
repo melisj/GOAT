@@ -32,7 +32,7 @@ namespace Goat.AI
         protected virtual void Awake()
         {
             //awakeTime = Time.time;
-            targetDestination = transform.position;
+            //targetDestination = Vector3.one;
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();

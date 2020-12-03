@@ -16,6 +16,7 @@ namespace Goat.AI
         [HideInInspector] public int remainingMoney = 0;
 
         [SerializeField] private ResourceArray resourcesInProject;
+        public bool yes = false;
 
         protected override void Awake()
         {
@@ -36,13 +37,14 @@ namespace Goat.AI
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToTarget.timeStuck > 1f;
             Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < npcSize &&  targetStorage == null;
+            Func<bool> ReachedTarget() => () => Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage != null;
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
             Func<bool> GoToCheckout() => () => itemsToGet.Count == 0;
             Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
 
             // Transitions
-            void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
+            void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
 
             AT(calculateGroceries, enterStore, CalculatedGroceries());
             AT(enterStore, searchForGroceries, EnteredStore());
@@ -52,7 +54,7 @@ namespace Goat.AI
             AT(moveToTarget, searchForGroceries, ReachedDestination());
             AT(takeItem, searchForGroceries, StorageDepleted());
 
-            stateMachine.SetState(enterStore);
+            stateMachine.SetState(calculateGroceries);
         }
 
         //protected override void Update() => stateMachine.Tick();

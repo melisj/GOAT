@@ -38,7 +38,7 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
-            Debug.Log("Entered Store");
+            Debug.Log("Entered store");
             // Set animation
             navMeshAgent.enabled = false;
             npc.enterTime = Time.time;

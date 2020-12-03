@@ -8,7 +8,6 @@ namespace Goat.AI.States
     public class MoveToTarget : IState
     {
         private NPC npc;
-        private Vector3 target;
         private NavMeshAgent navMeshAgent;
         private Animator animator;
 
@@ -19,7 +18,6 @@ namespace Goat.AI.States
         public MoveToTarget(NPC npc, Vector3 target, NavMeshAgent navMeshAgent, Animator animator)
         {
             this.npc = npc;
-            this.target = target;
             this.navMeshAgent = navMeshAgent;
             //this.animator = animator;
         }
@@ -35,14 +33,16 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
+            Debug.LogFormat("Moving to target: {0}", npc.targetDestination);
             timeStuck = 0f;
             navMeshAgent.enabled = true;
-            navMeshAgent.SetDestination(target);
+            navMeshAgent.SetDestination(npc.targetDestination);
             // Animation
         }
 
         public void OnExit()
         {
+            Debug.Log("Arrived at target");
             navMeshAgent.enabled = false;
             npc.searchingTime = Time.time - npc.enterTime;
             // Animation

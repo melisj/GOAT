@@ -390,8 +390,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721251004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.40893072, y: -0.5757815, z: 0.40562996, w: -0.58027214}
+  m_LocalPosition: {x: -7.662255, y: 16.218182, z: -0.21038118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -894,7 +894,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 223505228ab48234491a7dbee540f427, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -950,7 +950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcSize: 1
-  wanderRange: 3
+  wanderRange: 10
   carriedItemValue: 0
   targetDestination: {x: 0, y: 0, z: 0}
   navMeshAgent: {fileID: 0}
@@ -961,6 +961,7 @@ MonoBehaviour:
   money: 200
   remainingMoney: 0
   resourcesInProject: {fileID: 11400000, guid: fccc7482542f53747b198b1207452a9e, type: 2}
+  yes: 0
 --- !u!1 &1832266857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1003,7 @@ MonoBehaviour:
   money: 0
   remainingMoney: 0
   resourcesInProject: {fileID: 11400000, guid: fccc7482542f53747b198b1207452a9e, type: 2}
+  yes: 0
 --- !u!4 &1832266859
 Transform:
   m_ObjectHideFlags: 0

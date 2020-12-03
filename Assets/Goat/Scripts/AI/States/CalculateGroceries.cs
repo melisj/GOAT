@@ -75,7 +75,6 @@ namespace Goat.AI.States
         public void OnExit()
         {
             customer.remainingMoney = customer.money - calculatedCost;
-            Debug.Log("Exited State Calculating Groceries");
         }
     }
 }

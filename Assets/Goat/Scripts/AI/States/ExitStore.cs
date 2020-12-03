@@ -38,9 +38,9 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
+            Debug.Log("Exited store");
             // Set animation
             navMeshAgent.enabled = false;
-
         }
     }
 }
