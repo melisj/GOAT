@@ -172,6 +172,11 @@ namespace Goat.Grid
                 MeshFilter[] tileObjectFilter = tileObject.GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
+                    if (i >= placeable.Mesh.Length)
+                    {
+                        tileObjectFilter[i].mesh = null;
+                        continue;
+                    }
                     tileObjectFilter[i].mesh = placeable.Mesh[i];
                 }
 
