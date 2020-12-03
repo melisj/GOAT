@@ -9,27 +9,15 @@ namespace Goat.Grid.Interactions
     public class InteractableManager : MonoBehaviour
     {
         public delegate void InteractableClickEvent(Transform interactable);
-
         public static event InteractableClickEvent InteractableClickEvt;
 
-        public delegate void SelectedInteractableChangeEvent(BaseInteractable interactable);
 
-        public static event SelectedInteractableChangeEvent SelectedInteractableChangeEvt;
 
         [SerializeField] private LayerMask interactableMask;
 
-        public const string StorageIconPrefabname = "ItemIcon";
-
-        public const string ItemHolderName = "ItemHolder";
-        public const string ItemHolderParentName = "ItemHolderParent";
-        public const string ItemMaterialName = "VertexColorShader";
-
-        public static Material ItemMaterial;
 
         public void Awake()
         {
-            ItemMaterial = Resources.Load<Material>(ItemMaterialName);
-
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
         }
 

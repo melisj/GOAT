@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
+  m_Script: {fileID: 11500000, guid: 77da5c08ea4580b4089aa9d08d376521, type: 3}
   m_Name: Dober
   m_EditorClassIdentifier: 
   serializationData:
@@ -21,21 +21,19 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  identifier: 0
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 300
+  price: 0
   image: {fileID: 21300000, guid: 0088edb6b766c084dbff3072bd098582, type: 3}
   mesh: {fileID: 0}
-  summary: 'The dober is a regular farm station.
-
-    Used to get orichalcum out
-    of asteroid ground.'
-  amount: 0
-  deliveryTime: 10
+  summary: 
+  amount: 219
+  deliveryTime: 0
   prefab: {fileID: 6537295259919212493, guid: ba5b2b731ae4a974b8e4c4d82dfca704, type: 3}
   resourceFarm: {fileID: 11400000, guid: 9ebcf876b28e3154081b2aab550df9c5, type: 2}
-  farmType: 1
-  storageCapacity: 2000
-  amountPerSecond: 4
+  farmType: 0
+  storageCapacity: 1
+  amountPerSecond: 2
   costPerSecond: 0
   resourceCost: []
-  farmDeliverType: 0
+  farmDeliverType: 1

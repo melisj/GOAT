@@ -29,11 +29,14 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class BaseInteractable : MonoBehaviour
     {
-        [TextArea]
+        [SerializeField] private InteractableInfo info;
+
+        [TextArea, Space(10)]
         [SerializeField] protected string description;
 
         protected UnityEvent InformationChanged = new UnityEvent();
         public bool IsClickedOn { get; set; }
+
 
         protected virtual void OnEnable()
         {

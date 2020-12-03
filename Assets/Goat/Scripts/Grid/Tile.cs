@@ -54,7 +54,7 @@ namespace Goat.Grid
 
             if (buildingObject)
             {
-                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Furniture));
+                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Building));
             }
 
             if (floorObject)
@@ -117,7 +117,7 @@ namespace Goat.Grid
                 SaveData.SetBuilding(-1, 0);
                 MonoBehaviour.Destroy(buildingObject);
             }
-            else if (floorObject && (!(placeable is Furniture) | destroyMode))
+            else if (floorObject && (!(placeable is Building) | destroyMode))
             {
                 //So we deleted the building most likely, now it's time to delete the floor
                 //this.placeable.Amount++;
@@ -138,7 +138,7 @@ namespace Goat.Grid
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
                 }
-                else if (placeable is Furniture)
+                else if (placeable is Building)
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;

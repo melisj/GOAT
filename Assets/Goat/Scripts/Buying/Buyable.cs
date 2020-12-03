@@ -27,10 +27,6 @@ public class Buyable : SerializedScriptableObject
 
     public int ID => identifier;
 
-    public void OnValidate() {
-        SetIdentifiers();
-    }
-
     [Button("Set ID's")]
     public void SetIdentifiers() {
         Object[] list = Resources.LoadAll("", typeof(Buyable));
