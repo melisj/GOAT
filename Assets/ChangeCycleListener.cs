@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityAtoms;
+using UnityAtoms.BaseAtoms;
+using Goat.Events;
 
 namespace Goat
 {
-    public class ChangeCycleListener : MonoBehaviour
+    public class ChangeCycleListener : EventListenerBool
     {
         [SerializeField] private DayNightCycle dayNightCycle;
         [SerializeField] private SpawnNPC npcSpawner;
@@ -14,7 +17,6 @@ namespace Goat
 
         private void Awake()
         {
-            dayNightCycle.OnChangeCycle += DayNightCycle_OnChangeCycle;
         }
 
         private void HideUI(bool activate)
@@ -54,6 +56,10 @@ namespace Goat
             DisableModeChanging(isDay);
             SwitchMode(isDay);
             SpawnNpc(isDay);
+        }
+
+        public override void OnEventRaised(bool item)
+        {
         }
     }
 }

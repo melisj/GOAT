@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07b149f621bd984ab387cbd7a783a87, type: 3}
+  m_Name: Cross
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  identifier: 3
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  price: 0
+  image: {fileID: 21300000, guid: 4010c746191353b4682e3f1bb3463513, type: 3}
+  mesh: {fileID: 3514345161672944966, guid: 2dc1b3de96ab7374f91c0ba94b3de43a, type: 3}
+  summary: 
+  amount: 99999
+  deliveryTime: 0
+  prefab: {fileID: 5071828486381597130, guid: 1b36c71b5b8618e41b0b0a4e104e1b1e, type: 3}

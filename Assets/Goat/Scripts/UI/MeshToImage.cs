@@ -9,11 +9,11 @@ public class MeshToImage : MonoBehaviour
     private const string dataType = ".png";
 
     [SerializeField] private RenderTexture rt;
-    [SerializeField, AssetList(Path = "Goat/Prefabs/Grid/Resources")] private GameObject meshPrefab;
+    [SerializeField, AssetList(Path = "/Goat/ScriptableObjects/Resources")] private Placeable[] placeable;
     [SerializeField] private int width = 32;
     [SerializeField] private int height = 32;
     [SerializeField] private bool testCameraSize;
-    private GameObject mesh;
+    [SerializeField] private MeshFilter mesh;
 
     //private void LateUpdate()
     //{
@@ -23,9 +23,10 @@ public class MeshToImage : MonoBehaviour
     //    }
     //}
 
-    private void CreateMesh()
+    private void CreateMesh(Placeable place)
     {
-        mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
+        //     mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
+        mesh.mesh = place.Mesh;
         mesh.transform.localScale = Vector3.one;
     }
 
@@ -40,24 +41,27 @@ public class MeshToImage : MonoBehaviour
     [Button]
     private void CreateImage()
     {
-        CreateMesh();
-        byte[] bytes = ToTexture2D(rt).EncodeToPNG();
-        string path = Application.dataPath + folderPath + meshPrefab.name + dataType;
-        //FileStream stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-        //BinaryWriter writer = new BinaryWriter(stream);
-        //for (int i = 0; i < bytes.Length; i++)
-        //{
-        //    writer.Write(bytes[i]);
-        //}
-        //writer.Close();
-        //stream.Close();
-        File.WriteAllBytes(path, bytes);
-        Debug.LogFormat("Created image of {0} at {1}", meshPrefab.name, path);
+        for (int i = 0; i < placeable.Length; i++)
+        {
+            CreateMesh(placeable[i]);
+            byte[] bytes = ToTexture2D(rt).EncodeToPNG();
+            string path = Application.dataPath + folderPath + placeable[i].name + dataType;
+            //FileStream stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+            //BinaryWriter writer = new BinaryWriter(stream);
+            //for (int i = 0; i < bytes.Length; i++)
+            //{
+            //    writer.Write(bytes[i]);
+            //}
+            //writer.Close();
+            //stream.Close();
+            File.WriteAllBytes(path, bytes);
+            Debug.LogFormat("Created image of {0} at {1}", placeable[i].name, path);
 #if UNITY_EDITOR
-        AssetDatabase.Refresh();
+            AssetDatabase.Refresh();
 #endif
-        if (testCameraSize) return;
-        DeleteMesh();
+        }
+        //if (testCameraSize) return;
+        //DeleteMesh();
     }
 
     private Texture2D ToTexture2D(RenderTexture rTex)
