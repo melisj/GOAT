@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  identifier: 5
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
   image: {fileID: 21300000, guid: ad1697039ff61264cae71206eb54ca39, type: 3}
@@ -28,4 +29,4 @@ MonoBehaviour:
   summary: 
   amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 143773214022579758, guid: 5efd8e274a39e084f957eec409cc033d, type: 3}
+  prefab: {fileID: 5071828486381597130, guid: 1b36c71b5b8618e41b0b0a4e104e1b1e, type: 3}
