@@ -86,8 +86,9 @@ public class NPCScript : MonoBehaviour, IPoolObject
         //  agent = this.gameObject.GetComponent<NavMeshAgent>();
     }
 
-    public void Setup()
+    public void Setup(Transform entrance)
     {
+        this.entrance = entrance;
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         currentAction = actionState.Pickup;
         addDesiredItems();
@@ -148,7 +149,7 @@ public class NPCScript : MonoBehaviour, IPoolObject
         else
         {
             //   print("Going to the exit");
-            target = GameObject.Find("Entrance").transform.position;
+            target = entrance.position;
         }
         if (agent.isActiveAndEnabled && agent.isOnNavMesh)
         {

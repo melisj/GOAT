@@ -32,6 +32,8 @@ MonoBehaviour:
   amount: 9
   deliveryTime: 10
   prefab: {fileID: 6257709004261703041, guid: 5509decc968af4a4c8388f86166cf29d, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
+  beautyPoints: 0
   resourceFarm: {fileID: 11400000, guid: 72135646792511f4e96d6c2998d5d140, type: 2}
   farmType: 0
   storageCapacity: 2000

@@ -24,10 +24,12 @@ MonoBehaviour:
   identifier: 23
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: f9def374c55d0ee499fee93fe02316c0, type: 3}
   mesh:
   - {fileID: -5224724750596532604, guid: 64ebf1a0f1737524a8ddaa673be0599a, type: 3}
   summary: 
   amount: 99999
   deliveryTime: 0
   prefab: {fileID: 6941252125494193769, guid: 791f7195e6b9ba9458c0697d0d4fa11e, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
+  beautyPoints: 0

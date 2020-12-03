@@ -67,9 +67,13 @@ namespace Goat.Grid
         {
             //Placeable is what you are going to be place
             //If (wallObjs is active) | buildingObj | floorObj
-            if (this.placeable is Wall)
+            for (int i = 0; i < wallObjs.Length; i++)
             {
-                ShowAnyWall(show, rotation);
+                if (wallObjs[i])
+                    //if (placeable is Wall)
+                    //{
+                    ShowAnyWall(show, rotation, placeable);
+                //}
             }
 
             if (buildingObject)
@@ -88,7 +92,7 @@ namespace Goat.Grid
             if (buildingObject) buildingObject.SetActive(show);
         }
 
-        public void ShowAnyWall(bool show, float rotation)
+        public void ShowAnyWall(bool show, float rotation, Placeable placeable = null)
         {
             for (int i = 0; i < wallObjs.Length; i++)
             {
@@ -104,11 +108,10 @@ namespace Goat.Grid
             {
                 index = (int)(rotation / 90);
             }
-            if (wallObjs[index]) wallObjs[index].SetActive(show);
+            if (wallObjs[index]) wallObjs[index].SetActive(show ? show : placeable != null && !(placeable is Wall));
         }
 
-        private bool CheckForFloor(Placeable placeable)
-
+        public bool CheckForFloor(Placeable placeable)
         {
             return (!floorObject && !(placeable is Floor));
         }
@@ -116,14 +119,13 @@ namespace Goat.Grid
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
+            if (CheckForFloor(placeable)) { return false; }
 
             if (placeable is Wall)
             {
                 EditAnyWall(placeable, rotationAngle, destroyMode);
                 return true;
             }
-
-            if (CheckForFloor(placeable)) { return false; }
 
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
@@ -195,42 +197,41 @@ namespace Goat.Grid
         //if neighbouring tiles, delete wall there
         public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode)
         {
-            if (this.placeable != wall)
+            //if (this.placeable != wall)
+            //{
+            // If walltype at position exists
+
+            int index = 0;
+
+            if (rotationAngle > 0)
             {
-                // If walltype at position exists
-
-                int index = 0;
-
-                if (rotationAngle > 0)
-                {
-                    index = (int)(rotationAngle / 90);
-                }
-                if (wallObjs[index])
-                {
-                    PoolManager.Instance.ReturnToPool(wallObjs[index]);
-                    wallObjs[index] = null;
-                    SaveData.SetWall(-1, index);
-                }
-
-                if (wall != null && !destroyMode)
-                {
-                    GameObject newObject = wall.Prefab;
-                    Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
-                    Vector3 size = Vector3.one * grid.GetTileSize;
-                    //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
-                    wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
-                    wallObjs[index].transform.localScale = size;
-                    MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
-                    for (int i = 0; i < tileObjectFilter.Length; i++)
-                    {
-                        tileObjectFilter[i].mesh = wall.Mesh[i];
-                    }
-
-                    SaveData.SetWall(wall.ID, index);
-                }
-
-                //this.placeable = wall;
+                index = (int)(rotationAngle / 90);
             }
+            if (wallObjs[index])
+            {
+                PoolManager.Instance.ReturnToPool(wallObjs[index]);
+                wallObjs[index] = null;
+                SaveData.SetWall(-1, index);
+            }
+
+            if (wall != null && !destroyMode)
+            {
+                GameObject newObject = wall.Prefab;
+                Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
+                Vector3 size = Vector3.one * grid.GetTileSize;
+                //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
+                wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                wallObjs[index].transform.localScale = size;
+                MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                for (int i = 0; i < tileObjectFilter.Length; i++)
+                {
+                    tileObjectFilter[i].mesh = wall.Mesh[i];
+                }
+
+                SaveData.SetWall(wall.ID, index);
+            }
+            // }
+            this.placeable = wall;
             return true;
         }
 

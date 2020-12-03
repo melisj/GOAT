@@ -239,7 +239,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541140509}
-  m_Mesh: {fileID: -5224724750596532604, guid: 64ebf1a0f1737524a8ddaa673be0599a, type: 3}
+  m_Mesh: {fileID: -3868640655150284432, guid: 0a68b8d2930206e49ae10046549ad55f, type: 3}
 --- !u!65 &541140511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -332,7 +332,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687493948}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: -5952922175486859033, guid: 0a68b8d2930206e49ae10046549ad55f, type: 3}
 --- !u!65 &687493950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: {fileID: 8400000, guid: 3bf0c4bfbccb1aa4b88f057ea3e66ecd, type: 2}
   placeable:
-  - {fileID: 11400000, guid: d326ef93521c40842a27702447c81d0a, type: 2}
+  - {fileID: 11400000, guid: ce4ed6e69d515b04dafc15c146d3ba64, type: 2}
   width: 256
   height: 256
   testCameraSize: 0

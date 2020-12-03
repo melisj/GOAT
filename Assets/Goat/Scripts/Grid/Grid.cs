@@ -117,6 +117,13 @@ namespace Goat.Grid
 
         #endregion Input
 
+        private void ChangeMaterialColor(bool canPlace)
+        {
+            Color newColor = canPlace ? Color.green : Color.red;
+            newColor.a = 0.5f;
+            previewMaterial.color = newColor;
+        }
+
         private void Update()
         {
             EditTile();
@@ -141,6 +148,7 @@ namespace Goat.Grid
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
@@ -149,18 +157,18 @@ namespace Goat.Grid
                     SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
                 }
 
-                tile.EditAnyWall(defaultWall, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true);
 
                 return;
             }
 
             if (tile.FloorObj == null)
             {
-                tile.EditAnyWall(defaultWall, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true);
             }
             else
             {
-                tile.EditAnyWall(defaultWall, rotation, false);
+                tile.EditAnyWall(wallPlace, rotation, false);
             }
 
             //Placewalls
@@ -226,6 +234,7 @@ namespace Goat.Grid
             {
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
+                    ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo));
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
             }
