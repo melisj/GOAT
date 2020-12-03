@@ -27,6 +27,9 @@ ModelImporter:
   - first:
       74: -3944871745348788264
     second: FarmOil(Pump)|DoorOutside(Door2)Action.001
+  - first:
+      74: -4708949262420921415
+    second: FarmOil(Pump)Action
   externalObjects:
   - first:
       type: UnityEngine:Material
