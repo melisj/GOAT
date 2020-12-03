@@ -220,6 +220,11 @@ namespace Goat.Grid
                     //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
                     wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                     wallObjs[index].transform.localScale = size;
+                    MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                    for (int i = 0; i < tileObjectFilter.Length; i++)
+                    {
+                        tileObjectFilter[i].mesh = wall.Mesh[i];
+                    }
 
                     SaveData.SetWall(wall.ID, index);
                 }

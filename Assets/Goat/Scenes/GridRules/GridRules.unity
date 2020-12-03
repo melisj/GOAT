@@ -8290,7 +8290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4620ccd9452a5714b89d7476ec138284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWall: {fileID: 11400000, guid: acd404ad23c913245b962904b3474582, type: 2}
+  defaultWall: {fileID: 11400000, guid: 78b2f91a5bd12af4885388421c4a79b0, type: 2}
   gridSize: {x: 100, y: 100}
   tileSize: 1
   gridMask:
@@ -14304,36 +14304,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352647950}
   m_CullTransparentMesh: 0
---- !u!1 &1356595367
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1356595368}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1356595368
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356595367}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.615494, y: 1.224178, z: 3.9091961}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358024889
 GameObject:
   m_ObjectHideFlags: 0

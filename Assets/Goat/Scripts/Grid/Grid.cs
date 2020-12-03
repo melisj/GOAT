@@ -33,6 +33,7 @@ namespace Goat.Grid
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
         private Vector2Int currentTileIndex;
+        private bool autoWalls;
 
         public bool DestroyMode { get; set; }
         public float GetTileSize { get { return tileSize; } }
@@ -95,15 +96,21 @@ namespace Goat.Grid
                     {
                         checkedTiles.Clear();
                         currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
-                        if (!(previewPlaceableInfo is Wall))
+                        if (autoWalls)
                             SetupNeighborTiles(currentTileIndex);
                     }
                 }
-                if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+                if (keyCode == KeyCode.T && keyMode.HasFlag(InputManager.KeyMode.Down))
+                {
+                    // Always has to rotate a 90 degrees
+                    autoWalls = !autoWalls;
+                    Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
                 }
             }
         }
@@ -125,10 +132,10 @@ namespace Goat.Grid
         private void CheckNeighbourTiles(Tile tile, Vector2Int index2D)
         {
             int rotation = -90;
-            CheckTile(tile, ref rotation, index2D, Vector2Int.right);
             CheckTile(tile, ref rotation, index2D, Vector2Int.down);
             CheckTile(tile, ref rotation, index2D, Vector2Int.left);
             CheckTile(tile, ref rotation, index2D, Vector2Int.up);
+            CheckTile(tile, ref rotation, index2D, Vector2Int.right);
         }
 
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
@@ -244,8 +251,11 @@ namespace Goat.Grid
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
 
-            previewObjectMesh = previewObject.GetComponents<MeshFilter>();
-            previewObjectMesh[0].GetComponent<MeshRenderer>().material = previewMaterial;
+            previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
+            for (int i = 0; i < previewObjectMesh.Length; i++)
+            {
+                previewObjectMesh[i].GetComponent<MeshRenderer>().material = previewMaterial;
+            }
         }
 
         public void EnablePreview(Vector3 position)
@@ -259,12 +269,17 @@ namespace Goat.Grid
             previewObject.SetActive(false);
         }
 
-        public void SetPreviewActiveMesh(Mesh newMesh)
+        public void SetPreviewActiveMesh(Placeable placeable)
         {
             previewObject.SetActive(true);
             for (int i = 0; i < previewObjectMesh.Length; i++)
             {
-                previewObjectMesh[i].mesh = newMesh;
+                if (i >= placeable.Mesh.Length)
+                {
+                    previewObjectMesh[i].mesh = null;
+                    continue;
+                }
+                previewObjectMesh[i].mesh = placeable.Mesh[i];
             }
         }
 
@@ -275,10 +290,7 @@ namespace Goat.Grid
                 previewPlaceableInfo = placeable;
 
             if (!DestroyMode)
-                for (int i = 0; i < placeable.Mesh.Length; i++)
-                {
-                    SetPreviewActiveMesh(placeable.Mesh[i]);
-                }
+                SetPreviewActiveMesh(placeable);
         }
 
         #endregion Preview Functions
