@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a07b149f621bd984ab387cbd7a783a87, type: 3}
-  m_Name: Wood
+  m_Name: Neutral
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,11 +21,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 7
+  identifier: 4
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 21300000, guid: e5b93ef23f52d0c42a9ff42ae1b06e81, type: 3}
-  mesh: {fileID: 0}
+  image: {fileID: 21300000, guid: 67d2295651f65a6498416200a680e430, type: 3}
+  mesh: {fileID: 4771106538239905318, guid: 155eb58ce113e2a43bcbed5f4ed72d19, type: 3}
   summary: 
   amount: 99999
   deliveryTime: 0
