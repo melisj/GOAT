@@ -167,8 +167,11 @@ namespace Goat.Grid
                 // tileObject = GameObject.Instantiate(newObject, centerPosition, rotation);
 
                 tileObject = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
-                MeshFilter tileObjectFilter = tileObject.GetComponentInChildren<MeshFilter>();
-                tileObjectFilter.mesh = placeable.Mesh;
+                MeshFilter[] tileObjectFilter = tileObject.GetComponentsInChildren<MeshFilter>();
+                for (int i = 0; i < tileObjectFilter.Length; i++)
+                {
+                    tileObjectFilter[i].mesh = placeable.Mesh[i];
+                }
 
                 tileObject.transform.localScale = size;
                 if (placeable is Floor)

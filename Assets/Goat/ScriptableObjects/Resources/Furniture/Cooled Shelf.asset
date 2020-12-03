@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Shelf Desk
+  m_Name: Cooled Shelf
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,12 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 9
+  identifier: 11
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 21300000, guid: 067113545823419449fe9fe4e6cd783d, type: 3}
-  mesh: {fileID: 0}
+  image: {fileID: 0}
+  mesh:
+  - {fileID: -2204974692380057403, guid: 3060c8298f8fc3940bcf49f99d2eab3c, type: 3}
   summary: 
-  amount: 99992
+  amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 4444800919396075509, guid: 5c5c55915a4bd3c469ec2b2c83b62e4a, type: 3}
+  prefab: {fileID: 5564741811706453958, guid: a409fca488c05494fb04f81bb074e741, type: 3}

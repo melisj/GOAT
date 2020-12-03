@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Low Table
+  m_Name: Triple Shelf
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,12 +21,13 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 8
+  identifier: 19
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 21300000, guid: 39916d27ef081a146bb9e1c5f62ea5f7, type: 3}
-  mesh: {fileID: 6651996940435722187, guid: ce10a5f49eacd4b48b62796c07d75a27, type: 3}
+  image: {fileID: 0}
+  mesh:
+  - {fileID: -496876888572036118, guid: 1515f1f6386506f4383a25a501dbe2f5, type: 3}
   summary: 
   amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 8963297661544225314, guid: a1139ffadbce96c45b3f3bd53dcaf808, type: 3}
+  prefab: {fileID: 5564741811706453958, guid: a409fca488c05494fb04f81bb074e741, type: 3}

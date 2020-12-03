@@ -20,8 +20,9 @@ namespace Goat.Grid
         // Variables used for highlighting and placing object on grid when in edit mode
         [Space(10), Header("Preview Object")]
         [SerializeField] private Material previewMaterial;
+        [SerializeField] private GameObject previewPrefab;
         private GameObject previewObject;              // Preview object shown on grid
-        private MeshFilter previewObjectMesh;
+        private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
         private List<Vector2Int> checkedTiles = new List<Vector2Int>();
         private float objectRotationAngle;                              // Rotation of preview object
@@ -237,12 +238,14 @@ namespace Goat.Grid
 
         private void InitializePreviewObject()
         {
-            previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            //TODO: Prefab
+            //previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            previewObject = Instantiate(previewPrefab);
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
 
-            previewObjectMesh = previewObject.GetComponent<MeshFilter>();
-            previewObjectMesh.GetComponent<MeshRenderer>().material = previewMaterial;
+            previewObjectMesh = previewObject.GetComponents<MeshFilter>();
+            previewObjectMesh[0].GetComponent<MeshRenderer>().material = previewMaterial;
         }
 
         public void EnablePreview(Vector3 position)
@@ -259,7 +262,10 @@ namespace Goat.Grid
         public void SetPreviewActiveMesh(Mesh newMesh)
         {
             previewObject.SetActive(true);
-            previewObjectMesh.mesh = newMesh;
+            for (int i = 0; i < previewObjectMesh.Length; i++)
+            {
+                previewObjectMesh[i].mesh = newMesh;
+            }
         }
 
         public void ChangePreviewObject(Placeable placeable)
@@ -269,7 +275,10 @@ namespace Goat.Grid
                 previewPlaceableInfo = placeable;
 
             if (!DestroyMode)
-                SetPreviewActiveMesh(placeable.Mesh);
+                for (int i = 0; i < placeable.Mesh.Length; i++)
+                {
+                    SetPreviewActiveMesh(placeable.Mesh[i]);
+                }
         }
 
         #endregion Preview Functions

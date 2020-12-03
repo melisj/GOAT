@@ -5,8 +5,7 @@ using Sirenix.OdinInspector;
 
 public class Placeable : Buyable
 {
-    [SerializeField, AssetList(Path = "Goat/Prefabs/Grid/Resources"), InlineEditor(InlineEditorModes.LargePreview)] private GameObject prefab;
+    [SerializeField] private GameObject prefab;
 
     public GameObject Prefab => prefab;
-    
 }
