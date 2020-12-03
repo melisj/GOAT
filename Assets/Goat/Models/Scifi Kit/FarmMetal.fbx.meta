@@ -27,6 +27,9 @@ ModelImporter:
   - first:
       74: 8442084361608233852
     second: FarmMetal(Drill)|DoorOutside(Door2)Action.001
+  - first:
+      74: -554826068463776440
+    second: FarmMetal(Drill)Action.001
   externalObjects:
   - first:
       type: UnityEngine:Material

@@ -51,6 +51,12 @@ ModelImporter:
   - first:
       74: -6072124911685614409
     second: DoorOutside(Door1)|DoorOutside(Door2)Action.001
+  - first:
+      74: 7401671807461949440
+    second: DoorOutside(Door2)Action.001
+  - first:
+      74: 8042153348184688654
+    second: DoorOutside(Door1)Action.001
   externalObjects:
   - first:
       type: UnityEngine:Material
