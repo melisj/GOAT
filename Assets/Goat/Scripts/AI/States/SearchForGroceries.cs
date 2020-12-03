@@ -47,7 +47,7 @@ namespace Goat.AI.States
                 for (int i = 0; i < tempInteractable.GetItemCount; i++)
                 {
                     // Check if any resource inside interactable is located inside groceries dictionary
-                    if (customer.groceries.ContainsKey(tempInteractable.GetItems[i].Resource))
+                    if (customer.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
                     {
                         // Now takes the first match, might change to match that is located closest to customer
                         return tempInteractable;

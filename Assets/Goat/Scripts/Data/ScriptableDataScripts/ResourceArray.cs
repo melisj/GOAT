@@ -10,8 +10,8 @@ namespace Goat.Storage
     /// Creates a list of resources inside the project.
     /// Can be used for customer to check what resources are available or not.
     /// </summary>
-    [CreateAssetMenu(fileName = "ResourceList", menuName = "ScriptableObjects/ResourceList")]
-    public class ResourceList : ScriptableObject
+    [CreateAssetMenu(fileName = "ResourceArray", menuName = "ScriptableObjects/ResourceArray")]
+    public class ResourceArray : ScriptableObject
     {
         [PropertyOrder(1), PropertySpace(10)]
         [SerializeField] private Resource[] resources;

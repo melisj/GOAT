@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c11102a96ed9fab49adb7f2b8c833183, type: 3}
-  m_Name: ResourceList
+  m_Name: ResourceArray
   m_EditorClassIdentifier: 
   resources:
   - {fileID: 11400000, guid: 9ebcf876b28e3154081b2aab550df9c5, type: 2}
