@@ -92,6 +92,7 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
+            customer.searchingTime = Time.time - customer.enterTime;
         }
     }
 }

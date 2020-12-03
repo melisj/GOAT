@@ -44,6 +44,7 @@ namespace Goat.AI.States
         public void OnExit()
         {
             navMeshAgent.enabled = false;
+            npc.searchingTime = Time.time - npc.enterTime;
             // Animation
         }
     }

@@ -26,9 +26,12 @@ namespace Goat.AI
         [HideInInspector] public StorageInteractable targetStorage;
         [HideInInspector] public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
 
+        protected float maxSearchingTime = 100;
+        [HideInInspector] public float enterTime, searchingTime = 0;
 
         protected virtual void Awake()
         {
+            //awakeTime = Time.time;
             targetDestination = transform.position;
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();

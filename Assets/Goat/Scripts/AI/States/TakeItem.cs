@@ -67,6 +67,8 @@ namespace Goat.AI.States
             // End animation?
             npc.targetStorage = null;
             npc.targetDestination = npc.transform.position;
+            npc.searchingTime = Time.time - npc.enterTime;
+
         }
     }
 }
