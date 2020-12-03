@@ -15,14 +15,15 @@ namespace Goat.AI
 
         public float npcSize = 1f;
         public float wanderRange = 10f;
+        [HideInInspector] public int carriedItemValue;
 
         protected StateMachine stateMachine;
-        public Vector3 targetDestination;
+        [HideInInspector] public Vector3 targetDestination;
 
-        public NavMeshAgent navMeshAgent;
-        public Animator animator;
+        [HideInInspector] public NavMeshAgent navMeshAgent;
+        [HideInInspector] public Animator animator;
 
-        public Dictionary<Resource, int> Inventory;
+        [HideInInspector] public Dictionary<Resource, int> Inventory;
 
         protected virtual void Awake()
         {

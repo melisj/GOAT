@@ -24,6 +24,7 @@ namespace Goat.Storage
         [SerializeField, Space(10)] private ResourceType resourceType;
         [SerializeField] private StorageEnviroment storageEnviroment;
         [SerializeField] private int starterAmount;
+        [SerializeField] private bool available = true;
         //[SerializeField] private float resValue;
         //[SerializeField] private int amount;
         // [SerializeField] private Sprite image;
@@ -35,6 +36,8 @@ namespace Goat.Storage
         public ResourceType ResourceType => resourceType;
 
         public StorageEnviroment StorageEnviroment => storageEnviroment;
+
+        public bool Available { get => available; set => available = value; }
         // public Sprite Image => image;
         // public float ResValue { get => resValue; set => resValue = value; }
     }
