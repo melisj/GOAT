@@ -163,6 +163,10 @@ namespace Goat.Grid
 
                 SaveData.SetBuilding(-1, 0);
                 PoolManager.Instance.ReturnToPool(buildingObject);
+                if (buildingObject == tileObject)
+                {
+                    tileObject = null;
+                }
                 buildingObject = null;
             }
             else if (floorObject && (!(placeable is Building) | destroyMode))
@@ -172,6 +176,10 @@ namespace Goat.Grid
 
                 SaveData.SetFloor(-1, 0);
                 PoolManager.Instance.ReturnToPool(floorObject);
+                if (floorObject == tileObject)
+                {
+                    tileObject = null;
+                }
                 floorObject = null;
             }
             if (placeable != null && !destroyMode)
