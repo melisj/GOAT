@@ -44,8 +44,12 @@ namespace Goat.Grid
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();
 
-            dataHandler = GetComponent<GridDataHandler>();
-            dataHandler.LoadGrid();
+            try
+            {
+                dataHandler = GetComponent<GridDataHandler>();
+                dataHandler.LoadGrid();
+            }
+            catch { }
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
@@ -59,7 +63,7 @@ namespace Goat.Grid
                 {
                     for (int y = 0; y < gridSize.y; y++)
                     {
-                        tiles[x, y].Reset();
+                        tiles[x, y].ResetPooled();
                     }
                 }
             }
@@ -110,6 +114,8 @@ namespace Goat.Grid
                 {
                     // Always has to rotate a 90 degrees
                     autoWalls = !autoWalls;
+                    if (autoWalls)
+                        SetupNeighborTiles(currentTileIndex);
                     Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
                 }
             }
@@ -117,9 +123,9 @@ namespace Goat.Grid
 
         #endregion Input
 
-        private void ChangeMaterialColor(bool canPlace)
+        private void ChangeMaterialColor(bool canPlace, bool destroyMode)
         {
-            Color newColor = canPlace ? Color.green : Color.red;
+            Color newColor = canPlace ? destroyMode ? Color.white : Color.green : Color.red;
             newColor.a = 0.5f;
             previewMaterial.color = newColor;
         }
@@ -148,7 +154,7 @@ namespace Goat.Grid
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
-            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+            Placeable wallPlace = defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
@@ -232,9 +238,9 @@ namespace Goat.Grid
             // Hide target object on selected tile
             if (selectedTile != null)
             {
+                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
-                    ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo));
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
             }

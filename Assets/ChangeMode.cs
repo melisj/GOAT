@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ChangeMode : MonoBehaviour
 {
+    [SerializeField] private GridUIInfo gridUIInfo;
     public bool AllowedToChange { get; set; }
 
     private void Awake()
@@ -25,7 +26,7 @@ public class ChangeMode : MonoBehaviour
     {
         if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down)
         {
-            GridUIManager.Instance.ShowNewUI(GridUIElement.Building);
+            gridUIInfo.CurrentUIElement = GridUIElement.Building;
             InputManager.Instance.InputMode = InputMode.Edit;
         }
         if (code == KeyCode.B && keyMode == InputManager.KeyMode.Down)

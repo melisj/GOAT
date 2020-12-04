@@ -38,8 +38,20 @@ namespace Goat.CameraControls
         private void Update()
         {
             latestZoom += Zoom(latestZoom);
-
+            AdjustZoom();
             follow.CameraDistance = latestZoom;
+        }
+
+        private void AdjustZoom()
+        {
+            if (latestZoom < minMaxZoom.x)
+            {
+                latestZoom = minMaxZoom.x;
+            }
+            if (latestZoom > minMaxZoom.y)
+            {
+                latestZoom = minMaxZoom.y;
+            }
         }
     }
 }

@@ -247,7 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3657551356205995744}
   - component: {fileID: 6892709122040733696}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: WorkerDoor
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -290,9 +290,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1429022179568099139}
-  - component: {fileID: 6659032257586881669}
   - component: {fileID: 1258127272647455996}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,19 +315,6 @@ Transform:
   m_Father: {fileID: 3657551356205995744}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6659032257586881669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4965405394248759438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ccb93c55d909da40beba88df6254703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  description: Desk
 --- !u!114 &1258127272647455996
 MonoBehaviour:
   m_ObjectHideFlags: 0

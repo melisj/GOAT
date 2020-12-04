@@ -13,6 +13,7 @@ namespace Goat.UI
         [SerializeField] private RectTransform furnitureGrid;
         [SerializeField] private RectTransform farmsGrid;
         [SerializeField] private Grid grid;
+        [SerializeField] private GridUIInfo gridUIInfo;
 
         protected override void Awake()
         {
@@ -40,7 +41,7 @@ namespace Goat.UI
             {
                 //  grid.interactionMode = Goat.Grid.SelectionMode.Edit;
                 grid.ChangePreviewObject((Placeable)buyable);
-                GridUIManager.Instance.HideUI();
+                gridUIInfo.CurrentUIElement = GridUIElement.None;
                 //gameObject.SetActive(false);
             }
         }

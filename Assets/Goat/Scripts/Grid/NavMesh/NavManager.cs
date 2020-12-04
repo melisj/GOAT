@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Goat.Grid;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,18 +12,24 @@ namespace Goat.AI
         [SerializeField] private NavMeshSurface surfacePlayer;
 
         // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+            GridDataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+        }
+
+        private void GridDataHandler_LevelLoaded()
+        {
+            RebakeMesh();
         }
 
         private void Instance_InputModeChanged(object sender, InputMode e)
         {
             if (e != InputMode.Edit)
             {
-                surfacePlayer.BuildNavMesh();
-                surfaceAI.BuildNavMesh();
+                surfacePlayer?.BuildNavMesh();
+                surfaceAI?.BuildNavMesh();
             }
         }
 
@@ -33,6 +40,12 @@ namespace Goat.AI
                 surfaceAI.BuildNavMesh();
                 surfacePlayer.BuildNavMesh();
             }
+        }
+
+        private void RebakeMesh()
+        {
+            surfaceAI.BuildNavMesh();
+            surfacePlayer.BuildNavMesh();
         }
     }
 }

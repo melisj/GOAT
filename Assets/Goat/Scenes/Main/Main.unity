@@ -1838,7 +1838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
-  fileName: GridSave
+  fileName: DefaultSave
 --- !u!114 &132408881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1870,6 +1870,7 @@ MonoBehaviour:
   interactableMask:
     serializedVersion: 2
     m_Bits: 512
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!33 &132408883
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2081,6 +2082,7 @@ MonoBehaviour:
   interactableIcon: {fileID: 2080428216}
   UIElementSlot: {fileID: 1652726592}
   StockingUI: {fileID: 1914198426}
+  interactableInfo: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
 --- !u!114 &148457422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2874,6 +2876,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!114 &224751383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3444,7 +3447,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 1536
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -4304,6 +4307,7 @@ MonoBehaviour:
   hotkeys:
   - {fileID: 780523972}
   - {fileID: 235629158}
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!114 &409532950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12963,7 +12967,7 @@ MonoBehaviour:
   isDay: 0
   timeSpeed: 1
   OnChangeCycle: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  timeScale: 9
+  timeScale: 1
 --- !u!108 &1329550979
 Light:
   m_ObjectHideFlags: 0
@@ -17980,7 +17984,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.05
-  m_WalkableMask: 5
+  m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!114 &1732888233
 MonoBehaviour:
@@ -19815,6 +19819,7 @@ MonoBehaviour:
   furnitureGrid: {fileID: 379866046}
   farmsGrid: {fileID: 122576900}
   grid: {fileID: 132408885}
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!114 &1892584204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20747,6 +20752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06add29e9e92ee647b240da110e619ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!114 &1978396811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21365,6 +21371,7 @@ MonoBehaviour:
   vCam: {fileID: 2019862599}
   speed: 30
   panWithinScreenOnly: 1
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!4 &2019862603
 Transform:
   m_ObjectHideFlags: 0
@@ -22059,6 +22066,7 @@ MonoBehaviour:
   minAmountButton: {fileID: 2042985090}
   maxAmountButton: {fileID: 1371362452}
   sellButton: {fileID: 497909381}
+  interactableInfo: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
 --- !u!114 &2071027953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22075,6 +22083,7 @@ MonoBehaviour:
   sellingUIObject: {fileID: 93286723}
   cellPrefab: {fileID: 8614997968189059799, guid: 99f39dd107801fc48aa0a61e70553b4c,
     type: 3}
+  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   selectedResourceChangeEvt:
     m_PersistentCalls:
       m_Calls:

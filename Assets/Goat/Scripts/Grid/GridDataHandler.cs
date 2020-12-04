@@ -33,10 +33,12 @@ namespace Goat.Grid
     /// </summary>
     public class GridDataHandler : MonoBehaviour
     {
+        public delegate void LoadCompleteEvent();
+        public static event LoadCompleteEvent LevelLoaded;
 
         [Header("Paths")]
         [SerializeField] private string saveFolder = "/Goat/SaveData/";
-        [SerializeField] private string fileName = "GridSave";
+        [SerializeField] private string fileName = "DefaultSave";
         private string completePath;
 
         private Grid grid;
@@ -66,13 +68,20 @@ namespace Goat.Grid
         [Button("Load", ButtonSizes.Medium)]
         public void LoadGrid() {
             if (Application.isPlaying) {
-                grid.Reset();
                 SaveData data = JsonUtility.FromJson<SaveData>(LoadFromFile());
 
                 if (data != null) {
+                    grid.Reset();
+
                     // Load references for the data
                     List<Buyable> buyables = Resources.LoadAll<Buyable>("").ToList();
                     buyables = buyables.OrderBy((obj) => obj.ID).ToList();
+
+                    // Check dimensions before loading
+                    if(grid.GetGridSize.x * grid.GetGridSize.y != data.tileList.Count) {
+                        Debug.LogWarning("Could not load save file, grid size is not the same!");
+                        return;
+                    }
 
                     // Load in all the data on the tiles
                     for (int x = 0; x < grid.GetGridSize.x; x++) {
@@ -80,6 +89,8 @@ namespace Goat.Grid
                             grid.tiles[x, y].LoadInData(data.tileList[grid.GetGridSize.y * x + y], ref buyables);
                         }
                     }
+
+                    LevelLoaded?.Invoke();
                 }
             }
         }

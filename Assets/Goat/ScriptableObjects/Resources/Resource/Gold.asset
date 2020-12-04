@@ -21,17 +21,17 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 21
+  identifier: 20
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 30
   image: {fileID: 0}
   mesh:
-  - {fileID: 0}
+  - {fileID: -1550514412580984892, guid: 721b98fa1f9400f4398e7b88288318c4, type: 3}
   summary: 'This ore is commonly found in any asteroid.
 
     It is used for creating
     low-grade stations.'
-  amount: 10
+  amount: 5
   deliveryTime: 5
   resourceType: 1
   storageEnviroment: 0

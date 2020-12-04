@@ -12,6 +12,7 @@ namespace Goat.Grid
     public class Tile
     {
         private Vector3 centerPosition;
+        private Vector2Int gridPosition;
         private bool isUnlocked;
         private Placeable placeable;
         private GameObject floorObject, buildingObject, tileObject;
@@ -20,12 +21,11 @@ namespace Goat.Grid
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
-        public int PoolKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObjectInstance ObjInstance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Tile(Vector3 centerPosition, Vector2Int gridPosition, Grid grid)
         {
             this.centerPosition = centerPosition;
+            this.gridPosition = gridPosition;
             this.grid = grid;
             SaveData = new TileInfo(gridPosition);
         }
@@ -56,6 +56,7 @@ namespace Goat.Grid
             buildingObject = null;
             tileObject = null;
             placeable = null;
+            SaveData = new TileInfo(gridPosition);
         }
 
         public void ShowFloor(bool show)
@@ -78,7 +79,7 @@ namespace Goat.Grid
 
             if (buildingObject)
             {
-                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Furniture));
+                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Building));
             }
 
             if (floorObject)
@@ -111,9 +112,21 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show ? show : placeable != null && !(placeable is Wall));
         }
 
-        public bool CheckForFloor(Placeable placeable)
+        public bool CheckForFloor(Placeable placeable, bool AutoWallOn = false)
         {
-            return (!floorObject && !(placeable is Floor));
+            if (placeable is Wall)
+            {
+                if (AutoWallOn)
+                {
+                    return true;
+                }
+            }
+            //There is floor
+            //Placeable is not floor
+            //   Debug.Log($"There is floor: {!floorObject}\nPlaceable is Floor: {!(placeable is Floor)}\nPlaceable is Wall: {placeable is Wall}\nAutoOn: {AutoWallOn}\n" +
+            //        $"Whole: {(!floorObject & !(placeable is Floor)) && (placeable is Wall & !AutoWallOn)}");
+            return ((!floorObject && !(placeable is Floor)));
+            //return ((floorObject && !(placeable is Floor)) && (placeable is Wall && AutoWallOn));
         }
 
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
@@ -151,15 +164,23 @@ namespace Goat.Grid
 
                 SaveData.SetBuilding(-1, 0);
                 PoolManager.Instance.ReturnToPool(buildingObject);
+                if (buildingObject == tileObject)
+                {
+                    tileObject = null;
+                }
                 buildingObject = null;
             }
-            else if (floorObject && (!(placeable is Furniture) | destroyMode))
+            else if (floorObject && (!(placeable is Building) | destroyMode))
             {
                 //So we deleted the building most likely, now it's time to delete the floor
                 //this.placeable.Amount++;
 
                 SaveData.SetFloor(-1, 0);
                 PoolManager.Instance.ReturnToPool(floorObject);
+                if (floorObject == tileObject)
+                {
+                    tileObject = null;
+                }
                 floorObject = null;
             }
             if (placeable != null && !destroyMode)
@@ -186,7 +207,7 @@ namespace Goat.Grid
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
                 }
-                else if (placeable is Furniture)
+                else if (placeable is Building)
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
@@ -245,11 +266,11 @@ namespace Goat.Grid
             SaveData = newData;
 
             int floorIndex = SaveData.GetFloor(out int floorRotation);
-            if (floorIndex != -1)
+            if (floorIndex != -1 && buyables[floorIndex] is Placeable)
                 EditAny((Placeable)buyables[floorIndex], floorRotation, false);
 
             int buildingIndex = SaveData.GetBuilding(out int buildingRotation);
-            if (buildingIndex != -1)
+            if (buildingIndex != -1 && buyables[buildingIndex] is Placeable)
             {
                 EditAny((Placeable)buyables[buildingIndex], buildingRotation, false);
                 SaveData.LoadStorageData(buildingObject, ref buyables);
@@ -258,7 +279,7 @@ namespace Goat.Grid
             for (int i = 0; i < 4; i++)
             {
                 int wallIndex = SaveData.GetWall(i);
-                if (wallIndex != -1)
+                if (wallIndex != -1 && buyables[wallIndex] is Placeable)
                     EditAnyWall((Placeable)buyables[wallIndex], (i * 90), false);
             }
         }
