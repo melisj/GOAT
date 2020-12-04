@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
-  m_Name: Dober
+  m_Name: Dober 1
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
