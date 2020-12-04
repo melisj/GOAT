@@ -74,6 +74,12 @@ namespace Goat.Grid
                     List<Buyable> buyables = Resources.LoadAll<Buyable>("").ToList();
                     buyables = buyables.OrderBy((obj) => obj.ID).ToList();
 
+                    // Check dimensions before loading
+                    if(grid.GetGridSize.x * grid.GetGridSize.y != data.tileList.Count) {
+                        Debug.LogWarning("Could not load save file, grid size is not the same!");
+                        return;
+                    }
+
                     // Load in all the data on the tiles
                     for (int x = 0; x < grid.GetGridSize.x; x++) {
                         for (int y = 0; y < grid.GetGridSize.y; y++) {

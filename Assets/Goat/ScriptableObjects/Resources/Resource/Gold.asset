@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 12
+  identifier: 14
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 30
   image: {fileID: 21300000, guid: 7545f74ad66039744a8c0fbcad06308a, type: 3}
@@ -30,7 +30,7 @@ MonoBehaviour:
 
     It is used for creating
     low-grade stations.'
-  amount: 10
+  amount: 5
   deliveryTime: 5
   resourceType: 1
   storageEnviroment: 0

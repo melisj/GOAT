@@ -11,6 +11,7 @@ namespace Goat
     public class ChangeCycleListener : EventListenerBool
     {
         [SerializeField] private DayNightCycle dayNightCycle;
+        [SerializeField] private GridUIInfo gridUIInfo;
         [SerializeField] private SpawnNPC npcSpawner;
         [SerializeField] private GameObject[] UItoHide;
         [SerializeField] private ChangeMode changeMode;
@@ -25,7 +26,7 @@ namespace Goat
             {
                 UItoHide[i].SetActive(!activate);
             }
-            GridUIManager.Instance.HideUI();
+            gridUIInfo.CurrentUIElement = GridUIElement.None;
         }
 
         private void DisableModeChanging(bool enable)

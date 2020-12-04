@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Goat.Pooling;
 
 namespace Goat.Grid.Interactions
 {
@@ -38,20 +39,12 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        private object[] GetArgsForUI
-        {
-            get => new object[] {
-            string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
-            itemList.ToList(),
-            this };
-        }
-
         // Get or create a item holder object
         private Transform ItemHolderParent;
         private Transform GetItemHolderParent { get
             {
-                ItemHolderParent = transform.Find(InteractableManager.ItemHolderParentName) ?? 
-                    new GameObject(InteractableManager.ItemHolderParentName).transform;
+                ItemHolderParent = transform.Find(info.ItemHolderParentName) ?? 
+                    new GameObject(info.ItemHolderParentName).transform;
 
                 if(ItemHolderParent.parent != transform)
                     ItemHolderParent.SetParent(transform, false);
@@ -60,21 +53,16 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        protected override void OnEnable() {
-            base.OnEnable();
-            InformationChanged.AddListener(UpdateVisuals);
+        private void Awake()
+        {
             InitStorage();
         }
 
-        private void OnDestroy() {
-            GetAllResources();
-            NpcManager.Instance.RemoveStorageShelve(this);
-        }
-
-        private void Awake()
-        {
-            ResetStorage();
-            NpcManager.Instance.AddStorageShelve(this);
+        public override object[] GetArgumentsForUI() {
+            return new object[] {
+            string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
+            itemList.ToList(),
+            this };
         }
 
         #region Item Holders
@@ -101,13 +89,13 @@ namespace Goat.Grid.Interactions
             }
 
             // Set material and save the meshfilter
-            itemHolder.GetComponent<MeshRenderer>().material = InteractableManager.ItemMaterial;
+            itemHolder.GetComponent<MeshRenderer>().material = info.ItemMaterial;
             itemHolderMeshList.Add(itemHolder.GetComponent<MeshFilter>());
         } 
 
         // Create a new item holder
         private GameObject CreateItemHolder() {
-            GameObject itemHolder = new GameObject(InteractableManager.ItemHolderName, typeof(MeshFilter), typeof(MeshRenderer));
+            GameObject itemHolder = new GameObject(info.ItemHolderName, typeof(MeshFilter), typeof(MeshRenderer));
             itemHolder.transform.SetParent(GetItemHolderParent, false);
             return itemHolder;
         }
@@ -223,11 +211,6 @@ namespace Goat.Grid.Interactions
             InvokeChange();
         }
 
-        // Update the text of the UI
-        protected override void UpdateUI() {
-            GridUIManager.Instance.SetInteractableUI(name, description, InteractableUIElement.Storage, this, GetArgsForUI);
-        }
-
         public bool HasResource(ResourceType type)
         {
             for (int i = 0; i < GetItemCount; i++)
@@ -259,8 +242,24 @@ namespace Goat.Grid.Interactions
             for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
                 itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh;
             }
+            info.CurrentSelected = this;
+        }
+
+        public override void OnGetObject(ObjectInstance objectInstance, int poolKey) {
+            base.OnGetObject(objectInstance, poolKey);
+
+            InformationChanged.AddListener(UpdateVisuals);
+            NpcManager.Instance.AddStorageShelve(this);
+            ResetStorage();
+        }
+
+        public override void OnReturnObject() {
+            ResetStorage();
+            NpcManager.Instance.RemoveStorageShelve(this);
+
+            base.OnReturnObject();
         }
 
         #endregion
-    }
+        }
 }

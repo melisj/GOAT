@@ -43,7 +43,8 @@ namespace Goat.Grid
             InitializePreviewObject();
 
             dataHandler = GetComponent<GridDataHandler>();
-            dataHandler.LoadGrid();
+            if(dataHandler)
+                dataHandler.LoadGrid();
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
@@ -57,7 +58,7 @@ namespace Goat.Grid
                 {
                     for (int y = 0; y < gridSize.y; y++)
                     {
-                        tiles[x, y].Reset();
+                        tiles[x, y].ResetPooled();
                     }
                 }
             }
@@ -98,7 +99,7 @@ namespace Goat.Grid
                             SetupNeighborTiles(currentTileIndex);
                     }
                 }
-                if (keyCode == KeyCode.Mouse1 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;

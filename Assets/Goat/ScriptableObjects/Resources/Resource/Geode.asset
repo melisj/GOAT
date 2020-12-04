@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  identifier: 13
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 10
   image: {fileID: 21300000, guid: 53c8480bdba2a3248ae3566339723206, type: 3}
@@ -29,7 +30,7 @@ MonoBehaviour:
 
     It is often
     used to reinforce.'
-  amount: 0
+  amount: 15
   deliveryTime: 3
   resourceType: 0
   storageEnviroment: 0

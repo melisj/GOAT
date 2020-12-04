@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  identifier: 15
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 99
   image: {fileID: 21300000, guid: 3ab5071f3581fbd4ab0221f1d9be04b2, type: 3}
@@ -29,7 +30,7 @@ MonoBehaviour:
 
     Being compressed
     over ages, it''s mostly used for research.'
-  amount: 0
+  amount: 2
   deliveryTime: 5
   resourceType: 2
   storageEnviroment: 0

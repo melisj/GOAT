@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369d270d4d48e664cbbca6af93b76968, type: 3}
   m_Name: InteractableInfo
   m_EditorClassIdentifier: 
+  selectedInteractableChangeEvt: {fileID: 11400000, guid: a6c204bd6c7826946970becbbf110369,
+    type: 2}
+  storageIconPrefab: {fileID: 7088760598927381377, guid: 44046b32d9fc5724c87b786ddbc0a3b7,
+    type: 3}
+  itemHolderName: ItemHolder
+  itemHolderParentName: ItemHolderParent
+  itemMaterial: {fileID: 2100000, guid: b2f5b2c5f09f4194b8996fb6c84eb046, type: 2}
+  currentSelected: {fileID: 0}

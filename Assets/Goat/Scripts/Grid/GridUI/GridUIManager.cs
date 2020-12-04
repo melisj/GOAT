@@ -1,8 +1,8 @@
-﻿using Goat.UI;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Sirenix.OdinInspector;
 using Goat.Grid.Interactions;
+using Goat.Events;
+using System.Collections.Generic;
 
 namespace Goat.Grid.UI
 {
@@ -23,119 +23,53 @@ namespace Goat.Grid.UI
         }
     }
 
-    public enum GridUIElement
-    {
-        None,
-        Building,
-        Buying,
-        Interactable
-    }
-
     // Manages the UI Elements to make certain that only one element is visible at a time
     public class GridUIManager : SerializedMonoBehaviour
     {
         [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
+        [SerializeField] private GridUIInfo gridUIInfo;
         private static BasicGridUIElement currentUIOpen;
-
-        private static GridUIElement currentUI;
-
-        public static GridUIElement CurrentUIElement
-        {
-            get => currentUI;
-            private set
-            {
-                if (currentUI != value)
-                    GridUIChangedEvent?.Invoke(value, currentUI);
-                currentUI = value;
-            }
-        }
-
-        public static bool IsUIActive { get => CurrentUIElement != GridUIElement.None; }
-
-        private static GridUIManager instance;
-
-        public static GridUIManager Instance
-        {
-            get
-            {
-                if (!instance)
-                {
-                    instance = FindObjectOfType<GridUIManager>();
-                }
-                return instance;
-            }
-        }
-
-        public delegate void GridUIChanged(GridUIElement currentUI, GridUIElement prevUI);
-
-        public static event GridUIChanged GridUIChangedEvent;
 
         public void Awake()
         {
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            gridUIInfo.GridUIChangedEvent += GridUIInfo_GridUIChangedEvent;
+        }
+
+        public void OnDestroy() {
+            InputManager.Instance.OnInputEvent -= Instance_OnInputEvent;
+            gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
+        }
+
+        private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI) {
+            ShowNewUI(currentUI);
         }
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            //if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down && inputMode == InputMode.Edit)
-            //{
-            //    ShowNewUI(GridUIElement.Building);
-            //}
             if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down)
             {
-                ShowNewUI(GridUIElement.Buying);
+                gridUIInfo.CurrentUIElement = GridUIElement.Buying;
             }
         }
 
         // Disable, and enable a new element
-        public void ShowNewUI(GridUIElement UIElement)
+        private void ShowNewUI(GridUIElement UIElement)
         {
-            UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
-            if (!IsSelectedSame(element))
-            {
-                HideUI(false);
+            HideUI();
+            if (UIElement != GridUIElement.None && UIElement != gridUIInfo.CurrentUIElement) {
+                UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
                 currentUIOpen = element;
                 currentUIOpen.ShowUI();
-                CurrentUIElement = UIElement;
-            }
-            else
-            {
-                HideUI();
             }
         }
 
         // Hide the current element
-        public void HideUI(bool changeElement = true)
+        private void HideUI()
         {
             if (currentUIOpen != null)
                 currentUIOpen.HideUI();
             currentUIOpen = null;
-            if (changeElement)
-                CurrentUIElement = GridUIElement.None;
-        }
-
-        // Check if a element is selected
-        public bool IsElementSelected()
-        {
-            return currentUIOpen != null;
-        }
-
-        // Check if the given element is same as current selected
-        public bool IsSelectedSame(BasicGridUIElement UIElement)
-        {
-            if (currentUIOpen != null && !currentUIOpen.gameObject.activeInHierarchy)
-                currentUIOpen = null;
-            return currentUIOpen == UIElement;
-        }
-
-        public void SetInteractableUI(string title,
-            string description,
-            InteractableUIElement elementToLoad,
-            BaseInteractable info,
-            object[] args)
-        {
-            if (currentUIOpen is InteractableUI)
-                ((InteractableUI)currentUIOpen).SetUI(title, description, elementToLoad, info, args);
         }
     }
 }

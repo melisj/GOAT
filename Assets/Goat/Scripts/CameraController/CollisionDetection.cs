@@ -60,7 +60,7 @@ public class CollisionDetection : MonoBehaviour
 
         if (latestCollider != null)
         {
-            previousInteractable = latestCollider.GetComponent<BaseInteractable>();
+            previousInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
             if (previousInteractable.IsClickedOn)
             {
                 previousInteractable.OpenUIFully();

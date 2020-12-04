@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class FunctionalInteractable : BaseInteractable
 {
-    [InteractableInfo] public int stats;
+    [InteractableAttribute] public int stats;
 }

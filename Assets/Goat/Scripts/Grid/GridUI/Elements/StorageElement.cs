@@ -16,7 +16,8 @@ namespace Goat.Grid.Interactions.UI
     {
         [SerializeField] private TextMeshProUGUI itemsText;
         [SerializeField] private Transform gridParent;
-        private GameObject StorageIconPrefab;
+
+        [SerializeField] private InteractablesInfo info;
 
         private List<Image> itemIcons = new List<Image>();
         private List<Button> itemButtons = new List<Button>();
@@ -41,7 +42,6 @@ namespace Goat.Grid.Interactions.UI
         /// </summary>
         public override void InitUI() {
             base.InitUI();
-            StorageIconPrefab = (GameObject)Resources.Load(InteractableManager.StorageIconPrefabname);
 
             for (int i = 0; i < amountOfPrewarmedStorageElements; i++) {
                 AddStorageIcon();
@@ -50,7 +50,7 @@ namespace Goat.Grid.Interactions.UI
 
         // Create a new storage icon
         private void AddStorageIcon() {
-            GameObject instance = Instantiate(StorageIconPrefab, gridParent);
+            GameObject instance = Instantiate(info.StorageIconPrefab, gridParent);
             instance.SetActive(false);
             itemIcons.Add(instance.GetComponent<Image>());
             itemButtons.Add(instance.GetComponent<Button>());

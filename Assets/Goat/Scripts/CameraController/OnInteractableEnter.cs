@@ -3,11 +3,13 @@ using Goat.Grid.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Goat.Grid.UI.GridUIInfo;
 
 public class OnInteractableEnter : MonoBehaviour
 {
     [SerializeField] private CollisionDetection collisionDetection;
     [SerializeField] private GridUIElement uiToShow;
+    [SerializeField] private GridUIInfo gridUIInfo;
 
     private void Awake()
     {
@@ -19,7 +21,7 @@ public class OnInteractableEnter : MonoBehaviour
         {
             //DO SOMETHING
             //Probably show UI
-            GridUIManager.Instance.ShowNewUI(uiToShow);
+            gridUIInfo.CurrentUIElement = GridUIElement.Building;
         }
     }
 }

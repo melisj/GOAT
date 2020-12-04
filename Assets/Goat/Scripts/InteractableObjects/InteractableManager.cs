@@ -6,15 +6,12 @@ using UnityEngine.EventSystems;
 
 namespace Goat.Grid.Interactions
 {
-    public class InteractableManager : MonoBehaviour
-    {
+    public class InteractableManager : MonoBehaviour {
         public delegate void InteractableClickEvent(Transform interactable);
         public static event InteractableClickEvent InteractableClickEvt;
 
-
-
         [SerializeField] private LayerMask interactableMask;
-
+        [SerializeField] private GridUIInfo gridUIInfo;
 
         public void Awake()
         {
@@ -29,10 +26,10 @@ namespace Goat.Grid.Interactions
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (!GridUIManager.Instance.IsElementSelected())
+                        if (!gridUIInfo.IsUIActive)
                             CheckForInteractable();
                         else
-                            GridUIManager.Instance.HideUI();
+                            gridUIInfo.CurrentUIElement = GridUIElement.None;
                     }
                 }
             }
@@ -47,11 +44,6 @@ namespace Goat.Grid.Interactions
                     InteractableClickEvt?.Invoke(hit.transform);
                 }
             }
-        }
-
-        public static void ChangeSelectedInteractable(BaseInteractable interactable)
-        {
-            SelectedInteractableChangeEvt?.Invoke(interactable);
         }
     }
 }

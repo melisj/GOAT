@@ -31,6 +31,8 @@ namespace Goat.CameraControls
         [Header("3rdPerson")]
         [SerializeField] private Vector2 minMaxZoom3rdPerson;
         [SerializeField] private GameObject thirdPersonObj;
+        [Header("References")]
+        [SerializeField] private GridUIInfo gridUIInfo;
 
         private Transform currentObject;
         private float rotSmoothTime = 0.2f;
@@ -283,7 +285,7 @@ namespace Goat.CameraControls
         private void PanCamera(float mouseVelocity)
         {
             if (isDragging) return;
-            if (GridUIManager.IsUIActive) return;
+            if (gridUIInfo.IsUIActive) return;
             if ((mousePos.x >= Screen.width - 25))
             {
                 currentObject.position += new Vector3(mouseVelocity, 0.0f);
