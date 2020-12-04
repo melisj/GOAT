@@ -36,22 +36,30 @@ namespace Goat.Grid.Interactions
         [TextArea, Space(10)]
         [SerializeField] protected string description;
 
+        protected Collider clickCollider;
+
         protected UnityEvent InformationChanged = new UnityEvent();
 
         public bool IsClickedOn { get; set; }
         public string Description => description;
-        public string Name => transform.GetChild(0).name;
+        public string Name => name;
 
         // Pooling
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
+
+        protected virtual void Awake()
+        {
+            clickCollider = GetComponentInChildren<Collider>();
+        }
+
         // Get the event when the object has been clicked
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj)
         {
-            if(clickedObj.parent == transform)
-                IsClickedOn = clickedObj.parent == transform;
+            if(clickCollider.transform == clickedObj)
+                IsClickedOn = clickCollider.transform == clickedObj;
         }
 
         public virtual object[] GetArgumentsForUI() { return null; }

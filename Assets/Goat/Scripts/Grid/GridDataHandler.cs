@@ -36,7 +36,7 @@ namespace Goat.Grid
 
         [Header("Paths")]
         [SerializeField] private string saveFolder = "/Goat/SaveData/";
-        [SerializeField] private string fileName = "GridSave";
+        [SerializeField] private string fileName = "DefaultSave";
         private string completePath;
 
         private Grid grid;

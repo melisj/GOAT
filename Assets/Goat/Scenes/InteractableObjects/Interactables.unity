@@ -9563,7 +9563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  npcSpawner: {fileID: 449404465}
+  npcPrefab: {fileID: 0}
 --- !u!114 &820336602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15028,7 +15028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
-  fileName: GridSave
+  fileName: DefaultSave
 --- !u!114 &1281774351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15094,13 +15094,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4620ccd9452a5714b89d7476ec138284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWall: {fileID: 11400000, guid: acd404ad23c913245b962904b3474582, type: 2}
+  defaultWall: {fileID: 0}
   gridSize: {x: 10, y: 10}
   tileSize: 1
   gridMask:
     serializedVersion: 2
     m_Bits: 256
   previewMaterial: {fileID: 2100000, guid: 37dad2dd8857d604f8970ebbc54e663d, type: 2}
+  previewPrefab: {fileID: 8854570225898694511, guid: c7b01b0813d130e4794f82630a8be13b,
+    type: 3}
 --- !u!4 &1281774356
 Transform:
   m_ObjectHideFlags: 0
@@ -22761,19 +22763,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56018db7053822446a560245c3665edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSettings: {fileID: 11400000, guid: 2d96a6189a714be4aa235f664667c634, type: 2}
-  zoomStrength: 100
   maincam: {fileID: 1184093212}
   thirdPersonCamera: {fileID: 987975693}
   topviewCamera: {fileID: 583714521}
-  minMaxZoomTopView: {x: 8, y: 10}
   currentTopViewMode: 0
   pointToClickObj: {fileID: 721130906}
-  speed: 20
-  panWithinScreenOnly: 1
-  minMaxZoom3rdPerson: {x: -0.5, y: 1.3}
   thirdPersonObj: {fileID: 2113273814}
-  gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
 --- !u!1 &2089282232
 GameObject:
   m_ObjectHideFlags: 0

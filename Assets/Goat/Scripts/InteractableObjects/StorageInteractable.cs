@@ -53,8 +53,9 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             InitStorage();
         }
 
@@ -240,7 +241,7 @@ namespace Goat.Grid.Interactions
         // Update the meshes on the grid
         private void UpdateVisuals() {
             for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
-                itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh;
+                itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh[0];
             }
             info.CurrentSelected = this;
         }
