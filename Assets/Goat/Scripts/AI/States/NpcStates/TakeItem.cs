@@ -10,20 +10,16 @@ namespace Goat.AI.States
     public class TakeItem : IState
     {
         NPC npc;
-        StorageInteractable storageUnit;
         Animator animator;
-        Dictionary<Resource, int> itemsToGet;
         bool returnToStock;
         public bool storageDepleted;
         // Get this from npc
-        private float takingSpeed = 1, nextItemTime = 0;
+        private float takingSpeed = 0.5f, nextItemTime = 0;
 
-        public TakeItem(NPC npc, StorageInteractable storageUnit, Animator animator, bool returnToStock)
+        public TakeItem(NPC npc, Animator animator, bool returnToStock)
         {
             this.npc = npc;
-            this.storageUnit = storageUnit;
             this.animator = animator;
-            this.itemsToGet = this.npc.itemsToGet;
             this.returnToStock = returnToStock;
         }
 
@@ -31,13 +27,14 @@ namespace Goat.AI.States
         {
             // If target still has item grab item.
             bool nothingFound = true;
-            for (int i = 0; i < storageUnit.GetItemCount; i++)
+            for (int i = 0; i < npc.targetStorage.GetItemCount; i++)
             {
-                if (itemsToGet.ContainsKey(storageUnit.GetItems[i].Resource))
+                if (npc.itemsToGet.ContainsKey(npc.targetStorage.GetItems[i].Resource))
                 {
-                    npc.AddResourceToInventory(storageUnit.GetItems[i].Resource, 1);
-                    npc.RemoveItemToGet(storageUnit.GetItems[i].Resource, 1);
-                    storageUnit.GetResource(i, returnToStock);
+                    Debug.LogFormat("Took {0} from storage container", npc.targetStorage.GetItems[i].Resource);
+                    npc.AddResourceToInventory(npc.targetStorage.GetItems[i].Resource, 1);
+                    npc.RemoveItemToGet(npc.targetStorage.GetItems[i].Resource, 1);
+                    npc.targetStorage.GetResource(i, returnToStock);
                     nothingFound = false;
                     break;
                 }
@@ -69,7 +66,6 @@ namespace Goat.AI.States
             npc.targetStorage = null;
             npc.targetDestination = npc.transform.position;
             npc.searchingTime = Time.time - npc.enterTime;
-
         }
     }
 }

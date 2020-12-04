@@ -6,10 +6,11 @@ using System;
 using Goat.Grid.Interactions;
 using Goat.Storage;
 using Goat.AI.States;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
-    public class NPC : MonoBehaviour
+    public class NPC : SerializedMonoBehaviour
     {
         // Check variable visability
         public float npcSize = 1f;
@@ -22,12 +23,13 @@ namespace Goat.AI
         [HideInInspector] public NavMeshAgent navMeshAgent;
         [HideInInspector] public Animator animator;
 
-        [HideInInspector] public Dictionary<Resource, int> inventory;
+         public Dictionary<Resource, int> inventory = new Dictionary<Resource, int>();
         [HideInInspector] public StorageInteractable targetStorage;
-        [HideInInspector] public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
+         public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
 
         protected float maxSearchingTime = 100;
-        [HideInInspector] public float enterTime, searchingTime = 0;
+        [HideInInspector] public float enterTime;
+        public float searchingTime = 0;
 
         protected virtual void Awake()
         {

@@ -30,9 +30,9 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             enteredStore = false;
+            navMeshAgent.enabled = true;
             // Set animation
             entrance = GameObject.Find("Entrance").transform.position;
-            navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(entrance);
         }
 

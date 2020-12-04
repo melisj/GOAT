@@ -26,7 +26,7 @@ namespace Goat.AI
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
             SearchForGroceries searchForGroceries = new SearchForGroceries(this);
             MoveToTarget moveToTarget = new MoveToTarget(this, targetDestination, navMeshAgent, animator);
-            TakeItem takeItem = new TakeItem(this, targetStorage, animator, false);
+            TakeItem takeItem = new TakeItem(this, animator, false);
             ExitStore exitStore = new ExitStore(this, navMeshAgent, animator);
 
             // Conditions
@@ -51,6 +51,7 @@ namespace Goat.AI
             AT(searchForGroceries, moveToTarget, HasDestination());
             AT(moveToTarget, searchForGroceries, StuckForSeconds());
             AT(moveToTarget, searchForGroceries, ReachedDestination());
+            AT(moveToTarget, takeItem, ReachedTarget());
             AT(takeItem, searchForGroceries, StorageDepleted());
 
             stateMachine.SetState(calculateGroceries);

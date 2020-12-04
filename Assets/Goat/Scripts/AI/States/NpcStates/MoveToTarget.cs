@@ -33,7 +33,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.LogFormat("Moving to target: {0}", npc.targetDestination);
+            Debug.LogFormat("Moving to target");
             timeStuck = 0f;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(npc.targetDestination);
