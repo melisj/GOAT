@@ -3444,7 +3444,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 1536
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -12963,7 +12963,7 @@ MonoBehaviour:
   isDay: 0
   timeSpeed: 1
   OnChangeCycle: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  timeScale: 9
+  timeScale: 1
 --- !u!108 &1329550979
 Light:
   m_ObjectHideFlags: 0
@@ -17980,7 +17980,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.05
-  m_WalkableMask: 5
+  m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!114 &1732888233
 MonoBehaviour:
