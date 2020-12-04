@@ -1,14 +1,16 @@
 ﻿using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class Buyable : SerializedScriptableObject
 {
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier;
     private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
 
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier = -1;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
@@ -31,7 +33,6 @@ public class Buyable : SerializedScriptableObject
 
     public void OnValidate()
     {
-        SetIdentifiers();
         image = Resources.Load<Sprite>(name);
     }
 
@@ -39,12 +40,14 @@ public class Buyable : SerializedScriptableObject
     public void SetIdentifiers()
     {
         Object[] list = Resources.LoadAll("", typeof(Buyable));
-        int i = 0;
-        foreach (Object obj in list)
-        {
-            Buyable placeable = (Buyable)obj;
-            placeable.identifier = i++;
+        for (int i =0; i < list.Length; i++) {
+            Buyable placeable = (Buyable)list[i];
+            placeable.identifier = i;
+            EditorUtility.SetDirty(placeable);
         }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
     /// <summary>

@@ -78,7 +78,7 @@ namespace Goat.Grid
 
             if (buildingObject)
             {
-                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Furniture));
+                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Building));
             }
 
             if (floorObject)
@@ -165,7 +165,7 @@ namespace Goat.Grid
                 PoolManager.Instance.ReturnToPool(buildingObject);
                 buildingObject = null;
             }
-            else if (floorObject && (!(placeable is Furniture) | destroyMode))
+            else if (floorObject && (!(placeable is Building) | destroyMode))
             {
                 //So we deleted the building most likely, now it's time to delete the floor
                 //this.placeable.Amount++;
@@ -198,7 +198,7 @@ namespace Goat.Grid
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
                 }
-                else if (placeable is Furniture)
+                else if (placeable is Building)
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
@@ -257,11 +257,11 @@ namespace Goat.Grid
             SaveData = newData;
 
             int floorIndex = SaveData.GetFloor(out int floorRotation);
-            if (floorIndex != -1)
+            if (floorIndex != -1 && buyables[floorIndex] is Placeable)
                 EditAny((Placeable)buyables[floorIndex], floorRotation, false);
 
             int buildingIndex = SaveData.GetBuilding(out int buildingRotation);
-            if (buildingIndex != -1)
+            if (buildingIndex != -1 && buyables[buildingIndex] is Placeable)
             {
                 EditAny((Placeable)buyables[buildingIndex], buildingRotation, false);
                 SaveData.LoadStorageData(buildingObject, ref buyables);
@@ -270,7 +270,7 @@ namespace Goat.Grid
             for (int i = 0; i < 4; i++)
             {
                 int wallIndex = SaveData.GetWall(i);
-                if (wallIndex != -1)
+                if (wallIndex != -1 && buyables[wallIndex] is Placeable)
                     EditAnyWall((Placeable)buyables[wallIndex], (i * 90), false);
             }
         }

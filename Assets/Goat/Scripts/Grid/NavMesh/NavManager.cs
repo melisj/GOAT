@@ -21,8 +21,8 @@ namespace Goat.AI
         {
             if (e != InputMode.Edit)
             {
-                surfacePlayer.BuildNavMesh();
-                surfaceAI.BuildNavMesh();
+                surfacePlayer?.BuildNavMesh();
+                surfaceAI?.BuildNavMesh();
             }
         }
 

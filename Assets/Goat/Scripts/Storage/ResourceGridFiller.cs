@@ -15,6 +15,8 @@ namespace Goat.Storage
         [SerializeField] private GameObject sellingUIObject;
         [SerializeField] private GameObject cellPrefab;
 
+        [SerializeField] private GridUIInfo gridUIInfo;
+
         [Serializable] private class SelectedResourceChanged : UnityEvent<Resource> { }
 
         [SerializeField] private SelectedResourceChanged selectedResourceChangeEvt;
@@ -60,7 +62,7 @@ namespace Goat.Storage
             {
                 FillUIGrid();
             }
-            GridUIManager.GridUIChangedEvent += GridUIManager_GridUIChangedEvent;
+            gridUIInfo.GridUIChangedEvent += GridUIManager_GridUIChangedEvent;
         }
 
         private void GridUIManager_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI) {

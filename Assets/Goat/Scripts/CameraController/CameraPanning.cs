@@ -12,6 +12,8 @@ namespace Goat.CameraControls
         private Transform currentObject;
         private Vector2 mousePos;
 
+        [SerializeField] private GridUIInfo gridUIInfo;
+
         private void Update()
         {
             PanCamera(Time.unscaledDeltaTime * speed);
@@ -23,7 +25,7 @@ namespace Goat.CameraControls
             {
                 currentObject = vCam.Follow;
             }
-            if (GridUIManager.IsUIActive) return;
+            if (gridUIInfo.IsUIActive) return;
             mousePos = Input.mousePosition;
             if (panWithinScreenOnly ?
                 mousePos.x >= 0 && mousePos.x <= Screen.width &&

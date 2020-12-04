@@ -3,6 +3,7 @@ using Goat.Grid.Interactions.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ namespace Goat.Grid.UI
     /// Keeps track of the UI of the 
     /// </summary>
     public class InteractableUI : BasicGridUIElement
-    {
+    { 
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private TextMeshProUGUI infoText;
@@ -26,6 +27,8 @@ namespace Goat.Grid.UI
 
         [SerializeField] private Transform UIElementSlot;
         [SerializeField] private Transform StockingUI;
+
+        [SerializeField] private InteractablesInfo interactableInfo;
 
         // Keeps track of all UI elements available
         private Dictionary<InteractableUIElement, UISlotElement> UIElements = new Dictionary<InteractableUIElement, UISlotElement>();
@@ -36,6 +39,21 @@ namespace Goat.Grid.UI
 
         protected virtual void Awake() {
             SpawnUIElements();
+        }
+
+        private void OnEnable() {
+            interactableInfo.selectedInteractableChangeEvt += InteractableInfo_selectedInteractableChangeEvt;
+        }
+
+        private void OnDisable() {
+            interactableInfo.selectedInteractableChangeEvt -= InteractableInfo_selectedInteractableChangeEvt;
+        }
+
+        private void InteractableInfo_selectedInteractableChangeEvt(BaseInteractable interactable) {
+            InteractableUIElement elementToLoad = interactable is StorageInteractable ?
+               InteractableUIElement.Storage :
+               InteractableUIElement.None;
+            SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
         }
 
         // Create all the UI elements defined in the resources folder
@@ -58,15 +76,13 @@ namespace Goat.Grid.UI
         public void SetUI(string title, 
             string description, 
             InteractableUIElement elementToLoad, 
-            BaseInteractable info,
-            object[] args) {
-
+            BaseInteractable info ) {
             if (IsThisActive) {
                 titleText.text = title;
                 descriptionText.text = description;
                 infoText.text = info.PrintObject<BaseInteractable>();
             }
-            LoadElement(elementToLoad, args);
+            LoadElement(elementToLoad, info.GetArgumentsForUI());
         }
 
         // Load a new UI element
@@ -100,6 +116,7 @@ namespace Goat.Grid.UI
         // Pass the arguments for the UI to the element currently in use
         private void SetElementValues(object[] args) {
             activeElement.SetUI(args);
-        } 
+        }
+
     }
 }

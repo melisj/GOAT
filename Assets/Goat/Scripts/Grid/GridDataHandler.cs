@@ -36,7 +36,7 @@ namespace Goat.Grid
 
         [Header("Paths")]
         [SerializeField] private string saveFolder = "/Goat/SaveData/";
-        [SerializeField] private string fileName = "GridSave";
+        [SerializeField] private string fileName = "DefaultSave";
         private string completePath;
 
         private Grid grid;
@@ -73,6 +73,12 @@ namespace Goat.Grid
                     // Load references for the data
                     List<Buyable> buyables = Resources.LoadAll<Buyable>("").ToList();
                     buyables = buyables.OrderBy((obj) => obj.ID).ToList();
+
+                    // Check dimensions before loading
+                    if(grid.GetGridSize.x * grid.GetGridSize.y != data.tileList.Count) {
+                        Debug.LogWarning("Could not load save file, grid size is not the same!");
+                        return;
+                    }
 
                     // Load in all the data on the tiles
                     for (int x = 0; x < grid.GetGridSize.x; x++) {

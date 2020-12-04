@@ -45,7 +45,8 @@ namespace Goat.Grid
             InitializePreviewObject();
 
             dataHandler = GetComponent<GridDataHandler>();
-            dataHandler.LoadGrid();
+            if(dataHandler)
+                dataHandler.LoadGrid();
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
@@ -59,7 +60,7 @@ namespace Goat.Grid
                 {
                     for (int y = 0; y < gridSize.y; y++)
                     {
-                        tiles[x, y].Reset();
+                        tiles[x, y].ResetPooled();
                     }
                 }
             }

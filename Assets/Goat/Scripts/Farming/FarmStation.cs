@@ -20,7 +20,7 @@ namespace Goat.Farming
     }
 
     [CreateAssetMenu(fileName = "FarmStation", menuName = "ScriptableObjects/FarmStation")]
-    public class FarmStation : Placeable
+    public class FarmStation : Building
     {
         [SerializeField, Space(10)] private Resource resourceFarm;
         [SerializeField, EnumToggleButtons()] private FarmType farmType;

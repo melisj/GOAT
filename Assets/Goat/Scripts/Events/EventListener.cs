@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityAtoms;
 using UnityAtoms.BaseAtoms;
+using Goat.Grid.Interactions;
 
 namespace Goat.Events
 {

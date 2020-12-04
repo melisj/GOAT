@@ -6,30 +6,15 @@ using UnityEngine.EventSystems;
 
 namespace Goat.Grid.Interactions
 {
-    public class InteractableManager : MonoBehaviour
-    {
+    public class InteractableManager : MonoBehaviour {
         public delegate void InteractableClickEvent(Transform interactable);
-
         public static event InteractableClickEvent InteractableClickEvt;
 
-        public delegate void SelectedInteractableChangeEvent(BaseInteractable interactable);
-
-        public static event SelectedInteractableChangeEvent SelectedInteractableChangeEvt;
-
         [SerializeField] private LayerMask interactableMask;
-
-        public const string StorageIconPrefabname = "ItemIcon";
-
-        public const string ItemHolderName = "ItemHolder";
-        public const string ItemHolderParentName = "ItemHolderParent";
-        public const string ItemMaterialName = "VertexColorShader";
-
-        public static Material ItemMaterial;
+        [SerializeField] private GridUIInfo gridUIInfo;
 
         public void Awake()
         {
-            ItemMaterial = Resources.Load<Material>(ItemMaterialName);
-
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
         }
 
@@ -41,10 +26,10 @@ namespace Goat.Grid.Interactions
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (!GridUIManager.Instance.IsElementSelected())
+                        if (!gridUIInfo.IsUIActive)
                             CheckForInteractable();
                         else
-                            GridUIManager.Instance.HideUI();
+                            gridUIInfo.CurrentUIElement = GridUIElement.None;
                     }
                 }
             }
@@ -59,11 +44,6 @@ namespace Goat.Grid.Interactions
                     InteractableClickEvt?.Invoke(hit.transform);
                 }
             }
-        }
-
-        public static void ChangeSelectedInteractable(BaseInteractable interactable)
-        {
-            SelectedInteractableChangeEvt?.Invoke(interactable);
         }
     }
 }

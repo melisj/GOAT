@@ -7,6 +7,7 @@ namespace Goat
     public class HideHotkeysAtDay : EventListenerBool
     {
         [SerializeField] private GameObject[] hotkeys;
+        [SerializeField] private GridUIInfo gridUIInfo;
 
         public override void OnEventRaised(bool value)
         {
@@ -14,7 +15,7 @@ namespace Goat
             {
                 hotkeys[i].SetActive(!value);
             }
-            GridUIManager.Instance.HideUI(); ;
+            gridUIInfo.CurrentUIElement = GridUIElement.None;
         }
     }
 }
