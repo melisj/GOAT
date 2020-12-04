@@ -1,13 +1,18 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Storage;
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Buyable : SerializedScriptableObject
 {
+    private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
+
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier = -1;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private Mesh mesh;
+    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
@@ -21,6 +26,26 @@ public class Buyable : SerializedScriptableObject
     public int OldAmount => oldAmount;
 
     public float Price => price;
+
+    public int ID => identifier;
+
+    public void OnValidate()
+    {
+        SetIdentifiers();
+        image = Resources.Load<Sprite>(name);
+    }
+
+    [Button("Set ID's")]
+    public void SetIdentifiers()
+    {
+        Object[] list = Resources.LoadAll("", typeof(Buyable));
+        int i = 0;
+        foreach (Object obj in list)
+        {
+            Buyable placeable = (Buyable)obj;
+            placeable.identifier = i++;
+        }
+    }
 
     /// <summary>
     /// Buys the buyable
@@ -77,6 +102,6 @@ public class Buyable : SerializedScriptableObject
     }
 
     public Sprite Image => image;
-    public Mesh Mesh => mesh;
+    public Mesh[] Mesh => mesh;
     public string Summary => summary;
 }
