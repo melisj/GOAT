@@ -119,9 +119,9 @@ namespace Goat.Grid
 
         #endregion Input
 
-        private void ChangeMaterialColor(bool canPlace)
+        private void ChangeMaterialColor(bool canPlace, bool destroyMode)
         {
-            Color newColor = canPlace ? Color.green : Color.red;
+            Color newColor = canPlace ? destroyMode ? Color.white : Color.green : Color.red;
             newColor.a = 0.5f;
             previewMaterial.color = newColor;
         }
@@ -234,9 +234,9 @@ namespace Goat.Grid
             // Hide target object on selected tile
             if (selectedTile != null)
             {
+                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
-                    ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo));
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
             }

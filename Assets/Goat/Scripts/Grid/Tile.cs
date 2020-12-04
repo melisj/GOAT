@@ -111,9 +111,21 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show ? show : placeable != null && !(placeable is Wall));
         }
 
-        public bool CheckForFloor(Placeable placeable)
+        public bool CheckForFloor(Placeable placeable, bool AutoWallOn = false)
         {
-            return (!floorObject && !(placeable is Floor));
+            if (placeable is Wall)
+            {
+                if (AutoWallOn)
+                {
+                    return true;
+                }
+            }
+            //There is floor
+            //Placeable is not floor
+            //   Debug.Log($"There is floor: {!floorObject}\nPlaceable is Floor: {!(placeable is Floor)}\nPlaceable is Wall: {placeable is Wall}\nAutoOn: {AutoWallOn}\n" +
+            //        $"Whole: {(!floorObject & !(placeable is Floor)) && (placeable is Wall & !AutoWallOn)}");
+            return ((!floorObject && !(placeable is Floor)));
+            //return ((floorObject && !(placeable is Floor)) && (placeable is Wall && AutoWallOn));
         }
 
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
