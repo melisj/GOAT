@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
-  m_Name: Gorad
+  m_Script: {fileID: 11500000, guid: 77da5c08ea4580b4089aa9d08d376521, type: 3}
+  m_Name: Drill
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 1
+  identifier: 0
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
   image: {fileID: 21300000, guid: 781b0af216c7f254a8db95e4907028d2, type: 3}
@@ -29,9 +29,9 @@ MonoBehaviour:
   - {fileID: 4814202474921946371, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   - {fileID: -6879800821504193036, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   summary: 
-  amount: 0
+  amount: 9999
   deliveryTime: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 6257709004261703041, guid: 5509decc968af4a4c8388f86166cf29d, type: 3}
   totalBeautyPoints: {fileID: 0}
   beautyPoints: 0
   resourceFarm: {fileID: 0}
