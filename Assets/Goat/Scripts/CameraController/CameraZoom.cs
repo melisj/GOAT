@@ -22,6 +22,7 @@ namespace Goat.CameraControls
             //currentObject = currentTopViewMode == TopViewMode.thirdPerson ? thirdPersonObj.transform : pointToClickObj.transform;
             //Vector3 zoomVector = zoomAxis == ZoomAxis.x ? Vector3.right : zoomAxis == ZoomAxis.y ? Vector3.up : Vector3.forward;
             //  float posToCheck = zoomAxis == ZoomAxis.x ? currentTransform.localPosition.x : zoomAxis == ZoomAxis.y ? currentTransform.localPosition.y : currentTransform.localPosition.z;
+
             // Zoom in when we are scrolling up and aren't on the closest zoom level
             if (Input.mouseScrollDelta.y > 0 && currentDist > minMaxZoom.x)
             {

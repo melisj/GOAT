@@ -30,7 +30,7 @@ namespace Goat.CameraControls
 
         private void Awake()
         {
-            currentActiveCamera = thirdPersonCamera;
+            currentActiveCamera = currentTopViewMode == TopViewMode.thirdPerson ? thirdPersonCamera : topviewCamera;
             currentObject = currentTopViewMode == TopViewMode.thirdPerson ? thirdPersonObj.transform : pointToClickObj.transform;
 
             Cursor.lockState = CursorLockMode.None;

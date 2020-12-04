@@ -11842,6 +11842,7 @@ MonoBehaviour:
   vCam: {fileID: 1220454530}
   minMaxZoom: {x: 1, y: 4}
   zoomStrength: 5
+  latestZoom: -999
 --- !u!114 &1220454532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11865,7 +11866,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220454529}
-  m_LocalRotation: {x: 0.0006018042, y: -0, z: -0, w: 0.9999998}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.44, y: 1.2, z: 1.2800002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20257,8 +20258,8 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0.5
-  m_VerticalDamping: 0.5
+  m_HorizontalDamping: 0
+  m_VerticalDamping: 0
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
@@ -22878,7 +22879,7 @@ MonoBehaviour:
   maincam: {fileID: 612139148}
   thirdPersonCamera: {fileID: 1220454530}
   topviewCamera: {fileID: 2019862599}
-  currentTopViewMode: 0
+  currentTopViewMode: 1
   pointToClickObj: {fileID: 133915742}
   thirdPersonObj: {fileID: 2070129921}
 --- !u!1 &2134271821

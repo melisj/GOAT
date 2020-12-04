@@ -6,7 +6,7 @@ namespace Goat.CameraControls
     public class ThirdPersonCameraZoom : CameraZoom
     {
         private Cinemachine3rdPersonFollow follow;
-        private float latestZoom = -999;
+        [SerializeField] private float latestZoom = -999;
 
         private void OnEnable()
         {
@@ -37,7 +37,8 @@ namespace Goat.CameraControls
 
         private void Update()
         {
-            latestZoom += Zoom(follow.CameraDistance);
+            latestZoom += Zoom(latestZoom);
+
             follow.CameraDistance = latestZoom;
         }
     }
