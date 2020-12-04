@@ -44,9 +44,12 @@ namespace Goat.Grid
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();
 
-            dataHandler = GetComponent<GridDataHandler>();
-            if(dataHandler)
+            try
+            {
+                dataHandler = GetComponent<GridDataHandler>();
                 dataHandler.LoadGrid();
+            }
+            catch { }
 
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;

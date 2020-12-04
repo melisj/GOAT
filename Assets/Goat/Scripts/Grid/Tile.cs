@@ -12,6 +12,7 @@ namespace Goat.Grid
     public class Tile
     {
         private Vector3 centerPosition;
+        private Vector2Int gridPosition;
         private bool isUnlocked;
         private Placeable placeable;
         private GameObject floorObject, buildingObject, tileObject;
@@ -20,12 +21,11 @@ namespace Goat.Grid
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
-        public int PoolKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ObjectInstance ObjInstance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Tile(Vector3 centerPosition, Vector2Int gridPosition, Grid grid)
         {
             this.centerPosition = centerPosition;
+            this.gridPosition = gridPosition;
             this.grid = grid;
             SaveData = new TileInfo(gridPosition);
         }
@@ -56,6 +56,7 @@ namespace Goat.Grid
             buildingObject = null;
             tileObject = null;
             placeable = null;
+            SaveData = new TileInfo(gridPosition);
         }
 
         public void ShowFloor(bool show)

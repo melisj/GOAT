@@ -33,6 +33,8 @@ namespace Goat.Grid
     /// </summary>
     public class GridDataHandler : MonoBehaviour
     {
+        public delegate void LoadCompleteEvent();
+        public static event LoadCompleteEvent LevelLoaded;
 
         [Header("Paths")]
         [SerializeField] private string saveFolder = "/Goat/SaveData/";
@@ -66,10 +68,11 @@ namespace Goat.Grid
         [Button("Load", ButtonSizes.Medium)]
         public void LoadGrid() {
             if (Application.isPlaying) {
-                grid.Reset();
                 SaveData data = JsonUtility.FromJson<SaveData>(LoadFromFile());
 
                 if (data != null) {
+                    grid.Reset();
+
                     // Load references for the data
                     List<Buyable> buyables = Resources.LoadAll<Buyable>("").ToList();
                     buyables = buyables.OrderBy((obj) => obj.ID).ToList();
@@ -86,6 +89,8 @@ namespace Goat.Grid
                             grid.tiles[x, y].LoadInData(data.tileList[grid.GetGridSize.y * x + y], ref buyables);
                         }
                     }
+
+                    LevelLoaded?.Invoke();
                 }
             }
         }
