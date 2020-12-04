@@ -20,8 +20,9 @@ namespace Goat.Grid
         // Variables used for highlighting and placing object on grid when in edit mode
         [Space(10), Header("Preview Object")]
         [SerializeField] private Material previewMaterial;
+        [SerializeField] private GameObject previewPrefab;
         private GameObject previewObject;              // Preview object shown on grid
-        private MeshFilter previewObjectMesh;
+        private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
         private List<Vector2Int> checkedTiles = new List<Vector2Int>();
         private float objectRotationAngle;                              // Rotation of preview object
@@ -32,6 +33,7 @@ namespace Goat.Grid
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
         private Vector2Int currentTileIndex;
+        private bool autoWalls;
 
         public bool DestroyMode { get; set; }
         public float GetTileSize { get { return tileSize; } }
@@ -95,7 +97,7 @@ namespace Goat.Grid
                     {
                         checkedTiles.Clear();
                         currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
-                        if (!(previewPlaceableInfo is Wall))
+                        if (autoWalls)
                             SetupNeighborTiles(currentTileIndex);
                     }
                 }
@@ -105,10 +107,23 @@ namespace Goat.Grid
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                 }
+                if (keyCode == KeyCode.T && keyMode.HasFlag(InputManager.KeyMode.Down))
+                {
+                    // Always has to rotate a 90 degrees
+                    autoWalls = !autoWalls;
+                    Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
+                }
             }
         }
 
         #endregion Input
+
+        private void ChangeMaterialColor(bool canPlace)
+        {
+            Color newColor = canPlace ? Color.green : Color.red;
+            newColor.a = 0.5f;
+            previewMaterial.color = newColor;
+        }
 
         private void Update()
         {
@@ -125,15 +140,16 @@ namespace Goat.Grid
         private void CheckNeighbourTiles(Tile tile, Vector2Int index2D)
         {
             int rotation = -90;
-            CheckTile(tile, ref rotation, index2D, Vector2Int.right);
             CheckTile(tile, ref rotation, index2D, Vector2Int.down);
             CheckTile(tile, ref rotation, index2D, Vector2Int.left);
             CheckTile(tile, ref rotation, index2D, Vector2Int.up);
+            CheckTile(tile, ref rotation, index2D, Vector2Int.right);
         }
 
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
@@ -142,18 +158,18 @@ namespace Goat.Grid
                     SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
                 }
 
-                tile.EditAnyWall(defaultWall, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true);
 
                 return;
             }
 
             if (tile.FloorObj == null)
             {
-                tile.EditAnyWall(defaultWall, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true);
             }
             else
             {
-                tile.EditAnyWall(defaultWall, rotation, false);
+                tile.EditAnyWall(wallPlace, rotation, false);
             }
 
             //Placewalls
@@ -219,6 +235,7 @@ namespace Goat.Grid
             {
                 if (InputManager.Instance.InputMode == InputMode.Edit)
                 {
+                    ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo));
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
             }
@@ -238,12 +255,17 @@ namespace Goat.Grid
 
         private void InitializePreviewObject()
         {
-            previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            //TODO: Prefab
+            //previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            previewObject = Instantiate(previewPrefab);
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
 
-            previewObjectMesh = previewObject.GetComponent<MeshFilter>();
-            previewObjectMesh.GetComponent<MeshRenderer>().material = previewMaterial;
+            previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
+            for (int i = 0; i < previewObjectMesh.Length; i++)
+            {
+                previewObjectMesh[i].GetComponent<MeshRenderer>().material = previewMaterial;
+            }
         }
 
         public void EnablePreview(Vector3 position)
@@ -257,10 +279,18 @@ namespace Goat.Grid
             previewObject.SetActive(false);
         }
 
-        public void SetPreviewActiveMesh(Mesh newMesh)
+        public void SetPreviewActiveMesh(Placeable placeable)
         {
             previewObject.SetActive(true);
-            previewObjectMesh.mesh = newMesh;
+            for (int i = 0; i < previewObjectMesh.Length; i++)
+            {
+                if (i >= placeable.Mesh.Length)
+                {
+                    previewObjectMesh[i].mesh = null;
+                    continue;
+                }
+                previewObjectMesh[i].mesh = placeable.Mesh[i];
+            }
         }
 
         public void ChangePreviewObject(Placeable placeable)
@@ -270,7 +300,7 @@ namespace Goat.Grid
                 previewPlaceableInfo = placeable;
 
             if (!DestroyMode)
-                SetPreviewActiveMesh(placeable.Mesh);
+                SetPreviewActiveMesh(placeable);
         }
 
         #endregion Preview Functions

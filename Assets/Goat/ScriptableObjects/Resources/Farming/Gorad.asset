@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77da5c08ea4580b4089aa9d08d376521, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
   m_Name: Gorad
   m_EditorClassIdentifier: 
   serializationData:
@@ -23,17 +23,21 @@ MonoBehaviour:
     SerializationNodes: []
   identifier: 1
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 0
-  image: {fileID: 21300000, guid: ad51473cf38022d4ba4c568f50a73ad3, type: 3}
-  mesh: {fileID: 0}
-  summary: 
-  amount: 219
-  deliveryTime: 0
-  prefab: {fileID: 5513815684422228832, guid: 674c4286ae10ff64e8172e947f433d45, type: 3}
+  price: 600
+  image: {fileID: 21300000, guid: 781b0af216c7f254a8db95e4907028d2, type: 3}
+  mesh:
+  - {fileID: -6879800821504193036, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
+  - {fileID: 4814202474921946371, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
+  summary: The gorad is the gorad
+  amount: 9
+  deliveryTime: 10
+  prefab: {fileID: 6257709004261703041, guid: 5509decc968af4a4c8388f86166cf29d, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
+  beautyPoints: 0
   resourceFarm: {fileID: 11400000, guid: 72135646792511f4e96d6c2998d5d140, type: 2}
   farmType: 0
-  storageCapacity: 1
-  amountPerSecond: 2
-  costPerSecond: 0
+  storageCapacity: 2000
+  amountPerSecond: 5
+  costPerSecond: 4
   resourceCost: []
   farmDeliverType: 0

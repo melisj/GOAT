@@ -21,6 +21,15 @@ ModelImporter:
   - first:
       74: 3236615172182924403
     second: FarmOil(Pump)|FarmOil(Pump)Action
+  - first:
+      74: 5097890089813141695
+    second: FarmOil(Pump)|DoorOutside(Door1)Action.001
+  - first:
+      74: -3944871745348788264
+    second: FarmOil(Pump)|DoorOutside(Door2)Action.001
+  - first:
+      74: -4708949262420921415
+    second: FarmOil(Pump)Action
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -54,10 +63,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -104,7 +113,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.005
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

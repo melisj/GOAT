@@ -9,10 +9,12 @@ using Object = UnityEngine.Object;
 public class Buyable : SerializedScriptableObject
 {
     [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier;
+    private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
+
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private Mesh mesh;
+    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
@@ -29,8 +31,14 @@ public class Buyable : SerializedScriptableObject
 
     public int ID => identifier;
 
+    public void OnValidate()
+    {
+        image = Resources.Load<Sprite>(name);
+    }
+
     [Button("Set ID's")]
-    public void SetIdentifiers() {
+    public void SetIdentifiers()
+    {
         Object[] list = Resources.LoadAll("", typeof(Buyable));
         for (int i =0; i < list.Length; i++) {
             Buyable placeable = (Buyable)list[i];
@@ -40,7 +48,7 @@ public class Buyable : SerializedScriptableObject
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-    } 
+    }
 
     /// <summary>
     /// Buys the buyable
@@ -97,6 +105,6 @@ public class Buyable : SerializedScriptableObject
     }
 
     public Sprite Image => image;
-    public Mesh Mesh => mesh;
+    public Mesh[] Mesh => mesh;
     public string Summary => summary;
 }

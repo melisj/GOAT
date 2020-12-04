@@ -23,7 +23,7 @@ public class SpawnNPC : MonoBehaviour
         if (NpcManager.Instance.AvailableResources.Keys.Count <= 0) return;
         GameObject npc = PoolManager.Instance.GetFromPool(npcPrefab, transform.position, Quaternion.identity);
         NPCScript npcScript = npc.GetComponent<NPCScript>();
-        npcScript.Setup();
+        npcScript.Setup(transform);
     }
 
     public void KillSequence()

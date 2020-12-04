@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MeshToImage : MonoBehaviour
 {
-    private const string folderPath = "/Goat/Textures/UI/MeshImages/";
+    private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
     private const string dataType = ".png";
 
     [SerializeField] private RenderTexture rt;
@@ -13,7 +13,7 @@ public class MeshToImage : MonoBehaviour
     [SerializeField] private int width = 32;
     [SerializeField] private int height = 32;
     [SerializeField] private bool testCameraSize;
-    [SerializeField] private MeshFilter mesh;
+    [SerializeField] private MeshFilter[] mesh;
 
     //private void LateUpdate()
     //{
@@ -26,8 +26,16 @@ public class MeshToImage : MonoBehaviour
     private void CreateMesh(Placeable place)
     {
         //     mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
-        mesh.mesh = place.Mesh;
-        mesh.transform.localScale = Vector3.one;
+        for (int i = 0; i < mesh.Length; i++)
+        {
+            mesh[i].transform.localScale = Vector3.one;
+            if (i >= place.Mesh.Length)
+            {
+                mesh[i].mesh = null;
+                continue;
+            }
+            mesh[i].mesh = place.Mesh[i];
+        }
     }
 
     private void DeleteMesh()
