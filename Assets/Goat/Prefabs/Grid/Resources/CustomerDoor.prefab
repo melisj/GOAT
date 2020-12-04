@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2259898833471694881}
   - component: {fileID: 2486143729356084499}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: CustomerDoor
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -53,11 +53,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2599278132416750274}
-  - component: {fileID: 4698983764456816962}
   - component: {fileID: 6954765886334667286}
   - component: {fileID: 7570787542598609547}
   - component: {fileID: 2501652123669890646}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,19 +79,6 @@ Transform:
   m_Father: {fileID: 2259898833471694881}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4698983764456816962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3411948528507058296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ccb93c55d909da40beba88df6254703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  description: Desk
 --- !u!114 &6954765886334667286
 MonoBehaviour:
   m_ObjectHideFlags: 0

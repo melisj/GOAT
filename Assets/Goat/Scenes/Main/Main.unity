@@ -1838,7 +1838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
-  fileName: GridSave
+  fileName: DefaultSave
 --- !u!114 &132408881
 MonoBehaviour:
   m_ObjectHideFlags: 0
