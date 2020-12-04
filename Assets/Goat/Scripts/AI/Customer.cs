@@ -16,7 +16,6 @@ namespace Goat.AI
         [HideInInspector] public int remainingMoney = 0;
 
         [SerializeField] private ResourceArray resourcesInProject;
-        public bool yes = false;
 
         protected override void Awake()
         {
