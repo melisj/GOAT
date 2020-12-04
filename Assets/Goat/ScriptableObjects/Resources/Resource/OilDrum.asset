@@ -31,7 +31,7 @@ MonoBehaviour:
 
     Being compressed
     over ages, it''s mostly used for research.'
-  amount: 0
+  amount: 2
   deliveryTime: 5
   resourceType: 2
   storageEnviroment: 0

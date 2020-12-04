@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77da5c08ea4580b4089aa9d08d376521, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
   m_Name: Gorad
   m_EditorClassIdentifier: 
   serializationData:
@@ -29,12 +29,12 @@ MonoBehaviour:
   - {fileID: 4814202474921946371, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   - {fileID: -6879800821504193036, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   summary: 
-  amount: 9999
+  amount: 0
   deliveryTime: 0
-  prefab: {fileID: 6257709004261703041, guid: 5509decc968af4a4c8388f86166cf29d, type: 3}
+  prefab: {fileID: 0}
   totalBeautyPoints: {fileID: 0}
   beautyPoints: 0
-  resourceFarm: {fileID: 11400000, guid: 9ebcf876b28e3154081b2aab550df9c5, type: 2}
+  resourceFarm: {fileID: 0}
   farmType: 0
   storageCapacity: 1
   amountPerSecond: 2
