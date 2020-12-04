@@ -111,6 +111,8 @@ namespace Goat.Grid
                 {
                     // Always has to rotate a 90 degrees
                     autoWalls = !autoWalls;
+                    if (autoWalls)
+                        SetupNeighborTiles(currentTileIndex);
                     Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
                 }
             }
@@ -149,7 +151,7 @@ namespace Goat.Grid
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
-            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+            Placeable wallPlace = defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {

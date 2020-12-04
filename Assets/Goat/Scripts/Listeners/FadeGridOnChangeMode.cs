@@ -25,13 +25,13 @@ public class FadeGridOnChangeMode : EventListenerInputMode
     {
         if (inputMode == InputMode.Destroy | inputMode == InputMode.Edit)
         {
-            if (fadeSequence.IsPlaying())
+            if (fadeSequence?.IsActive() ?? false)
                 fadeSequence.Complete();
             fadeSequence.Append(rend.material.DOFade(1, fadeDuration));
         }
         else
         {
-            if (fadeSequence.IsPlaying())
+            if (fadeSequence?.IsActive() ?? false)
                 fadeSequence.Complete();
             fadeSequence.Append(rend.material.DOFade(0, fadeDuration));
         }
