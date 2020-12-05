@@ -9,6 +9,7 @@ public class CollisionDetection : MonoBehaviour
 {
     [Title("OverlapSphere method")]
     [SerializeField] private Vector3 center;
+
     [SerializeField] private int size;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private bool repeatDetectionOverTime;
@@ -19,6 +20,8 @@ public class CollisionDetection : MonoBehaviour
     private Collider latestCollider, previousCollider;
 
     private BaseInteractable previousInteractable;
+
+    public bool IsMoving { get => isMoving; }
 
     //public event EventHandler<Collider> OnColliderEnter;
 

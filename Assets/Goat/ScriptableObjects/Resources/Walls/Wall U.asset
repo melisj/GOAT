@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7ea29094535ac40a34e98b7db2417d, type: 3}
-  m_Name: FarmStation 1
+  m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
+  m_Name: Wall U
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 0
-  money: {fileID: 0}
+  identifier: 31
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 0}
-  mesh: []
+  image: {fileID: 21300000, guid: 5bed76ddc165cb64eb40c8619767e6ed, type: 3}
+  mesh:
+  - {fileID: 8203355076564766416, guid: f370e2504e0251942b8b87a1a7efc7d4, type: 3}
   summary: 
-  amount: 0
+  amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 0}
-  totalBeautyPoints: {fileID: 0}
+  prefab: {fileID: 6941252125494193769, guid: 791f7195e6b9ba9458c0697d0d4fa11e, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0
-  resourceFarm: {fileID: 0}
-  farmType: 0
-  storageCapacity: 1
-  amountPerSecond: 2
-  costPerSecond: 0
-  resourceCost: []
-  farmDeliverType: 0

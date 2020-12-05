@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
-  m_Name: Wall Cross
+  m_Name: Garage Door
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,15 +21,16 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 26
+  identifier: 22
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 21300000, guid: 70c75d21c31c07046b518c19e52f235f, type: 3}
+  image: {fileID: 21300000, guid: 61b022a497d63a742b262b4c1081b71e, type: 3}
   mesh:
-  - {fileID: 2845518930196898406, guid: 1112869b9fb569a4e86f7a1d1e2a31e3, type: 3}
+  - {fileID: -6953336878234041434, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
+  - {fileID: 2296636097042174134, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
   summary: 
   amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 6941252125494193769, guid: 791f7195e6b9ba9458c0697d0d4fa11e, type: 3}
+  prefab: {fileID: 4224341978920616237, guid: 870bc37edeba2e14aaa700174d386880, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0
