@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78d3bfaf9533fa4cb024d84ccf68ea4, type: 3}
-  m_Name: Money
+  m_Script: {fileID: 11500000, guid: c19800e64279c44e1ae4529ee6a2d780, type: 3}
+  m_Name: UnloadPingEvent
   m_EditorClassIdentifier: 
-  amount: 8980
-  starterAmount: 9000
+  _developerDescription: 
+  _replayBufferSize: 1
+  _inspectorRaiseValue: {x: 0, y: 0, z: 0}
