@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2008148668544657522}
   - component: {fileID: 6012620054827865061}
   - component: {fileID: 132219168927023186}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DoorInside(Door)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2326092500523055092}
   - component: {fileID: 2326092500523055093}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CustomerDoorRollup
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2326092501206763929}
   - component: {fileID: 2326092501206763930}
   - component: {fileID: 2326092501206763931}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1628556263814744219}
   - component: {fileID: 2756689815513749663}
   - component: {fileID: 4735829074707262799}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DoorInside
   m_TagString: Untagged
   m_Icon: {fileID: 0}

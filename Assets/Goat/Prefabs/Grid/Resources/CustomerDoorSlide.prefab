@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3790391450733342357}
   - component: {fileID: 615181581665455978}
   - component: {fileID: 3308927868494977590}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DoorOutside(Door1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 4693222945178750577}
   - component: {fileID: 6455785350209793652}
   - component: {fileID: 8866111873819119171}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DoorOutside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4631073481922635753}
   - component: {fileID: 9050168464954170075}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CustomerDoorSlide
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 4583657756047115742}
   - component: {fileID: 3893627826084406595}
   - component: {fileID: 9056599840824134046}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

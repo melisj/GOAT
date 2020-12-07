@@ -28,8 +28,8 @@ namespace Goat.AI
         {
             if (e != InputMode.Edit)
             {
-                surfacePlayer?.BuildNavMesh();
-                surfaceAI?.BuildNavMesh();
+                surfaceAI?.UpdateNavMesh(surfaceAI.navMeshData);
+                surfacePlayer?.UpdateNavMesh(surfacePlayer.navMeshData);
             }
         }
 
@@ -37,15 +37,16 @@ namespace Goat.AI
         {
             if (code == KeyCode.N && keyMode == InputManager.KeyMode.Down)
             {
-                surfaceAI.BuildNavMesh();
-                surfacePlayer.BuildNavMesh();
+                surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
+                surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
+                Debug.Log("Rebake NavMesh Stanleys a Legend");
             }
         }
 
         private void RebakeMesh()
         {
-            surfaceAI.BuildNavMesh();
-            surfacePlayer.BuildNavMesh();
+            surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
+            surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
         }
     }
 }
