@@ -14,6 +14,7 @@ namespace Goat.Player
                 if (inputMode == InputMode.Select | inSelectMode)
                 {
                     moveTo = GetMoveDirection();
+
                     Move();
                 }
             }

@@ -21,6 +21,8 @@
         private float speedSmoothVelocity;
         protected bool inSelectMode;
 
+        public Vector3 MoveTo { get => moveTo; }
+
         #endregion Private Fields
 
         private void OnEnable()

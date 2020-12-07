@@ -43,7 +43,6 @@ namespace Goat.Player
             //Vector3 screenPos = mainCam.ScreenToViewportPoint(mousePos) - origin;
 
             //player.SetDestination(mousePos);
-
             if (EventSystem.current.IsPointerOverGameObject()) return;
             var ray = mainCam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo))

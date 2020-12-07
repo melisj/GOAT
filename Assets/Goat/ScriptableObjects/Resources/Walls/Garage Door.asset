@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Shelf
+  m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
+  m_Name: Garage Door
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,15 +21,16 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 15
+  identifier: 22
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: 61b022a497d63a742b262b4c1081b71e, type: 3}
   mesh:
-  - {fileID: 3895528892748612893, guid: e28802bdf7524934db636ba9ca4f93fa, type: 3}
+  - {fileID: -6953336878234041434, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
+  - {fileID: 2296636097042174134, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
   summary: 
-  amount: 999999
+  amount: 99999
   deliveryTime: 0
-  prefab: {fileID: 8194749949931248881, guid: 440e0a1ae5cce664db2eead9f5c2eef5, type: 3}
-  totalBeautyPoints: {fileID: 0}
+  prefab: {fileID: 4224341978920616237, guid: 870bc37edeba2e14aaa700174d386880, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0

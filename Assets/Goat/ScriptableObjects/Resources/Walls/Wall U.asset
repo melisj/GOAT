@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
-  m_Name: Wall Cross
+  m_Name: Wall U
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,12 +21,12 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 26
+  identifier: 31
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  image: {fileID: 21300000, guid: 70c75d21c31c07046b518c19e52f235f, type: 3}
+  image: {fileID: 21300000, guid: 5bed76ddc165cb64eb40c8619767e6ed, type: 3}
   mesh:
-  - {fileID: 2845518930196898406, guid: 1112869b9fb569a4e86f7a1d1e2a31e3, type: 3}
+  - {fileID: 8203355076564766416, guid: f370e2504e0251942b8b87a1a7efc7d4, type: 3}
   summary: 
   amount: 99999
   deliveryTime: 0
