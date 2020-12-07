@@ -7,15 +7,15 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
-    public class SearchForGroceries : IState
+    public class SetRandomDestination : IState
     {
-        Customer customer;
+        NPC npc;
         LayerMask layerMask;
 
 
-        public SearchForGroceries(Customer customer)
+        public SetRandomDestination(NPC npc)
         {
-            this.customer = customer;
+            this.npc = npc;
             layerMask = LayerMask.GetMask("Interactable");
         }
 
@@ -24,15 +24,15 @@ namespace Goat.AI.States
             StorageInteractable targetStorage = GetTargetInteractable(DetectOverlap());
             if (targetStorage != null)
             {
-                customer.targetStorage = targetStorage;
-                customer.targetDestination = targetStorage.transform.position;
+                npc.targetStorage = targetStorage;
+                npc.targetDestination = targetStorage.transform.position;
                 Debug.Log("Found Storage Target");
             }
             else
             {
-                customer.targetStorage = null;
-                if (RandomWanderTarget(customer.transform.position, customer.wanderRange, out Vector3 wanderDestination))
-                    customer.targetDestination = wanderDestination;
+                npc.targetStorage = null;
+                if (RandomWanderTarget(npc.transform.position, npc.wanderRange, out Vector3 wanderDestination))
+                    npc.targetDestination = wanderDestination;
             }
         }
 
@@ -50,7 +50,7 @@ namespace Goat.AI.States
                     for (int i = 0; i < tempInteractable.GetItemCount; i++)
                     {
                         // Check if any resource inside interactable is located inside groceries dictionary
-                        if (customer.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
+                        if (npc.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
                         {
                             // Now takes the first match, might change to match that is located closest to customer
                             return tempInteractable;
@@ -64,7 +64,7 @@ namespace Goat.AI.States
 
         private Collider[] DetectOverlap()
         {
-            return Physics.OverlapSphere(customer.transform.position, customer.npcSize, layerMask);
+            return Physics.OverlapSphere(npc.transform.position, npc.npcSize, layerMask);
         }
 
 
@@ -101,7 +101,7 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
-            customer.searchingTime = Time.time - customer.enterTime;
+            npc.searchingTime = Time.time - npc.enterTime;
         }
     }
 }
