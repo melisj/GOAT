@@ -17,6 +17,8 @@ namespace Goat.AI
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
             GridDataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+            surfaceAI.BuildNavMesh();
+            surfacePlayer.BuildNavMesh();
         }
 
         private void GridDataHandler_LevelLoaded()
@@ -28,8 +30,8 @@ namespace Goat.AI
         {
             if (e != InputMode.Edit)
             {
-                surfaceAI?.UpdateNavMesh(surfaceAI.navMeshData);
-                surfacePlayer?.UpdateNavMesh(surfacePlayer.navMeshData);
+                surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
+                surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
             }
         }
 
