@@ -17,11 +17,11 @@ public class DialogueManager : MonoBehaviour
     public List<string> sentenceTwo = new List<string>();
     public List<string> sentenceThree = new List<string>();
 
-    public int nameNumber;
-    public int dialogueNumber;
-   public int listNameMax;
-   public int listDialogueMax;
-    
+    int nameNumber;
+    int dialogueNumber;
+    int listNameMax;
+    int listDialogueMax;
+
     void Start()
     {
         // First names
@@ -54,50 +54,45 @@ public class DialogueManager : MonoBehaviour
         sentenceThree.Add("Goodbye");
         sentenceThree.Add("Farewell");
         sentenceThree.Add("Bye");
-        Debug.Log("three" + sentenceThree.Count);
-    }
-    void Update()
-    {
-        if (firstNames.Count < lastNames.Count)
-        {
-            listNameMax = lastNames.Count ;
-        }
-        else
-        {
-            listNameMax = firstNames.Count ;
-        }
-
-        if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count )
-        {
-            listDialogueMax = sentenceOne.Count ;
-        }
-        if (sentenceTwo.Count > sentenceOne.Count || sentenceTwo.Count > sentenceThree.Count)
-        {
-            listDialogueMax = sentenceTwo.Count ;
-        }
-        else 
-        {
-            listDialogueMax = sentenceThree.Count ;
-        }
-        
-          nameNumber = Random.Range(0, listNameMax);
-        dialogueNumber = Random.Range(0, listDialogueMax);
 
     }
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("IsOpen", true);
 
+        nameNumber = Random.Range(0, listNameMax);
+
+        if (firstNames.Count < lastNames.Count)
+        {
+            listNameMax = lastNames.Count;
+        }
+        else
+        {
+            listNameMax = firstNames.Count;
+        }
         for (int i = 0; i < nameNumber; i++)
         {           
                 nameText.text = firstNames[i] + " " + lastNames[i];            
         }
 
-        
     }
-
     public void DisplayNextSentence()
     {
+        dialogueNumber = Random.Range(0, listDialogueMax);
+
+        if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count)
+        {
+            listDialogueMax = sentenceOne.Count + 1;
+        }
+        if (sentenceTwo.Count > sentenceOne.Count || sentenceTwo.Count > sentenceThree.Count)
+        {
+            listDialogueMax = sentenceTwo.Count + 1;
+        }
+        else
+        {
+            listDialogueMax = sentenceThree.Count + 1;
+        }
+
         for (int i = 0; i < dialogueNumber; i++)
         {
             dialogueOneText.text = sentenceOne[i];
