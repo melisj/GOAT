@@ -44,15 +44,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aef12522587a4b44976ea143991b61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 1e9a650780b9d2e478941e802057a82e, type: 2}
   subscribers: 0
   unload: {fileID: 11400000, guid: 706157082f9aad142b923694830ffe3c, type: 2}
-  rotationDuration: 2
-  yOffset: 2
-  baseDuration: 3
-  speed: 30
   packPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
     type: 3}
+  speed: 15.006452
+  unloadDelay: 0.5
+  rotationDuration: 0.5
+  yOffset: 2
 --- !u!1001 &6505556155106858506
 PrefabInstance:
   m_ObjectHideFlags: 0

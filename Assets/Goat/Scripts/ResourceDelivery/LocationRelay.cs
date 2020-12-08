@@ -11,10 +11,6 @@ namespace Goat.Delivery
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
-        private void Awake()
-        {
-        }
-
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
             unload.Locations.Add(transform.position);

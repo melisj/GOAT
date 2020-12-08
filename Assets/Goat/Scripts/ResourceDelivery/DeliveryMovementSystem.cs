@@ -8,24 +8,26 @@ using DG.Tweening;
 using Goat.Storage;
 using Goat.Pooling;
 using UnityAtoms;
+using Sirenix.OdinInspector;
 
 namespace Goat.Delivery
 {
     public class DeliveryMovementSystem : EventListenerVoid, IPoolObject
     {
         [SerializeField] private UnloadLocations unload;
-        [SerializeField] private float rotationDuration = 0.1f;
-        [SerializeField] private float yOffset = 2;
-        [SerializeField] private float baseDuration;
-        [SerializeField] private float speed;
         [SerializeField] private GameObject packPrefab;
+        [SerializeField, ProgressBar(2, 30)] private float speed;
+        [SerializeField, Range(0.1f, 0.5f)] private float unloadDelay;
+        [SerializeField, Range(0.1f, 1f)] private float rotationDuration = 0.1f;
+        [SerializeField, ProgressBar(1, 3)] private int yOffset = 2;
+
         private bool isDelivering;
         private Buyable buyable;
         private int amount;
         private Vector3 arrivePosition;
         private Queue<DeliveryResource> deliveryResources;
         private Sequence moveSequence;
-
+        private WaitForSeconds unloadDelaySeconds;
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
@@ -73,9 +75,6 @@ namespace Goat.Delivery
             return nearestPos;
         }
 
-        //Speed = 10 distance per second
-        //-100 to 11.5
-        //
         private void MoveTo(Vector3 target)
         {
             arrivePosition = transform.position;
@@ -119,15 +118,22 @@ namespace Goat.Delivery
                 moveSequence.Complete();
 
             moveSequence = DOTween.Sequence();
-            moveSequence.SetUpdate(UpdateType.Normal, false);
+            //  moveSequence.SetUpdate(UpdateType.Normal, false);
             moveSequence.Append(transform.DOLookAt(arrivePosition, rotationDuration, AxisConstraint.Y));
             moveSequence.Append(transform.DOMove(arrivePosition, GetDuration(transform.position, arrivePosition)).OnComplete(() => { PoolManager.Instance.ReturnToPool(gameObject); }));
         }
 
         private void OnMultiDelivery()
         {
+            unloadDelaySeconds = new WaitForSeconds(unloadDelay);
+            StartCoroutine(UnloadCoroutine());
+        }
+
+        private IEnumerator UnloadCoroutine()
+        {
             while (deliveryResources.Count > 0)
             {
+                yield return unloadDelaySeconds;
                 DeliveryResource deliRes = deliveryResources.Peek();
                 ResourcePack resPack = PoolManager.Instance.GetFromPool(packPrefab, transform.position, Quaternion.identity).GetComponent<ResourcePack>();
                 if (resPack)
@@ -136,7 +142,11 @@ namespace Goat.Delivery
                 }
                 deliveryResources.Dequeue();
             }
+            MoveBack();
+        }
 
+        private void MoveBack()
+        {
             if (moveSequence.NotNull())
                 moveSequence.Complete();
 
