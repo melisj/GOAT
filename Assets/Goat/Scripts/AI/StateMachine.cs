@@ -46,7 +46,6 @@ namespace Goat.AI
             }
 
             _transitions.Add(new Transition(to, predicate));
-
         }
 
         public void AddAnyTransition(IState state, Func<bool> predicate)

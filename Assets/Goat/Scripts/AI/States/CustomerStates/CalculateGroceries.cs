@@ -48,7 +48,7 @@ namespace Goat.AI.States
                     AddResourceToGroceries(availableResources[randomIndex], 1);
             }
 
-            Debug.Log(groceries.First());
+            Debug.LogFormat("Amount of groceries: {0}", groceries.Count);
             calculatedGroceries = true;
             return groceries;
         }
