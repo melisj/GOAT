@@ -19,6 +19,7 @@ public class ShipCreator : EventListenerDeliveryResource
 
     public void CreateCargoShip()
     {
+        if (deliveryResources.Count <= 0) return;
         GameObject cargo = PoolManager.Instance.GetFromPool(cargoShipPrefab, transform.position, Quaternion.identity);
         DeliveryMovementSystem delivery = cargo.GetComponent<DeliveryMovementSystem>();
         delivery.SetupMultiDelivery(deliveryResources);
