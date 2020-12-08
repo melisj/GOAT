@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
-    public class MoveToTarget : IState
+    public class MoveToDestination : IState
     {
         private NPC npc;
         private NavMeshAgent navMeshAgent;
@@ -16,7 +16,7 @@ namespace Goat.AI.States
 
         // Need to check somewhere is target is reachable. NavMeshAgent.CalculatePath. NavMeshAgent.PathStatus.
 
-        public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
+        public MoveToDestination(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
@@ -34,7 +34,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.LogFormat("Moving to target");
+            Debug.LogFormat("Moving to destination");
             timeStuck = 0f;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(npc.targetDestination);
@@ -44,7 +44,7 @@ namespace Goat.AI.States
         public void OnExit()
         {
             timeStuck = 0f;
-            Debug.Log("Arrived at target");
+            Debug.Log("Arrived at destination");
             navMeshAgent.enabled = false;
             npc.searchingTime = Time.time - npc.enterTime;
             // Animation

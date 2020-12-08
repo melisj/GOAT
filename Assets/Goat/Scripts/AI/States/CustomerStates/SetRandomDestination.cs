@@ -21,46 +21,48 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            StorageInteractable targetStorage = GetTargetInteractable(DetectOverlap());
-            if (targetStorage != null)
-            {
-                npc.targetStorage = targetStorage;
-                npc.targetDestination = targetStorage.transform.position;
-                Debug.Log("Found Storage Target");
-            }
-            else
-            {
-                npc.targetStorage = null;
-                if (RandomWanderTarget(npc.transform.position, npc.wanderRange, out Vector3 wanderDestination))
-                    npc.targetDestination = wanderDestination;
-            }
+            //StorageInteractable targetStorage = GetTargetInteractable(DetectOverlap());
+            //if (targetStorage != null)
+            //{
+            //    npc.targetStorage = targetStorage;
+            //    npc.targetDestination = targetStorage.transform.position;
+            //    Debug.Log("Found Storage Target");
+            //}
+            //else
+            //{
+            //    npc.targetStorage = null;
+
+            //}
+
+            if (RandomWanderTarget(npc.transform.position, npc.wanderRange, out Vector3 wanderDestination))
+                npc.targetDestination = wanderDestination;
         }
 
-        private StorageInteractable GetTargetInteractable(Collider[] colliders)
-        {
-            StorageInteractable interactable = null;
+        //private StorageInteractable GetTargetInteractable(Collider[] colliders)
+        //{
+        //    StorageInteractable interactable = null;
 
-            // For all interactables collided with. Check if any resources is located inside.
-            for (int c = 0; c < colliders.Length; c++)
-            {
-                // Check all resources inside interactable
-                StorageInteractable tempInteractable = colliders[c].GetComponent<StorageInteractable>();
-                if (tempInteractable != null)
-                {
-                    for (int i = 0; i < tempInteractable.GetItemCount; i++)
-                    {
-                        // Check if any resource inside interactable is located inside groceries dictionary
-                        if (npc.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
-                        {
-                            // Now takes the first match, might change to match that is located closest to customer
-                            return tempInteractable;
-                        }
-                    }
-                }
-            }
+        //    // For all interactables collided with. Check if any resources is located inside.
+        //    for (int c = 0; c < colliders.Length; c++)
+        //    {
+        //        // Check all resources inside interactable
+        //        StorageInteractable tempInteractable = colliders[c].GetComponent<StorageInteractable>();
+        //        if (tempInteractable != null)
+        //        {
+        //            for (int i = 0; i < tempInteractable.GetItemCount; i++)
+        //            {
+        //                // Check if any resource inside interactable is located inside groceries dictionary
+        //                if (npc.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
+        //                {
+        //                    // Now takes the first match, might change to match that is located closest to customer
+        //                    return tempInteractable;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return interactable;
-        }
+        //    return interactable;
+        //}
 
         private Collider[] DetectOverlap()
         {
@@ -84,7 +86,7 @@ namespace Goat.AI.States
                 if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
                 { 
                     result = hit.position;
-                    Debug.LogFormat("Hit NavMesh on: {0}", result);
+                    //Debug.LogFormat("Hit NavMesh on: {0}", result);
                     return true;
                 }
             }
@@ -96,7 +98,7 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             Debug.Log("Searching for target");
-            
+            npc.targetStorage = null;
         }
 
         public void OnExit()

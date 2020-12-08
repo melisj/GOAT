@@ -12,7 +12,7 @@ namespace Goat.AI
         {
             base.Awake();
 
-            MoveToTarget moveToTarget = new MoveToTarget(this, targetDestination, navMeshAgent, animator);
+            MoveToDestination moveToTarget = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
 
 

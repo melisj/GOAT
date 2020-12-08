@@ -18,6 +18,9 @@ namespace Goat.AI
         [SerializeField] private ResourceArray resourcesInProject;
 
         public float customerSatisfaction = 100;
+        [HideInInspector] public float customerSelfConstraint = 0;
+        [SerializeField] private FieldOfView fov;
+        [HideInInspector] public bool enteredStore;
 
         protected override void Awake()
         {
@@ -27,16 +30,17 @@ namespace Goat.AI
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this);
-            MoveToTarget moveToTarget = new MoveToTarget(this, targetDestination, navMeshAgent, animator);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             ExitStore exitStore = new ExitStore(this, navMeshAgent, animator);
 
             // Conditions
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
-            Func<bool> HasTarget() => () => targetStorage != null && Vector3.Distance(transform.position, targetDestination) >= npcSize;
+            Func<bool> HasTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize && targetStorage == null;
-            Func<bool> StuckForSeconds() => () =>  moveToTarget.timeStuck > 1f;
+            Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < npcSize &&  targetStorage == null;
             Func<bool> ReachedTarget() => () => Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage != null;
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
@@ -49,14 +53,17 @@ namespace Goat.AI
 
             AT(calculateGroceries, enterStore, CalculatedGroceries());
             AT(enterStore, SetRandomDestination, EnteredStore());
-            AT(SetRandomDestination, moveToTarget, HasTarget());
-            AT(SetRandomDestination, moveToTarget, HasDestination());
-            AT(moveToTarget, SetRandomDestination, StuckForSeconds());
-            AT(moveToTarget, SetRandomDestination, ReachedDestination());
+            //AT(SetRandomDestination, moveToTarget, HasTarget());
+            AT(SetRandomDestination, moveToDestination, HasDestination());
+            AT(moveToDestination, SetRandomDestination, StuckForSeconds());
+            AT(moveToDestination, SetRandomDestination, ReachedDestination());
             AT(moveToTarget, takeItem, ReachedTarget());
             AT(takeItem, SetRandomDestination, StorageDepleted());
+            AT(moveToDestination, moveToTarget, HasTarget());
 
             stateMachine.SetState(calculateGroceries);
+
+            fov = GetComponentInChildren<FieldOfView>();
         }
 
         //protected override void Update() => stateMachine.Tick();
