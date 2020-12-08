@@ -5,21 +5,31 @@ using Goat.AI;
 
 namespace Goat.Grid.Interactions
 {
-    public class CheckoutInteractable : MonoBehaviour
+    public class CheckoutInteractable : BaseInteractable
     {
         private Queue<Vector3> queuePositions = new Queue<Vector3>();
         private Queue<Customer> customerQueue = new Queue<Customer>();
 
+        public override object[] GetArgumentsForUI()
+        {
+            return new object[] { PeekCustomerFromQueue() };
+        }
 
         public void AddCustomerToQueue(Customer customer)
         {
             if (customer != null && !customerQueue.Contains(customer))
                 customerQueue.Enqueue(customer);
         }
-        public void RemoveCustomerFromQueue(Customer customer)
+
+        public Customer RemoveCustomerFromQueue()
         {
-            if (customer != null && customerQueue.Contains(customer))
-                customerQueue.Dequeue();
+            return customerQueue.Dequeue();
+        }
+
+        public Customer PeekCustomerFromQueue()
+        {
+            if (customerQueue.Count == 0) return null; 
+            return customerQueue.Peek();
         }
 
     }

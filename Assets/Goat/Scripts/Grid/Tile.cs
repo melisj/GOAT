@@ -3,7 +3,6 @@ using Goat.Pooling;
 using Goat.Storage;
 using System;
 using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
 
 namespace Goat.Grid
@@ -200,6 +199,11 @@ namespace Goat.Grid
                     }
                     tileObjectFilter[i].mesh = placeable.Mesh[i];
                 }
+
+                // Change the grid position this object is on
+                BaseInteractable interactable = tileObject.GetComponentInChildren<BaseInteractable>();
+                if (interactable)
+                    interactable.GridPosition = gridPosition;
 
                 tileObject.transform.localScale = size;
                 if (placeable is Floor)

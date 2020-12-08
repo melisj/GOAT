@@ -12,7 +12,8 @@ namespace Goat.Grid.UI
     public enum InteractableUIElement 
     { 
         None,
-        Storage
+        Storage,
+        NPC
     }
 
     /// <summary>
@@ -50,9 +51,11 @@ namespace Goat.Grid.UI
         }
 
         private void InteractableInfo_selectedInteractableChangeEvt(BaseInteractable interactable) {
-            InteractableUIElement elementToLoad = interactable is StorageInteractable ?
-               InteractableUIElement.Storage :
-               InteractableUIElement.None;
+            InteractableUIElement elementToLoad = InteractableUIElement.None;
+
+            if (interactable is StorageInteractable) elementToLoad = InteractableUIElement.Storage;
+            else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
+
             SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
         }
 
