@@ -17,4 +17,4 @@ MonoBehaviour:
     type: 3}
   defaultTile: {fileID: 6905728788971425759, guid: 2ec5c95d8485ea941a568d5faaee52d6,
     type: 3}
-  starterAmount: 30000
+  starterAmount: 300
