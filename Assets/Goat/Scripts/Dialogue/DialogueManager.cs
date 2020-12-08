@@ -6,45 +6,89 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public Text nameText;
-    public Text dialogueText;  
+    public Text dialogueOneText;
+    public Text dialogueTwoText;
+    public Text dialogueThreeText;
     public Animator animator;
+
     public List<string> firstNames = new List<string>();
     public List<string> lastNames = new List<string>();
+    public List<string> sentenceOne = new List<string>();
+    public List<string> sentenceTwo = new List<string>();
+    public List<string> sentenceThree = new List<string>();
 
-    int NameNumber;
-    int listMax;
+    public int nameNumber;
+    public int dialogueNumber;
+   public int listNameMax;
+   public int listDialogueMax;
     
     void Start()
     {
+        // First names
         firstNames.Clear();
         firstNames.Add("Grogu");
         firstNames.Add("Shifu");
         firstNames.Add("Koli");
 
+        // Last names
         lastNames.Clear();
         lastNames.Add("Hopsnop");
         lastNames.Add("Fropstop");
         lastNames.Add("Gorbluk");
         lastNames.Add("Druppok");
 
+        // The first sentences 
+        sentenceOne.Clear();
+        sentenceOne.Add("Hello,");
+        sentenceOne.Add("Good day,");
+        sentenceOne.Add("HELLO, I WAS FIRST");
+
+        // The second sentences
+        sentenceTwo.Clear();
+        sentenceTwo.Add("I want to pay for");
+        sentenceTwo.Add("How much is this");
+        sentenceTwo.Add("YES,thank you I want to pay");
+
+        // The third sentences
+        sentenceThree.Clear();
+        sentenceThree.Add("Goodbye");
+        sentenceThree.Add("Farewell");
+        sentenceThree.Add("Bye");
+        Debug.Log("three" + sentenceThree.Count);
     }
     void Update()
     {
         if (firstNames.Count < lastNames.Count)
         {
-            listMax = lastNames.Count + 1;
+            listNameMax = lastNames.Count ;
         }
         else
-            listMax = firstNames.Count + 1;
+        {
+            listNameMax = firstNames.Count ;
+        }
 
-       NameNumber = Random.Range(0, listMax);
-      
+        if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count )
+        {
+            listDialogueMax = sentenceOne.Count ;
+        }
+        if (sentenceTwo.Count > sentenceOne.Count || sentenceTwo.Count > sentenceThree.Count)
+        {
+            listDialogueMax = sentenceTwo.Count ;
+        }
+        else 
+        {
+            listDialogueMax = sentenceThree.Count ;
+        }
+        
+          nameNumber = Random.Range(0, listNameMax);
+        dialogueNumber = Random.Range(0, listDialogueMax);
+
     }
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("IsOpen", true);
 
-        for (int i = 0; i < NameNumber; i++)
+        for (int i = 0; i < nameNumber; i++)
         {           
                 nameText.text = firstNames[i] + " " + lastNames[i];            
         }
@@ -54,11 +98,12 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        
-        dialogueText.text = "Test";
-      
-      
-        
+        for (int i = 0; i < dialogueNumber; i++)
+        {
+            dialogueOneText.text = sentenceOne[i];
+            dialogueTwoText.text = sentenceTwo[i];
+            dialogueThreeText.text = sentenceThree[i];
+        }         
     }
 
     void EndDialogue()
