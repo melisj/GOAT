@@ -37,15 +37,19 @@ namespace Goat.Grid.Interactions
         [SerializeField] protected string description;
 
         protected Vector2Int gridPosition;
+        protected Vector3 centerPosition;
 
         protected Collider clickCollider;
 
         protected UnityEvent InformationChanged = new UnityEvent();
 
+        [HideInInspector] public Grid grid;
+
         public bool IsClickedOn { get; set; }
         public string Description => description;
         public string Name => name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
+        public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
 
         // Pooling
         public int PoolKey { get; set; }
