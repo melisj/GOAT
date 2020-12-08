@@ -49,12 +49,17 @@ namespace Goat.Grid.Interactions
 
         public void CreateQueue()
         {
+            queueGridPositions.Clear();
+            queuePositions.Clear();
+
             float rotY = transform.rotation.eulerAngles.y + (overrideQueueDirection ? queueStartingRotation : 0);
             float tileOffset = grid.GetTileSize / 2;
 
             Vector2Int gridStartPosition = grid.CalculateTilePositionInArray(queueStartingPosition.position);
             Vector2Int currentGridPosition = gridStartPosition;
             Vector2Int currentDirection = Vector2Int.zero;
+
+            // Check direction the queue should start growing towards
             switch (((int)rotY + 360) % 360)
             {
                 case 0: currentDirection = Vector2Int.down; break;
@@ -63,18 +68,20 @@ namespace Goat.Grid.Interactions
                 case 270: currentDirection = Vector2Int.right; break;
             }
 
+            // Add queue spots
             while (queuePositions.Count < maxQueue)
             {
                 queueGridPositions.Add(currentGridPosition);
                 queuePositions.Add(new Vector3(currentGridPosition.x + tileOffset, 0, currentGridPosition.y + tileOffset));
 
-                Vector2Int[] directions = { currentDirection, 
-                    new Vector2Int(currentDirection.y, currentDirection.x),
-                    -new Vector2Int(currentDirection.y, currentDirection.x)
+                Vector2Int[] directions = { currentDirection,
+                    new Vector2Int(currentDirection.y, currentDirection.x), // Relativly right
+                    -new Vector2Int(currentDirection.y, currentDirection.x) // Relativly left
                 };
 
                 Vector2Int tempGridPos = currentGridPosition;
 
+                // Check for each directions 
                 for(int i = 0; i < directions.Length; i++)
                 {
                     if (CheckIfTileEmpty(currentGridPosition + directions[i]))
@@ -85,11 +92,13 @@ namespace Goat.Grid.Interactions
                     }
                 }
 
+                // Stop if same tile
                 if (tempGridPos == currentGridPosition)
                     break;
             }
         }
 
+        // Get tile info and check if it has a floor and not a building
         private bool CheckIfTileEmpty(Vector2Int gridPosition)
         {
             Tile tile = grid.ReturnTile(gridPosition);
@@ -97,6 +106,7 @@ namespace Goat.Grid.Interactions
             return tile.IsEmpty; 
         }
 
+        // Start queue creation after the frame it was enabled
         private IEnumerator GenerateQueue()
         {
             yield return new WaitForEndOfFrame();
@@ -105,7 +115,7 @@ namespace Goat.Grid.Interactions
 
         private void OnDrawGizmos()
         {
-            for(int i = 0; i < queuePositions.Count; i++)
+            for(int i = 0; i < queueGridPositions.Count; i++)
             {
                 Gizmos.color = new Color(i / (float)queuePositions.Count, 0, 0);
                 Gizmos.DrawSphere(queuePositions[i], 0.2f);
