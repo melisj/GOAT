@@ -55,7 +55,7 @@ namespace Goat.AI
                 if(customer.targetStorage == null && customer.enteredStore)
                 {
                     FindVisibleTargets();
-                    Debug.LogFormat("Looking with FOV {0}", customer.targetStorage == null);
+                    //Debug.LogFormat("Looking with FOV {0}", customer.targetStorage == null);
                 }
                 yield return new WaitForSeconds(1 / delay);
             }
@@ -82,7 +82,7 @@ namespace Goat.AI
                 Transform targetTransform = targetsInViewRadius[i].transform;
                 Vector3 dirToTarget = (targetTransform.position - transform.position).normalized;
                 // Only check targets within viewing angle.
-                if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+                if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2 && targetTransform.tag == "Storage")
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
                     // Check if Raycast hits target or if there is another target or obstacle blocking it.
@@ -95,12 +95,12 @@ namespace Goat.AI
             }
             // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-            Debug.LogFormat("Targets found: {0}", visibleTargetsArray.Length);
+            //Debug.LogFormat("Targets found: {0}", visibleTargetsArray.Length);
             if (customer.itemsToGet.Count > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 customer.targetStorage = targetStorage;
                 customer.targetDestination = targetStorage.transform.position;
-                Debug.Log("Found target to get item from!");
+                //Debug.Log("Found target to get item from!");
             }
         }
 

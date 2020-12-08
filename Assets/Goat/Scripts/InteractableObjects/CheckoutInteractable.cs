@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Goat.AI;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 namespace Goat.Grid.Interactions
 {
@@ -10,7 +11,7 @@ namespace Goat.Grid.Interactions
     {
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
-        private Queue<Customer> customerQueue = new Queue<Customer>();
+        private List<Customer> customerQueue = new List<Customer>();
 
         [SerializeField, InteractableAttribute] private int maxQueue = 20;
 
@@ -19,6 +20,8 @@ namespace Goat.Grid.Interactions
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
         public int QueueLength => customerQueue.Count;
+        public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
+        public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
 
         public override object[] GetArgumentsForUI()
         {
@@ -28,18 +31,29 @@ namespace Goat.Grid.Interactions
         public void AddCustomerToQueue(Customer customer)
         {
             if (customer != null && !customerQueue.Contains(customer))
-                customerQueue.Enqueue(customer);
+                customerQueue.Add(customer);
         }
 
-        public Customer RemoveCustomerFromQueue()
+        public void RemoveCustomerFromQueue()
         {
-            return customerQueue.Dequeue();
+            if (customerQueue.Count > 0)
+                customerQueue.Remove(customerQueue.First());
+
+            UpdateCustomersInQueue();
+        }
+
+        private void UpdateCustomersInQueue()
+        {
+            for (int i = 0; i < customerQueue.Count; i++)
+            {
+                customerQueue[i].UpdatePositionInCheckoutQueue(queuePositions[i]);
+            }
         }
 
         public Customer PeekCustomerFromQueue()
         {
             if (customerQueue.Count == 0) return null; 
-            return customerQueue.Peek();
+            return customerQueue.First();
         }
 
         protected void OnEnable()

@@ -22,6 +22,8 @@ namespace Goat.AI
         [SerializeField] private FieldOfView fov;
         [HideInInspector] public bool enteredStore;
 
+
+        //[HideInInspector] public WaitAt
         protected override void Awake()
         {
             base.Awake();
@@ -30,23 +32,30 @@ namespace Goat.AI
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this);
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
+            SearchForCheckout searchForCheckout = new SearchForCheckout(this);
             ExitStore exitStore = new ExitStore(this, navMeshAgent, animator);
+            DoNothing doNothing = new DoNothing(this);
 
             // Conditions
+            // Groceries
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
-            Func<bool> HasTarget() => () => targetStorage != null;
+            // Movement
+            Func<bool> HasStorageTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < npcSize &&  targetStorage == null;
+            Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
             Func<bool> ReachedTarget() => () => Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage != null;
+            // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
-            Func<bool> GoToCheckout() => () => itemsToGet.Count == 0;
-            Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
+            Func<bool> GoToCheckout() => () => searchingTime >= maxSearchingTime && searchForCheckout.checks < 1; //placeholder
+            Func<bool> FindShortestCheckout() => () => Vector3.Distance(transform.position, targetDestination) < 4 && searchForCheckout.checks < 2;
+            //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
+            Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && Vector3.Distance(targetDestination, transform.position) < 0.1f;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
@@ -59,14 +68,28 @@ namespace Goat.AI
             AT(moveToDestination, SetRandomDestination, ReachedDestination());
             AT(moveToTarget, takeItem, ReachedTarget());
             AT(takeItem, SetRandomDestination, StorageDepleted());
-            AT(moveToDestination, moveToTarget, HasTarget());
+            AT(moveToDestination, moveToTarget, HasStorageTarget());
+
+            AT(moveToDestination, searchForCheckout, GoToCheckout());
+            AT(searchForCheckout, moveToDestination, HasDestination());
+            AT(moveToDestination, searchForCheckout, FindShortestCheckout());
+
+            AT(moveToDestination, doNothing, WaitingInQueue());
+
+
+
 
             stateMachine.SetState(calculateGroceries);
 
             fov = GetComponentInChildren<FieldOfView>();
         }
 
-        //protected override void Update() => stateMachine.Tick();
+        public void UpdatePositionInCheckoutQueue(Vector3 newPosition)
+        {
+            targetDestination = newPosition;
+            stateMachine.SetState(moveToDestination);
+        }
+
 
     }
 }
