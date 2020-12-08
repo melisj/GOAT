@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8d7fdde4de2db014f8cb9b423e8577b5
+guid: a79ff98818326034ea95c279838e48ec
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Vertcolor.006
+      name: Vertcolor.002
     second: {fileID: 2100000, guid: b2f5b2c5f09f4194b8996fb6c84eb046, type: 2}
   materials:
     materialImportMode: 1
@@ -36,10 +36,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -86,7 +86,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
