@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Tube Straight
+  m_Name: Tube T-Split
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -25,10 +25,11 @@ MonoBehaviour:
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
   image: {fileID: 0}
-  mesh: []
+  mesh:
+  - {fileID: -1080828075206150689, guid: e9caeeb7a2abceb449f0362e0edc5679, type: 3}
   summary: 
   amount: 0
   deliveryTime: 0
   prefab: {fileID: 0}
-  totalBeautyPoints: {fileID: 0}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0
