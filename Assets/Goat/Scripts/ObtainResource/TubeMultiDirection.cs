@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TubeMultiDirection : MonoBehaviour
+namespace Goat.Farming
 {
-    // Start is called before the first frame update
-    private void Start()
+    [System.Serializable]
+    public class Path
     {
-    }
+        [SerializeField] private List<Vector3> points = new List<Vector3>();
 
-    // Update is called once per frame
-    private void Update()
-    {
+        public List<Vector3> Points { get => points; set => points = value; }
+
+        // public List<Vector3> Points { get => points; set => points = value; }
     }
 }

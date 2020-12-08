@@ -21,15 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  identifier: 0
+  identifier: 23
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
   image: {fileID: 0}
   mesh:
   - {fileID: 5722560591686651710, guid: b8defb3f93dc9d44fa8bf79316c73a89, type: 3}
   summary: 
-  amount: 0
+  amount: 999999
   deliveryTime: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 3730778495451147033, guid: 3c1f5e0d568d3b644a6362d0cb3df155, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0

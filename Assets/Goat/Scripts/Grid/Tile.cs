@@ -141,6 +141,7 @@ namespace Goat.Grid
             if (floorObject)
             {
                 ResourceTile resourceTile = floorObject.GetComponent<ResourceTile>();
+                if (!resourceTile) return true;
                 Resource resOnTile = resourceTile.Data.Resource;
 
                 FarmStation station = (FarmStation)placeable;

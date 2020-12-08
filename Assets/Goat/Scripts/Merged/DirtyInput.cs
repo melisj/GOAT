@@ -58,6 +58,19 @@ public static class Extensions
         return obj;
     }
 
+    public static bool Swap<T>(this T[] objectArray, int x, int y)
+    {
+        // check for out of range
+        if (objectArray.Length <= y || objectArray.Length <= x) return false;
+
+        // swap index x and y
+        T buffer = objectArray[x];
+        objectArray[x] = objectArray[y];
+        objectArray[y] = buffer;
+
+        return true;
+    }
+
     public static bool NotNull(this Sequence seq)
     {
         return seq?.IsActive() ?? false;

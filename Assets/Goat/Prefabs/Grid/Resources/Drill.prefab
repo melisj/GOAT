@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5407806778154286816}
   - component: {fileID: 3972930911312797797}
   - component: {fileID: 2227073633200823504}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FarmMetal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4621817197677462847}
   - component: {fileID: 6047925324368337095}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FarmMetal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6257709004261703043}
   - component: {fileID: 1110723869718704107}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Drill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,6 +185,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   animator: {fileID: 6047925324368337095}
+  connectedTubes: []
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ GameObject:
   - component: {fileID: 6257709004557095268}
   - component: {fileID: 7162852030555837538}
   - component: {fileID: 5711712267664799546}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +259,7 @@ GameObject:
   - component: {fileID: 3391700086595273273}
   - component: {fileID: 7368709901713546992}
   - component: {fileID: 7591882927653900480}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FarmMetal(Drill)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

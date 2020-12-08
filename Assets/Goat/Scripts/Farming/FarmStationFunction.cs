@@ -2,7 +2,9 @@
 using Goat.Pooling;
 using Goat.Storage;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Goat.Farming
 {
@@ -15,16 +17,43 @@ namespace Goat.Farming
         [SerializeField] private int currentCapacity;
         [SerializeField] private LayerMask floorLayer;
         [SerializeField] private Animator animator;
+        [SerializeField] private int debugPathIndex;
+        [SerializeField] private List<Path> connectedTubes = new List<Path>();
+        private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
         private float timer;
         private bool isConnected;
         private ResourceTile resourceTile;
 
+        public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
+
+        public int GetPath(Vector3 key)
+        {
+            int index = 0;
+            if (offsetToPath.TryGetValue(key, out index))
+            {
+                return index;
+            }
+            return index;
+        }
+
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
+        public List<Path> ConnectedTubes => connectedTubes;
+
+        private void Awake()
+        {
+            connectedTubes.Add(new Path());
+        }
 
         private void Update()
         {
             AddResource();
+        }
+
+        [Button]
+        private void CreateResPack()
+        {
+            CreateResourcePack(1, null);
         }
 
         public void CreateResourcePack(int capacity, Transform parent)
@@ -32,8 +61,11 @@ namespace Goat.Farming
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
             resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.ResourceType.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
+            ResourcePackMover resPackMover = resPackObj.GetComponent<ResourcePackMover>();
             int amount = capacity < currentCapacity ? capacity : currentCapacity;
             resPack.SetupResPack(farmStationSettings.ResourceFarm, amount);
+            int pathIndex = Random.Range(0, connectedTubes.Count);
+            resPackMover.Setup(connectedTubes[pathIndex].Points.ToArray());
             currentCapacity -= amount;
         }
 
@@ -97,6 +129,31 @@ namespace Goat.Farming
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position, radius);
+            if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < connectedTubes[debugPathIndex].Points.Count; i++)
+            {
+                if (i <= 0)
+                {
+                    Gizmos.DrawLine(transform.position, connectedTubes[debugPathIndex].Points[i]);
+                }
+                else if (i + 1 < connectedTubes[debugPathIndex].Points.Count)
+                {
+                    Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i + 1]);
+                }
+            }
+
+            //for (int i = connectedTubes[debugPathIndex].Points.Count - 1; i >= 0; i--)
+            //{
+            //    if (i - 1 >= 0)
+            //    {
+            //        Gizmos.DrawLine(transform.position, connectedTubes[debugPathIndex].Points[i - 1]);
+            //    }
+            //    else
+            //    {
+            //        Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i - 1]);
+            //    }
+            //}
         }
     }
 }
