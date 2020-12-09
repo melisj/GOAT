@@ -6,6 +6,7 @@ using Goat.Storage;
 public class StarterKit : MonoBehaviour
 {
     [SerializeField] private Money money;
+    [SerializeField] private Electricity electricity;
 
     private void Awake()
     {
@@ -20,5 +21,6 @@ public class StarterKit : MonoBehaviour
             resources[i].Amount = resources[i].StarterAmount;
         }
         money.Amount = money.StarterAmount;
+        electricity.ClearAll();
     }
 }

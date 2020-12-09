@@ -16,6 +16,7 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class StorageInteractable : BaseInteractable
     {
+        [Header("Storage")]
         [SerializeField] private List<ItemInstance> itemList = new List<ItemInstance>();
         [SerializeField] private int maxResources = 4;
         [SerializeField] private StorageEnviroment enviroment;
@@ -35,7 +36,7 @@ namespace Goat.Grid.Interactions
                 itemPhysicalHolderArray = value;
                 itemList = itemPhysicalHolderArray.ToList();
                 itemList.RemoveAll((item) => item == null);
-                InformationChanged.Invoke();
+                InvokeChange();
             }
         }
 
@@ -262,5 +263,10 @@ namespace Goat.Grid.Interactions
         }
 
         #endregion
+
+        public override string PrintObject(object obj)
+        {
+            return base.PrintObject(this);
         }
+    }
 }

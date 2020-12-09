@@ -63,7 +63,7 @@ namespace Goat.AI
 
         void LateUpdate()
         {
-            DrawFieldOfView();
+            //DrawFieldOfView();
             //FindVisibleTargets();
         }
 

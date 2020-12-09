@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Boo.Lang;
+using Goat.Grid.Interactions;
+using System;
 using UnityEngine;
 
 namespace Goat.Storage
@@ -7,8 +9,9 @@ namespace Goat.Storage
     public class Electricity : ScriptableObject {
         public delegate void ElectricityChanged(int newUsed, int newCapacity);
         public event ElectricityChanged ElectricityChangedEvent;
+        public EventHandler<int> ElectricityOverloaded;
 
-        public EventHandler<int> ElecricityOverloaded;
+        [SerializeField] private List<BaseInteractable> poweredInteractables = new List<BaseInteractable>();
 
         [SerializeField] private int capacity;
         [SerializeField] private int usedElectricity;
@@ -21,27 +24,50 @@ namespace Goat.Storage
                 ElectricityChangedEvent?.Invoke(usedElectricity, capacity);
 
                 if (usedElectricity > capacity) {
-                    ElecricityOverloaded?.Invoke(this, usedElectricity - capacity);
+                    DisableOverloadingInteractables();
+                    ElectricityOverloaded?.Invoke(this, usedElectricity - capacity);
                 }
             } 
         }
 
-        public bool AddElectricityConsumption(int consumption) {
-            usedElectricity += consumption;
+        public bool AddElectricityConsumption(BaseInteractable interactable) {
+            usedElectricity += interactable.PowerCost;
 
             // Check if electricity is overloaded
             if (usedElectricity > capacity) {
-                ElecricityOverloaded?.Invoke(this, usedElectricity - capacity);
-                usedElectricity -= consumption;
+                ElectricityOverloaded?.Invoke(this, usedElectricity - capacity);
+                usedElectricity -= interactable.PowerCost;
                 return false;
             }
 
+            poweredInteractables.Add(interactable);
             ElectricityChangedEvent?.Invoke(usedElectricity, capacity);
             return true;
         }
 
-        public void RemoveElectricityConsumption(int consumption) {
-            usedElectricity -= consumption;
+        public void RemoveElectricityConsumption(BaseInteractable interactable) {
+            poweredInteractables.Remove(interactable);
+        }
+
+        private void DisableOverloadingInteractables()
+        {
+            for(int i = poweredInteractables.Count - 1; i >= 0; i--)
+            {
+                if (usedElectricity > capacity)
+                {
+                    poweredInteractables[i].PowerOverloaded();
+                    poweredInteractables.RemoveAt(i);
+                }
+                else
+                    return;
+            } 
+        }
+
+        public void ClearAll()
+        {
+            poweredInteractables.Clear();
+            usedElectricity = 0;
+            capacity = 0;
         }
     }
 }

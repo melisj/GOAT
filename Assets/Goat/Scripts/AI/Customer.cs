@@ -23,6 +23,8 @@ namespace Goat.AI
         [HideInInspector] public bool enteredStore;
         [HideInInspector] public bool leavingStore;
 
+        [HideInInspector] public float totalPriceProducts;
+
         ExitStore exitStore;
 
         //[HideInInspector] public WaitAt

@@ -36,6 +36,10 @@ namespace Goat.AI.States
                     npc.RemoveItemToGet(npc.targetStorage.GetItems[i].Resource, 1);
                     npc.targetStorage.GetResource(i, returnToStock);
                     nothingFound = false;
+
+                    if (npc is Customer)
+                        ((Customer)npc).totalPriceProducts += npc.targetStorage.GetItems[i].Resource.Price;
+
                     break;
                 }
             }

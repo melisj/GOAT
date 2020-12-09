@@ -83,7 +83,7 @@ namespace Goat.Grid.UI
             if (IsThisActive) {
                 titleText.text = title;
                 descriptionText.text = description;
-                infoText.text = info.PrintObject<BaseInteractable>();
+                infoText.text = info.PrintObject(info);
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
         }

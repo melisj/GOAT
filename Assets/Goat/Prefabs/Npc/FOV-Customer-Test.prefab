@@ -108,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2602017250907032943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.25, y: 0, z: -4.18}
+  m_LocalPosition: {x: -2.25, y: 0.1210216, z: -4.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2564379538200956336}
@@ -135,7 +135,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2602017250907032943}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.2
   m_Speed: 1.5
@@ -188,6 +188,7 @@ MonoBehaviour:
   fov: {fileID: 0}
   enteredStore: 0
   leavingStore: 0
+  totalPriceProducts: 0
 --- !u!1 &2944599027650385674
 GameObject:
   m_ObjectHideFlags: 0
