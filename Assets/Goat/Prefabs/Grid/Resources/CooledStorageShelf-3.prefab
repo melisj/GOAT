@@ -416,7 +416,11 @@ MonoBehaviour:
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
   description: Cooled storage shelf with three planks
   costsPower: 1
-  powerCost: 1
+  powerCost: 3
+  isPowered: 0
+  producesPower: 0
+  powerProduction: 0
+  isPowering: 0
   grid: {fileID: 0}
   maxResources: 6
   enviroment: 2

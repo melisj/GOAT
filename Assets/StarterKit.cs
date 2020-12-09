@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Goat.Storage;
+using Goat.Grid;
 
 public class StarterKit : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class StarterKit : MonoBehaviour
             resources[i].Amount = resources[i].StarterAmount;
         }
         money.Amount = money.StarterAmount;
+    }
+
+    private void OnDisable()
+    {
         electricity.ClearAll();
     }
 }

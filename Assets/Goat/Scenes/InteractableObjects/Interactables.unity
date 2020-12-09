@@ -23647,7 +23647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
-  fileName: 
+  fileName: DefaultSave
 --- !u!114 &2135250468
 MonoBehaviour:
   m_ObjectHideFlags: 0

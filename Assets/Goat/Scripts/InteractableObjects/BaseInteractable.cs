@@ -62,7 +62,7 @@ namespace Goat.Grid.Interactions
         public bool IsClickedOn { get; set; }
         [InteractableAttribute("Powered")] public bool IsPowered { 
             get { return isPowered; } 
-            set { isPowered = value; PowerChanged?.Invoke(this, value); } 
+            set { isPowered = value; if(isPowered != value) PowerChanged?.Invoke(this, value); } 
         }
         [InteractableAttribute("Powering")] public bool IsPowering => isPowering;
 
@@ -168,7 +168,7 @@ namespace Goat.Grid.Interactions
         private void SetupElectricity()
         {
             if (costsPower)
-                IsPowered = electricityinfo.AddElectricityConsumption(this);
+                electricityinfo.AddDevice(this);
 
             if (producesPower && IsPowering)
                 electricityinfo.Capacity += powerProduction;
@@ -177,15 +177,10 @@ namespace Goat.Grid.Interactions
         private void OnDisableElectricity()
         {
             if (costsPower)
-                electricityinfo.RemoveElectricityConsumption(this);
+                electricityinfo.RemoveDevice(this);
 
             if (producesPower && IsPowering)
                 electricityinfo.Capacity -= powerProduction;
-        }
-
-        public void PowerOverloaded()
-        {
-            IsPowered = false;
         }
 
         #endregion
