@@ -12,6 +12,9 @@ public class DialogueManager : MonoBehaviour
     public Animator animator;
 
     public List<string> firstNames = new List<string>();
+    public List<string> myDialogueOne = new List<string>();
+    public List<string> myDialogueTwo = new List<string>();
+    public List<string> myDialogueThree = new List<string>();
     public List<string> lastNames = new List<string>();
     public List<string> sentenceOne = new List<string>();
     public List<string> sentenceTwo = new List<string>();
@@ -21,6 +24,10 @@ public class DialogueManager : MonoBehaviour
     int dialogueNumber;
     int listNameMax;
     int listDialogueMax;
+
+    bool senOneDone = false;
+    bool senTwoDone = false;
+    bool senThreeDone = false;
 
     void Start()
     {
@@ -55,13 +62,19 @@ public class DialogueManager : MonoBehaviour
         sentenceThree.Add("Farewell");
         sentenceThree.Add("Bye");
 
+
+        myDialogueOne.Clear();
+
+        myDialogueTwo.Clear();
+
+        myDialogueThree.Clear();
     }
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("IsOpen", true);
-
         nameNumber = Random.Range(0, listNameMax);
 
+        //check which list is longer and use that one as the max
         if (firstNames.Count < lastNames.Count)
         {
             listNameMax = lastNames.Count;
@@ -70,6 +83,8 @@ public class DialogueManager : MonoBehaviour
         {
             listNameMax = firstNames.Count;
         }
+
+        //display the name
         for (int i = 0; i < nameNumber; i++)
         {           
                 nameText.text = firstNames[i] + " " + lastNames[i];            
@@ -80,6 +95,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueNumber = Random.Range(0, listDialogueMax);
 
+        //check wich list is longest a use that one as max
         if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count)
         {
             listDialogueMax = sentenceOne.Count + 1;
@@ -93,11 +109,14 @@ public class DialogueManager : MonoBehaviour
             listDialogueMax = sentenceThree.Count + 1;
         }
 
+        //display the sentences in the porper order and with the right randomness
         for (int i = 0; i < dialogueNumber; i++)
         {
-            dialogueOneText.text = sentenceOne[i];
-            dialogueTwoText.text = sentenceTwo[i];
-            dialogueThreeText.text = sentenceThree[i];
+            if (senOneDone == true)
+            {
+                dialogueOneText.text = sentenceOne[i];
+            }
+           
         }         
     }
 
@@ -107,4 +126,25 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+   public void DialogueOne()
+    {
+        senOneDone= true;
+    }
+
+  public  void DialogueTwo()
+    {
+        senTwoDone = true;
+        for (int i = 0; i < dialogueNumber; i++)
+        {
+            dialogueTwoText.text = sentenceTwo[i];
+        }
+        }
+    public void DialogueThree()
+    {
+        for (int i = 0; i < dialogueNumber; i++)
+        {
+            dialogueThreeText.text = sentenceThree[i];
+            senThreeDone = true;
+        }
+    }
 }
