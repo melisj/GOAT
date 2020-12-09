@@ -20,7 +20,7 @@ namespace Goat.Farming
     }
 
     [CreateAssetMenu(fileName = "FarmStation", menuName = "ScriptableObjects/FarmStation")]
-    public class FarmStation : Placeable
+    public class FarmStation : Building
     {
         [SerializeField, Space(10)] private Resource resourceFarm;
         [SerializeField, EnumToggleButtons()] private FarmType farmType;
@@ -53,25 +53,4 @@ namespace Goat.Farming
         public ResourceType CostType => costType;
         public int Amount => amount;
     }
-
-    //WERKhouding
-    //Geef me de feedback
-    //Wat wil ik eigenlijk leren..
-    // Jasper:
-    // Goede WERKHOUDING
-    // JE BENT WEL GOED, JE PAKT DINGEN ZELF OP, VEEL KAARTEN GEDAAN
-    // GOED INITIATIEF
-    // CONCEPTING LEVER JE OOK GOED INPUT UIT JE ZELF
-
-    //Timo
-    //JE PAKT VEEL KAARTJES OP, VERDUIDELIJKEN WAT JE PRECIES GAAT DOEN EN WANNEER
-    //KOMT MISS OOK DOOR GEEN STANDUPS
-    //MEER OP INPUT VRAGEN
-
-    //Kwaliteit
-    //meer comments in code
-    //Teamwork input
-
-    //Bijdrage
-    //Goed
 }

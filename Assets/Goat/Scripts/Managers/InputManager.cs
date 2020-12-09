@@ -46,12 +46,16 @@ namespace Goat
             set
             {
                 if (value != inputMode)
-                    InputModeChanged.Invoke(this, value);
+                {
+                    InputModeChanged?.Invoke(this, value);
+                    onInputModeChanged.Raise(value);
+                }
                 inputMode = value;
             }
         }
 
         [SerializeField] private InputMode inputMode;
+        [SerializeField] private InputModeEvent onInputModeChanged;
 
         public delegate void OnInput(KeyCode code, KeyMode keyMode, InputMode inputMode);
 
@@ -86,7 +90,10 @@ namespace Goat
 
         private void Update()
         {
-            CheckKeys();
+            if (!InputFieldSelected)
+            {
+                CheckKeys();
+            }
         }
 
         private void CheckKeys()

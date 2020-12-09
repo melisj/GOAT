@@ -1,4 +1,5 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Events;
+using Goat.Grid.UI;
 using Goat.Storage;
 using TMPro;
 using UnityEngine;
@@ -26,10 +27,14 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] private Button maxAmountButton;
         [SerializeField] private Button sellButton;
 
+        [Header("References")]
+        [SerializeField] private InteractablesInfo interactableInfo;
+
         private int currentAmount;
         private Resource previousResource;
 
         public StorageInteractable Interactable { get; set; }
+
 
         public Resource Resource
         {
@@ -46,16 +51,28 @@ namespace Goat.Grid.Interactions.UI
 
         private void Awake()
         {
-            InteractableManager.SelectedInteractableChangeEvt += SelectedInteractableChanged;
             previousResource = resource;
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             SetupUI();
         }
 
+        private void OnEnable() {
+            interactableInfo.selectedInteractableChangeEvt += InteractableInfo_selectedInteractableChangeEvt;
+        }
+
+        private void OnDisable() {
+            interactableInfo.selectedInteractableChangeEvt -= InteractableInfo_selectedInteractableChangeEvt;
+        }
+
+        private void InteractableInfo_selectedInteractableChangeEvt(BaseInteractable interactable) {
+            if (interactable is StorageInteractable)
+                Interactable = interactable as StorageInteractable;
+        }
+
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
         {
-            if (keyMode == InputManager.KeyMode.Down && 
-                inputMode == InputMode.Select && 
+            if (keyMode == InputManager.KeyMode.Down &&
+                inputMode == InputMode.Select &&
                 stockingUI.activeInHierarchy)
             {
                 if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
@@ -73,17 +90,6 @@ namespace Goat.Grid.Interactions.UI
                     MinAmount();
                 }
             }
-        }
-
-        private void OnDestroy()
-        {
-            InteractableManager.SelectedInteractableChangeEvt -= SelectedInteractableChanged;
-        }
-
-        private void SelectedInteractableChanged(BaseInteractable interactable)
-        {
-            if (interactable is StorageInteractable)
-                Interactable = interactable as StorageInteractable;
         }
 
         private void OnResourceChanged()
@@ -136,6 +142,7 @@ namespace Goat.Grid.Interactions.UI
 
         private void ConfirmStocking()
         {
+            currentAmount = (resource.Amount - currentAmount) <= 0 ? resource.Amount : currentAmount;
             if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
             {
                 resource.Amount -= actualStoredAmount;

@@ -24,6 +24,11 @@ public class CellWithAmount : MonoBehaviour
 
     protected void ChangeText(int change)
     {
+        if (change > 999)
+        {
+            amountText.text = "∞";
+            return;
+        }
         float iconWidth = 11 + (26 / 6 * (change.ToString().Length - 1));
         imageIcon.sizeDelta = new Vector2(iconWidth, imageIcon.sizeDelta.y);
         amountText.text = change.ToString();
@@ -31,6 +36,9 @@ public class CellWithAmount : MonoBehaviour
 
     private void OnDestroy()
     {
-        buyable.AmountChanged -= Buyable_AmountChanged;
+        if (buyable != null)
+        {
+            buyable.AmountChanged -= Buyable_AmountChanged;
+        }
     }
 }

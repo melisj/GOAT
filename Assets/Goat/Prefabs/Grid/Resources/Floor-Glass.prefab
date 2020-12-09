@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 741194016622787877}
   - component: {fileID: 7877535012953770438}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor-Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 5834978164363138454}
   - component: {fileID: 1166859496394133819}
   - component: {fileID: 1849356980448370918}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

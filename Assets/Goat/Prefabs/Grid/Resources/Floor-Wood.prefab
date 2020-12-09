@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5568987632174519615}
   - component: {fileID: 7019709243566161825}
   - component: {fileID: 8403973925730762180}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6070791040104531020}
   - component: {fileID: 1335861769672792503}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor-Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}

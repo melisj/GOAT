@@ -88,7 +88,7 @@ namespace Goat.Pooling
 
             objInstance.SetParent(parent ? parent : parentDictionary[poolKey].transform);
             objInstance.GetObject(pos, rot, poolKey);
-            Debug.LogFormat("Getting object {0} from pool {1}", objInstance.GameObject, poolKey);
+
             return objInstance.GameObject;
         }
 
@@ -113,7 +113,7 @@ namespace Goat.Pooling
                 {
                     poolDictionary[poolObject.PoolKey].Enqueue(poolObject.ObjInstance);
                 }
-                Debug.Log(objToReturn + " returned");
+
                 poolObject.OnReturnObject();
             }
             else

@@ -1,13 +1,20 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Storage;
+using Sirenix.OdinInspector;
 using System;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Buyable : SerializedScriptableObject
 {
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier;
+    private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
+
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private Mesh mesh;
+    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
@@ -21,6 +28,27 @@ public class Buyable : SerializedScriptableObject
     public int OldAmount => oldAmount;
 
     public float Price => price;
+
+    public int ID => identifier;
+
+    public void OnValidate()
+    {
+        image = Resources.Load<Sprite>(name);
+    }
+
+    [Button("Set ID's")]
+    public void SetIdentifiers()
+    {
+        Object[] list = Resources.LoadAll("", typeof(Buyable));
+        for (int i =0; i < list.Length; i++) {
+            Buyable placeable = (Buyable)list[i];
+            placeable.identifier = i;
+            EditorUtility.SetDirty(placeable);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
 
     /// <summary>
     /// Buys the buyable
@@ -51,7 +79,7 @@ public class Buyable : SerializedScriptableObject
         int newTotal = total <= 0 ? Amount : total;
 
         if (deliverNow)
-            Amount -= newTotal;
+            Amount = newTotal;
         if (payNow)
             this.money.Amount += newTotal * price;
     }
@@ -70,12 +98,13 @@ public class Buyable : SerializedScriptableObject
             {
                 amount = value;
             }
+
             if (Application.isPlaying)
-                AmountChanged?.Invoke(this, value);
+                AmountChanged?.Invoke(this, amount);
         }
     }
 
     public Sprite Image => image;
-    public Mesh Mesh => mesh;
+    public Mesh[] Mesh => mesh;
     public string Summary => summary;
 }

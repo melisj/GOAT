@@ -1,4 +1,5 @@
 ﻿using Goat.Grid.UI;
+using Goat.Pooling;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,12 @@ namespace Goat.Grid.Interactions
     /// This attribute can also be used to give a custom name
     /// [TODO] can also flag the way a attribute should be displayed (eg. just numbers or health bar type display or something else)
     /// </summary>
-    public class InteractableInfo : Attribute {
-
+    public class InteractableAttribute : Attribute
+    {
         public string customName;
 
-        public InteractableInfo(string customName = "") {
+        public InteractableAttribute(string customName = "")
+        {
             this.customName = customName;
         }
     }
@@ -26,65 +28,97 @@ namespace Goat.Grid.Interactions
     /// Base script for every interactable object in the game
     /// Contains information of the object
     /// </summary>
-    public class BaseInteractable : MonoBehaviour
+    public class BaseInteractable : MonoBehaviour, IPoolObject
     {
-        [TextArea]
+        [SerializeField] protected InteractablesInfo info;
+        [SerializeField] private GridUIInfo gridUIInfo;
+
+        [TextArea, Space(10)]
         [SerializeField] protected string description;
+
+        protected Collider clickCollider;
 
         protected UnityEvent InformationChanged = new UnityEvent();
 
-        protected virtual void OnEnable() {
-            InteractableManager.InteractableClickEvt += IsClicked;
-            InformationChanged.AddListener(UpdateUI);
-        }
+        public bool IsClickedOn { get; set; }
+        public string Description => description;
+        public string Name => name;
 
-        protected virtual void OnDisable() {
-            InteractableManager.InteractableClickEvt -= IsClicked;
-            InformationChanged.RemoveAllListeners();
+        // Pooling
+        public int PoolKey { get; set; }
+        public ObjectInstance ObjInstance { get; set; }
+
+
+        protected virtual void Awake()
+        {
+            clickCollider = GetComponentInChildren<Collider>();
         }
 
         // Get the event when the object has been clicked
         // If clicked then open UI
-        protected virtual void IsClicked(Transform clickedObj) {
-            if (clickedObj == transform) {
-                OpenUI();
-                InvokeChange();
-                InteractableManager.ChangeSelectedInteractable(this);
-            }
+        protected virtual void IsClicked(Transform clickedObj)
+        {
+            if(clickCollider.transform == clickedObj)
+                IsClickedOn = clickCollider.transform == clickedObj;
         }
 
-        // Open the UI for the this 
-        public virtual void OpenUI() {
-            GridUIManager.Instance.ShowNewUI(GridUIElement.Interactable);
+        public virtual object[] GetArgumentsForUI() { return null; }
+
+        public void OpenUIFully()
+        {
+            OpenUI();
+            InvokeChange();
+            info.CurrentSelected = this;
+        }
+
+        // Open the UI for the this
+        public virtual void OpenUI()
+        {
+            gridUIInfo.CurrentUIElement = GridUIElement.Interactable;
         }
 
         // Hide this UI
-        public virtual void CloseUI() {
-            GridUIManager.Instance.HideUI();
+        public virtual void CloseUI()
+        {
+            gridUIInfo.CurrentUIElement = GridUIElement.None;
+            IsClickedOn = false;
         }
 
         // Update the UI when something has changed
-        protected virtual void InvokeChange() {
+        protected virtual void InvokeChange()
+        {
             InformationChanged.Invoke();
         }
 
-        // Update all the variables of the UI
-        protected virtual void UpdateUI() {
-            GridUIManager.Instance.SetInteractableUI(name, description, InteractableUIElement.None, this, null);
-        }
-
         // Print out all the variables tagged with "InteractableInfo"
-        public virtual string PrintObject<T>() {
+        public virtual string PrintObject<T>()
+        {
             string infoList = "";
-            
+
             FieldInfo[] fields = typeof(T).GetFields();
-            foreach (FieldInfo field in fields) {
-                InteractableInfo meta = (InteractableInfo)field.GetCustomAttribute(typeof(InteractableInfo), true);
-                if(meta != null)
+            foreach (FieldInfo field in fields)
+            {
+                InteractableAttribute meta = (InteractableAttribute)field.GetCustomAttribute(typeof(InteractableAttribute), true);
+                if (meta != null)
                     infoList += field.Name + " - " + field.GetValue(this).ToString() + "\n";
             }
 
             return infoList;
+        }
+
+        public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey) {
+            ObjInstance = objectInstance;
+            PoolKey = poolKey;
+
+            InteractableManager.InteractableClickEvt += IsClicked;
+        }
+
+        public virtual void OnReturnObject() {
+            gameObject.transform.position = new Vector3(-1000, 0);
+            gameObject.SetActive(false);
+
+            InteractableManager.InteractableClickEvt -= IsClicked;
+            InformationChanged.RemoveAllListeners();
         }
     }
 }

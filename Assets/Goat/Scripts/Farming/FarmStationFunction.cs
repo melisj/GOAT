@@ -24,10 +24,8 @@ namespace Goat.Farming
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
             resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.ResourceType.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.Resource = farmStationSettings.ResourceFarm;
-            resPack.SetupResPack();
             int amount = capacity < currentCapacity ? capacity : currentCapacity;
-            resPack.Amount = amount;
+            resPack.SetupResPack(farmStationSettings.ResourceFarm, amount);
             currentCapacity -= amount;
         }
 
@@ -54,6 +52,7 @@ namespace Goat.Farming
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
+                    farmStationSettings.ResourceFarm.Money.Amount -= farmStationSettings.CostPerSecond;
                     //GameManager.Instance.Money -= farmBuildingSettings.CostPerSecond;
                 }
             }

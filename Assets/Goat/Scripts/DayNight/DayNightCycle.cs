@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using UnityAtoms.BaseAtoms;
+using Sirenix.OdinInspector;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -29,14 +32,22 @@ public class DayNightCycle : MonoBehaviour
     //current hours and day
     private float timeOfDayMinutes;
     private int timeOfDayHours;
+    private int timeOfDay12Hours;
+
     private int daysIn;
 
     //which hour of day the sun rises and sets
     private int timeOfSunrise = 8;
-    private int timeOfSunset = 20;
+    private int timeOfSunset = 17;
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    private int timeSpeed = 3;
+    public int timeSpeed = 1;
+
+    [SerializeField] private BoolEvent OnChangeCycle;
+    [SerializeField, ProgressBar(1, 10)] private int timeScale;
+
+    //Events for OnDayTime and OnNightTime
+    //public event EventHandler<bool> OnChangeCycle;
 
     private void Start()
     {
@@ -46,6 +57,7 @@ public class DayNightCycle : MonoBehaviour
         //TimeOfDayHours = zet hier een tijd om de dag te beginnen
         transitionTimer = 1f;
         mainLight.color = targetTimeColor;
+        Time.timeScale = timeScale;
     }
 
     private void Update()
@@ -63,14 +75,18 @@ public class DayNightCycle : MonoBehaviour
     {
         transitionTimer += Time.unscaledDeltaTime;
         timeOfDayMinutes += Time.deltaTime * timeSpeed;
-
-        timeText.text = $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)} {englishTime}";
+        englishTime = timeOfDayHours / 12 >= 1 ? PM : AM;
+        timeText.text = $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {englishTime}";
         dayText.text = $"Day {daysIn}";
         if (timeOfDayMinutes > 60)
         {
             timeOfDayMinutes = 0;
             timeOfDayHours += 1;
-
+            timeOfDay12Hours++;
+            if (timeOfDay12Hours == 12)
+            {
+                timeOfDay12Hours = 0;
+            }
             //check if its morning, nighttime or midnight
             if (timeOfDayHours == timeOfSunrise)
             {
@@ -94,8 +110,9 @@ public class DayNightCycle : MonoBehaviour
         currentTimeColor = nightTimeColor;
         targetTimeColor = dayTimeColor;
         dayNightIcon.sprite = sun;
-        englishTime = PM;
+        // englishTime = PM;
         isDay = true;
+        OnChangeCycle.Raise(isDay);
         transitionTimer = 0f;
     }
 
@@ -105,8 +122,10 @@ public class DayNightCycle : MonoBehaviour
         currentTimeColor = dayTimeColor;
         targetTimeColor = nightTimeColor;
         dayNightIcon.sprite = moon;
-        englishTime = AM;
+        //   englishTime = AM;
         isDay = false;
+        OnChangeCycle.Raise(isDay);
+
         transitionTimer = 0f;
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759506433919531080}
   - component: {fileID: 1035292966078176343}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor-center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8978376307749985294}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a1bb51d526cf3f5448f9165e5beb4f4b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1bb51d526cf3f5448f9165e5beb4f4b, type: 3}
