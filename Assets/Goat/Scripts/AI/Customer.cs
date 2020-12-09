@@ -31,7 +31,7 @@ namespace Goat.AI
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
-            SetRandomDestination SetRandomDestination = new SetRandomDestination(this);
+            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
@@ -45,14 +45,14 @@ namespace Goat.AI
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
             // Movement
             Func<bool> HasStorageTarget() => () => targetStorage != null;
-            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize && targetStorage == null;
+            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
             Func<bool> GoToCheckout() => () => searchingTime >= maxSearchingTime && searchForCheckout.checks < 1; //placeholder
-            Func<bool> FindShortestCheckout() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
+            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             // Interaction
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
@@ -71,10 +71,11 @@ namespace Goat.AI
             AT(moveToTarget, takeItem, ReachedTarget());
             AT(takeItem, SetRandomDestination, StorageDepleted());
             AT(moveToDestination, moveToTarget, HasStorageTarget());
+            AT(SetRandomDestination, moveToTarget, HasStorageTarget());
 
-            AT(moveToDestination, searchForCheckout, GoToCheckout());
-            AT(searchForCheckout, moveToDestination, HasDestination());
-            AT(moveToDestination, searchForCheckout, FindShortestCheckout());
+            //AT(moveToDestination, searchForCheckout, GoToCheckout());
+            //AT(searchForCheckout, moveToDestination, HasDestination());
+            //AT(moveToDestination, searchForCheckout, FindShortestCheckoutQueue());
 
             AT(moveToDestination, doNothing, WaitingInQueue());
 

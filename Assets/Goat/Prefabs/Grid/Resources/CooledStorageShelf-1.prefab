@@ -159,6 +159,7 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   description: Cooled storage shelf with one plank
+  grid: {fileID: 0}
   maxResources: 2
   enviroment: 2
 --- !u!1 &6562094743352375190

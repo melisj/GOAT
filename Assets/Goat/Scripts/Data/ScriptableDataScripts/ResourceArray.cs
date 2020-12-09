@@ -19,7 +19,7 @@ namespace Goat.Storage
 
         private void OnValidate()
         {
-            resources = UnityEngine.Resources.LoadAll<Resource>("");
+            LoadResources();
         }
 
         [Button("Load Resources"), PropertyOrder(0)]

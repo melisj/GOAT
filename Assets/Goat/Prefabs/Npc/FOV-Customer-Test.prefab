@@ -214,6 +214,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   targetStorage: {fileID: 0}
+  maxSearchingTime: 60
   enterTime: 0
   searchingTime: 0
   money: 100

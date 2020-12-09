@@ -25,6 +25,7 @@ namespace Goat.AI.States
 
         public void Tick()
         {
+            npc.searchingTime += Time.deltaTime;
             // Check if agent is stuck while navigating to target
             if (Vector3.Distance(npc.transform.position, lastLocation) <= 0)
                 timeStuck += Time.deltaTime;
@@ -46,7 +47,6 @@ namespace Goat.AI.States
             timeStuck = 0f;
             Debug.Log("Arrived at destination");
             navMeshAgent.enabled = false;
-            npc.searchingTime = Time.time - npc.enterTime;
             // Animation
         }
     }

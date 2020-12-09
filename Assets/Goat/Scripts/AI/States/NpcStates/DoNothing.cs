@@ -15,7 +15,7 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-
+            npc.searchingTime += Time.deltaTime;
         }
 
         public void OnEnter()

@@ -63,7 +63,7 @@ namespace Goat.AI
 
         void LateUpdate()
         {
-            DrawFieldOfView();
+            //DrawFieldOfView();
             //FindVisibleTargets();
         }
 
@@ -76,26 +76,36 @@ namespace Goat.AI
             visibleTargets.Clear();
             // Find targets in range.
             Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+            //Debug.Log("Targets hit: " + targetsInViewRadius.Length);
+
+            //int targetsInRadius = 0;
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
-                Transform targetTransform = targetsInViewRadius[i].transform;
-                Vector3 dirToTarget = (targetTransform.position - transform.position).normalized;
+                Vector3 dirToTarget = (targetsInViewRadius[i].transform.position - transform.position).normalized;
                 // Only check targets within viewing angle.
-                if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2 && targetTransform.tag == "Storage")
+                if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
-                    float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
-                    // Check if Raycast hits target or if there is another target or obstacle blocking it.
-                    if(Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask) &&
-                       !Physics.Raycast(transform.position, transform.forward, distanceToTarget, obstacleMask))
+                    //targetsInRadius++;
+                    if(targetsInViewRadius[i].tag == "Storage")
                     {
-                        if (hit.transform == targetTransform) visibleTargets.Add(targetTransform);
+                        string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().name;
+                        float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].transform.position);
+                        Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.red);
+                        // Check if Raycast hits target or if there is another target or obstacle blocking it.
+                        if (!Physics.Raycast(transform.position, transform.forward, distanceToTarget, obstacleMask) &&
+                            Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask))
+                        {
+                            if (hit.transform.GetComponentInParent<StorageInteractable>().name == tempStorageName) visibleTargets.Add(targetsInViewRadius[i].transform);
+                        }
                     }
                 }
             }
+
+            //Debug.Log("visible targets: " + targetsInRadius);
             // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-            //Debug.LogFormat("Targets found: {0}", visibleTargetsArray.Length);
+            Debug.LogFormat("Targets found: {0}", visibleTargetsArray.Length);
             if (customer.itemsToGet.Count > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 customer.targetStorage = targetStorage;

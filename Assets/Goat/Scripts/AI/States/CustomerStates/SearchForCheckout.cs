@@ -44,7 +44,10 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.Log("Found Checkout");
+            if (checks == 0)
+                Debug.Log("Searching for checkout");
+            else if (checks == 1)
+                Debug.Log("Searching for shortest queue");
             checks++;
             customer.targetDestination = FindCheckout();
         }

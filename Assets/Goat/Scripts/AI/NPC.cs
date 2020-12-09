@@ -28,7 +28,7 @@ namespace Goat.AI
         [HideInInspector] public StorageInteractable targetStorage;
         public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
 
-        protected float maxSearchingTime = 5;
+        [SerializeField] protected float maxSearchingTime = 60;
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
 

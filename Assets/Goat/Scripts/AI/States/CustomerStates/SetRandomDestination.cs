@@ -10,32 +10,135 @@ namespace Goat.AI.States
     public class SetRandomDestination : IState
     {
         NPC npc;
+        NavMeshAgent navMeshAgent;
         LayerMask layerMask;
+        bool hit;
+        private StorageInteractable prevStorage;
+        private Vector3 wanderDestination;
+        private NavMeshPath navPath = new NavMeshPath();
 
-
-        public SetRandomDestination(NPC npc)
+        public SetRandomDestination(NPC npc, NavMeshAgent navMeshAgent)
         {
             this.npc = npc;
+            this.navMeshAgent = navMeshAgent;
             layerMask = LayerMask.GetMask("Interactable");
         }
 
         public void Tick()
         {
-            //StorageInteractable targetStorage = GetTargetInteractable(DetectOverlap());
-            //if (targetStorage != null)
+            npc.searchingTime += Time.deltaTime;
+
+            CalculateDestination();
+        }
+
+        private void CalculateDestination()
+        {
+            Vector3 tempDestination;
+            bool hitDestination = false;
+            //while (!hit)
             //{
-            //    npc.targetStorage = targetStorage;
-            //    npc.targetDestination = targetStorage.transform.position;
-            //    Debug.Log("Found Storage Target");
-            //}
-            //else
-            //{
-            //    npc.targetStorage = null;
+            if (RandomStorageTarget(DetectOverlap(), out tempDestination))
+            {
+                wanderDestination = tempDestination;
+                hitDestination = true;
+            }
+            else if (RandomWanderTarget(npc.transform.position, range: npc.wanderRange, out tempDestination))
+            {
+                wanderDestination = tempDestination;
+                hitDestination = true;
+            }
+            //else continue;
+
+            if (hitDestination)
+            {
+                if (navMeshAgent.CalculatePath(wanderDestination, navPath) && navPath.status != NavMeshPathStatus.PathComplete)
+                {
+                    Debug.LogWarning("Invalid path calculated");
+                    //continue;
+                }
+                else
+                {
+                    npc.targetDestination = wanderDestination;
+                    hit = true;
+                    Debug.Log("Found an new destination!");
+                    //break;
+                }
+            }
+
 
             //}
+        }
 
-            if (RandomWanderTarget(npc.transform.position, npc.wanderRange, out Vector3 wanderDestination))
-                npc.targetDestination = wanderDestination;
+        private Collider[] DetectOverlap()
+        {
+            return Physics.OverlapSphere(npc.transform.position, radius: 3, layerMask);
+        }
+
+        private bool RandomStorageTarget(Collider[] colliders, out Vector3 result)
+        {
+            result = npc.transform.position;
+            if (colliders.Length < 1) return false;
+
+            int randomIndex = Random.Range(0, colliders.Length);
+
+            StorageInteractable tempInteractable = prevStorage;
+
+            if (colliders[randomIndex].tag == "Storage")
+            {
+                tempInteractable = colliders[randomIndex].GetComponent<StorageInteractable>();
+                if (prevStorage != tempInteractable)
+                {
+                    Vector3 tempResult = tempInteractable.transform.position + ((tempInteractable.transform.forward * Random.Range(0, 1f)) + (tempInteractable.transform.right * Random.Range(-.5f, .5f)));
+                    result = tempResult;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+
+        /// <summary>
+        /// Get random position on NavMesh
+        /// </summary>
+        /// <param name="center"> Origin of wander range</param>
+        /// <param name="range"> Range from origin to wander</param>
+        /// <param name="result"> Random position on NavMesh</param>
+        /// <returns></returns>
+        private bool RandomWanderTarget(Vector3 center, float range, out Vector3 result)
+        {
+
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                //Debug.LogFormat("Hit NavMesh on: {0}", result);
+                return true;
+
+            }
+
+            Debug.LogWarning("No hit on NavMesh!");
+            result = npc.transform.position;
+            return false;
+        }
+
+        public void OnEnter()
+        {
+            hit = false;
+            Debug.Log("Searching for target");
+            npc.targetStorage = null;
+            npc.targetDestination = npc.transform.position;
+            wanderDestination = npc.transform.position;
+            navMeshAgent.enabled = true;
+            //CalculateDestination();
+        }
+
+        public void OnExit()
+        {
+            navMeshAgent.enabled = false;
         }
 
         //private StorageInteractable GetTargetInteractable(Collider[] colliders)
@@ -63,48 +166,6 @@ namespace Goat.AI.States
 
         //    return interactable;
         //}
-
-        private Collider[] DetectOverlap()
-        {
-            return Physics.OverlapSphere(npc.transform.position, npc.npcSize, layerMask);
-        }
-
-
-        /// <summary>
-        /// Get random position on NavMesh
-        /// </summary>
-        /// <param name="center"> Origin of wander range</param>
-        /// <param name="range"> Range from origin to wander inside</param>
-        /// <param name="result"> Random position on NavMesh</param>
-        /// <returns></returns>
-        protected bool RandomWanderTarget(Vector3 center, float range, out Vector3 result)
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                Vector3 randomPoint = center + Random.insideUnitSphere * range;
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-                { 
-                    result = hit.position;
-                    //Debug.LogFormat("Hit NavMesh on: {0}", result);
-                    return true;
-                }
-            }
-            Debug.LogWarning("No hit on NavMesh!");
-            result = Vector3.zero;
-            return false;
-        }
-
-        public void OnEnter()
-        {
-            Debug.Log("Searching for target");
-            npc.targetStorage = null;
-        }
-
-        public void OnExit()
-        {
-            npc.searchingTime = Time.time - npc.enterTime;
-        }
     }
 }
 

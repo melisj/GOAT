@@ -44,6 +44,8 @@ namespace Goat.AI.States
 
         public void Tick()
         {
+            npc.searchingTime += Time.deltaTime;
+
             // If time to grab next item
             if (!storageDepleted && nextItemTime <= Time.time)
             {
@@ -65,7 +67,6 @@ namespace Goat.AI.States
             // End animation?
             npc.targetStorage = null;
             npc.targetDestination = npc.transform.position;
-            npc.searchingTime = Time.time - npc.enterTime;
         }
     }
 }
