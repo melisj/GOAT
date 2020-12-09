@@ -3,7 +3,6 @@ using Goat.Pooling;
 using Goat.Storage;
 using System;
 using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
 
 namespace Goat.Grid
@@ -21,6 +20,9 @@ namespace Goat.Grid
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
+
+        // A tile is empty when does not have a building but does have a floor
+        public bool IsEmpty => buildingObject == null && floorObject != null;
 
         public Tile(Vector3 centerPosition, Vector2Int gridPosition, Grid grid)
         {
@@ -201,6 +203,15 @@ namespace Goat.Grid
                     tileObjectFilter[i].mesh = placeable.Mesh[i];
                 }
 
+                // Change the grid position this object is on
+                BaseInteractable interactable = tileObject.GetComponentInChildren<BaseInteractable>();
+                if (interactable)
+                {
+                    interactable.GridPosition = gridPosition;
+                    interactable.CenterPosition = centerPosition;
+                    interactable.grid = grid;
+                }
+
                 tileObject.transform.localScale = size;
                 if (placeable is Floor)
                 {
@@ -260,6 +271,8 @@ namespace Goat.Grid
             this.placeable = wall;
             return true;
         }
+
+ 
 
         public void LoadInData(TileInfo newData, ref List<Buyable> buyables)
         {

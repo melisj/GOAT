@@ -9,6 +9,7 @@ namespace Goat.Grid.Interactions
 
         [Header("Prefabs")]
         [SerializeField] private GameObject storageIconPrefab;
+        [SerializeField] private GameObject inventoryIconPrefab;
 
         [Header("Names"), Space(10)]
         [SerializeField] private string itemHolderName = "ItemHolder";
@@ -21,6 +22,7 @@ namespace Goat.Grid.Interactions
         [SerializeField] private BaseInteractable currentSelected;
         
         public GameObject StorageIconPrefab => storageIconPrefab;
+        public GameObject InventoryIconPrefab => inventoryIconPrefab;
         public string ItemHolderName => itemHolderName;
         public string ItemHolderParentName => itemHolderParentName;
         public Material ItemMaterial => itemMaterial;

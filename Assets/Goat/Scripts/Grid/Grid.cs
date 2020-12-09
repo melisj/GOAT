@@ -334,7 +334,7 @@ namespace Goat.Grid
         /// </summary>
         /// <param name="rayHitPosition"> Hit point of ray on collider of the grid.</param>
         /// <returns></returns>
-        private Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
+        public Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
         {
             Vector2 gridPositionOffset = new Vector2(startingPosition.x, startingPosition.z);
             Vector2 hitPosition = new Vector2(rayHitPosition.x, rayHitPosition.z);
@@ -349,13 +349,14 @@ namespace Goat.Grid
         /// </summary>
         /// <param name="tilePositionInArray"> Vector2Int which points to location in 2D Array of tiles.</param>
         /// <returns></returns>
-        private Tile ReturnTile(Vector2Int tilePositionInArray)
+        public Tile ReturnTile(Vector2Int tilePositionInArray)
         {
-            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1))
+            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) && 
+                tilePositionInArray.x >= 0 && tilePositionInArray.y >= 0)
             {
                 return tiles[tilePositionInArray.x, tilePositionInArray.y];
             }
-            else Debug.LogError("Grid Selection is outside of tile bounds");
+            else Debug.LogWarning("Grid Selection is outside of tile bounds");
             return null;
         }
 

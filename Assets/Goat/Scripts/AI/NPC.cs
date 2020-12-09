@@ -18,6 +18,7 @@ namespace Goat.AI
         [HideInInspector] public int carriedItemValue;
 
         protected StateMachine stateMachine;
+        protected MoveToDestination moveToDestination;
         [HideInInspector] public Vector3 targetDestination;
 
         [HideInInspector] public NavMeshAgent navMeshAgent;
@@ -27,7 +28,7 @@ namespace Goat.AI
         [HideInInspector] public StorageInteractable targetStorage;
         public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
 
-        protected float maxSearchingTime = 100;
+        protected float maxSearchingTime = 5;
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
 
@@ -38,6 +39,9 @@ namespace Goat.AI
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
+
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+
         }
 
         protected virtual void Update() => stateMachine.Tick();
