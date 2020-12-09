@@ -47,15 +47,15 @@ namespace Goat.AI
             Func<bool> HasStorageTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
-            Func<bool> ReachedTarget() => () => Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage != null;
+            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
+            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
             Func<bool> GoToCheckout() => () => searchingTime >= maxSearchingTime && searchForCheckout.checks < 1; //placeholder
-            Func<bool> FindShortestCheckout() => () => Vector3.Distance(transform.position, targetDestination) < 4 && searchForCheckout.checks < 2;
+            Func<bool> FindShortestCheckout() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
-            Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && Vector3.Distance(targetDestination, transform.position) < 0.1f;
+            Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && navMeshAgent.remainingDistance < 0.1f;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
