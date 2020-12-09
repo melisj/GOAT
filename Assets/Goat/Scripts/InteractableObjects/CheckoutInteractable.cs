@@ -34,11 +34,14 @@ namespace Goat.Grid.Interactions
                 customerQueue.Add(customer);
         }
 
+        [Button("Remove first")]
         public void RemoveCustomerFromQueue()
         {
             if (customerQueue.Count > 0)
+            {
+                customerQueue.First().LeaveStore();
                 customerQueue.Remove(customerQueue.First());
-
+            }
             UpdateCustomersInQueue();
         }
 

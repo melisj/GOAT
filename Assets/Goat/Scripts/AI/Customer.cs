@@ -21,7 +21,9 @@ namespace Goat.AI
         [HideInInspector] public float customerSelfConstraint = 0;
         [SerializeField] private FieldOfView fov;
         [HideInInspector] public bool enteredStore;
+        [HideInInspector] public bool leavingStore;
 
+        ExitStore exitStore;
 
         //[HideInInspector] public WaitAt
         protected override void Awake()
@@ -36,7 +38,7 @@ namespace Goat.AI
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            ExitStore exitStore = new ExitStore(this, navMeshAgent, animator);
+            exitStore = new ExitStore(this, navMeshAgent, animator);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
@@ -77,8 +79,6 @@ namespace Goat.AI
             AT(moveToDestination, doNothing, WaitingInQueue());
 
 
-
-
             stateMachine.SetState(calculateGroceries);
 
             fov = GetComponentInChildren<FieldOfView>();
@@ -90,7 +90,10 @@ namespace Goat.AI
             stateMachine.SetState(moveToDestination);
         }
 
-
+        public void LeaveStore()
+        {
+            stateMachine.SetState(exitStore);
+        }
     }
 }
 
