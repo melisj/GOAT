@@ -11,7 +11,7 @@
 		{
 			Tags { "RenderType" = "Transparent" }
 			LOD 200
-			Zwrite Off
+			Zwrite On
 			CGPROGRAM
 			// Physically based Standard lighting model, and enable shadows on all light types
 			#pragma surface surf Standard fullforwardshadows alpha:fade
