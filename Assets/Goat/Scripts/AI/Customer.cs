@@ -56,7 +56,9 @@ namespace Goat.AI
             Func<bool> GoToCheckout() => () => searchingTime >= maxSearchingTime && searchForCheckout.checks < 1; //placeholder
             Func<bool> FindShortestCheckout() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
+            // Interaction
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
+            // Checkout
             Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && navMeshAgent.remainingDistance < 0.1f;
 
             // Transitions
