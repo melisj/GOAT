@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Goat.AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class DialogueManager : MonoBehaviour
     public Text dialogueTwoText;
     public Text dialogueThreeText;
     public Animator animator;
+    public NPC npc;
+    string inventoryList;
 
     public List<string> firstNames = new List<string>();
     public List<string> myDialogueOne = new List<string>();
@@ -31,6 +34,9 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+
+        inventoryList += " " + npc.inventory.Keys.ToString() + " " + npc.inventory.Values;
+
         // First names
         firstNames.Clear();
         firstNames.Add("Grogu");
@@ -64,36 +70,17 @@ public class DialogueManager : MonoBehaviour
 
 
         myDialogueOne.Clear();
-
         myDialogueTwo.Clear();
-
         myDialogueThree.Clear();
+    }
+     void Update()
+    {
+        nameNumber = Random.Range(0, listNameMax);
+        dialogueNumber = Random.Range(0, listDialogueMax);
     }
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("IsOpen", true);
-        nameNumber = Random.Range(0, listNameMax);
-
-        //check which list is longer and use that one as the max
-        if (firstNames.Count < lastNames.Count)
-        {
-            listNameMax = lastNames.Count;
-        }
-        else
-        {
-            listNameMax = firstNames.Count;
-        }
-
-        //display the name
-        for (int i = 0; i < nameNumber; i++)
-        {           
-                nameText.text = firstNames[i] + " " + lastNames[i];            
-        }
-
-    }
-    public void DisplayNextSentence()
-    {
-        dialogueNumber = Random.Range(0, listDialogueMax);
 
         //check wich list is longest a use that one as max
         if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count)
@@ -109,15 +96,27 @@ public class DialogueManager : MonoBehaviour
             listDialogueMax = sentenceThree.Count + 1;
         }
 
-        //display the sentences in the porper order and with the right randomness
-        for (int i = 0; i < dialogueNumber; i++)
+        //check which list is longer and use that one as the max
+        if (firstNames.Count < lastNames.Count)
         {
-            if (senOneDone == true)
-            {
-                dialogueOneText.text = sentenceOne[i];
-            }
-           
-        }         
+            listNameMax = lastNames.Count;
+            
+        }
+        else
+        {
+            listNameMax = firstNames.Count;
+        }
+
+        //display the name
+        for (int i = 0; i < nameNumber; i++)
+        {           
+                nameText.text = firstNames[i] + " " + lastNames[i];            
+        }
+
+    }
+    public void DisplayNextSentence()
+    {
+        animator.SetBool("IsOpen", true);
     }
 
     void EndDialogue()
@@ -128,7 +127,16 @@ public class DialogueManager : MonoBehaviour
 
    public void DialogueOne()
     {
-        senOneDone= true;
+        senOneDone = true;
+        //display the sentences in the porper order and with the right randomness
+        for (int i = 0; i < dialogueNumber; i++)
+        {
+            if (senOneDone == true)
+            {
+                dialogueOneText.text = sentenceOne[i];
+            }
+            
+        }
     }
 
   public  void DialogueTwo()
@@ -136,9 +144,9 @@ public class DialogueManager : MonoBehaviour
         senTwoDone = true;
         for (int i = 0; i < dialogueNumber; i++)
         {
-            dialogueTwoText.text = sentenceTwo[i];
+            dialogueTwoText.text = sentenceTwo[i] + inventoryList;
         }
-        }
+    }
     public void DialogueThree()
     {
         for (int i = 0; i < dialogueNumber; i++)
