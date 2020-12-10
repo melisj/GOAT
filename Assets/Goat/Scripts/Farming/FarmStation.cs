@@ -1,62 +1,56 @@
-﻿using Goat.Pooling;
-using Goat.Storage;
-using Sirenix.OdinInspector;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Goat.Storage;
 
 namespace Goat.Farming
 {
-    public class FarmStation : MonoBehaviour
+    public enum FarmType
     {
-        private const float delay = 1f;
-        [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStationSettings farmStationSettings;
-        [SerializeField] private GameObject resPackPrefab;
-        [SerializeField] private int currentCapacity;
-        private float timer;
-        private bool isConnected;
+        OverTimeCost,
+        NoCost
+    }
 
-        private void Update()
-        {
-            AddResource();
-        }
+    public enum FarmDeliverType
+    {
+        AutoContinuously,
+        AutoWhenFull,
+        Self
+    }
 
-        public void CreateResourcePack(int capacity, Transform parent)
-        {
-            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
-            resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.ResourceType.ToString();
-            ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.Resource = farmStationSettings.ResourceFarm;
-            resPack.SetupResPack();
-            int amount = capacity < currentCapacity ? capacity : currentCapacity;
-            resPack.Amount = amount;
-            currentCapacity -= amount;
-        }
+    [CreateAssetMenu(fileName = "FarmStation", menuName = "ScriptableObjects/FarmStation")]
+    public class FarmStation : Building
+    {
+        [SerializeField, Space(10)] private Resource resourceFarm;
+        [SerializeField, EnumToggleButtons()] private FarmType farmType;
+        [SerializeField] private float storageCapacity = 1;
+        [SerializeField] private int amountPerSecond = 2;
+        [SerializeField, ShowIf("farmType", FarmType.OverTimeCost)] private int costPerSecond;
+        [SerializeField] private ResourceCost[] resourceCost;
+        [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
 
-        private void AddResource()
-        {
-            if (currentCapacity >= farmStationSettings.StorageCapacity)
-            {
-                timer = 0;
-                return;
-            }
-            timer += Time.deltaTime;
-            if (timer >= delay)
-            {
-                timer = 0;
-                currentCapacity += farmStationSettings.AmountPerSecond;
-                //GetAsteroidInfo.Capacity(farmBuildingSettings.ResourceFarm.ResourceType) -= farmBuildingSettings.AmountPerSecond;
+        public string Name => resourceFarm.ResourceType.ToString() + " Farm";
 
-                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously)
-                {
-                    //&& isConnected
-                    currentCapacity -= farmStationSettings.AmountPerSecond;
-                    farmStationSettings.ResourceFarm.Amount += farmStationSettings.AmountPerSecond;
-                }
+        public ResourceCost[] ResourceCost => resourceCost;
 
-                if (farmStationSettings.FarmType == FarmType.OverTimeCost)
-                {
-                    //GameManager.Instance.Money -= farmBuildingSettings.CostPerSecond;
-                }
-            }
-        }
+        public Resource ResourceFarm => resourceFarm;
+        public int AmountPerSecond => amountPerSecond;
+        public int CostPerSecond => costPerSecond;
+        public FarmType FarmType => farmType;
+
+        public FarmDeliverType FarmDeliverType => farmDeliverType;
+
+        public float StorageCapacity => storageCapacity;
+    }
+
+    [System.Serializable]
+    public class ResourceCost
+    {
+        [SerializeField] private ResourceType costType;
+        [SerializeField] private int amount;
+
+        public ResourceType CostType => costType;
+        public int Amount => amount;
     }
 }

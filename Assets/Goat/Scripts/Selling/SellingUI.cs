@@ -80,7 +80,7 @@ namespace Goat.Selling
         {
             resourceName.text = resource.ResourceType.ToString();
             stock.text = resource.Amount.ToString();
-            basePrice.text = resource.ResValue.ToString();
+            //  basePrice.text = resource.ResValue.ToString();
             resourceImage.sprite = resource.Image;
             resource.AmountChanged += Resource_AmountChanged;
         }
@@ -123,19 +123,19 @@ namespace Goat.Selling
 
         private void OnEndEditPrice(string s)
         {
-            resource.ResValue = int.Parse(s);
-            currentPrice = resource.ResValue;
+            //  resource.ResValue = int.Parse(s);
+            //   currentPrice = resource.ResValue;
             SetupCalculatedUI();
         }
 
         private void MaxPrice()
         {
-            priceInput.text = (resource.ResValue * 5).ToString();
+            //   priceInput.text = (resource.ResValue * 5).ToString();
         }
 
         private void MinPrice()
         {
-            priceInput.text = resource.ResValue.ToString();
+            //    priceInput.text = resource.ResValue.ToString();
         }
 
         private void MaxAmount()

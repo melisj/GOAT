@@ -1,172 +1,226 @@
-﻿using UnityEngine;
-using GOAT.Grid.UI;
-using System;
-using UnityEngine.EventSystems;
+﻿using Goat.Storage;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace GOAT.Grid
+namespace Goat.Grid
 {
-    public enum SelectionMode
+    [RequireComponent(typeof(GridDataHandler))]
+    public class Grid : MonoBehaviour
     {
-        Universal,
-        Edit,
-        Select
-    }
-
-    public class Grid : MonoBehaviour {
+        [Header("Generation")]
+        [SerializeField] private Wall defaultWall;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
         public Tile[,] tiles;
+
+        [Space(10), Header("Hit Detection")]
         [SerializeField] private LayerMask gridMask;
 
-        public float GetTileSize { get { return tileSize; } }
-
-        private Tile clickedTile;
-        [SerializeField] private Transform selectionObject;
-
         // Variables used for highlighting and placing object on grid when in edit mode
-        private GameObject placingObject;
-        private FloorType placingFloorType;
-        private BuildingType placingBuildingType;
-        bool editingFloor;
+        [Space(10), Header("Preview Object")]
+        [SerializeField] private Material previewMaterial;
+        [SerializeField] private GameObject previewPrefab;
+        private GameObject previewObject;              // Preview object shown on grid
+        private MeshFilter[] previewObjectMesh;
+        private Placeable previewPlaceableInfo;
+        private List<Vector2Int> checkedTiles = new List<Vector2Int>();
+        private float objectRotationAngle;                              // Rotation of preview object
+
+        private GridDataHandler dataHandler;
+
+        private Tile currentTile;
+        private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
+        private Vector2Int currentTileIndex;
+        private bool autoWalls;
 
-        [Space(20)]
-        [SerializeField] private bool debugMouseRaycast = false;
-        public SelectionMode interactionMode = SelectionMode.Universal;
-
-        // UI
-        [SerializeField] private GridUIManager UIManager;
-
+        public bool DestroyMode { get; set; }
+        public float GetTileSize { get { return tileSize; } }
+        public Vector2Int GetGridSize { get { return gridSize; } }
 
         private void Start()
         {
-            selectionObject.localScale = new Vector3(tileSize, 1, tileSize);
-
             InitializeTiles(gridSize, tileSize);
+            InitializePreviewObject();
 
-            TileAssets.InitializeAssetsDictionary();
+            try
+            {
+                dataHandler = GetComponent<GridDataHandler>();
+                dataHandler.LoadGrid();
+            }
+            catch { }
+
+            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+        }
+
+        public void Reset()
+        {
+            if (tiles != null)
+            {
+                for (int x = 0; x < gridSize.x; x++)
+                {
+                    for (int y = 0; y < gridSize.y; y++)
+                    {
+                        tiles[x, y].ResetPooled();
+                    }
+                }
+            }
+        }
+
+        #region Input
+
+        private void Instance_InputModeChanged(object sender, InputMode mode)
+        {
+            DestroyMode = mode == InputMode.Destroy;
+            if (previewObject)
+            {
+                bool inEditMode = mode == InputMode.Edit;
+                if (!inEditMode)
+                {
+                    currentTile = SelectTile();
+                    if (currentTile != null)
+                    {
+                        currentTile.ShowTile(true, objectRotationAngle);
+                    }
+                    previousTile = currentTile;
+                }
+                previewObject.SetActive(inEditMode);
+            }
+        }
+
+        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
+        {
+            if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
+            {
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
+                {
+                    if (currentTile != null)
+                    {
+                        checkedTiles.Clear();
+                        currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
+                        if (autoWalls)
+                            SetupNeighborTiles(currentTileIndex);
+                    }
+                }
+                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
+                {
+                    // Always has to rotate a 90 degrees
+                    objectRotationAngle = (objectRotationAngle + 90) % 360;
+                    if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+                if (keyCode == KeyCode.T && keyMode.HasFlag(InputManager.KeyMode.Down))
+                {
+                    // Always has to rotate a 90 degrees
+                    autoWalls = !autoWalls;
+                    if (autoWalls)
+                        SetupNeighborTiles(currentTileIndex);
+                    Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
+                }
+            }
+        }
+
+        #endregion Input
+
+        private void ChangeMaterialColor(bool canPlace, bool destroyMode)
+        {
+            Color newColor = canPlace ? destroyMode ? Color.white : Color.green : Color.red;
+            newColor.a = 0.5f;
+            previewMaterial.color = newColor;
         }
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.C)) {
-                if (interactionMode != SelectionMode.Universal)
-                    interactionMode = SelectionMode.Universal;
-                else
-                    interactionMode = SelectionMode.Select;
+            EditTile();
+        }
+
+        private void SetupNeighborTiles(Vector2Int index)
+        {
+            Tile tileToSet = tiles[index.x, index.y];
+            checkedTiles.Add(index);
+            CheckNeighbourTiles(tileToSet, index);
+        }
+
+        private void CheckNeighbourTiles(Tile tile, Vector2Int index2D)
+        {
+            int rotation = -90;
+            CheckTile(tile, ref rotation, index2D, Vector2Int.down);
+            CheckTile(tile, ref rotation, index2D, Vector2Int.left);
+            CheckTile(tile, ref rotation, index2D, Vector2Int.up);
+            CheckTile(tile, ref rotation, index2D, Vector2Int.right);
+        }
+
+        private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
+        {
+            Tile neighbourTile = GetNeighbourTile(index2D + offset);
+            Placeable wallPlace = defaultWall;
+            rotation += 90;
+            if (neighbourTile != null && neighbourTile.FloorObj != null)
+            {
+                if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                {
+                    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                }
+
+                tile.EditAnyWall(wallPlace, rotation, true);
+
+                return;
             }
 
-            if (interactionMode == SelectionMode.Universal)
+            if (tile.FloorObj == null)
             {
-                UIManager.editModeUI.ToggleSwitchButton(false);
-
-                //left mouse button
-                if (Input.GetMouseButtonDown(0))
-                {
-
-                    if (!GridUIManager.IsElementSelected())
-                    {
-                        Tile tempTile = SelectTile();
-                        if (tempTile != null)
-                        {
-                            TileInformation tileInfo = tempTile.GetTileInformation();
-                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
-                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
-
-                            selectionObject.gameObject.SetActive(false);
-                        }
-                    }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
-                    {
-                        GridUIManager.HideUI();
-                    }
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    //right mouse button
-                    selectionObject.gameObject.SetActive(false);
-
-                    if (!GridUIManager.IsElementSelected())
-                    {
-
-                        Tile tempTile = SelectTile();
-                        GridUIManager.ShowNewUI(UIManager.tileEditUI);
-                        UIManager.tileEditUI.SetSelectedTile(tempTile);
-
-                        selectionObject.gameObject.SetActive(true);
-                        if (tempTile != null)
-                            selectionObject.position = tempTile.GetTileInformation().TilePosition;
-                    } else
-                    {
-                        GridUIManager.HideUI();
-                    }
-                }
+                tile.EditAnyWall(wallPlace, rotation, true);
             }
             else
             {
-                UIManager.editModeUI.ToggleSwitchButton(true);
-                selectionObject.gameObject.SetActive(false);
+                tile.EditAnyWall(wallPlace, rotation, false);
+            }
 
-                if (interactionMode == SelectionMode.Select && Input.GetMouseButtonDown(0))
-                {
-                    Tile tempTile = SelectTile();
-                    //left mouse button
-                    if (!GridUIManager.IsElementSelected())
-                    {
-                        if (tempTile != null)
-                        {
-                            TileInformation tileInfo = tempTile.GetTileInformation();
-                            GridUIManager.ShowNewUI(UIManager.selectionModeUI);
-                            UIManager.selectionModeUI.SetTileInfo(tileInfo);
+            //Placewalls
+        }
 
-                            selectionObject.gameObject.SetActive(false);
-                        }
-                    }
-                    else if (!GridUIManager.IsSelectedSame(UIManager.tileEditUI))
-                    {
-                        GridUIManager.HideUI();
-                    }
-                }
-                else if (interactionMode == SelectionMode.Edit)
-                {
-                    // Highlight tile with selected building/floor
-                    Tile tempTile = SelectTile();
-                    HighlightTile(tempTile);
-                    previousTile = tempTile;
+        private Tile GetNeighbourTile(Vector2Int index)
+        {
+            Tile tile = null;
+            if (index.x < tiles.GetLength(0) && index.x >= 0 &&
+               index.y < tiles.GetLength(0) && index.y >= 0)
+                tile = tiles[index.x, index.y];
+            return tile;
+        }
 
-                    if (Input.GetMouseButtonDown(0) && tempTile != null)
-                    {
-                        // Check new old tile type vs new tile type
-                        if (editingFloor && tempTile.GetTileInformation().floorType != placingFloorType)
-                        {
-                            tempTile.EditFloor(placingFloorType);
-                        }
-                        else if (!editingFloor && tempTile.GetTileInformation().buildingType != placingBuildingType)
-                        {
-                            tempTile.EditBuilding(placingBuildingType);
-                        }
-                    }
-                }
+        private void EditTile()
+        {
+            if (InputManager.Instance.InputMode == InputMode.Edit | InputManager.Instance.InputMode == InputMode.Destroy)
+            {
+                // Highlight tile with selected building/floor
+                currentTile = SelectTile();
+                HighlightTile(currentTile);
+                previousTile = currentTile;
             }
         }
+
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
+            Material material = GetComponent<Renderer>().material;
+            material.mainTextureScale = gridSize;
             startingPosition = transform.parent.position;
 
             for (int x = 0; x < gridSize.x; x++)
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    tiles[x, y] = new Tile(new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition, this);
+                    tiles[x, y] = new Tile(
+                        new Vector3(x * tileSize + tileOffset, 0, y * tileSize + tileOffset) + startingPosition,
+                        new Vector2Int(x, y),
+                        this);
                 }
             }
 
             transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
             transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
-            
         }
 
         /// <summary>
@@ -175,97 +229,88 @@ namespace GOAT.Grid
         /// <param name="selectedTile"> Tile being raycast.</param>
         private void HighlightTile(Tile selectedTile)
         {
-            // Change selection tile when something was selected
-            //
-
-            // Show/Hide objects on selected tile
+            // Show al objects on previous tile
             if (previousTile != null)
             {
-                previousTile.ShowFloor(true);
-                previousTile.ShowBuilding(true);
+                previousTile.ShowTile(true, objectRotationAngle);
             }
+
+            // Hide target object on selected tile
             if (selectedTile != null)
             {
-                if (editingFloor)
-                    selectedTile.ShowFloor(false);
-                else
-                    selectedTile.ShowBuilding(false);
+                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
+                if (InputManager.Instance.InputMode == InputMode.Edit)
+                {
+                    selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
+                }
             }
 
             // Selected placingtile on position of tile hit by raycast
-            if (placingObject != null && selectedTile != null)
+            if (previewObject && selectedTile != null)
             {
-                placingObject.transform.position = selectedTile.GetTileInformation().TilePosition;
-                placingObject.SetActive(true);
+                EnablePreview(selectedTile.Position);
             }
-            else if (selectedTile == null && placingObject != null)
+            else if (previewObject && selectedTile == null)
             {
-                placingObject.SetActive(false);
+                DisablePreview();
             }
         }
 
-        //===========================================================================================================================================================================================================================================================================
+        #region Preview Functions
 
-
-        /// <summary>
-        /// Instantiate a new gameobject al highlight object which is a preview of the object to be placed on the highlighted tile.
-        /// Call with UI buttons in edit mode.
-        /// </summary>
-        /// <param name="type"> Int pointing to enum </param>
-        public void SetSelectionBuilding(int type)
+        private void InitializePreviewObject()
         {
-            editingFloor = false;
-            GameObject tempObject = null;
-            
-            if (placingObject != null) Destroy(placingObject);
+            //TODO: Prefab
+            //previewObject = new GameObject("Preview Object", typeof(MeshFilter), typeof(MeshRenderer));
+            previewObject = Instantiate(previewPrefab);
+            previewObject.transform.SetParent(transform.parent);
+            previewObject.transform.localScale = Vector3.one * tileSize;
 
-            if ((BuildingType)type == placingBuildingType) return;
-
-            placingBuildingType = (BuildingType)type;
-
-            tempObject = TileAssets.FindAsset(placingBuildingType);
-
-            if (tempObject != null)
+            previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
+            for (int i = 0; i < previewObjectMesh.Length; i++)
             {
-                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
-                placingObject.transform.localScale = tileSize * Vector3.one;
+                previewObjectMesh[i].GetComponent<MeshRenderer>().material = previewMaterial;
             }
         }
-        public void SetSelectionFloor(int type)
+
+        public void EnablePreview(Vector3 position)
         {
-            editingFloor = true;
-            GameObject tempObject = null;
-
-            if (placingObject != null) Destroy(placingObject);
-
-            if ((FloorType)type == placingFloorType) return;
-
-            placingFloorType = (FloorType)type;
-            tempObject = TileAssets.FindAsset(placingFloorType);
-
-            if (tempObject != null)
-            {
-                placingObject = Instantiate(tempObject, new Vector3(0, 0, 200), Quaternion.identity);
-                placingObject.transform.localScale = tileSize * Vector3.one;
-            }
+            previewObject.transform.position = position;
+            previewObject.SetActive(true);
         }
-        public void EnterExitEditMode()
+
+        public void DisablePreview()
         {
-            if (interactionMode != SelectionMode.Edit)
-            {
-                interactionMode = SelectionMode.Edit;
-                GridUIManager.ShowNewUI(UIManager.editModeUI);
-            }
-            else
-            {
-                interactionMode = SelectionMode.Select;
-                GridUIManager.HideUI();
-            }
-            SetSelectionFloor(0);
-            SetSelectionBuilding(0);
+            previewObject.SetActive(false);
         }
 
-        //===========================================================================================================================================================================================================================================================================
+        public void SetPreviewActiveMesh(Placeable placeable)
+        {
+            previewObject.SetActive(true);
+            for (int i = 0; i < previewObjectMesh.Length; i++)
+            {
+                if (i >= placeable.Mesh.Length)
+                {
+                    previewObjectMesh[i].mesh = null;
+                    continue;
+                }
+                previewObjectMesh[i].mesh = placeable.Mesh[i];
+            }
+        }
+
+        public void ChangePreviewObject(Placeable placeable)
+        {
+            //Change to pooling if destroy is really destroying
+            if (previewPlaceableInfo != placeable)
+                previewPlaceableInfo = placeable;
+
+            if (!DestroyMode)
+                SetPreviewActiveMesh(placeable);
+        }
+
+        #endregion Preview Functions
+
+        #region Tile Functions
 
         /// <summary>
         /// Returns tile in grid that is being selected by the mouse
@@ -274,9 +319,10 @@ namespace GOAT.Grid
         private Tile SelectTile()
         {
             Tile selectedTile = null;
-            if (DoRaycastFromMouse(out RaycastHit hit))
+            if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, gridMask))
             {
                 Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
+                currentTileIndex = tileIndex;
                 selectedTile = ReturnTile(tileIndex);
             }
             return selectedTile;
@@ -288,7 +334,7 @@ namespace GOAT.Grid
         /// </summary>
         /// <param name="rayHitPosition"> Hit point of ray on collider of the grid.</param>
         /// <returns></returns>
-        private Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
+        public Vector2Int CalculateTilePositionInArray(Vector3 rayHitPosition)
         {
             Vector2 gridPositionOffset = new Vector2(startingPosition.x, startingPosition.z);
             Vector2 hitPosition = new Vector2(rayHitPosition.x, rayHitPosition.z);
@@ -303,49 +349,17 @@ namespace GOAT.Grid
         /// </summary>
         /// <param name="tilePositionInArray"> Vector2Int which points to location in 2D Array of tiles.</param>
         /// <returns></returns>
-        private Tile ReturnTile(Vector2Int tilePositionInArray)
+        public Tile ReturnTile(Vector2Int tilePositionInArray)
         {
-            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1))
+            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) && 
+                tilePositionInArray.x >= 0 && tilePositionInArray.y >= 0)
             {
                 return tiles[tilePositionInArray.x, tilePositionInArray.y];
             }
-            else Debug.LogError("Grid Selection is outside of tile bounds");
+            else Debug.LogWarning("Grid Selection is outside of tile bounds");
             return null;
         }
 
-        /// <summary>
-        /// Raycast from the position of the mouse to the world
-        /// </summary>
-        /// <param name="hit"></param>
-        /// <returns> Returns whether it hit something </returns>
-        private bool DoRaycastFromMouse(out RaycastHit hit)
-        {
-            Vector3 mousePosition = Input.mousePosition + new Vector3(0, 0, Camera.main.nearClipPlane);
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
-
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity);
-            hit = mouseHit;
-
-            if (EventSystem.current.IsPointerOverGameObject())
-                return false;
-            return isHitting;
-        }
-
-        //===========================================================================================================================================================================================================================================================================
-
-        // Debug option for showing where mouse hits the collider
-        private void OnDrawGizmos()
-        {
-            if (debugMouseRaycast)
-            {
-                DoRaycastFromMouse(out RaycastHit hit);
-
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(hit.point, 1);
-                Gizmos.DrawLine(hit.point, Camera.main.transform.position);
-            }
-        }
+        #endregion Tile Functions
     }
 }
-
