@@ -70,12 +70,14 @@ MonoBehaviour:
   subscribers: 0
   connectedFarm: {fileID: 0}
   multiDirection: 0
-  positions:
-  - {x: 0, y: 0.5, z: 0.5}
-  - {x: -0.1, y: 0.5, z: 0.2}
-  - {x: -0.3, y: 0.5, z: 0.05}
-  - {x: -0.5, y: 0.5, z: 0}
-  multiPositions: []
+  positions: []
+  path:
+    points:
+    - {x: 0, y: 0.5, z: 0.5}
+    - {x: -0.1, y: 0.5, z: 0.2}
+    - {x: -0.3, y: 0.5, z: 0.05}
+    - {x: -0.5, y: 0.5, z: 0}
+  Paths: []
   layer:
     serializedVersion: 2
     m_Bits: 4096
@@ -83,6 +85,7 @@ MonoBehaviour:
   - {x: 0, y: 0.5, z: 0.5}
   - {x: -0.5, y: 0.5, z: 0}
   radius: 0.2
+  previousTubes: []
 --- !u!1001 &1002272258349377944
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -50,23 +50,13 @@ namespace Goat.Farming
             AddResource();
         }
 
-        [Button]
-        private void CreateResPack()
-        {
-            CreateResourcePack(1, null);
-        }
-
-        public void CreateResourcePack(int capacity, Transform parent)
+        public void CreateResourcePack(Transform parent = null)
         {
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
-            resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.ResourceType.ToString();
+            resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.name.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            ResourcePackMover resPackMover = resPackObj.GetComponent<ResourcePackMover>();
-            int amount = capacity < currentCapacity ? capacity : currentCapacity;
-            resPack.SetupResPack(farmStationSettings.ResourceFarm, amount);
-            int pathIndex = Random.Range(0, connectedTubes.Count);
-            resPackMover.Setup(connectedTubes[pathIndex].Points.ToArray());
-            currentCapacity -= amount;
+            resPack.SetupResPack(farmStationSettings.ResourceFarm, currentCapacity);
+            currentCapacity = 0;
         }
 
         private void AddResource()
@@ -84,17 +74,10 @@ namespace Goat.Farming
                 timer = 0;
                 currentCapacity += farmStationSettings.AmountPerSecond;
                 resourceTile.Amount -= farmStationSettings.AmountPerSecond;
-                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously)
-                {
-                    //&& isConnected
-                    currentCapacity -= farmStationSettings.AmountPerSecond;
-                    farmStationSettings.ResourceFarm.Amount += farmStationSettings.AmountPerSecond;
-                }
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
                     farmStationSettings.ResourceFarm.Money.Amount -= farmStationSettings.CostPerSecond;
-                    //GameManager.Instance.Money -= farmBuildingSettings.CostPerSecond;
                 }
             }
         }

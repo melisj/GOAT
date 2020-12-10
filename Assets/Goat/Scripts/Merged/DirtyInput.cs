@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Grid = Goat.Grid.Grid;
 using DG.Tweening;
+using System;
 
 public class DirtyInput : MonoBehaviour
 {
@@ -74,5 +75,42 @@ public static class Extensions
     public static bool NotNull(this Sequence seq)
     {
         return seq?.IsActive() ?? false;
+    }
+
+    public static void Rotate<T>(this T[] array, int count)
+    {
+        if (array == null || array.Length < 2) return;
+        count %= array.Length;
+        if (count == 0) return;
+        int left = count < 0 ? -count : array.Length + count;
+        int right = count > 0 ? count : array.Length - count;
+        if (left <= right)
+        {
+            for (int i = 0; i < left; i++)
+            {
+                var temp = array[0];
+                Array.Copy(array, 1, array, 0, array.Length - 1);
+                array[array.Length - 1] = temp;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < right; i++)
+            {
+                var temp = array[array.Length - 1];
+                Array.Copy(array, 0, array, 1, array.Length - 1);
+                array[0] = temp;
+            }
+        }
+    }
+
+    public static void Rotate<T>(this List<T> list, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            T first = list[0];
+            list.RemoveAt(0);
+            list.Add(first);
+        }
     }
 }

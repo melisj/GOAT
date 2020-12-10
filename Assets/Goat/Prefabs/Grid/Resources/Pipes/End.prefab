@@ -11,8 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.56483847}
-  m_Center: {x: 0, y: 0.5, z: -0.36387882}
+  m_Size: {x: 1, y: 1, z: 0.36329347}
+  m_Center: {x: 0, y: 0.5, z: -0.46465132}
 --- !u!1 &3317845011053807819
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,9 +23,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3317845011053807669}
   - component: {fileID: 3317845011053807668}
+  - component: {fileID: 1267717291007311182}
   m_Layer: 12
   m_Name: End
-  m_TagString: Untagged
+  m_TagString: TubeEnd
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,10 +71,11 @@ MonoBehaviour:
   subscribers: 0
   connectedFarm: {fileID: 0}
   multiDirection: 0
-  positions:
-  - {x: 0, y: 0.5, z: -0.1}
-  - {x: 0, y: 0.5, z: -0.6}
-  multiPositions: []
+  path:
+    points:
+    - {x: 0, y: 0.5, z: -0.1}
+    - {x: 0, y: 0.5, z: -0.6}
+  paths: []
   layer:
     serializedVersion: 2
     m_Bits: 4096
@@ -81,6 +83,21 @@ MonoBehaviour:
   - {x: 0, y: 0.5, z: -0.1}
   - {x: 0, y: 0.5, z: -0.6}
   radius: 0.2
+  connectedTubes: []
+--- !u!114 &1267717291007311182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317845011053807819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489715fdb8e7218429c77d20c93d0446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedFarms: []
+  delay: 2
 --- !u!1001 &3317845009433361491
 PrefabInstance:
   m_ObjectHideFlags: 0

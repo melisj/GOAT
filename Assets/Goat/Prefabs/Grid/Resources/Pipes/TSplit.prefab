@@ -57,8 +57,9 @@ MonoBehaviour:
   subscribers: 0
   connectedFarm: {fileID: 0}
   multiDirection: 1
-  positions: []
-  Paths:
+  path:
+    points: []
+  paths:
   - points:
     - {x: 0, y: 0.5, z: 0.5}
     - {x: 0, y: 0.5, z: 0}
@@ -72,9 +73,10 @@ MonoBehaviour:
     m_Bits: 4096
   offset:
   - {x: 0, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0}
   - {x: 0, y: 0.5, z: -0.5}
+  - {x: -0.5, y: 0.5, z: 0}
   radius: 0.2
+  connectedTubes: []
 --- !u!65 &3621523976801885352
 BoxCollider:
   m_ObjectHideFlags: 0

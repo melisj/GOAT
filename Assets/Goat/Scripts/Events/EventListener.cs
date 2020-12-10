@@ -43,11 +43,15 @@ namespace Goat.Events
             if (subscribedEvent == null) return;
             subscribedEvent.UnregisterListener(this);
             subscribers--;
+            InitOnDisable();
         }
 
         public abstract void OnEventRaised(T value);
 
         protected virtual void InitOnEnable()
+        {
+        }
+        protected virtual void InitOnDisable()
         {
         }
     }
