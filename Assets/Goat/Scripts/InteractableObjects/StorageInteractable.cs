@@ -243,7 +243,7 @@ namespace Goat.Grid.Interactions
             for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
                 itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh[0];
             }
-            info.CurrentSelected = this;
+            //info.CurrentSelected = this;
         }
 
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey) {
