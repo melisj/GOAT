@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77da5c08ea4580b4089aa9d08d376521, type: 3}
-  m_Name: ElectricityBuilding
+  m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
+  m_Name: SolarPanel
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -26,17 +26,10 @@ MonoBehaviour:
   price: 0
   image: {fileID: 0}
   mesh:
-  - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 7287223484487291377, guid: 64ff0cf3f157b134f971bd3482c3e825, type: 3}
   summary: 
   amount: 9999
   deliveryTime: 0
-  prefab: {fileID: 7976131269960691352, guid: 831f61f61a968dc47aa4761eed902c95, type: 3}
+  prefab: {fileID: 2971633504663106489, guid: 94f551d54a01ef946934eab5cd005412, type: 3}
   totalBeautyPoints: {fileID: 0}
   beautyPoints: 0
-  resourceFarm: {fileID: 0}
-  farmType: 0
-  storageCapacity: 1
-  amountPerSecond: 2
-  costPerSecond: 0
-  resourceCost: []
-  farmDeliverType: 0

@@ -4278,7 +4278,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cf099652f83e5459ad5bd9ef27c352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
 --- !u!114 &261082551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4291,7 +4301,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c64dc9d12fbbcf408807e6afb10b031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   hotkeys:
   - {fileID: 1918572463}
   - {fileID: 1704253688}
@@ -4308,7 +4328,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd7cb0b17d5e8a458b4b23aa2d9620b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   npcPrefab: {fileID: 0}
 --- !u!114 &261082553
 MonoBehaviour:
@@ -4322,7 +4352,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1635c09aab79734ba47554e1909dac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   changeMode: {fileID: 178267003}
 --- !u!1 &273941216
 GameObject:
@@ -7451,6 +7491,7 @@ MonoBehaviour:
   selectedCell: {fileID: 91475317}
   tabPositions: []
   cellPositions: []
+  deliveryIncoming: {fileID: 0}
   deliveryPrefab: {fileID: 932510881089068791, guid: 1db8637f8cc791f42bc4ad7e12365c80,
     type: 3}
   amountField: {fileID: 949517051}
@@ -16390,7 +16431,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702a9a494a0219c468af9c0748322212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
+  subscribers: 0
   rend: {fileID: 2135250466}
   fadeDuration: 2
 --- !u!1 &1249766414
