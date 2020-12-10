@@ -12,7 +12,7 @@ namespace Goat.AI.States
         private Customer customer;
         public int checks = 0;
         public bool inQueue = false;
-
+        CheckoutInteractable[] checkoutArray;
         public SearchForCheckout(Customer customer)
         {
             this.customer = customer;
@@ -21,8 +21,9 @@ namespace Goat.AI.States
         private Vector3 FindCheckout()
         {   
             // Cleaner with scriptableobject that tracks checkouts?
-            CheckoutInteractable[] checkouts = Object.FindObjectsOfType<CheckoutInteractable>().Where(x => x.QueueAvailable).OrderBy(x => x.QueueLength).ToArray();
-            CheckoutInteractable tempCheckout = checkouts.First();
+            if(checkoutArray == null)
+                checkoutArray = Object.FindObjectsOfType<CheckoutInteractable>().Where(x => x.QueueAvailable).OrderBy(x => x.QueueLength).ToArray();
+            CheckoutInteractable tempCheckout = checkoutArray.First();
 
             if (tempCheckout != null)
             {
@@ -44,6 +45,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
+            //Debug.LogFormat("Customer has {0} items left to get. Customer has been searching for {1} / {2} seconds. Searching for checkout = {3}", customer.itemsToGet.Count, customer.searchingTime, customer.maxSearchingTime, checks);
             if (checks == 0)
                 Debug.Log("Searching for checkout");
             else if (checks == 1)

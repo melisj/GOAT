@@ -12,6 +12,7 @@ namespace Goat.AI
     public class Customer : NPC
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
+        [SerializeField] public float maxSearchingTime = 60;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -47,12 +48,12 @@ namespace Goat.AI
             Func<bool> HasStorageTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
-            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize && targetStorage != null;
+            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize/2 &&  targetStorage == null && !searchForCheckout.inQueue;
+            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
-            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (itemsToGet.Count == 0 && enterStore.enteredStore)) && searchForCheckout.checks < 1; //placeholder
-            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
+            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (itemsToGet.Count == 0 && enterStore.enteredStore)) && searchForCheckout.checks < 1;
+            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             // Interaction
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;

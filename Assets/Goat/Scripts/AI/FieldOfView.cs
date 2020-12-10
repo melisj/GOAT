@@ -63,7 +63,7 @@ namespace Goat.AI
         private void FixedUpdate()
         {
             FindVisibleTargets();
-            DrawFieldOfView();
+            //DrawFieldOfView();
         }
 
         /// <summary>
