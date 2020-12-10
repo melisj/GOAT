@@ -43,8 +43,7 @@ namespace Goat.AI
 
             customer = GetComponentInParent<Customer>();
 
-            StartCoroutine(FindTargetsWithDelay(viewingSpeed));
-            //StartCoroutine("FindTargetsWithDelay", viewingSpeed);
+            //StartCoroutine(FindTargetsWithDelay(viewingSpeed));
         }
 
 
@@ -61,10 +60,10 @@ namespace Goat.AI
             }
         }
 
-        void LateUpdate()
+        private void FixedUpdate()
         {
-            //DrawFieldOfView();
-            //FindVisibleTargets();
+            FindVisibleTargets();
+            DrawFieldOfView();
         }
 
         /// <summary>
@@ -76,9 +75,6 @@ namespace Goat.AI
             visibleTargets.Clear();
             // Find targets in range.
             Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
-            //Debug.Log("Targets hit: " + targetsInViewRadius.Length);
-
-            //int targetsInRadius = 0;
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
@@ -92,9 +88,9 @@ namespace Goat.AI
                         string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().gameObject.name;
                         float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].bounds.center);
                         Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.red);
-                        Debug.LogFormat("Target {0} at position {1}", i, targetsInViewRadius[i].bounds.center);
+
                         // Check if Raycast hits target or if there is another target or obstacle blocking it.
-                        if (!Physics.Raycast(transform.position, transform.forward, distanceToTarget, obstacleMask) &&
+                        if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask) &&
                             Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask))
                         {
                             if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName) visibleTargets.Add(targetsInViewRadius[i].transform);
@@ -103,10 +99,8 @@ namespace Goat.AI
                 }
             }
 
-            //Debug.Log("visible targets: " + targetsInRadius);
             // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-            Debug.LogFormat("Targets found: {0}", visibleTargetsArray.Length);
             if (customer.itemsToGet.Count > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 customer.targetStorage = targetStorage;
