@@ -23699,6 +23699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
   fileName: DefaultSave
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
 --- !u!114 &2135250468
 MonoBehaviour:
   m_ObjectHideFlags: 0

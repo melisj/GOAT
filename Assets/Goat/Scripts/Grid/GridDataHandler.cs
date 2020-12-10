@@ -18,10 +18,10 @@ namespace Goat.Grid
         public List<TileInfo> tileList = new List<TileInfo>();
 
         // Set the save data a list
-        public SaveData(Tile[,] tiles) {
+        public SaveData(Tile[,] tiles, ref GridObjectsList objectList) {
             for (int x = 0; x < tiles.GetLength(0); x++) {
                 for (int y = 0; y < tiles.GetLength(1); y++) {
-                    tiles[x, y].SaveStorageData();
+                    tiles[x, y].SaveStorageData(ref objectList);
                     tileList.Add(tiles[x, y].SaveData);
                 }
             }
@@ -41,6 +41,9 @@ namespace Goat.Grid
         [SerializeField] private string fileName = "DefaultSave";
         private string completePath;
 
+        [Header("References")]
+        [SerializeField] private GridObjectsList objectList;
+
         private Grid grid;
 
         private void Awake() {
@@ -57,7 +60,7 @@ namespace Goat.Grid
         [Button("Save", ButtonSizes.Medium)]
         public void SaveGrid() {
             if (Application.isPlaying)
-                SaveToFile(JsonUtility.ToJson(new SaveData(grid.tiles)));
+                SaveToFile(JsonUtility.ToJson(new SaveData(grid.tiles, ref objectList)));
             else
                 Debug.LogError("Editor needs to be playing to allow it to save");
         }
@@ -73,10 +76,6 @@ namespace Goat.Grid
                 if (data != null) {
                     grid.Reset();
 
-                    // Load references for the data
-                    List<Buyable> buyables = Resources.LoadAll<Buyable>("").ToList();
-                    buyables = buyables.OrderBy((obj) => obj.ID).ToList();
-
                     // Check dimensions before loading
                     if(grid.GetGridSize.x * grid.GetGridSize.y != data.tileList.Count) {
                         Debug.LogWarning("Could not load save file, grid size is not the same!");
@@ -86,7 +85,7 @@ namespace Goat.Grid
                     // Load in all the data on the tiles
                     for (int x = 0; x < grid.GetGridSize.x; x++) {
                         for (int y = 0; y < grid.GetGridSize.y; y++) {
-                            grid.tiles[x, y].LoadInData(data.tileList[grid.GetGridSize.y * x + y], ref buyables);
+                            grid.tiles[x, y].LoadInData(data.tileList[grid.GetGridSize.y * x + y], ref objectList);
                         }
                     }
 
