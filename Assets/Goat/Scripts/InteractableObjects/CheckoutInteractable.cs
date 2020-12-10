@@ -9,39 +9,59 @@ namespace Goat.Grid.Interactions
 {
     public class CheckoutInteractable : BaseInteractable
     {
+        // Queue lists
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
         private List<Customer> customerQueue = new List<Customer>();
 
-        [SerializeField, InteractableAttribute] private int maxQueue = 20;
-
+        [Header("Queue Settings")]
+        [SerializeField] private int maxQueue = 20;
         [SerializeField] Transform queueStartingPosition;
         [SerializeField] private bool overrideQueueDirection;
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
-        public int QueueLength => customerQueue.Count;
+        // Properties
+        [InteractableAttribute] public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
 
         public override object[] GetArgumentsForUI()
         {
-            return new object[] { PeekCustomerFromQueue() };
+            return new object[] { PeekCustomerFromQueue(), this };
         }
 
         public void AddCustomerToQueue(Customer customer)
         {
             if (customer != null && !customerQueue.Contains(customer))
                 customerQueue.Add(customer);
+
+            InvokeChange();
         }
 
+        [Button("Remove customer")]
         public void RemoveCustomerFromQueue()
         {
-            if (customerQueue.Count > 0)
-                customerQueue.Remove(customerQueue.First());
-
-            UpdateCustomersInQueue();
+            StartCoroutine(RemoveEndOfFrame());
         }
 
+        // [BUG REPORT] https://trello.com/c/ipURDq80/141-bug-button-event-in-ui-for-removing-customer-from-queue-not-working-as-it-should
+        // Dirty fix for catching button UI event and handling event after the frame
+        private IEnumerator RemoveEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (customerQueue.Count > 0)
+            {
+                customerQueue.First().LeaveStore();
+                customerQueue.RemoveAt(0);
+
+                UpdateCustomersInQueue();
+
+                InvokeChange();
+            }
+        }
+
+        // Move the queue along
         private void UpdateCustomersInQueue()
         {
             for (int i = 0; i < customerQueue.Count; i++)
@@ -50,6 +70,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
+        // Get the first customer in the queue
         public Customer PeekCustomerFromQueue()
         {
             if (customerQueue.Count == 0) return null; 
@@ -61,6 +82,7 @@ namespace Goat.Grid.Interactions
             StartCoroutine(GenerateQueue());
         }
 
+        // Create a path for the queue
         public void CreateQueue()
         {
             queueGridPositions.Clear();
@@ -134,6 +156,11 @@ namespace Goat.Grid.Interactions
                 Gizmos.color = new Color(i / (float)queuePositions.Count, 0, 0);
                 Gizmos.DrawSphere(queuePositions[i], 0.2f);
             }
+        }
+
+        public override string PrintObject(object obj)
+        {
+            return base.PrintObject(this);
         }
     }
 }

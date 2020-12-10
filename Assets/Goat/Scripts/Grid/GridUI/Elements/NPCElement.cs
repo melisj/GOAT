@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Goat.Grid.Interactions.UI
 {
@@ -11,6 +12,7 @@ namespace Goat.Grid.Interactions.UI
     {
         [SerializeField] private TextMeshProUGUI totalPrice;
         [SerializeField] private TextMeshProUGUI customerName;
+        [SerializeField] private Button sellButton;
         [SerializeField] private Transform contentParent;
 
         private List<InventoryIcon> icons = new List<InventoryIcon>();
@@ -52,20 +54,27 @@ namespace Goat.Grid.Interactions.UI
         /// <summary>
         /// Sets the NPC element in the UI with the inventory of the given NPC
         /// </summary>
-        /// <param name="args"> 0 = NPC </param>
+        /// <param name="args"> 0 = NPC : 1 = InteractableObject </param>
         public override void SetUI(object[] args)
         {
             base.SetUI(args);
-            if (args.Length != 1)
+            if (args.Length != 2)
                 return;
 
-            NPC customer = (NPC)args[0];
+            Customer customer = (Customer)args[0];
+            CheckoutInteractable checkout = (CheckoutInteractable)args[1];
 
+            // Reset variables
+            sellButton.onClick.RemoveAllListeners();
+
+            int amountItems = 0;
             if (customer)
             {
                 Dictionary<Resource, int> itemList = customer.inventory;
+                amountItems = itemList.Count;
+
                 // Add icons if pool is not enough
-                while (itemList.Count > icons.Count)
+                while (amountItems > icons.Count)
                 {
                     AddStorageIcon();
                 }
@@ -77,12 +86,20 @@ namespace Goat.Grid.Interactions.UI
                     i++;
                 }
 
-                // Disable the items that are not being used
-                for(int j = itemList.Count; j < icons.Count; j++)
-                {
-                    DisableIcon(i);
-                }
+                // Set button actions (leave store)
+                sellButton.onClick.AddListener(checkout.RemoveCustomerFromQueue);
             }
+
+            // Disable the items that are not being used
+            for (int i = amountItems; i < icons.Count; i++)
+            {
+                DisableIcon(i);
+            }
+
+            // Set the texts
+            totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
+            customerName.text = string.Format("Name: {0}", customer ? customer.name : "-");
+
         }
     }
 }

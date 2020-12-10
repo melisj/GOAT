@@ -20,7 +20,7 @@ public class InfoUI : MonoBehaviour
     }
 
     private void ElectricityChanged(int newUsed, int newCapacity) {
+        electricityText.color = electricity.IsOverCapacity ? Color.red : Color.white;
         electricityText.text = string.Format("{0} / {1}", newUsed, newCapacity);
-
     }
 }

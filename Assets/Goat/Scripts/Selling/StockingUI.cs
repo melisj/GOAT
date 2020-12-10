@@ -33,8 +33,7 @@ namespace Goat.Grid.Interactions.UI
         private int currentAmount;
         private Resource previousResource;
 
-        public StorageInteractable Interactable { get; set; }
-
+        public StorageInteractable Interactable { get { return (StorageInteractable)interactableInfo.CurrentSelected; } }
 
         public Resource Resource
         {
@@ -54,19 +53,6 @@ namespace Goat.Grid.Interactions.UI
             previousResource = resource;
             InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             SetupUI();
-        }
-
-        private void OnEnable() {
-            interactableInfo.selectedInteractableChangeEvt += InteractableInfo_selectedInteractableChangeEvt;
-        }
-
-        private void OnDisable() {
-            interactableInfo.selectedInteractableChangeEvt -= InteractableInfo_selectedInteractableChangeEvt;
-        }
-
-        private void InteractableInfo_selectedInteractableChangeEvt(BaseInteractable interactable) {
-            if (interactable is StorageInteractable)
-                Interactable = interactable as StorageInteractable;
         }
 
         private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
@@ -143,7 +129,7 @@ namespace Goat.Grid.Interactions.UI
         private void ConfirmStocking()
         {
             currentAmount = (resource.Amount - currentAmount) <= 0 ? resource.Amount : currentAmount;
-            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount, true))
             {
                 resource.Amount -= actualStoredAmount;
                 stockingUI.SetActive(false);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Grid = Goat.Grid.Grid;
+using DG.Tweening;
 
 public class DirtyInput : MonoBehaviour
 {
@@ -55,5 +56,10 @@ public static class Extensions
     {
         obj.SetActive(obj == comparedObj);
         return obj;
+    }
+
+    public static bool NotNull(this Sequence seq)
+    {
+        return seq?.IsActive() ?? false;
     }
 }

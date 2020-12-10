@@ -1,9 +1,12 @@
 ﻿using Goat.Grid.UI;
 using Goat.Pooling;
+using Goat.Storage;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,9 +35,19 @@ namespace Goat.Grid.Interactions
     {
         [SerializeField] protected InteractablesInfo info;
         [SerializeField] private GridUIInfo gridUIInfo;
+        [SerializeField] private Electricity electricityinfo;
 
         [TextArea, Space(10)]
         [SerializeField] protected string description;
+
+        [Header("Power Settings")]
+        [SerializeField] private bool costsPower;
+        [SerializeField, ShowIf("costsPower")] private int powerCost;
+        [SerializeField, ShowIf("costsPower")] private bool isPowered;
+
+        [SerializeField] private bool producesPower;
+        [SerializeField, ShowIf("producesPower")] private int powerProduction;
+        [SerializeField, ShowIf("producesPower")] private bool isPowering;
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
@@ -42,14 +55,25 @@ namespace Goat.Grid.Interactions
         protected Collider clickCollider;
 
         protected UnityEvent InformationChanged = new UnityEvent();
+        protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
 
         public bool IsClickedOn { get; set; }
+        [InteractableAttribute("Powered")] public bool IsPowered { 
+            get { return isPowered; } 
+            set { isPowered = value; if(isPowered != value) PowerChanged?.Invoke(this, value); } 
+        }
+        [InteractableAttribute("Powering")] public bool IsPowering => isPowering;
+
+        [InteractableAttribute("Power Cost")] public int PowerCost => powerCost;
+        [InteractableAttribute("Power Production")] public int PowerProduction => powerProduction;
+
         public string Description => description;
         public string Name => name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
+
 
         // Pooling
         public int PoolKey { get; set; }
@@ -74,8 +98,7 @@ namespace Goat.Grid.Interactions
         public void OpenUIFully()
         {
             OpenUI();
-            InvokeChange();
-            info.CurrentSelected = this;
+            InvokeChange(true);
         }
 
         // Open the UI for the this
@@ -92,30 +115,40 @@ namespace Goat.Grid.Interactions
         }
 
         // Update the UI when something has changed
-        protected virtual void InvokeChange()
+        protected virtual void InvokeChange(bool byPlayer = false)
         {
+            if (byPlayer)
+                info.CurrentSelected = this;
+
             InformationChanged.Invoke();
         }
 
         // Print out all the variables tagged with "InteractableInfo"
-        public virtual string PrintObject<T>()
+        public virtual string PrintObject(object obj)
         {
             string infoList = "";
 
-            FieldInfo[] fields = typeof(T).GetFields();
-            foreach (FieldInfo field in fields)
+            PropertyInfo[] fields = obj.GetType().GetProperties();
+            foreach (PropertyInfo field in fields)
             {
                 InteractableAttribute meta = (InteractableAttribute)field.GetCustomAttribute(typeof(InteractableAttribute), true);
                 if (meta != null)
-                    infoList += field.Name + " - " + field.GetValue(this).ToString() + "\n";
+                {
+                    string variableName = meta.customName != "" ? meta.customName : field.Name;
+                    infoList += string.Format("{0} - {1}\n", variableName, field.GetValue(obj).ToString());
+                }
             }
 
             return infoList;
         }
 
+        #region Pooling
+
         public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey) {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
+
+            SetupElectricity();
 
             InteractableManager.InteractableClickEvt += IsClicked;
         }
@@ -124,8 +157,35 @@ namespace Goat.Grid.Interactions
             gameObject.transform.position = new Vector3(-1000, 0);
             gameObject.SetActive(false);
 
+            OnDisableElectricity();
+
             InteractableManager.InteractableClickEvt -= IsClicked;
             InformationChanged.RemoveAllListeners();
         }
+
+        #endregion
+
+        #region Electricity 
+
+        private void SetupElectricity()
+        {
+            if (costsPower)
+                electricityinfo.AddDevice(this);
+
+            if (producesPower && IsPowering)
+                electricityinfo.Capacity += powerProduction;
+        }
+
+        private void OnDisableElectricity()
+        {
+            if (costsPower)
+                electricityinfo.RemoveDevice(this);
+
+            if (producesPower && IsPowering)
+                electricityinfo.Capacity -= powerProduction;
+        }
+
+        #endregion
+
     }
 }

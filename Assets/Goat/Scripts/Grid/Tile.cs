@@ -274,32 +274,32 @@ namespace Goat.Grid
 
  
 
-        public void LoadInData(TileInfo newData, ref List<Buyable> buyables)
+        public void LoadInData(TileInfo newData, ref GridObjectsList objectList)
         {
             SaveData = newData;
 
             int floorIndex = SaveData.GetFloor(out int floorRotation);
-            if (floorIndex != -1 && buyables[floorIndex] is Placeable)
-                EditAny((Placeable)buyables[floorIndex], floorRotation, false);
+            if (floorIndex != -1 && objectList.GetObject(floorIndex) is Placeable)
+                EditAny((Placeable)objectList.GetObject(floorIndex), floorRotation, false);
 
             int buildingIndex = SaveData.GetBuilding(out int buildingRotation);
-            if (buildingIndex != -1 && buyables[buildingIndex] is Placeable)
+            if (buildingIndex != -1 && objectList.GetObject(buildingIndex) is Placeable)
             {
-                EditAny((Placeable)buyables[buildingIndex], buildingRotation, false);
-                SaveData.LoadStorageData(buildingObject, ref buyables);
+                EditAny((Placeable)objectList.GetObject(buildingIndex), buildingRotation, false);
+                SaveData.LoadStorageData(buildingObject, ref objectList);
             }
 
             for (int i = 0; i < 4; i++)
             {
                 int wallIndex = SaveData.GetWall(i);
-                if (wallIndex != -1 && buyables[wallIndex] is Placeable)
-                    EditAnyWall((Placeable)buyables[wallIndex], (i * 90), false);
+                if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
+                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false);
             }
         }
 
-        public void SaveStorageData()
+        public void SaveStorageData(ref GridObjectsList objectList)
         {
-            SaveData.SaveStorageData(buildingObject);
+            SaveData.SaveStorageData(buildingObject, ref objectList);
         }
     }
 }
@@ -319,7 +319,7 @@ public class TileInfo
         rotations = new int[2];
     }
 
-    public void SaveStorageData(GameObject building)
+    public void SaveStorageData(GameObject building, ref GridObjectsList objectList)
     {
         if (building)
         {
@@ -336,7 +336,7 @@ public class TileInfo
         }
     }
 
-    public void LoadStorageData(GameObject building, ref List<Buyable> buyables)
+    public void LoadStorageData(GameObject building, ref GridObjectsList objectList)
     {
         if (building && storage.Length != 0)
         {
@@ -347,7 +347,7 @@ public class TileInfo
                 for (int i = 0; i < instanceList.Length; i++)
                 {
                     if (storage[i] != -1)
-                        instanceList[i] = new ItemInstance((Resource)buyables[storage[i]]);
+                        instanceList[i] = new ItemInstance((Resource)objectList.GetObject(storage[i]));
                 }
                 interactable.PhysicalItemList = instanceList;
             }

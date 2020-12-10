@@ -3,7 +3,12 @@ guid: f370e2504e0251942b8b87a1a7efc7d4
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vertcolor.003
+    second: {fileID: 2100000, guid: b2f5b2c5f09f4194b8996fb6c84eb046, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
