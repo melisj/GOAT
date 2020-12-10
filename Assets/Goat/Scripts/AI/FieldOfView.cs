@@ -82,21 +82,22 @@ namespace Goat.AI
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
-                Vector3 dirToTarget = (targetsInViewRadius[i].transform.position - transform.position).normalized;
+                Vector3 dirToTarget = (targetsInViewRadius[i].bounds.center - transform.position).normalized;
                 // Only check targets within viewing angle.
                 if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
                     //targetsInRadius++;
                     if(targetsInViewRadius[i].tag == "Storage")
                     {
-                        string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().name;
-                        float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].transform.position);
+                        string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().gameObject.name;
+                        float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].bounds.center);
                         Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.red);
+                        Debug.LogFormat("Target {0} at position {1}", i, targetsInViewRadius[i].bounds.center);
                         // Check if Raycast hits target or if there is another target or obstacle blocking it.
                         if (!Physics.Raycast(transform.position, transform.forward, distanceToTarget, obstacleMask) &&
                             Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask))
                         {
-                            if (hit.transform.GetComponentInParent<StorageInteractable>().name == tempStorageName) visibleTargets.Add(targetsInViewRadius[i].transform);
+                            if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName) visibleTargets.Add(targetsInViewRadius[i].transform);
                         }
                     }
                 }
