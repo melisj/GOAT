@@ -98,7 +98,7 @@ namespace Goat.Grid.Interactions
         public void OpenUIFully()
         {
             OpenUI();
-            InvokeChange();
+            InvokeChange(true);
         }
 
         // Open the UI for the this
@@ -115,9 +115,11 @@ namespace Goat.Grid.Interactions
         }
 
         // Update the UI when something has changed
-        protected virtual void InvokeChange()
+        protected virtual void InvokeChange(bool byPlayer = false)
         {
-            info.CurrentSelected = this;
+            if (byPlayer)
+                info.CurrentSelected = this;
+
             InformationChanged.Invoke();
         }
 

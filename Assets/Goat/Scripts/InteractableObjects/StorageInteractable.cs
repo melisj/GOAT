@@ -33,10 +33,11 @@ namespace Goat.Grid.Interactions
         {
             get => itemPhysicalHolderArray; 
             set {
+                // Load in a new save
                 itemPhysicalHolderArray = value;
                 itemList = itemPhysicalHolderArray.ToList();
                 itemList.RemoveAll((item) => item == null);
-                InvokeChange();
+                InvokeChange(true);
             }
         }
 
@@ -121,7 +122,7 @@ namespace Goat.Grid.Interactions
         /// </summary>
         /// <param name="items"> List of items being stored (removes the ones it is able to store)</param>
         /// <returns> Returns true if an item has been stored, false if none are stored </returns>
-        public bool AddResource(ref List<ItemInstance> items) {
+        public bool AddResource(ref List<ItemInstance> items, bool byPlayer = false) {
             int amountWantingToBeStored = items.Count();
             int amountBeingStored = Mathf.Min(SpaceLeft, amountWantingToBeStored);
 
@@ -138,7 +139,7 @@ namespace Goat.Grid.Interactions
             }
 
 
-            InvokeChange();
+            InvokeChange(byPlayer);
 
             return true;
         }
@@ -150,7 +151,7 @@ namespace Goat.Grid.Interactions
         /// <param name="amount"> Give amount it should generate </param>
         /// <param name="storedAmount"> Outs the amount that was actually stored </param>
         /// <returns> Return whether it stored at least one item </returns>
-        public bool AddResource(Resource type, int amount, out int storedAmount) {
+        public bool AddResource(Resource type, int amount, out int storedAmount, bool byPlayer = false) {
             int amountBeingStored = Mathf.Min(SpaceLeft, amount);
             List<ItemInstance> items = new List<ItemInstance>();
 
@@ -163,7 +164,7 @@ namespace Goat.Grid.Interactions
             }
 
             storedAmount = amountBeingStored;
-            return AddResource(ref items);
+            return AddResource(ref items, byPlayer);
         }
 
         /// <summary>
@@ -173,7 +174,7 @@ namespace Goat.Grid.Interactions
         /// <param name="index"> Index of the item you want </param>
         /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
         /// <returns> Returns the selected item </returns>
-        public ItemInstance GetResource(int index, bool returnToStock = true) {
+        public ItemInstance GetResource(int index, bool returnToStock = true, bool byPlayer = false) {
             ItemInstance item = itemList[index];
             NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
             itemList.RemoveAt(index);
@@ -182,7 +183,7 @@ namespace Goat.Grid.Interactions
             if(returnToStock)
                 item.Resource.Amount++;
 
-            InvokeChange();
+            InvokeChange(byPlayer);
             return item;
         }
 
@@ -210,7 +211,7 @@ namespace Goat.Grid.Interactions
         private void ResetStorage() {
             itemPhysicalHolderArray = new ItemInstance[maxResources];
             this.itemList.Clear();
-            InvokeChange();
+            InvokeChange(true);
         }
 
         public bool HasResource(ResourceType type)
@@ -244,7 +245,6 @@ namespace Goat.Grid.Interactions
             for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
                 itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh[0];
             }
-            info.CurrentSelected = this;
         }
 
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey) {
