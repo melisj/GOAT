@@ -102,7 +102,7 @@ namespace Goat.Grid.Interactions.UI
                     if (args[2] is StorageInteractable) {
                         int index = i;
                         itemButtons[i].onClick.AddListener(() => {
-                            onClickItemEvt?.Invoke(((StorageInteractable)args[2]).GetResource(index, false, true)); 
+                            onClickItemEvt?.Invoke(((StorageInteractable)args[2]).GetResource(index, true, true)); 
                         });
                     }
                 }

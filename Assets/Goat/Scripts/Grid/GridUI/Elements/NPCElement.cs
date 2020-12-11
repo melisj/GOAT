@@ -48,6 +48,7 @@ namespace Goat.Grid.Interactions.UI
         // Enable a storage icon with a new sprite
         private void EnableIcon(int iconIndex, Sprite newIcon, float price, int amount)
         {
+            icons[iconIndex].gameObject.SetActive(true);
             icons[iconIndex].SetIconData(newIcon, price, amount);
         }
 

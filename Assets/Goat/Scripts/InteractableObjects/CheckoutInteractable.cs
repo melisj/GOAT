@@ -39,7 +39,7 @@ namespace Goat.Grid.Interactions
             if (customer != null && !customerQueue.Contains(customer))
                 customerQueue.Add(customer);
 
-            InvokeChange();
+            InvokeChange(true);
         }
 
         [Button("Remove customer")]
@@ -61,7 +61,7 @@ namespace Goat.Grid.Interactions
 
                 UpdateCustomersInQueue();
 
-                InvokeChange();
+                InvokeChange(true);
             }
         }
 

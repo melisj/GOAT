@@ -451,6 +451,10 @@ MonoBehaviour:
   description: Storage shelf with three planks
   costsPower: 0
   powerCost: 0
+  isPowered: 0
+  producesPower: 0
+  powerProduction: 0
+  isPowering: 0
   grid: {fileID: 0}
   maxResources: 6
   enviroment: 0
@@ -468,7 +472,7 @@ GameObject:
   - component: {fileID: 6499248912328971632}
   m_Layer: 9
   m_Name: Shelf
-  m_TagString: Untagged
+  m_TagString: Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
