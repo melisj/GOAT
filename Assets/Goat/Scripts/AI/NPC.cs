@@ -37,7 +37,7 @@ namespace Goat.AI
             //targetDestination = Vector3.one;
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
 

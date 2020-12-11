@@ -81,7 +81,6 @@ GameObject:
   - component: {fileID: 5755569826629729781}
   - component: {fileID: 9217505530674992270}
   - component: {fileID: 5873801310953140140}
-  - component: {fileID: 7066851958504253151}
   m_Layer: 0
   m_Name: CharacterJob
   m_TagString: Untagged
@@ -146,7 +145,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 553841768809747293, guid: f4b27bcacef2e9948a26dcfbf50b3895, type: 3}
+  m_Mesh: {fileID: 8210952156559034139, guid: 5580dddbf0cbf774a8e1acd4205bdfe8, type: 3}
   m_Bones:
   - {fileID: 7608447246644306646}
   - {fileID: 628275937799898660}
@@ -168,20 +167,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533413983677367414}
   m_Mesh: {fileID: 553841768809747293, guid: f4b27bcacef2e9948a26dcfbf50b3895, type: 3}
---- !u!64 &7066851958504253151
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533413983677367414}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 553841768809747293, guid: f4b27bcacef2e9948a26dcfbf50b3895, type: 3}
 --- !u!1 &2698303084822546180
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +180,7 @@ GameObject:
   - component: {fileID: 2698303084822546179}
   - component: {fileID: 2698303084822546176}
   m_Layer: 0
-  m_Name: NPC-customer
+  m_Name: RedundantNPCCustomer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
