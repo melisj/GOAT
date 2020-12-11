@@ -74,13 +74,12 @@ MonoBehaviour:
   path:
     points:
     - {x: 0, y: 0.5, z: -0.1}
-    - {x: 0, y: 0.5, z: -0.6}
+    - {x: 0, y: 0.5, z: -0.8}
   paths: []
   layer:
     serializedVersion: 2
     m_Bits: 4096
   offset:
-  - {x: 0, y: 0.5, z: -0.1}
   - {x: 0, y: 0.5, z: -0.6}
   radius: 0.2
   connectedTubes: []
@@ -96,8 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489715fdb8e7218429c77d20c93d0446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedFarms: []
+  tubeConnection: {fileID: 3317845011053807668}
   delay: 2
+  resourcePackLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  pos: {x: 0, y: 0, z: 0}
 --- !u!1001 &3317845009433361491
 PrefabInstance:
   m_ObjectHideFlags: 0

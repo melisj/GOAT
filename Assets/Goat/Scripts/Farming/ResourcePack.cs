@@ -6,7 +6,7 @@ namespace Goat.Storage
     public class ResourcePack : MonoBehaviour, IPoolObject
     {
         [SerializeField] private Buyable buyable;
-        [SerializeField] private int amount;
+        [SerializeField] private float amount;
 
         [SerializeField] private MeshFilter filter;
 
@@ -21,7 +21,7 @@ namespace Goat.Storage
         {
             if (other.gameObject.CompareTag("Storage"))
             {
-                buyable.Amount += amount;
+                buyable.Amount += (int)amount;
                 amount = 0;
                 PoolManager.Instance.ReturnToPool(gameObject);
             }
@@ -41,5 +41,6 @@ namespace Goat.Storage
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
+        public float Amount { get => amount; set => amount = value; }
     }
 }

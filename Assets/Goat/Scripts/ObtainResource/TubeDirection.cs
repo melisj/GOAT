@@ -14,31 +14,21 @@ namespace Goat.Farming
         [SerializeField, HideIf("multiDirection")] private Path path;
         [SerializeField, ShowIf("multiDirection")] private Path[] paths;
         [SerializeField] private LayerMask layer;
-        //[SerializeField] private Vector3 rayDirection;
-        //[SerializeField] private float rayDistance;
         [SerializeField] private Vector3[] offset;
         [SerializeField] private float radius = 0.2f;
-        private int similarIndex;
-        private List<int> similarIndexes;
 
-        private int offsetIndex;
         private TubeDirection previousTube;
         [SerializeField] private TubeDirection[] connectedTubes;
 
-        private bool adjustingTube;
-        private int previousCount;
-        private bool connected;
-        public int PathIndex { get; set; }
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
         public FarmStationFunction ConnectedFarm { get => connectedFarm; set => connectedFarm = value; }
         public Vector3[] Offset => offset;
 
-        public bool MultiDirection => multiDirection;
-
         public TubeDirection[] ConnectedTubes => connectedTubes;
 
-        public Path[] Paths => paths;
+        public Path[] Paths { get => paths; set => paths = value; }
+        public Path Path { get => path; set => path = value; }
 
         public int GetPathCount()
         {
@@ -61,7 +51,6 @@ namespace Goat.Farming
             if (!multiDirection)
                 return path;
 
-            //      RotateArray(Paths);
             if (index < 0) index = 0;
             return paths[index];
         }
@@ -70,192 +59,19 @@ namespace Goat.Farming
         {
             OnGridChange();
             connectedFarm = null;
-            connected = false;
             ObjInstance = objectInstance;
             PoolKey = poolKey;
         }
 
-        private int ChangeIndex()
+        public bool HasConnection()
         {
-            if (!previousTube.MultiDirection) return PathIndex;
-            offsetIndex = GetOffSetIndex();
-            Debug.Log($"{offsetIndex} + {connectedFarm.ConnectedTubes.Count - 1}");
-            //if (offsetIndex >= (previousTube.Offset.Length - 1))
-            //{
-            //    PathIndex = 0;
-            //    return PathIndex;
-            //}
-            //PathIndex = (connectedFarm.ConnectedTubes.Count - 1) - offsetIndex;
-            PathIndex = offsetIndex;
-            return PathIndex;
-        }
-
-        private int GetOffSetIndex()
-        {
-            RotateArray(offset);
-            previousTube.RotateArray(previousTube.Offset);
-            for (int j = 0; j < offset.Length; j++)
+            int connections = 0;
+            for (int i = 0; i < connectedTubes.Length; i++)
             {
-                for (int i = 0; i < previousTube.Offset.Length; i++)
-                {
-                    Vector3 prevPos = previousTube.CorrectPosWithTransform(previousTube.Offset[i]);
-                    Vector3 thisPos = CorrectPosWithTransform(offset[j]);
-
-                    if (prevPos == thisPos)
-                    {
-                        //This is fine till you have multiple connections leading to multiple connections
-                        similarIndex = j;
-                        return connectedFarm.GetPath(prevPos);
-                    }
-                }
+                if (connectedTubes[i] != null)
+                    connections++;
             }
-            Debug.Log("How the fuck do they even connect then");
-            return 0;
-        }
-
-        private List<int> GetOffSetIndexes()
-        {
-            List<int> offsetIndexes = new List<int>();
-            similarIndexes = new List<int>();
-            RotateArray(offset);
-            previousTube.RotateArray(previousTube.Offset);
-            for (int j = 0; j < offset.Length; j++)
-            {
-                for (int i = 0; i < previousTube.Offset.Length; i++)
-                {
-                    Vector3 prevPos = previousTube.CorrectPosWithTransform(previousTube.Offset[i]);
-                    Vector3 thisPos = CorrectPosWithTransform(offset[j]);
-
-                    if (prevPos == thisPos)
-                    {
-                        similarIndexes.Add(j);
-                        offsetIndexes.Add(connectedFarm.GetPath(prevPos));
-                    }
-                }
-            }
-
-            return offsetIndexes;
-        }
-
-        public void RotateArray<T>(T[] array, int customRotation = -1)
-        {
-            int swapIncrement = (int)(customRotation < 0 ? (transform.rotation.eulerAngles.y) / 90 : (customRotation) / 90);
-            for (int i = 0; i < array.Length; i++)
-            {
-                int newIndex = i + swapIncrement;
-                if (newIndex >= array.Length)
-                {
-                    newIndex = swapIncrement - array.Length;
-                }
-                array.Swap(i, newIndex);
-            }
-        }
-
-        private void InterConnectTubes()
-        {
-            if (connectedFarm == null) return;
-
-            if (previousTube == null)
-            {
-                ConnectTubes();
-                return;
-            }
-
-            for (int preT = 0; preT < connectedTubes.Length; preT++)
-            {
-                previousTube = connectedTubes[preT];
-
-                int pathIndex = ChangeIndex();
-
-                if (multiDirection) goto MultiConnect;
-
-                for (int i = 0; i < path.Points.Count; i++)
-                {
-                    Vector3 pos = CorrectPosWithRotation(path.Points[i]);
-                    connectedFarm.ConnectedTubes[pathIndex].Points.Add(pos);
-                    if (!connectedFarm.OffsetToPath.ContainsKey(pos))
-                    {
-                        connectedFarm.OffsetToPath.Add(pos, pathIndex);
-                    }
-                }
-
-            MultiConnect:
-                {
-                    ConnectMultiTubes(pathIndex);
-                }
-            }
-            connected = true;
-        }
-
-        private void ConnectTubes()
-        {
-            if (connectedFarm == null) return;
-
-            int pathIndex = previousTube == null ? 0 : ChangeIndex();
-            if (multiDirection) goto MultiConnect;
-            //Debug.Log($"{pathIndex} {  connectedFarm.ConnectedTubes.Count} ");
-            for (int i = 0; i < path.Points.Count; i++)
-            {
-                Vector3 pos = CorrectPosWithRotation(path.Points[i]);
-                connectedFarm.ConnectedTubes[pathIndex].Points.Add(pos);
-                if (!connectedFarm.OffsetToPath.ContainsKey(pos))
-                {
-                    connectedFarm.OffsetToPath.Add(pos, pathIndex);
-                }
-            }
-            connected = true;
-            return;
-
-        MultiConnect:
-            {
-                ConnectMultiTubes(pathIndex);
-                connected = true;
-            }
-            return;
-        }
-
-        private void ConnectMultiTubes(int pathIndex)
-        {
-            previousCount = connectedFarm.ConnectedTubes.Count - 1;
-            for (int j = 0; j < paths.Length - 1; j++)
-            {
-                //First add all the new paths with a copy of the current path
-                Path copyPath = new Path();
-                copyPath.Points = new List<Vector3>(connectedFarm.ConnectedTubes[pathIndex].Points);
-                //connectedFarm.ConnectedTubes[0];
-                connectedFarm.ConnectedTubes.Add(copyPath);
-            }
-
-            ////Separated so that the copy will be the same for every new path
-            RotateArray(paths);
-            int rotation = NewRotation(similarIndex);
-            for (int i = 0; i < paths[0].Points.Count; i++)
-            {
-                //Then add new points to the new paths
-                Debug.Log($"Adding at path: {pathIndex} from: {similarIndex}.{i}");
-                Vector3 pos = CorrectPosWithRotation(paths[0].Points[i], rotation);
-                connectedFarm.ConnectedTubes[pathIndex].Points.Add(pos);
-                if (!connectedFarm.OffsetToPath.ContainsKey(pos))
-                {
-                    connectedFarm.OffsetToPath.Add(pos, pathIndex);
-                }
-            }
-
-            for (int j = 1, multiIndex = previousCount + 1; j < paths.Length; j++, multiIndex++)
-            {
-                for (int i = 0; i < paths[j].Points.Count; i++)
-                {
-                    //Then add new points to the new paths
-                    Debug.Log($"Adding at path: {multiIndex} from: {j}.{i}");
-                    Vector3 pos = CorrectPosWithRotation(paths[j].Points[i], rotation);
-
-                    connectedFarm.ConnectedTubes[multiIndex].Points.Add(pos);
-                    if (!connectedFarm.OffsetToPath.ContainsKey(pos))
-                    {
-                        connectedFarm.OffsetToPath.Add(pos, multiIndex);
-                    }
-                }
-            }
+            return (connections > 0);
         }
 
         public int NewRotation(int index)
@@ -263,89 +79,10 @@ namespace Goat.Farming
             return (index * 90) + (int)transform.rotation.y;
         }
 
-        //TODO: Just copy the connect and reverse the logic you bitch
-        [Button]
-        private void DisconnectTubes()
-        {
-            if (connectedFarm == null) return;
-
-            int pathIndex = previousTube == null ? 0 : ChangeIndex();
-            if (multiDirection) goto MultiConnect;
-            //Debug.Log($"{pathIndex} {  connectedFarm.ConnectedTubes.Count} ");
-            for (int i = 0; i < path.Points.Count; i++)
-            {
-                Vector3 pos = CorrectPosWithRotation(path.Points[i]);
-                connectedFarm.ConnectedTubes[pathIndex].Points.Remove(pos);
-                if (connectedFarm.OffsetToPath.ContainsKey(pos))
-                {
-                    connectedFarm.OffsetToPath.Remove(pos);
-                }
-            }
-            return;
-
-        MultiConnect:
-            {
-                DisconnectMultiTubes(pathIndex);
-            }
-            return;
-        }
-
-        private void DisconnectMultiTubes(int pathIndex)
-        {
-            if (previousCount >= connectedFarm.ConnectedTubes.Count) return;
-            //for (int j = 0; j < Paths.Length - 1; j++)
-            //{
-            //    //First add all the new paths with a copy of the current path
-            //    Path copyPath = new Path();
-            //    copyPath.Points = new List<Vector3>(connectedFarm.ConnectedTubes[pathIndex].Points);
-            //    //connectedFarm.ConnectedTubes[0];
-            //    connectedFarm.ConnectedTubes.Add(copyPath);
-            //}
-
-            ////Separated so that the copy will be the same for every new path
-            RotateArray(paths);
-            int rotation = (similarIndex * 90) + (int)transform.rotation.y;
-            for (int i = 0; i < paths[0].Points.Count; i++)
-            {
-                //Then add new points to the new paths
-                Debug.Log($"Removing at path: {pathIndex} from: {similarIndex}.{i}");
-                Vector3 pos = CorrectPosWithRotation(paths[0].Points[i], rotation);
-                connectedFarm.ConnectedTubes[pathIndex].Points.Remove(pos);
-                if (connectedFarm.OffsetToPath.ContainsKey(pos))
-                {
-                    connectedFarm.OffsetToPath.Remove(pos);
-                }
-            }
-
-            for (int j = 1, multiIndex = previousCount + 1; j < paths.Length; j++, multiIndex++)
-            {
-                for (int i = 0; i < paths[j].Points.Count; i++)
-                {
-                    //Then add new points to the new paths
-                    Debug.Log($"Removing at path: {multiIndex} from: {j}.{i}");
-                    Vector3 pos = CorrectPosWithRotation(paths[j].Points[i], rotation);
-
-                    if (multiIndex < connectedFarm.ConnectedTubes.Count)
-                        connectedFarm.ConnectedTubes[multiIndex].Points.Remove(pos);
-                    // connectedFarm.ConnectedTubes.RemoveAt(multiIndex);
-                    if (connectedFarm.OffsetToPath.ContainsKey(pos))
-                    {
-                        connectedFarm.OffsetToPath.Remove(pos);
-                    }
-                }
-            }
-        }
-
         private void OnGridChange()
         {
-            adjustingTube = true;
-            //   DisconnectTubes();
-            //  if (previousTubes.Length <= 0)
-            //   {
             connectedTubes = new TubeDirection[offset.Length];
-            // }
-            //   if (!connectedFarm)
-            //    {
+
             for (int i = 0; i < offset.Length; i++)
             {
                 FarmStationFunction tempConnectedFarm = CheckForConnectionsMulti(offset[i], i);
@@ -354,42 +91,6 @@ namespace Goat.Farming
                     connectedFarm = tempConnectedFarm;
                 }
             }
-            //   }
-
-            if (connectedFarm && !connected)
-            {
-                //ConnectTubes();
-                //InterConnectTubes();
-            }
-            adjustingTube = false;
-        }
-
-        [Button]
-        private FarmStationFunction CheckForConnections(Vector3 offset, int index)
-        {
-            Collider[] cols = Physics.OverlapSphere(CorrectPosWithRotation(offset), radius, layer);
-            FarmStationFunction connectedFarm = null;
-            if (cols.Length > 0)
-            {
-                Collider otherCol = GetOtherCollider(cols);
-                if (!otherCol) return connectedFarm;
-                connectedFarm = otherCol.transform.parent.gameObject.GetComponent<FarmStationFunction>();
-                if (!connectedFarm)
-                {
-                    previousTube = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
-                    Debug.Log(previousTube);
-                    connectedTubes[index] = previousTube;
-                    Debug.Log(connectedTubes[index]);
-
-                    PathIndex = previousTube.PathIndex;
-                    connectedFarm = previousTube.ConnectedFarm;
-                }
-                else
-                {
-                    PathIndex = 0;
-                }
-            }
-            return connectedFarm;
         }
 
         private FarmStationFunction CheckForConnectionsMulti(Vector3 offset, int index)
@@ -403,7 +104,6 @@ namespace Goat.Farming
                 {
                     Collider otherCol = otherCols[i];
 
-                    // if (!otherCol) return connectedFarm;
                     connectedFarm = otherCol.transform.parent.gameObject.GetComponent<FarmStationFunction>();
                     if (connectedFarm)
                     {//At the first pipe
@@ -413,67 +113,20 @@ namespace Goat.Farming
                             seeker.CollidedTubes.Add(this);
                         }
                     }
-                    //if (!connectedFarm)
-                    //{
                     previousTube = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
+
                     if (previousTube)
                     {
                         connectedTubes[index] = (previousTube);
                     }
-                    // PathIndex = previousTube.PathIndex;
+
                     if (!connectedFarm)
                     {
                         connectedFarm = previousTube.ConnectedFarm;
                     }
-                    //}
-                    //else
-                    //{
-                    //    PathIndex = 0;
-                    //}
                 }
             }
             return connectedFarm;
-        }
-
-        public bool CheckEnds(TubeDirection prevCall = null)
-        {
-            for (int i = 0; i < connectedTubes.Length; i++)
-            {
-                TubeDirection currentTube = connectedTubes[i];
-                if (currentTube)
-                {
-                    if (prevCall)
-                    {
-                        if (currentTube == prevCall)
-                            continue;
-                    }
-
-                    if (!currentTube.CompareTag("TubeEnd"))
-                    {
-                        if (!currentTube.CheckEnds(this))
-                        {
-                            connectedTubes[i] = null;
-                            continue;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        [Button]
-        public void CheckForEnd()
-        {
-            List<int> ends = new List<int>();
-            CheckEnds();
         }
 
         public Vector3 CorrectPosWithRotation(Vector3 offset)
@@ -496,17 +149,6 @@ namespace Goat.Farming
             return transform.position + (offset);
         }
 
-        private Collider GetOtherCollider(Collider[] cols)
-        {
-            Collider col = null;
-            for (int i = 0; i < cols.Length; i++)
-            {
-                if (cols[i].transform.parent != transform)
-                    return cols[i];
-            }
-            return col;
-        }
-
         private List<Collider> GetOtherColliders(Collider[] cols)
         {
             List<Collider> colList = new List<Collider>();
@@ -516,29 +158,14 @@ namespace Goat.Farming
                 {
                     colList.Add(cols[i]);
                 }
-                // return cols[i];
             }
             return colList;
         }
 
         public void OnReturnObject()
         {
-            //     DisconnectTubes();
             SubcribedEvent.Raise();
             gameObject.SetActive(false);
-        }
-
-        [Button]
-        private void RotatePathArray()
-        {
-            RotateArray(paths);
-            paths.Rotate((int)((transform.rotation.eulerAngles.y) / 90));
-        }
-
-        [Button]
-        private void RotatePoints(int index)
-        {
-            paths[index].Points.Rotate((int)((transform.rotation.eulerAngles.y) / 90));
         }
 
         private void OnDrawGizmos()
@@ -570,11 +197,6 @@ namespace Goat.Farming
                     return;
                 }
             }
-        }
-
-        private void DrawRay()
-        {
-            // Gizmos.DrawLine(transform.position + offset, transform.position + offset + (rayDirection * rayDistance));
         }
 
         private void DrawOverlapSphere()

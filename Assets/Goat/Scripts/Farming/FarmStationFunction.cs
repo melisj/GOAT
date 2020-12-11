@@ -5,10 +5,11 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.Farming
 {
-    public class FarmStationFunction : MonoBehaviour, IPoolObject
+    public class FarmStationFunction : SerializedMonoBehaviour, IPoolObject
     {
         private const float delay = 1f;
         [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStation farmStationSettings;
@@ -19,11 +20,13 @@ namespace Goat.Farming
         [SerializeField] private Animator animator;
         [SerializeField] private int debugPathIndex;
         [SerializeField] private List<Path> connectedTubes = new List<Path>();
+        [SerializeField] private VoidEvent onGridChange;
         private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
         private float timer;
         private bool isConnected;
         private ResourceTile resourceTile;
-
+        [SerializeField] private HashSet<GameObject> tubeEnds = new HashSet<GameObject>();
+        [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
 
         public int GetPath(Vector3 key)
@@ -39,10 +42,23 @@ namespace Goat.Farming
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
         public List<Path> ConnectedTubes => connectedTubes;
+        public HashSet<GameObject> TubeEnds => tubeEnds;
+
+        public List<ResourcePack> ResPacks => resPacks;
 
         private void Awake()
         {
             connectedTubes.Add(new Path());
+        }
+
+        private void OnEnable()
+        {
+            onGridChange.Raise();
+        }
+
+        private void OnDisable()
+        {
+            onGridChange.Raise();
         }
 
         private void Update()
@@ -50,13 +66,16 @@ namespace Goat.Farming
             AddResource();
         }
 
-        public void CreateResourcePack(Transform parent = null)
+        public ResourcePack CreateResourcePack(Vector3 pos, GameObject tubeEnd)
         {
-            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, Vector3.zero, Quaternion.identity, parent);
+            if (!tubeEnds.Add(tubeEnd))
+                return null;
+            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, pos, Quaternion.identity, null);
             resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.name.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.SetupResPack(farmStationSettings.ResourceFarm, currentCapacity);
-            currentCapacity = 0;
+            resPack.SetupResPack(farmStationSettings.ResourceFarm, 0);
+            resPacks.Add(resPack);
+            return resPack;
         }
 
         private void AddResource()
@@ -75,11 +94,36 @@ namespace Goat.Farming
                 currentCapacity += farmStationSettings.AmountPerSecond;
                 resourceTile.Amount -= farmStationSettings.AmountPerSecond;
 
+                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously)
+                {
+                    FillResourcePacks();
+                }
+
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
                     farmStationSettings.ResourceFarm.Money.Amount -= farmStationSettings.CostPerSecond;
                 }
             }
+        }
+
+        private void FillResourcePacks()
+        {
+            if (resPacks.Count <= 0) return;
+            float increment = (float)farmStationSettings.AmountPerSecond / (float)resPacks.Count;
+
+            for (int i = 0; i < resPacks.Count; i++)
+            {
+                ResourcePack resPack = resPacks[i];
+                if (!resPack.gameObject.activeInHierarchy)
+                {
+                    resPacks.RemoveAt(i);
+                    continue;
+                }
+
+                resPacks[i].Amount += increment;
+            }
+
+            currentCapacity -= farmStationSettings.AmountPerSecond;
         }
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
@@ -92,6 +136,7 @@ namespace Goat.Farming
         private void Setup()
         {
             GetResourceTile();
+            onGridChange.Raise();
         }
 
         private void GetResourceTile()

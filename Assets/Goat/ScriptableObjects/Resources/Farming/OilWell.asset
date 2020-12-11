@@ -38,6 +38,7 @@ MonoBehaviour:
   farmType: 1
   storageCapacity: 2000
   amountPerSecond: 2
+  amountPerResource: 10
   costPerSecond: 0
   resourceCost: []
   farmDeliverType: 0

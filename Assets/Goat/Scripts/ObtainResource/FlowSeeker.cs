@@ -1,14 +1,16 @@
-﻿using Goat.Farming;
+﻿using Goat.Events;
+using Goat.Farming;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms;
 using UnityEngine;
 
 /// <summary>
 /// Seeks the end object
 /// And adds this to the path of the farm
 /// </summary>
-public class FlowSeeker : MonoBehaviour
+public class FlowSeeker : EventListenerVoid
 {
     [SerializeField] private FarmStationFunction farmStation;
     [SerializeField] private List<TubeDirection> collidedTubes;
@@ -16,7 +18,7 @@ public class FlowSeeker : MonoBehaviour
     [SerializeField] private List<Path> paths;
     [SerializeField] private Color[] colors;
     [SerializeField] private List<Vector3> nodes;
-    private HashSet<TubeDirection> endTubes;
+    [SerializeField] private HashSet<TubeDirection> endTubes;
     public List<TubeDirection> CollidedTubes => collidedTubes;
 
     [Button]
@@ -41,31 +43,6 @@ public class FlowSeeker : MonoBehaviour
         }
     }
 
-    [Button]
-    private void CreateGraph()
-    {
-        HashSet<TubeDirection> checkedSet = new HashSet<TubeDirection>(collidedTubes);
-        Stack<TubeDirection> remainingStack = new Stack<TubeDirection>(collidedTubes);
-        nodes = new List<Vector3>();
-
-        while (remainingStack.Count > 0)
-        {
-            TubeDirection currentNode = remainingStack.Pop();
-
-            for (int i = 0; i < currentNode.ConnectedTubes.Length; i++)
-            {
-                TubeDirection nextNode = currentNode.ConnectedTubes[i];
-                if (!nextNode) continue;
-
-                if (checkedSet.Add(nextNode))
-                {
-                    nodes.Add(currentNode.CorrectPosWithRotation(currentNode.Offset[i]));
-                    remainingStack.Push(currentNode);
-                }
-            }
-        }
-    }
-
     public bool FindAll()
     {
         //Prep collections with this object's connections
@@ -79,8 +56,7 @@ public class FlowSeeker : MonoBehaviour
         for (int i = 0; i < paths.Count; i++)
         {
             FindOne(checkedSet, remainingStack, ref prevTube, i);
-            pathsv3.Points.Clear();
-            //remainingStack = new Stack<TubeDirection>(checkedSet);
+            //pathsv3.Points.Clear();
         }
         return found;
     }
@@ -92,23 +68,19 @@ public class FlowSeeker : MonoBehaviour
             //Reference the next item and remove it from remaining
             var item = remainingStack.Pop();
             TubeDirection currentTube = item.GetComponent<TubeDirection>();
-            //for (int i = 0; i < currentTube.ConnectedTubes.Length; i++)
-            //{
-            //    if (currentTube.ConnectedTubes[i] == null) continue;
-            //    AddPathPoints(currentTube, i);
-            //}
             //If it's the source, we're done
             if (item.CompareTag("TubeEnd"))
             {
                 if (endTubes.Add(item))
                 {
-                    EditPath(index);
+                    // EditPath(index);
+                    AddPath();
                     TubeEnd tubeEnd = item.GetComponent<TubeEnd>();
                     if (tubeEnd)
                     {
-                        tubeEnd.ConnectedFarms.Add(farmStation);
+                        tubeEnd.ConnectedFarms.Add(gameObject);
                     }
-                    Debug.Log($"Adding new endtube {endTubes}, added new path {paths.Count}");
+                    //    Debug.Log($"Adding new endtube {endTubes}, added new path {paths.Count}");
                     return true;
                 }
                 else
@@ -125,15 +97,15 @@ public class FlowSeeker : MonoBehaviour
                     if (!newTube) continue;
                     if (checkedSet.Add(newTube))
                     {
+                        //int pathCount = newTube.GetPathCount();
+                        //if (pathCount > 0)
+                        //{//Add new paths before the multi
+                        //    for (int y = 0; y < pathCount; y++)
+                        //    {
+                        //        AddPath();
+                        //    }
+                        //}
                         AddPathPoints(currentTube, i);
-                        int pathCount = newTube.GetPathCount();
-                        if (pathCount > 0)
-                        {//Add new paths before the multi
-                            for (int y = 0; y < pathCount; y++)
-                            {
-                                AddPath();
-                            }
-                        }
 
                         remainingStack.Push(newTube);
                     }
@@ -217,5 +189,10 @@ public class FlowSeeker : MonoBehaviour
                 }
             }
         }
+    }
+
+    public override void OnEventRaised(Void value)
+    {
+        CheckForAllSources();
     }
 }

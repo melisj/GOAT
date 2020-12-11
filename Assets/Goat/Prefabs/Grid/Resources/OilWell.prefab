@@ -136,6 +136,7 @@ MonoBehaviour:
   animator: {fileID: 1086997886161398287}
   debugPathIndex: 0
   connectedTubes: []
+  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
 --- !u!114 &4116500539755273296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +149,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af40323d6a007741b1e9e3dec6edc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  subscribers: 0
   farmStation: {fileID: 1110723869718704107}
   collidedTubes: []
   pathsv3:
