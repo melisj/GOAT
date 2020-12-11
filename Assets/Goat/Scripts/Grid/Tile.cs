@@ -24,6 +24,11 @@ namespace Goat.Grid
         // A tile is empty when does not have a building but does have a floor
         public bool IsEmpty => buildingObject == null && floorObject != null;
 
+        public bool HasWallOnSide(int rotation)
+        {
+            return wallObjs[rotation] != null;
+        }
+
         public Tile(Vector3 centerPosition, Vector2Int gridPosition, Grid grid)
         {
             this.centerPosition = centerPosition;
