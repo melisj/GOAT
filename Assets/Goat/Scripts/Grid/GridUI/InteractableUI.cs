@@ -43,14 +43,16 @@ namespace Goat.Grid.UI
         }
 
         private void OnEnable() {
-            interactableInfo.selectedInteractableChangeEvt += InteractableInfo_selectedInteractableChangeEvt;
+            interactableInfo.InteractableUpdateEvt += InteractableInfo_InteractableUpdateEvt;
         }
 
-        private void OnDisable() {
-            interactableInfo.selectedInteractableChangeEvt -= InteractableInfo_selectedInteractableChangeEvt;
+        private void OnDisable()
+        {
+            interactableInfo.InteractableUpdateEvt -= InteractableInfo_InteractableUpdateEvt;
         }
 
-        private void InteractableInfo_selectedInteractableChangeEvt(BaseInteractable interactable) {
+        private void InteractableInfo_InteractableUpdateEvt(BaseInteractable interactable)
+        {
             InteractableUIElement elementToLoad = InteractableUIElement.None;
 
             if (interactable is StorageInteractable) elementToLoad = InteractableUIElement.Storage;

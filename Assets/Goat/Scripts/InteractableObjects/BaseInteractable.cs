@@ -54,7 +54,7 @@ namespace Goat.Grid.Interactions
 
         protected Collider clickCollider;
 
-        protected UnityEvent InformationChanged = new UnityEvent();
+        protected UnityEvent UpdateInteractable = new UnityEvent();
         protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
@@ -89,7 +89,7 @@ namespace Goat.Grid.Interactions
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj)
         {
-            if(clickCollider.transform == clickedObj)
+            if (clickCollider.transform == clickedObj)
                 IsClickedOn = clickCollider.transform == clickedObj;
         }
 
@@ -98,13 +98,14 @@ namespace Goat.Grid.Interactions
         public void OpenUIFully()
         {
             OpenUI();
-            InvokeChange(true);
+            InvokeChange();
         }
 
         // Open the UI for the this
         public virtual void OpenUI()
         {
             gridUIInfo.CurrentUIElement = GridUIElement.Interactable;
+            info.CurrentSelected = this;
         }
 
         // Hide this UI
@@ -112,15 +113,13 @@ namespace Goat.Grid.Interactions
         {
             gridUIInfo.CurrentUIElement = GridUIElement.None;
             IsClickedOn = false;
+            info.CurrentSelected = null;
         }
 
         // Update the UI when something has changed
-        protected virtual void InvokeChange(bool byPlayer = false)
+        protected virtual void InvokeChange()
         {
-            if (byPlayer)
-                info.CurrentSelected = this;
-
-            InformationChanged.Invoke();
+            UpdateInteractable.Invoke();
         }
 
         // Print out all the variables tagged with "InteractableInfo"
@@ -148,6 +147,7 @@ namespace Goat.Grid.Interactions
             ObjInstance = objectInstance;
             PoolKey = poolKey;
 
+            UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
 
             InteractableManager.InteractableClickEvt += IsClicked;
@@ -160,7 +160,7 @@ namespace Goat.Grid.Interactions
             OnDisableElectricity();
 
             InteractableManager.InteractableClickEvt -= IsClicked;
-            InformationChanged.RemoveAllListeners();
+            UpdateInteractable.RemoveAllListeners();
         }
 
         #endregion
