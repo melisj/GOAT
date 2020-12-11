@@ -93,7 +93,9 @@ namespace Goat.AI
                         if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask) &&
                             Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask))
                         {
-                            if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName) visibleTargets.Add(targetsInViewRadius[i].transform);
+                            if(hit.transform.tag.Equals("Storage"))
+                                if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName)
+                                    visibleTargets.Add(targetsInViewRadius[i].transform);
                         }
                     }
                 }

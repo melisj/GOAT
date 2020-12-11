@@ -10,11 +10,11 @@ namespace Goat.AI
         private void Awake()
         {
             SkinnedMeshRenderer skinnedMesh = GetComponent<SkinnedMeshRenderer>();
-            Mesh newMesh = skinnedMesh.sharedMesh;
             if (meshes != null)
             {
                 int randex = Random.Range(0, meshes.characterMeshes.Count);
-                newMesh = meshes.characterMeshes[randex];
+                print(randex);
+                skinnedMesh.sharedMesh = meshes.characterMeshes[randex];
             }
         }
     }
