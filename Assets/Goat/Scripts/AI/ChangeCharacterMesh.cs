@@ -13,7 +13,7 @@ namespace Goat.AI
             if (meshes != null)
             {
                 int randex = Random.Range(0, meshes.characterMeshes.Count);
-                print(randex);
+                //print(randex);
                 skinnedMesh.sharedMesh = meshes.characterMeshes[randex];
             }
         }

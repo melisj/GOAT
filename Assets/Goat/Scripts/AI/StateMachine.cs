@@ -76,7 +76,6 @@ namespace Goat.AI
                 To = to;
                 Condition = condition;
             }
-
         }
     }
 }

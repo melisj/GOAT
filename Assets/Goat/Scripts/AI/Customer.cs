@@ -12,7 +12,7 @@ namespace Goat.AI
     public class Customer : NPC
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
-        [SerializeField] public float maxSearchingTime = 60;
+        [SerializeField] private float maxSearchingTime = 60;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -84,7 +84,6 @@ namespace Goat.AI
 
             AT(moveToDestination, doNothing, WaitingInQueue());
 
-
             stateMachine.SetState(calculateGroceries);
 
             fov = GetComponentInChildren<FieldOfView>();
@@ -95,7 +94,6 @@ namespace Goat.AI
             targetDestination = newPosition;
             stateMachine.SetState(moveToDestination);
         }
-
         public void LeaveStore()
         {
             stateMachine.SetState(exitStore);
