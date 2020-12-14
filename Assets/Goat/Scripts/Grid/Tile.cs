@@ -1,4 +1,5 @@
-﻿using Goat.Grid.Interactions;
+﻿using Goat.Farming;
+using Goat.Grid.Interactions;
 using Goat.Pooling;
 using Goat.Storage;
 using System;
@@ -128,12 +129,37 @@ namespace Goat.Grid
                     return true;
                 }
             }
+
+            if (placeable is FarmStation)
+            {
+                return CheckForResourceTile(placeable);
+            }
             //There is floor
             //Placeable is not floor
             //   Debug.Log($"There is floor: {!floorObject}\nPlaceable is Floor: {!(placeable is Floor)}\nPlaceable is Wall: {placeable is Wall}\nAutoOn: {AutoWallOn}\n" +
             //        $"Whole: {(!floorObject & !(placeable is Floor)) && (placeable is Wall & !AutoWallOn)}");
             return ((!floorObject && !(placeable is Floor)));
             //return ((floorObject && !(placeable is Floor)) && (placeable is Wall && AutoWallOn));
+        }
+
+        private bool CheckForResourceTile(Placeable placeable)
+        {
+            //FloorObj getComp.
+            if (floorObject)
+            {
+                ResourceTile resourceTile = floorObject.GetComponent<ResourceTile>();
+                if (!resourceTile) return true;
+                Resource resOnTile = resourceTile.Data.Resource;
+
+                FarmStation station = (FarmStation)placeable;
+
+                return !(station.ResourceFarm == resOnTile);
+            }
+            return true;
+            //if Placeable is FarmStation -> Check for resource
+
+            //if FloorObj Resourceblabla == FarmStation.resource
+            //OK!
         }
 
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)

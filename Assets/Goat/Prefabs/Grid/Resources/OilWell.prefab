@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1866992282474837805}
   - component: {fileID: 3866823947790580567}
   - component: {fileID: 1878599395735268101}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FarmOil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,9 +88,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6257709004261703043}
-  - component: {fileID: 6257709004261703042}
-  m_Layer: 9
-  m_Name: FarmStation
+  - component: {fileID: 1110723869718704107}
+  - component: {fileID: 4116500539755273296}
+  m_Layer: 12
+  m_Name: OilWell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +112,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6257709004261703042
+--- !u!114 &1110723869718704107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,9 +121,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 6257709004261703041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
+  m_Script: {fileID: 11500000, guid: d9297d7a092e47a4481b05905d15d3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  farmStationSettings: {fileID: 11400000, guid: 84f536058b4f572408f3e886c0da10af,
+    type: 2}
+  radius: 0.3
+  resPackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
+    type: 3}
+  currentCapacity: 0
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  animator: {fileID: 1086997886161398287}
+  debugPathIndex: 0
+  connectedTubes: []
+  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+--- !u!114 &4116500539755273296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af40323d6a007741b1e9e3dec6edc56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  subscribers: 0
+  farmStation: {fileID: 1110723869718704107}
+  collidedTubes: []
+  pathsv3:
+    points: []
+  paths: []
+  colors: []
+  nodes: []
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +178,7 @@ GameObject:
   - component: {fileID: 6257709004557095268}
   - component: {fileID: 7162852030555837538}
   - component: {fileID: 5711712267664799546}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +238,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9197104818302897006}
-  m_Layer: 0
+  - component: {fileID: 1086997886161398287}
+  m_Layer: 12
   m_Name: FarmLiquid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,6 +262,25 @@ Transform:
   m_Father: {fileID: 6257709004557095268}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1086997886161398287
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424403898160779732}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6e545273223eee24ab5d2267231926e7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8786263793555607543
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +292,7 @@ GameObject:
   - component: {fileID: 5688349565147751804}
   - component: {fileID: 3979366981606394498}
   - component: {fileID: 47221670024530182}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FarmOil(Pump)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
