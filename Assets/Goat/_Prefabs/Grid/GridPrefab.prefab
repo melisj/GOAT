@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 612029029412865794}
   - component: {fileID: 612029029412865795}
   - component: {fileID: 612029029412865800}
+  - component: {fileID: 5621511813930087197}
   - component: {fileID: 612029029412865804}
   - component: {fileID: 612029029412865805}
   - component: {fileID: 612029029412865801}
@@ -73,6 +74,30 @@ MonoBehaviour:
   saveFolder: /Goat/SaveData/
   fileName: BasicTestStore
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+--- !u!114 &5621511813930087197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41826dfbe6478ef42b4fbd6619723a86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 96c1596972885b248891851bed3115d3, type: 2}
+  subscribers: 0
+  grid: {fileID: 612029029412865795}
 --- !u!65 &612029029412865804
 BoxCollider:
   m_ObjectHideFlags: 0

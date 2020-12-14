@@ -24,7 +24,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3144552902786105233}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -280,6 +280,12 @@ PrefabInstance:
       propertyPath: grid
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2798673608945343584, guid: 8d72b5ad4de992045b3fa95361ccce64,
+        type: 3}
+      propertyPath: onPlaceableChosen
+      value: 
+      objectReference: {fileID: 11400000, guid: 96c1596972885b248891851bed3115d3,
+        type: 2}
     - target: {fileID: 2798673608945343598, guid: 8d72b5ad4de992045b3fa95361ccce64,
         type: 3}
       propertyPath: m_Name
