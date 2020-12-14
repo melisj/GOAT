@@ -126,6 +126,7 @@ namespace Goat.Farming
                     }
                 }
             }
+
             return connectedFarm;
         }
 

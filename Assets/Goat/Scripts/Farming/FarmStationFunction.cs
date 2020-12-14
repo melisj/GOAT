@@ -170,18 +170,6 @@ namespace Goat.Farming
                     Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i + 1]);
                 }
             }
-
-            //for (int i = connectedTubes[debugPathIndex].Points.Count - 1; i >= 0; i--)
-            //{
-            //    if (i - 1 >= 0)
-            //    {
-            //        Gizmos.DrawLine(transform.position, connectedTubes[debugPathIndex].Points[i - 1]);
-            //    }
-            //    else
-            //    {
-            //        Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i - 1]);
-            //    }
-            //}
         }
     }
 }

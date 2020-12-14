@@ -17,11 +17,9 @@ public class FlowSeeker : EventListenerVoid
     [SerializeField] private Path pathsv3;
     [SerializeField] private List<Path> paths;
     [SerializeField] private Color[] colors;
-    [SerializeField] private List<Vector3> nodes;
     [SerializeField] private HashSet<TubeDirection> endTubes;
     public List<TubeDirection> CollidedTubes => collidedTubes;
 
-    [Button]
     private void CheckForAllSources()
     {
         endTubes = new HashSet<TubeDirection>();
@@ -56,7 +54,6 @@ public class FlowSeeker : EventListenerVoid
         for (int i = 0; i < paths.Count; i++)
         {
             FindOne(checkedSet, remainingStack, ref prevTube, i);
-            //pathsv3.Points.Clear();
         }
         return found;
     }
@@ -73,14 +70,12 @@ public class FlowSeeker : EventListenerVoid
             {
                 if (endTubes.Add(item))
                 {
-                    // EditPath(index);
                     AddPath();
                     TubeEnd tubeEnd = item.GetComponent<TubeEnd>();
                     if (tubeEnd)
                     {
                         tubeEnd.ConnectedFarms.Add(gameObject);
                     }
-                    //    Debug.Log($"Adding new endtube {endTubes}, added new path {paths.Count}");
                     return true;
                 }
                 else
@@ -97,14 +92,6 @@ public class FlowSeeker : EventListenerVoid
                     if (!newTube) continue;
                     if (checkedSet.Add(newTube))
                     {
-                        //int pathCount = newTube.GetPathCount();
-                        //if (pathCount > 0)
-                        //{//Add new paths before the multi
-                        //    for (int y = 0; y < pathCount; y++)
-                        //    {
-                        //        AddPath();
-                        //    }
-                        //}
                         AddPathPoints(currentTube, i);
 
                         remainingStack.Push(newTube);
@@ -141,28 +128,8 @@ public class FlowSeeker : EventListenerVoid
         paths.Add(newPath);
     }
 
-    private void EditPath(int index)
-    {
-        if (index < paths.Count)
-        {
-            paths[index].Points.AddRange(pathsv3.Points);
-        }
-    }
-
-    private void DrawNodes()
-    {
-        if (nodes == null) return;
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            Vector3 pos = nodes[i];
-            pos.y = 1f;
-            Gizmos.DrawSphere(pos, 0.1f);
-        }
-    }
-
     private void OnDrawGizmos()
     {
-        DrawNodes();
         if (paths == null) return;
 
         for (int i = 0; i < paths.Count; i++)

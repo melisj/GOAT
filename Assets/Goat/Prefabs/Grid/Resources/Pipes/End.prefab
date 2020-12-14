@@ -74,7 +74,7 @@ MonoBehaviour:
   path:
     points:
     - {x: 0, y: 0.5, z: -0.1}
-    - {x: 0, y: 0.5, z: -0.8}
+    - {x: 0, y: 0.5, z: -1.2}
   paths: []
   layer:
     serializedVersion: 2
@@ -95,12 +95,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489715fdb8e7218429c77d20c93d0446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: connectedFarms
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   tubeConnection: {fileID: 3317845011053807668}
   delay: 2
   resourcePackLayer:
     serializedVersion: 2
     m_Bits: 8192
-  pos: {x: 0, y: 0, z: 0}
+  resPacks: []
+  pos: {x: 0, y: 0, z: -1.2}
+  colls: []
 --- !u!1001 &3317845009433361491
 PrefabInstance:
   m_ObjectHideFlags: 0
