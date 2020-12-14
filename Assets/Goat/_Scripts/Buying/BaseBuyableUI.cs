@@ -2,6 +2,7 @@
 using Goat.Grid.UI;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,9 @@ namespace Goat.UI
 {
     public class BaseBuyableUI : BasicGridUIElement
     {
+        [Title("Event")]
+        [SerializeField, FoldoutGroup("Base")] protected BoolVariable inputFieldSelected;
+
         [Title("Base Grid Window")]
         [SerializeField, FoldoutGroup("Base")] protected TMP_InputField searchField;
         [SerializeField, FoldoutGroup("Base")] protected GameObject gridWindow;
@@ -248,7 +252,7 @@ namespace Goat.UI
 
         protected void ToggleInput(bool enable)
         {
-            InputManager.Instance.InputFieldSelected = enable;
+            inputFieldSelected.Value = enable;
         }
 
         /// <summary>

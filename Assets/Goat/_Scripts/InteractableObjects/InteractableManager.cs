@@ -3,26 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Goat.Events;
 
 namespace Goat.Grid.Interactions
 {
-    public class InteractableManager : MonoBehaviour {
+    public class InteractableManager : EventListenerKeyCodeModeEvent
+    {
         public delegate void InteractableClickEvent(Transform interactable);
+
         public static event InteractableClickEvent InteractableClickEvt;
 
         [SerializeField] private LayerMask interactableMask;
+        [SerializeField] private InputModeVariable currentMode;
+        [SerializeField] private InteractableRayCaster interactableRayCaster;
         [SerializeField] private GridUIInfo gridUIInfo;
 
-        public void Awake()
+        public override void OnEventRaised(KeyCodeMode value)
         {
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+            OnInput(code, mode);
         }
 
-        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        private void OnInput(KeyCode code, KeyMode keyMode)
         {
-            if (inputMode == InputMode.Select)
+            if (currentMode.InputMode == InputMode.Select)
             {
-                if (code == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (code == KeyCode.Mouse0 && keyMode.HasFlag(KeyMode.Down))
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
@@ -37,7 +46,7 @@ namespace Goat.Grid.Interactions
 
         public void CheckForInteractable()
         {
-            if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
+            if (interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
             {
                 if (hit.transform != null)
                 {

@@ -33,7 +33,6 @@ MonoBehaviour:
     used to reinforce.'
   amount: 15
   deliveryTime: 3
-  resourceType: 0
   storageEnviroment: 0
   starterAmount: 15
   available: 1

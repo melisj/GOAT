@@ -24,7 +24,7 @@ namespace Goat.Grid.UI
     }
 
     // Manages the UI Elements to make certain that only one element is visible at a time
-    public class GridUIManager : SerializedMonoBehaviour
+    public class GridUIManager : EventListenerKeyCodeModeEvent
     {
         [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
         [SerializeField] private GridUIInfo gridUIInfo;
@@ -32,22 +32,32 @@ namespace Goat.Grid.UI
 
         public void Awake()
         {
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             gridUIInfo.GridUIChangedEvent += GridUIInfo_GridUIChangedEvent;
         }
 
-        public void OnDestroy() {
-            InputManager.Instance.OnInputEvent -= Instance_OnInputEvent;
+        public void OnDestroy()
+        {
             gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
         }
 
-        private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI) {
+        private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
+        {
             ShowNewUI(currentUI);
         }
 
-        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        public override void OnEventRaised(KeyCodeMode value)
         {
-            if (code == KeyCode.V && keyMode == InputManager.KeyMode.Down)
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+
+            OnInput(code, mode);
+        }
+
+        private void OnInput(KeyCode code, KeyMode keyMode)
+        {
+            if (code == KeyCode.V && keyMode == KeyMode.Down)
             {
                 gridUIInfo.CurrentUIElement = GridUIElement.Buying;
             }
@@ -57,7 +67,8 @@ namespace Goat.Grid.UI
         private void ShowNewUI(GridUIElement UIElement)
         {
             HideUI();
-            if (UIElement != GridUIElement.None && UIElement != gridUIInfo.CurrentUIElement) {
+            if (UIElement != GridUIElement.None && UIElement != gridUIInfo.CurrentUIElement)
+            {
                 UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
                 currentUIOpen = element;
                 currentUIOpen.ShowUI();
