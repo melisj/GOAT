@@ -1,10 +1,12 @@
 ﻿using DG.Tweening;
+using Goat.Events;
 using Goat.Farming;
 using Goat.Pooling;
 using Goat.Storage;
 using Sirenix.OdinInspector;
 using System.Text;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,7 @@ namespace Goat.UI
 {
     public class BuyingUI : BaseBuyableUI
     {
+        [SerializeField] private DeliveryResourceEvent deliveryIncoming;
         [Title("Grid Window")]
         [SerializeField] private GameObject deliveryPrefab;
         [SerializeField] private TMP_InputField amountField;
@@ -156,7 +159,9 @@ namespace Goat.UI
             delivery.ProgressBar.DOFillAmount(1, buyable.DeliveryTime).OnComplete(() =>
             {
                 //buyable.Amount += amount;
-                buyable.Buy(amount, -1, false, true);
+                // buyable.Buy(amount, -1, false, true);
+                Debug.Log("Delivery");
+                deliveryIncoming.Raise(new DeliveryResource(buyable, amount));
                 currentDeliveryAmount--;
                 if (currentDeliveryAmount == 0)
                 {

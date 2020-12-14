@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Goat.Storage;
+using Goat.Grid;
 
 public class StarterKit : MonoBehaviour
 {
     [SerializeField] private Money money;
+    [SerializeField] private Electricity electricity;
 
     private void Awake()
     {
@@ -20,5 +22,10 @@ public class StarterKit : MonoBehaviour
             resources[i].Amount = resources[i].StarterAmount;
         }
         money.Amount = money.StarterAmount;
+    }
+
+    private void OnDisable()
+    {
+        electricity.ClearAll();
     }
 }

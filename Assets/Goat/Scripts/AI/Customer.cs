@@ -12,6 +12,7 @@ namespace Goat.AI
     public class Customer : NPC
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
+        [SerializeField] private float maxSearchingTime = 60;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -21,7 +22,11 @@ namespace Goat.AI
         [HideInInspector] public float customerSelfConstraint = 0;
         [SerializeField] private FieldOfView fov;
         [HideInInspector] public bool enteredStore;
+        [HideInInspector] public bool leavingStore;
 
+        [HideInInspector] public float totalPriceProducts;
+
+        ExitStore exitStore;
 
         //[HideInInspector] public WaitAt
         protected override void Awake()
@@ -36,7 +41,7 @@ namespace Goat.AI
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            ExitStore exitStore = new ExitStore(this, navMeshAgent, animator);
+            exitStore = new ExitStore(this, navMeshAgent, animator);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
@@ -47,12 +52,12 @@ namespace Goat.AI
             Func<bool> HasStorageTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null;
             Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize &&  targetStorage == null && !searchForCheckout.inQueue;
-            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize && targetStorage != null;
+            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize/2 &&  targetStorage == null && !searchForCheckout.inQueue;
+            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
-            Func<bool> GoToCheckout() => () => searchingTime >= maxSearchingTime && searchForCheckout.checks < 1; //placeholder
-            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && searchForCheckout.checks < 2;
+            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (itemsToGet.Count == 0 && enterStore.enteredStore)) && searchForCheckout.checks < 1;
+            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             // Interaction
             Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
@@ -73,12 +78,11 @@ namespace Goat.AI
             AT(moveToDestination, moveToTarget, HasStorageTarget());
             AT(SetRandomDestination, moveToTarget, HasStorageTarget());
 
-            //AT(moveToDestination, searchForCheckout, GoToCheckout());
-            //AT(searchForCheckout, moveToDestination, HasDestination());
-            //AT(moveToDestination, searchForCheckout, FindShortestCheckoutQueue());
+            AT(moveToDestination, searchForCheckout, GoToCheckout());
+            AT(searchForCheckout, moveToDestination, HasDestination());
+            AT(moveToDestination, searchForCheckout, FindShortestCheckoutQueue());
 
             AT(moveToDestination, doNothing, WaitingInQueue());
-
 
             stateMachine.SetState(calculateGroceries);
 
@@ -90,8 +94,10 @@ namespace Goat.AI
             targetDestination = newPosition;
             stateMachine.SetState(moveToDestination);
         }
-
-
+        public void LeaveStore()
+        {
+            stateMachine.SetState(exitStore);
+        }
     }
 }
 

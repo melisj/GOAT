@@ -43,7 +43,7 @@ namespace Goat.AI.States
                 // I dont know how random works.
                 Random.seed = Random.Range(0, 1000) + (int)Time.time;
                 //Vet inefficient
-                int randomIndex = (int)Random.Range(0, availableResources.Count - 0.1f);
+                int randomIndex = Random.Range(0, availableResources.Count);
                 if (availableResources[randomIndex].Price < availableMoney)
                     AddResourceToGroceries(availableResources[randomIndex], 1);
             }

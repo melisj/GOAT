@@ -5,20 +5,23 @@ namespace Goat.Storage
 {
     public class ResourcePack : MonoBehaviour, IPoolObject
     {
-        [SerializeField] private Resource resource;
-        [SerializeField] private int amount;
+        [SerializeField] private Buyable buyable;
+        [SerializeField] private float amount;
 
-        //[SerializeField] private MeshFilter filter;
-        public void SetupResPack()
+        [SerializeField] private MeshFilter filter;
+
+        public void SetupResPack(Buyable buyable, int amount)
         {
-            //filter.Mesh = resource.Mesh;
+            this.amount = amount;
+            this.buyable = buyable;
+            filter.mesh = this.buyable.Mesh[0];
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Storage"))
             {
-                resource.Amount += amount;
+                buyable.Amount += (int)amount;
                 amount = 0;
                 PoolManager.Instance.ReturnToPool(gameObject);
             }
@@ -36,9 +39,8 @@ namespace Goat.Storage
             PoolManager.Instance.SetParent(gameObject);
         }
 
-        public Resource Resource { get => resource; set => resource = value; }
-        public int Amount { get => amount; set => amount = value; }
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
+        public float Amount { get => amount; set => amount = value; }
     }
 }

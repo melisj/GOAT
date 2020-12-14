@@ -7314,6 +7314,7 @@ MonoBehaviour:
   selectedCell: {fileID: 766773285}
   tabPositions: []
   cellPositions: []
+  deliveryIncoming: {fileID: 0}
   deliveryPrefab: {fileID: 932510881089068791, guid: 1db8637f8cc791f42bc4ad7e12365c80,
     type: 3}
   amountField: {fileID: 1568351652}
@@ -9188,7 +9189,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cf099652f83e5459ad5bd9ef27c352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
 --- !u!114 &871168439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9201,7 +9212,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c64dc9d12fbbcf408807e6afb10b031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   hotkeys:
   - {fileID: 1757185892}
   - {fileID: 1625345797}
@@ -9218,7 +9239,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd7cb0b17d5e8a458b4b23aa2d9620b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   npcPrefab: {fileID: 0}
 --- !u!114 &871168441
 MonoBehaviour:
@@ -9232,7 +9263,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1635c09aab79734ba47554e1909dac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   changeMode: {fileID: 1816719981}
 --- !u!1 &879383113
 GameObject:
@@ -12389,6 +12430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveFolder: /Goat/SaveData/
   fileName: BasicTestStore
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
 --- !u!114 &1141376564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12656,7 +12698,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702a9a494a0219c468af9c0748322212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
+  subscribers: 0
   rend: {fileID: 1141376562}
   fadeDuration: 2
 --- !u!1 &1164255178
@@ -13095,6 +13147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  electricity: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
 --- !u!1 &1185515952
 GameObject:
   m_ObjectHideFlags: 0
