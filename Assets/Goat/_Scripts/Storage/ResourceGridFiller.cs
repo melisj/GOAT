@@ -30,7 +30,6 @@ namespace Goat.Storage
             {
                 SetupCell(resources[i], i);
             }
-
         }
 
         [ButtonGroup]
@@ -50,7 +49,7 @@ namespace Goat.Storage
             resUI.ImageButton.onClick.AddListener(() => selectedResourceChangeEvt?.Invoke(resource));
             //cell.GetComponent<Button>().onClick.AddListener(delegate { ActivateVerify(); });
             // cell.GetComponent<Button>().onClick.AddListener(delegate { SelectItem(); });
-            cell.name = resource.ResourceType.ToString();
+            cell.name = resource.name.ToString();
             resUI.SetupUI(resource, index);
         }
 
@@ -63,7 +62,8 @@ namespace Goat.Storage
             gridUIInfo.GridUIChangedEvent += GridUIManager_GridUIChangedEvent;
         }
 
-        private void GridUIManager_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI) {
+        private void GridUIManager_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
+        {
             if (currentUI == GridUIElement.None && prevUI == GridUIElement.Interactable)
                 sellingUIObject.SetActive(false);
         }

@@ -94,7 +94,7 @@ namespace Goat.Grid.Interactions.UI
 
         private void SetupResourceUI()
         {
-            resourceName.text = resource.ResourceType.ToString();
+            resourceName.text = resource.name.ToString();
             //stock.text = resource.Amount.ToString();
             //resourceImage.sprite = resource.Image;
             resource.AmountChanged += Resource_AmountChanged;

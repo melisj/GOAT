@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Goat.Storage;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
-using Goat.Storage;
-using Goat.Grid;
 
 public class StarterKit : MonoBehaviour
 {

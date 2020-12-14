@@ -4,13 +4,6 @@ using Sirenix.OdinInspector;
 
 namespace Goat.Storage
 {
-    public enum ResourceType
-    {
-        Geode,
-        Gold,
-        Oil
-    }
-
     public enum StorageEnviroment
     {
         normal,
@@ -21,7 +14,7 @@ namespace Goat.Storage
     [CreateAssetMenu(fileName = "Resource", menuName = "ScriptableObjects/Buyable/Resource")]
     public class Resource : Buyable
     {
-        [SerializeField, Space(10)] private ResourceType resourceType;
+        //      [SerializeField, Space(10)] private ResourceType resourceType;
         [SerializeField] private StorageEnviroment storageEnviroment;
         [SerializeField] private int starterAmount;
         [SerializeField] private bool available = true;
@@ -32,8 +25,6 @@ namespace Goat.Storage
 
         //  public float Price => resValue * 1.5f;
         public int StarterAmount => starterAmount;
-
-        public ResourceType ResourceType => resourceType;
 
         public StorageEnviroment StorageEnviroment => storageEnviroment;
 
