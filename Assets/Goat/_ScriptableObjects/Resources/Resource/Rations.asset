@@ -23,8 +23,8 @@ MonoBehaviour:
     SerializationNodes: []
   id: 44
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 10
-  image: {fileID: 0}
+  price: 5
+  image: {fileID: 21300000, guid: 0671496c013a07c459af79e52c548c85, type: 3}
   mesh:
   - {fileID: 6419781872903506798, guid: 93df5ebba8a04224f865bc89695d0ac7, type: 3}
   summary: 'This unnatural ore is largely found in small asteroids.

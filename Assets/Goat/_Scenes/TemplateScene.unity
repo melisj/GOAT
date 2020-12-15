@@ -1125,6 +1125,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3144552901779091793, guid: 78deab033787b9f468caae8def901ad0,
         type: 3}
+    - target: {fileID: 3144552901893799486, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
+    - target: {fileID: 3144552902171366440, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
+    - target: {fileID: 3144552902364112835, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
+    - target: {fileID: 3144552902494719287, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
+    - target: {fileID: 3144552902700625751, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
     - target: {fileID: 3144552902786105232, guid: 78deab033787b9f468caae8def901ad0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1281,6 +1306,16 @@ PrefabInstance:
       propertyPath: serializationData.PrefabModifications.Array.data[2]
       value: '"path":"UIElements.{3es}","value":$eref:2'
       objectReference: {fileID: 0}
+    - target: {fileID: 3144552902984860736, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
+    - target: {fileID: 3144552903175780571, guid: 78deab033787b9f468caae8def901ad0,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ac989b830d4114f4986fdf10966fea62, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78deab033787b9f468caae8def901ad0, type: 3}
 --- !u!1001 &3856765464521954971
@@ -1507,15 +1542,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5066533614744139622, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
         type: 3}
-      propertyPath: lightToChange
-      value: 
-      objectReference: {fileID: 746762903}
-    - target: {fileID: 5066533614744139622, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
-        type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5066533614744139622, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
         type: 3}
+    - target: {fileID: 5066533614744139622, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
+        type: 3}
+      propertyPath: lightToChange
+      value: 
+      objectReference: {fileID: 746762903}
     - target: {fileID: 5066533614744139623, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -1524,15 +1559,15 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5066533614744139624, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
         type: 3}
-      propertyPath: changeMode
-      value: 
-      objectReference: {fileID: 1816719981}
-    - target: {fileID: 5066533614744139624, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
-        type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5066533614744139624, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
         type: 3}
+    - target: {fileID: 5066533614744139624, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
+        type: 3}
+      propertyPath: changeMode
+      value: 
+      objectReference: {fileID: 1816719981}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c3ff17cd11fcdb439cb26a958d6eb33, type: 3}
 --- !u!1001 &7797434497620604623

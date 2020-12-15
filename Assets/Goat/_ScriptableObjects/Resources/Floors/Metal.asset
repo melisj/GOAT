@@ -28,7 +28,7 @@ MonoBehaviour:
   mesh:
   - {fileID: -6026691920816988174, guid: 7119b9008f8189641b9da7e15c176f52, type: 3}
   summary: 
-  amount: 99999
+  amount: 100
   starterAmount: 100
   deliveryTime: 0
   prefab: {fileID: 5071828486381597130, guid: f1affb90c24845c47bbf09fe2b341aa9, type: 3}
