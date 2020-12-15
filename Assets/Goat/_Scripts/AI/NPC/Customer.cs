@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using Goat.AI.States;
 using Goat.Storage;
 using Goat.Grid.Interactions;
+using Goat.ScriptableObjects;
 
 namespace Goat.AI
 {

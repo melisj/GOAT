@@ -14,8 +14,6 @@ namespace Goat.AI.States
         private Vector3 lastLocation;
         public float timeStuck;
 
-        // Need to check somewhere is target is reachable. NavMeshAgent.CalculatePath. NavMeshAgent.PathStatus.
-
         public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
         {
             this.npc = npc;

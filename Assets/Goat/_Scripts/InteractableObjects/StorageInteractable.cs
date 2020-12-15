@@ -55,6 +55,9 @@ namespace Goat.Grid.Interactions
             }
         }
 
+        [SerializeField] private Resource mainResource;
+        [HideInInspector] public Resource MainResource { get => mainResource; }
+
         protected override void Awake()
         {
             base.Awake();

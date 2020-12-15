@@ -4,7 +4,7 @@ using UnityEngine;
 using Goat.Storage;
 using Sirenix.OdinInspector;
 
-namespace Goat.Storage
+namespace Goat.ScriptableObjects
 {
     /// <summary>
     /// Creates a list of resources inside the project.

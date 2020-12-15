@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: 75c0c23bb1e509b489d9714cf9722d3f
+guid: 8da3b32e0966a87459dee06083632aa6
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable:
-  - first:
-      74: 916504132600894794
-    second: DoorInside(Door)Action
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -89,7 +86,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.01
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Goat.Grid.Interactions;
 
-namespace Goat.Grid.Interactions
+namespace Goat.ScriptableObjects
 {
     /// <summary>
     /// Creates a list of StorageInteractable locations inside the project.
@@ -13,32 +14,32 @@ namespace Goat.Grid.Interactions
     [CreateAssetMenu(fileName = "StorageLocations", menuName = "ScriptableObjects/RuntimeVariables/StorageLocations")]
     public class StorageLocations : ScriptableObject
     {
-        private List<Transform> storageTransformLocation = new List<Transform>();
+        private List<StorageInteractable> storageTransformLocation = new List<StorageInteractable>();
         private StorageInteractable[] storageTransformArray;
-        public List<Transform> StorageTransforms => storageTransformLocation;
+        public List<StorageInteractable> Storages => storageTransformLocation;
 
-        private void OnValidate()
+        //private void OnValidate()
+        //{
+        //    FindStorageTransforms();
+        //}
+
+        //[Button("Find Storages")]
+        //public void FindStorageTransforms()
+        //{
+        //    storageTransformLocation.Clear();
+        //    storageTransformArray = Object.FindObjectsOfType<StorageInteractable>();
+
+        //    for (int i = 0; i < storageTransformArray.Length; i++)
+        //        storageTransformLocation.Add(storageTransformArray[i].transform);
+        //}
+
+        public void AddStorage(StorageInteractable storage)
         {
-            FindStorageTransforms();
+            storageTransformLocation.Add(storage);
         }
-
-        [Button("Find Storages")]
-        public void FindStorageTransforms()
+        public void RemoveStorage(StorageInteractable storage)
         {
-            storageTransformLocation.Clear();
-            storageTransformArray = Object.FindObjectsOfType<StorageInteractable>();
-
-            for (int i = 0; i < storageTransformArray.Length; i++)
-                storageTransformLocation.Add(storageTransformArray[i].transform);
-        }
-
-        public void AddStorage(Transform transform)
-        {
-            storageTransformLocation.Add(transform);
-        }
-        public void RemoveStorage(Transform transform)
-        {
-            storageTransformLocation.Remove(transform);
+            storageTransformLocation.Remove(storage);
         }
     }
 }
