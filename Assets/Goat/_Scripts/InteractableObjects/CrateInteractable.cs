@@ -1,14 +1,15 @@
 ﻿using Goat.Storage;
 using Goat.Grid.UI;
-using Sirenix.OdinInspector;
+using Goat.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
+using Sirenix.OdinInspector;
+using Goat.Pooling;
 
 namespace Goat.Grid.Interactions
 {
-    public class FarmInteractable : BaseInteractable
+    public class CrateInteractable : StorageInteractable
     {
 
     }

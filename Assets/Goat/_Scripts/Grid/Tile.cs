@@ -357,7 +357,7 @@ public class TileInfo
             StorageInteractable interactable = building.GetComponentInChildren<StorageInteractable>();
             if (interactable)
             {
-                ItemInstance[] temp = interactable.PhysicalItemList;
+                ItemInstance[] temp = interactable.ItemList;
                 storage = new int[temp.Length];
                 for (int i = 0; i < temp.Length; i++)
                 {
@@ -380,7 +380,7 @@ public class TileInfo
                     if (storage[i] != -1)
                         instanceList[i] = new ItemInstance((Resource)objectList.GetObject(storage[i]));
                 }
-                interactable.PhysicalItemList = instanceList;
+                interactable.ItemList = instanceList;
             }
         }
     }

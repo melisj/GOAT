@@ -17,103 +17,38 @@ namespace Goat.Grid.Interactions
     public class StorageInteractable : BaseInteractable
     {
         [Header("Storage")]
-        [SerializeField] private List<ItemInstance> itemList = new List<ItemInstance>();
-        [SerializeField] private int maxResources = 4;
-        [SerializeField] private StorageEnviroment enviroment;
-
-        private ItemInstance[] itemPhysicalHolderArray;
-        private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
-
-        // Properties
-        public int GetItemCount { get => itemList.Count; }
-        public int SpaceLeft { get => Mathf.Abs(GetItemCount - maxResources); }
-
-        public List<ItemInstance> GetItems { get => itemList; }
-        public ItemInstance[] PhysicalItemList
+        private ItemInstance[] itemList;
+        [SerializeField]
+        public ItemInstance[] ItemList
         {
-            get => itemPhysicalHolderArray; 
-            set {
+            get => itemList;
+            set
+            {
                 // Load in a new save
-                itemPhysicalHolderArray = value;
-                itemList = itemPhysicalHolderArray.ToList();
-                itemList.RemoveAll((item) => item == null);
+                itemList = value;
                 InvokeChange();
             }
         }
 
-        // Get or create a item holder object
-        private Transform ItemHolderParent;
-        private Transform GetItemHolderParent { get
-            {
-                ItemHolderParent = transform.Find(info.ItemHolderParentName) ?? 
-                    new GameObject(info.ItemHolderParentName).transform;
+        public List<ItemInstance> GetItems { get => ItemList.ToList(); }
+        [SerializeField] protected int maxResources = 4;
+        [SerializeField] protected StorageEnviroment enviroment;
 
-                if(ItemHolderParent.parent != transform)
-                    ItemHolderParent.SetParent(transform, false);
-
-                return ItemHolderParent;
-            }
-        }
+        // Properties
+        public int GetItemCount { get => itemList.Count(x => x != null); }
+        public int SpaceLeft { get => Mathf.Abs(GetItemCount - maxResources); }
 
         protected override void Awake()
         {
             base.Awake();
-            InitStorage();
         }
 
         public override object[] GetArgumentsForUI() {
             return new object[] {
             string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
-            itemList.ToList(),
+            itemList,
             this };
         }
-
-        #region Item Holders
-
-        /// <summary>
-        /// Initialize the holder items for the objects
-        /// </summary>
-        [Button("Generate/Get Item Holders")]
-        private void InitStorage() {
-            itemHolderMeshList.Clear();
-            for (int i = 0; i < maxResources; i++) {
-                GetItemHolder(i);
-            }
-        }
-
-        // Try to get a item holder from the parent
-        private void GetItemHolder(int index) {
-            GameObject itemHolder = null;
-            try {
-                itemHolder = GetItemHolderParent.GetChild(index).gameObject;
-            }
-            catch {
-                itemHolder = CreateItemHolder();
-            }
-
-            // Set material and save the meshfilter
-            itemHolder.GetComponent<MeshRenderer>().material = info.ItemMaterial;
-            itemHolderMeshList.Add(itemHolder.GetComponent<MeshFilter>());
-        } 
-
-        // Create a new item holder
-        private GameObject CreateItemHolder() {
-            GameObject itemHolder = new GameObject(info.ItemHolderName, typeof(MeshFilter), typeof(MeshRenderer));
-            itemHolder.transform.SetParent(GetItemHolderParent, false);
-            return itemHolder;
-        }
-
-        // Render out locations where meshes will be placed from the inventory
-        private void OnDrawGizmos() {
-            if (itemHolderMeshList != null) {
-                Gizmos.color = Color.green;
-                foreach (MeshFilter mesh in itemHolderMeshList) {
-                    Gizmos.DrawSphere(mesh.transform.position, 0.1f);
-                }
-            }
-        }
-
-        #endregion
 
         #region Inventory Management
 
@@ -122,7 +57,7 @@ namespace Goat.Grid.Interactions
         /// </summary>
         /// <param name="items"> List of items being stored (removes the ones it is able to store)</param>
         /// <returns> Returns true if an item has been stored, false if none are stored </returns>
-        public bool AddResource(ref List<ItemInstance> items) {
+        public virtual bool AddResource(ref List<ItemInstance> items) {
             int amountWantingToBeStored = items.Count();
             int amountBeingStored = Mathf.Min(SpaceLeft, amountWantingToBeStored);
 
@@ -132,13 +67,12 @@ namespace Goat.Grid.Interactions
 
             // Store items in the list
             for (int i = amountBeingStored - 1; i >= 0; i--) {
-                itemList.Add(items[i]);
+                itemList[itemList.ToList().FindIndex(x => x == null)] = items[i];
+
                 NpcManager.Instance.AddAvailableResource(items[i].Resource.ResourceType, 1);
-                AddPhysicalMesh(items[i]);
                 items.RemoveAt(i);
             }
-
-
+       
             InvokeChange();
 
             return true;
@@ -151,7 +85,7 @@ namespace Goat.Grid.Interactions
         /// <param name="amount"> Give amount it should generate </param>
         /// <param name="storedAmount"> Outs the amount that was actually stored </param>
         /// <returns> Return whether it stored at least one item </returns>
-        public bool AddResource(Resource type, int amount, out int storedAmount) {
+        public virtual bool AddResource(Resource type, int amount, out int storedAmount) {
             int amountBeingStored = Mathf.Min(SpaceLeft, amount);
             List<ItemInstance> items = new List<ItemInstance>();
 
@@ -174,11 +108,10 @@ namespace Goat.Grid.Interactions
         /// <param name="index"> Index of the item you want </param>
         /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
         /// <returns> Returns the selected item </returns>
-        public ItemInstance GetResource(int index, bool returnToStock = true) {
+        public virtual ItemInstance GetResource(int index, bool returnToStock = true) {
             ItemInstance item = itemList[index];
             NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
-            itemList.RemoveAt(index);
-            RemovePhysicalMesh(item);
+            itemList[index] = null;
 
             if(returnToStock)
                 item.Resource.Amount++;
@@ -194,8 +127,8 @@ namespace Goat.Grid.Interactions
         /// <param name="index"> Index of the item you want </param>
         /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
         /// <returns> Returns all the stored items </returns>
-        public List<ItemInstance> GetAllResources(bool returnToStock = true) {
-            List<ItemInstance> oldItemList = itemList;
+        public virtual List<ItemInstance> GetAllResources(bool returnToStock = true) {
+            List<ItemInstance> oldItemList = itemList.ToList();
 
             if (returnToStock) {
                 foreach (ItemInstance item in this.itemList) {
@@ -208,9 +141,8 @@ namespace Goat.Grid.Interactions
             return oldItemList;
         }
 
-        private void ResetStorage() {
-            itemPhysicalHolderArray = new ItemInstance[maxResources];
-            this.itemList.Clear();
+        protected virtual void ResetStorage() {
+            itemList = new ItemInstance[maxResources];
             InvokeChange();
         }
 
@@ -221,45 +153,6 @@ namespace Goat.Grid.Interactions
                 if (type == itemList[i].Resource.ResourceType) return true;
             }
             return false;
-        }
-
-        #endregion
-
-
-        #region Physical Storage
-
-        // Add mesh to the physical object array (search for first one empty)
-        private void AddPhysicalMesh(ItemInstance item) {
-            int indexInPhysicalStorage = itemPhysicalHolderArray.ToList().FindIndex((obj) => obj == null);
-            itemPhysicalHolderArray[indexInPhysicalStorage] = item;
-        }
-
-        // Remove mesh from the physical object array
-        private void RemovePhysicalMesh(ItemInstance item) {
-            int indexInPhysicalStorage = itemPhysicalHolderArray.ToList().FindIndex((obj) => obj == item);
-            itemPhysicalHolderArray[indexInPhysicalStorage] = null;
-        }
-
-        // Update the meshes on the grid
-        private void UpdateVisuals() {
-            for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
-                itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh[0];
-            }
-        }
-
-        public override void OnGetObject(ObjectInstance objectInstance, int poolKey) {
-            base.OnGetObject(objectInstance, poolKey);
-
-            UpdateInteractable.AddListener(UpdateVisuals);
-            NpcManager.Instance.AddStorageShelve(this);
-            ResetStorage();
-        }
-
-        public override void OnReturnObject() {
-            ResetStorage();
-            NpcManager.Instance.RemoveStorageShelve(this);
-
-            base.OnReturnObject();
         }
 
         #endregion

@@ -82,21 +82,23 @@ namespace Goat.Grid.Interactions.UI
 
             SetStorageLimitUI(args[0].ToString());
 
-            if (args[1] is List<ItemInstance>) {
-                List<ItemInstance> itemList = (List<ItemInstance>)args[1];
+            if (args[1] is ItemInstance[]) {
+                ItemInstance[] itemList = ((ItemInstance[])args[1]);
                 // Add icons if pool is not enough
-                while(itemList.Count > itemIcons.Count) {
+                while(itemList.Length > itemIcons.Count) {
                     AddStorageIcon();
                 }
 
-                for (int i = 0; i < itemIcons.Count; i++) {
+                for (int i = 0; i < itemList.Length; i++) {
                     // Disable the items that are not being used
-                    if (i >= itemList.Count) {
+                    if (itemList[i] == null)
+                    {
                         DisableIcon(i);
                         continue;
                     }
+                    else
+                        EnableIcon(i, itemList[i].Resource.Image);
 
-                    EnableIcon(i, itemList[i].Resource.Image);
 
                     // Add the custom event to the resource
                     if (args[2] is StorageInteractable) {
