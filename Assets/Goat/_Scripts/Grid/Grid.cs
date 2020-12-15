@@ -38,6 +38,8 @@ namespace Goat.Grid
         private Tile currentTile;
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
+        private Tile previousAutoTile = null;
+
         private Vector2Int currentTileIndex;
         private bool autoWalls;
 
@@ -118,9 +120,20 @@ namespace Goat.Grid
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
-                        currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
-                        if (autoWalls)
-                            SetupNeighborTiles(currentTileIndex);
+                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
+                            && !(previewPlaceableInfo is Wall))
+                        {
+                            if (currentTile != previousAutoTile)
+                                SetupNeighborTiles(currentTileIndex);
+                        }
+                        //  if (autoWalls && currentTile != previousAutoTile && CanPayAuto(currentTileIndex))
+                        //    {
+                        //if (!(previewPlaceableInfo is Wall))
+                        //{
+                        //}
+                        //    }
+
+                        previousAutoTile = currentTile;
                     }
                 }
                 if (keyCode == KeyCode.R && keyMode.HasFlag(KeyMode.Down))
@@ -132,9 +145,16 @@ namespace Goat.Grid
                 if (keyCode == KeyCode.T && keyMode.HasFlag(KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
-                    autoWalls = !autoWalls;
-                    if (autoWalls)
-                        SetupNeighborTiles(currentTileIndex);
+                    //checkedTiles.Clear();
+                    //autoWalls = !autoWalls;
+                    ////   if (autoWalls && currentTile != previousAutoTile && CanPayAuto(currentTileIndex))
+                    ////     {
+                    //checkedTiles.Clear();
+                    //SetupNeighborTiles(currentTileIndex);
+                    //AutoPayment();
+                    //   }
+
+                    previousAutoTile = currentTile;
                     Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
                 }
             }
@@ -161,6 +181,32 @@ namespace Goat.Grid
             CheckNeighbourTiles(tileToSet, index);
         }
 
+        private bool CanPayAuto(Vector2Int index)
+        {
+            checkedTiles.Clear();
+            SetupNeighborTilesWithoutEditing(index);
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+            float total = wallPlace.Price * (checkedTiles.Count * 2);
+            return wallPlace.Money.Amount > total;
+        }
+
+        private void SetupNeighborTilesWithoutEditing(Vector2Int index)
+        {
+            Tile tileToSet = tiles[index.x, index.y];
+            checkedTiles.Add(index);
+            CheckNeighbourTilesWithoutEditing(tileToSet, index);
+        }
+
+        private void AutoPayment()
+        {
+            if (checkedTiles.Count > 0)
+            {
+                Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+
+                wallPlace.Buy(checkedTiles.Count * 2);
+            }
+        }
+
         private void CheckNeighbourTiles(Tile tile, Vector2Int index2D)
         {
             int rotation = -90;
@@ -170,33 +216,65 @@ namespace Goat.Grid
             CheckTile(tile, ref rotation, index2D, Vector2Int.right);
         }
 
+        private void CheckNeighbourTilesWithoutEditing(Tile tile, Vector2Int index2D)
+        {
+            int rotation = -90;
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.down);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.left);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.up);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.right);
+        }
+
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
-            Placeable wallPlace = defaultWall;
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
-                if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                //if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                //{
+                //    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                //}
+
+                tile.EditAnyWall(wallPlace, rotation, true, true);
+                neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), true, true);
+                if (tile.FloorObj == null)
                 {
-                    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                    neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), false, true);
                 }
-
-                tile.EditAnyWall(wallPlace, rotation, true);
-
                 return;
             }
 
             if (tile.FloorObj == null)
             {
-                tile.EditAnyWall(wallPlace, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true, true);
             }
             else
             {
-                tile.EditAnyWall(wallPlace, rotation, false);
+                tile.EditAnyWall(wallPlace, rotation, false, true);
             }
 
             //Placewalls
+        }
+
+        private int InverseRotation(int rotation)
+        {
+            return (rotation + 180) % 360;
+        }
+
+        private void CheckTileWithoutEditing(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
+        {
+            Tile neighbourTile = GetNeighbourTile(index2D + offset);
+            if (neighbourTile != null && neighbourTile.FloorObj != null)
+            {
+                if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                {
+                    SetupNeighborTilesWithoutEditing(neighbourTile.SaveData.gridPosition);
+                }
+
+                return;
+            }
         }
 
         private Tile GetNeighbourTile(Vector2Int index)
@@ -249,7 +327,7 @@ namespace Goat.Grid
         private void HighlightTile(Tile selectedTile)
         {
             // Show al objects on previous tile
-            if (previousTile != null)
+            if (previousTile != null && !DestroyMode)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
             }
@@ -257,7 +335,7 @@ namespace Goat.Grid
             // Hide target object on selected tile
             if (selectedTile != null)
             {
-                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
+                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, objectRotationAngle, DestroyMode), DestroyMode);
                 if (currentMode.InputMode == InputMode.Edit)
                 {
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);

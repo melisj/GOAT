@@ -56,6 +56,13 @@ public class Buyable : SerializedScriptableObject
             Amount += amount;
     }
 
+    public bool CanBuy(int amount, float price = -1)
+    {
+        price = price < 0 ? Price : price;
+        float total = this.money.Amount - (price * amount);
+        return total < 0;
+    }
+
     /// <summary>
     /// Sells the buyable
     /// </summary>
@@ -63,9 +70,9 @@ public class Buyable : SerializedScriptableObject
     /// <param name="price">If not set, you use the default price</param>
     public void Sell(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
     {
-        price = price < 0 ? Price : price;
+        price = price < 0 ? Price * 0.75f : price;
         int total = Amount - amount;
-        int newTotal = total <= 0 ? Amount : total;
+        int newTotal = total <= 0 ? Amount : amount;
 
         if (deliverNow)
             Amount = newTotal;

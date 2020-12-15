@@ -18,6 +18,8 @@ namespace Goat.Grid
         private GameObject floorObject, buildingObject, tileObject;
         private Grid grid;
         private GameObject[] wallObjs = new GameObject[4];
+        private bool[] wallAuto = new bool[4];
+
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
@@ -106,10 +108,7 @@ namespace Goat.Grid
             for (int i = 0; i < wallObjs.Length; i++)
             {
                 if (wallObjs[i] == null) continue;
-                //if (i > 0)
-                //{
-                //    rotation += 90;
-                //}
+
                 wallObjs[i].SetActive(true);
             }
             int index = 0;
@@ -120,26 +119,31 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActive(show ? show : placeable != null && !(placeable is Wall));
         }
 
-        public bool CheckForFloor(Placeable placeable, bool AutoWallOn = false)
+        public bool CheckForFloor(Placeable placeable, float rotationAngle = 0, bool destroyMode = false)
         {
+            if (placeable)
+            {
+                if (placeable.CanBuy(1))
+                    return true;
+            }
+
             if (placeable is Wall)
             {
-                if (AutoWallOn)
+                int index = 0;
+
+                if (rotationAngle > 0)
                 {
-                    return true;
+                    index = (int)(rotationAngle / 90);
                 }
+
+                if (wallAuto[index] && destroyMode) return true;
             }
 
             if (placeable is FarmStation)
             {
                 return CheckForResourceTile(placeable);
             }
-            //There is floor
-            //Placeable is not floor
-            //   Debug.Log($"There is floor: {!floorObject}\nPlaceable is Floor: {!(placeable is Floor)}\nPlaceable is Wall: {placeable is Wall}\nAutoOn: {AutoWallOn}\n" +
-            //        $"Whole: {(!floorObject & !(placeable is Floor)) && (placeable is Wall & !AutoWallOn)}");
             return ((!floorObject && !(placeable is Floor)));
-            //return ((floorObject && !(placeable is Floor)) && (placeable is Wall && AutoWallOn));
         }
 
         private bool CheckForResourceTile(Placeable placeable)
@@ -165,7 +169,7 @@ namespace Goat.Grid
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
-            if (CheckForFloor(placeable)) { return false; }
+            if (CheckForFloor(placeable, rotationAngle, destroyMode)) { return false; }
 
             if (placeable is Wall)
             {
@@ -175,7 +179,7 @@ namespace Goat.Grid
 
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
-
+            GameObject tempTile = null;
             // Change rotation of existing placeable
             if (this.placeable == placeable & tileObject != null && tileObject.transform.rotation != rotation)
             {
@@ -188,7 +192,7 @@ namespace Goat.Grid
             if ((tileObject && this.placeable == placeable) && !destroyMode)
             {
                 //No need to destroy if you want to edit the same tile with the same type
-                return true;
+                return false;
             }
 
             if (buildingObject && (!(placeable is Floor) | destroyMode))
@@ -202,6 +206,7 @@ namespace Goat.Grid
                     tileObject = null;
                 }
                 buildingObject = null;
+                placeable.Sell(1);
             }
             else if (floorObject && (!(placeable is Building) | destroyMode))
             {
@@ -215,6 +220,7 @@ namespace Goat.Grid
                     tileObject = null;
                 }
                 floorObject = null;
+                placeable.Sell(1);
             }
             if (placeable != null && !destroyMode)
             {
@@ -248,22 +254,24 @@ namespace Goat.Grid
                 {
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
+                    tempTile = floorObject;
                 }
                 else if (placeable is Building)
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
                 }
+                placeable.Buy(1);
             }
 
             this.placeable = placeable;
-            return true;
+            return tempTile != null | destroyMode;
         }
 
         //Detect tile has neighbouring tiles
         //if no neighbouring tiles, add wall in that direction
         //if neighbouring tiles, delete wall there
-        public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode)
+        public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode, bool autoMode = false)
         {
             //if (this.placeable != wall)
             //{
@@ -275,11 +283,16 @@ namespace Goat.Grid
             {
                 index = (int)(rotationAngle / 90);
             }
+
             if (wallObjs[index])
             {
-                PoolManager.Instance.ReturnToPool(wallObjs[index]);
-                wallObjs[index] = null;
-                SaveData.SetWall(-1, index);
+                if ((!wallAuto[index] || autoMode))
+                {
+                    PoolManager.Instance.ReturnToPool(wallObjs[index]);
+                    wallObjs[index] = null;
+                    wallAuto[index] = false;
+                    SaveData.SetWall(-1, index);
+                }
             }
 
             if (wall != null && !destroyMode)
@@ -288,8 +301,10 @@ namespace Goat.Grid
                 Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                 Vector3 size = Vector3.one * grid.GetTileSize;
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
-                wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                if (!wallObjs[index])
+                    wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 wallObjs[index].transform.localScale = size;
+                wallAuto[index] = wallAuto[index] ? wallAuto[index] : autoMode;
                 MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
@@ -299,11 +314,8 @@ namespace Goat.Grid
                 SaveData.SetWall(wall.ID, index);
             }
             // }
-            this.placeable = wall;
             return true;
         }
-
- 
 
         public void LoadInData(TileInfo newData, ref GridObjectsList objectList)
         {

@@ -55,7 +55,7 @@ namespace Goat.UI
         protected override GameObject SetupCell(Buyable buyable, Transform grid, GridLayoutGroup currentLayoutGroup, bool hasMostCells)
         {
             base.SetupCell(buyable, grid, currentLayoutGroup, hasMostCells);
-            CellWithAmount cellScript = cell.GetComponent<CellWithAmount>();
+            CellWithPrice cellScript = cell.GetComponent<CellWithPrice>();
             cellScript.Setup(buyable);
             return cell;
         }
