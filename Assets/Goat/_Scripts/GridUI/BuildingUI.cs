@@ -1,4 +1,5 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Events;
+using Goat.Grid.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace Goat.UI
         [SerializeField] private RectTransform furnitureGrid;
         [SerializeField] private RectTransform farmsGrid;
         [SerializeField] private RectTransform tubesGrid;
-        [SerializeField] private Grid grid;
+        [SerializeField] private PlaceableEvent onPlaceableChosen;
         [SerializeField] private GridUIInfo gridUIInfo;
 
         protected override void Awake()
@@ -42,8 +43,11 @@ namespace Goat.UI
             if (buyable.Amount > 0)
             {
                 //  grid.interactionMode = Goat.Grid.SelectionMode.Edit;
-                grid.ChangePreviewObject((Placeable)buyable);
-                gridUIInfo.CurrentUIElement = GridUIElement.None;
+                if (buyable)
+                {
+                    onPlaceableChosen.Raise((Placeable)buyable);
+                    gridUIInfo.CurrentUIElement = GridUIElement.None;
+                }
                 //gameObject.SetActive(false);
             }
         }

@@ -29,6 +29,7 @@ MonoBehaviour:
   - {fileID: 7287223484487291377, guid: 64ff0cf3f157b134f971bd3482c3e825, type: 3}
   summary: 
   amount: 9999
+  starterAmount: 100
   deliveryTime: 0
   prefab: {fileID: 2971633504663106489, guid: 94f551d54a01ef946934eab5cd005412, type: 3}
   totalBeautyPoints: {fileID: 0}

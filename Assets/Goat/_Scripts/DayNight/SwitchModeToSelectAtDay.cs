@@ -1,12 +1,15 @@
 ﻿using Goat.Events;
+using UnityEngine;
 
 namespace Goat
 {
     public class SwitchModeToSelectAtDay : EventListenerBool
     {
+        [SerializeField] private InputModeVariable currentMode;
+
         public override void OnEventRaised(bool value)
         {
-            InputManager.Instance.InputMode = value ? InputMode.Select : InputMode.Select;
+            currentMode.InputMode = value ? InputMode.Select : InputMode.Select;
         }
     }
 }

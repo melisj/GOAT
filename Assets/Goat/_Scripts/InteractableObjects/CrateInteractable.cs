@@ -1,6 +1,5 @@
 ﻿using Goat.Storage;
 using Goat.Grid.UI;
-using Goat.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

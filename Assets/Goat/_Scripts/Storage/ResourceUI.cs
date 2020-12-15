@@ -32,16 +32,16 @@ namespace Goat.Storage
             hotKeyText.text = this.index.ToString();
             if (index <= 9)
             {
-                InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+                //InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             }
         }
 
         //49 and 257 start
-        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        private void OnInput(KeyCode code, KeyMode keyMode, InputMode inputMode)
         {
             if (code == (KeyCode)alpha + index | code == (KeyCode)numpad + index)
             {
-                if (keyMode == InputManager.KeyMode.Down)
+                if (keyMode == KeyMode.Down)
                 {
                     imageButton.onClick.Invoke();
                 }

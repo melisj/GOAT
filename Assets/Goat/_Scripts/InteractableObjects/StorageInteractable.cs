@@ -1,6 +1,5 @@
 ﻿using Goat.Storage;
 using Goat.Grid.UI;
-using Goat.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -69,7 +68,6 @@ namespace Goat.Grid.Interactions
             for (int i = amountBeingStored - 1; i >= 0; i--) {
                 itemList[itemList.ToList().FindIndex(x => x == null)] = items[i];
 
-                NpcManager.Instance.AddAvailableResource(items[i].Resource.ResourceType, 1);
                 items.RemoveAt(i);
             }
        
@@ -90,7 +88,7 @@ namespace Goat.Grid.Interactions
             List<ItemInstance> items = new List<ItemInstance>();
 
             if (amount != amountBeingStored)
-                Debug.LogWarningFormat("Could not add {0} of type {1} to inventory!", amount - amountBeingStored, type.ResourceType);
+                Debug.LogWarningFormat("Could not add {0} of type {1} to inventory!", amount - amountBeingStored, type.name);
 
             // Store items in the list
             for (int i = 0; i < amount; i++) {
@@ -110,7 +108,6 @@ namespace Goat.Grid.Interactions
         /// <returns> Returns the selected item </returns>
         public virtual ItemInstance GetResource(int index, bool returnToStock = true) {
             ItemInstance item = itemList[index];
-            NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
             itemList[index] = null;
 
             if(returnToStock)
@@ -132,7 +129,6 @@ namespace Goat.Grid.Interactions
 
             if (returnToStock) {
                 foreach (ItemInstance item in this.itemList) {
-                    NpcManager.Instance.RemoveAvailableResource(item.Resource.ResourceType, 1);
                     item.Resource.Amount++;
                 }
             }
@@ -144,15 +140,6 @@ namespace Goat.Grid.Interactions
         protected virtual void ResetStorage() {
             itemList = new ItemInstance[maxResources];
             InvokeChange();
-        }
-
-        public bool HasResource(ResourceType type)
-        {
-            for (int i = 0; i < GetItemCount; i++)
-            {
-                if (type == itemList[i].Resource.ResourceType) return true;
-            }
-            return false;
         }
 
         #endregion

@@ -9,11 +9,6 @@ public class GridObjectsList : SerializedScriptableObject
 {
     [SerializeField] private List<Buyable> buyables = new List<Buyable>();
 
-    private void OnValidate()
-    {
-        SetID();
-    }
-
     [Button("Set ID's", ButtonSizes.Large)]
     private void SetInteractables()
     {

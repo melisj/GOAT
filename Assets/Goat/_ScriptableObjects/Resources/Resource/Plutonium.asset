@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bf9a5909e435043a37e0f713020fee, type: 3}
-  m_Name: Geode
+  m_Name: Plutonium
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -24,16 +24,15 @@ MonoBehaviour:
   id: 14
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 10
-  image: {fileID: 21300000, guid: 53c8480bdba2a3248ae3566339723206, type: 3}
+  image: {fileID: 0}
   mesh:
-  - {fileID: 4444728127320036556, guid: e992381462b156f4fbbdefd7ebaac337, type: 3}
+  - {fileID: 2335931140346888333, guid: 899a7dc946ca54d45898850638efad25, type: 3}
   summary: 'This unnatural ore is largely found in small asteroids.
 
     It is often
     used to reinforce.'
   amount: 15
-  deliveryTime: 3
-  resourceType: 0
-  storageEnviroment: 0
   starterAmount: 15
+  deliveryTime: 3
+  storageEnviroment: 0
   available: 1

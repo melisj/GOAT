@@ -1,5 +1,4 @@
-﻿using Goat.Manager;
-using Goat.Pooling;
+﻿using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -106,14 +105,12 @@ namespace Goat.Grid.Interactions
             base.OnGetObject(objectInstance, poolKey);
 
             UpdateInteractable.AddListener(UpdateVisuals);
-            NpcManager.Instance.AddStorageShelve(this);
             ResetStorage();
         }
 
         public override void OnReturnObject()
         {
             ResetStorage();
-            NpcManager.Instance.RemoveStorageShelve(this);
 
             base.OnReturnObject();
         }

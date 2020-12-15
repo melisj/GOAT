@@ -1,4 +1,4 @@
-﻿using Goat.Storage;
+﻿using Goat.Events;
 using System.Collections.Generic;
 using System.IO;
 using UnityAtoms.BaseAtoms;
@@ -7,14 +7,14 @@ using UnityEngine;
 namespace Goat.Grid
 {
     [RequireComponent(typeof(GridDataHandler))]
-    public class Grid : MonoBehaviour
+    public class Grid : EventListenerKeyCodeModeEvent
     {
         [Header("Generation")]
         [SerializeField] private Wall defaultWall;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
-        public Tile[,] tiles;
+        [HideInInspector] public Tile[,] tiles;
 
         [Space(10), Header("Hit Detection")]
         [SerializeField] private LayerMask gridMask;
@@ -25,6 +25,8 @@ namespace Goat.Grid
         [SerializeField] private GameObject previewPrefab;
         [Header("Event")]
         [SerializeField] private VoidEvent onGridChange;
+        [SerializeField] private InputModeVariable currentMode;
+        [SerializeField] private GridRayCaster gridRayCaster;
         private GameObject previewObject;              // Preview object shown on grid
         private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
@@ -53,12 +55,13 @@ namespace Goat.Grid
                 dataHandler = GetComponent<GridDataHandler>();
                 dataHandler.LoadGrid();
             }
-            catch (FileNotFoundException e) {
+            catch (FileNotFoundException e)
+            {
                 print(e);
             }
 
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
-            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+            //InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            //InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
         }
 
         public void Reset()
@@ -77,7 +80,17 @@ namespace Goat.Grid
 
         #region Input
 
-        private void Instance_InputModeChanged(object sender, InputMode mode)
+        public override void OnEventRaised(KeyCodeMode value)
+        {
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+
+            OnInput(code, mode);
+        }
+
+        public void DestroyModeChange(InputMode mode)
         {
             DestroyMode = mode == InputMode.Destroy;
             if (previewObject)
@@ -96,11 +109,11 @@ namespace Goat.Grid
             }
         }
 
-        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
+        private void OnInput(KeyCode keyCode, KeyMode keyMode)
         {
-            if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
+                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(KeyMode.Pressed))
                 {
                     if (currentTile != null)
                     {
@@ -110,13 +123,13 @@ namespace Goat.Grid
                             SetupNeighborTiles(currentTileIndex);
                     }
                 }
-                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.R && keyMode.HasFlag(KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                 }
-                if (keyCode == KeyCode.T && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.T && keyMode.HasFlag(KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     autoWalls = !autoWalls;
@@ -197,7 +210,7 @@ namespace Goat.Grid
 
         private void EditTile()
         {
-            if (InputManager.Instance.InputMode == InputMode.Edit | InputManager.Instance.InputMode == InputMode.Destroy)
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
                 // Highlight tile with selected building/floor
                 currentTile = SelectTile();
@@ -245,7 +258,7 @@ namespace Goat.Grid
             if (selectedTile != null)
             {
                 ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
-                if (InputManager.Instance.InputMode == InputMode.Edit)
+                if (currentMode.InputMode == InputMode.Edit)
                 {
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
@@ -325,7 +338,7 @@ namespace Goat.Grid
         private Tile SelectTile()
         {
             Tile selectedTile = null;
-            if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, gridMask))
+            if (gridRayCaster.DoRaycastFromMouse(out RaycastHit hit, gridMask))
             {
                 Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
                 currentTileIndex = tileIndex;
@@ -357,7 +370,7 @@ namespace Goat.Grid
         /// <returns></returns>
         public Tile ReturnTile(Vector2Int tilePositionInArray)
         {
-            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) && 
+            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) &&
                 tilePositionInArray.x >= 0 && tilePositionInArray.y >= 0)
             {
                 return tiles[tilePositionInArray.x, tilePositionInArray.y];
