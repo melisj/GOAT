@@ -69,15 +69,6 @@ public class DialogueManager : MonoBehaviour
 		myDialogueOne.Clear();
 		myDialogueTwo.Clear();
 		myDialogueThree.Clear();
-	}
-	void Update()
-	{
-		nameNumber = Random.Range(0, listNameMax);
-		dialogueNumber = Random.Range(0, listDialogueMax);
-	}
-	public void StartDialogue(Dialogue dialogue)
-	{
-		animator.SetBool("IsOpen", true);
 
 		//check wich list is longest a use that one as max
 		if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count)
@@ -104,6 +95,17 @@ public class DialogueManager : MonoBehaviour
 			listNameMax = firstNames.Count;
 		}
 
+	}
+	void Update()
+	{
+		nameNumber = Random.Range(0, listNameMax);
+		dialogueNumber = Random.Range(0, listDialogueMax);
+	}
+	public void StartDialogue(Dialogue dialogue)
+	{
+		animator.SetBool("IsOpen", true);
+
+		
 		//display the name
 		for (int i = 0; i < nameNumber; i++)
 		{
@@ -116,7 +118,7 @@ public class DialogueManager : MonoBehaviour
 		animator.SetBool("IsOpen", true);
 	}
 
-	void EndDialogue()
+	public void EndDialogue()
 	{
 		animator.SetBool("IsOpen", false);
 
@@ -154,6 +156,7 @@ public class DialogueManager : MonoBehaviour
 	}
 	public void DialogueThree()
 	{
+		
 		for (int i = 0; i < dialogueNumber; i++)
 		{
 			dialogueThreeText.text = sentenceThree[i];
