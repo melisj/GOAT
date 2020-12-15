@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Goat/Scripts/Dialogue.meta
+guid: 5f354ec4293ea2349b76792166051bc4
+=======
 guid: 7d3d2f88bfefc4a4d91572357ac81ef7
+>>>>>>> feature-AI:Assets/Goat/Materials/Resources.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
