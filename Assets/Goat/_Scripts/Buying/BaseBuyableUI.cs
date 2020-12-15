@@ -255,6 +255,12 @@ namespace Goat.UI
             inputFieldSelected.Value = enable;
         }
 
+        public override void HideUI()
+        {
+            base.HideUI();
+            inputFieldSelected.Value = false;
+        }
+
         /// <summary>
         /// Toggles cells in the currentgrid based on the input of the searchbar
         /// </summary>
