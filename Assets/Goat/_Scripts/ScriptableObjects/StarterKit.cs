@@ -1,11 +1,13 @@
 ﻿using Goat.Storage;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
+using static DayNightCycle;
 
 public class StarterKit : MonoBehaviour
 {
     [SerializeField] private Money money;
     [SerializeField] private Electricity electricity;
+    [SerializeField] private TimeOfDay timeOfDay;
 
     private void Awake()
     {
@@ -14,11 +16,13 @@ public class StarterKit : MonoBehaviour
 
     private void ResetValues()
     {
-        Resource[] resources = Resources.LoadAll<Resource>("Resource");
-        for (int i = 0; i < resources.Length; i++)
+        Buyable[] buyables = Resources.LoadAll<Buyable>("");
+
+        for (int i = 0; i < buyables.Length; i++)
         {
-            resources[i].Amount = resources[i].StarterAmount;
+            buyables[i].Amount = buyables[i].StarterAmount;
         }
+        timeOfDay.Reset();
         money.Amount = money.StarterAmount;
     }
 

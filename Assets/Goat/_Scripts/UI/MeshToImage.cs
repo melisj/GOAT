@@ -9,7 +9,7 @@ public class MeshToImage : MonoBehaviour
     private const string dataType = ".png";
 
     [SerializeField] private RenderTexture rt;
-    [SerializeField, AssetList(Path = "/Goat/ScriptableObjects/Resources")] private Placeable[] placeable;
+    [SerializeField, AssetList(Path = "/Goat/_ScriptableObjects/Resources")] private Buyable[] placeable;
     [SerializeField] private int width = 32;
     [SerializeField] private int height = 32;
     [SerializeField] private bool testCameraSize;
@@ -23,7 +23,7 @@ public class MeshToImage : MonoBehaviour
     //    }
     //}
 
-    private void CreateMesh(Placeable place)
+    private void CreateMesh(Buyable place)
     {
         //     mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
         for (int i = 0; i < mesh.Length; i++)

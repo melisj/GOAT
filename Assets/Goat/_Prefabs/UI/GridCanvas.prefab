@@ -250,6 +250,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3055450864359630574, guid: d902dee921661424598c4e882770b942,
+        type: 3}
+      propertyPath: elements
+      value: 
+      objectReference: {fileID: 11400000, guid: b53af8dd2048b344394a21932d6d359c,
+        type: 2}
     - target: {fileID: 3055450864760052712, guid: d902dee921661424598c4e882770b942,
         type: 3}
       propertyPath: serializationData.Prefab

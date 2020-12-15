@@ -24,7 +24,7 @@ namespace Goat.Grid.UI
     }
 
     // Manages the UI Elements to make certain that only one element is visible at a time
-    public class GridUIManager : EventListenerKeyCodeModeEvent
+    public class GeneralUIManager : EventListenerKeyCodeModeEvent
     {
         [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
         [SerializeField] private GridUIInfo gridUIInfo;

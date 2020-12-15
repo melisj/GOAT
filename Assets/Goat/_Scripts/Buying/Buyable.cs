@@ -17,11 +17,14 @@ public class Buyable : SerializedScriptableObject
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int starterAmount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
 
     public int DeliveryTime => deliveryTime;
 
     public event EventHandler<int> AmountChanged;
+
+    public int StarterAmount => starterAmount;
 
     public int ID { get { return id; } set { id = value; } }
 

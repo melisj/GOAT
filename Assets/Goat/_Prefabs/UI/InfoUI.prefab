@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 0.3370622, g: 0.33481663, b: 0.33962262, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -583,6 +583,7 @@ GameObject:
   - component: {fileID: 607114375247337567}
   - component: {fileID: 607114375247337566}
   - component: {fileID: 607114375247337565}
+  - component: {fileID: 6856789851271088975}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -705,6 +706,30 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6856789851271088975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607114375247337552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5503408ac3442f043bf7ccee6a25c238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: b6860afce0e054341b37a42bbf089753, type: 2}
+  subscribers: 0
+  timeText: {fileID: 607114375247337565}
 --- !u!1 &607114375257957814
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +815,7 @@ GameObject:
   - component: {fileID: 607114375278929195}
   - component: {fileID: 607114375278929196}
   - component: {fileID: 607114375278929197}
+  - component: {fileID: 6636518986100501751}
   m_Layer: 5
   m_Name: DayNightIcon
   m_TagString: Untagged
@@ -853,6 +879,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6636518986100501751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607114375278929198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bb8b8f5588aae4ca7dc01cf45eb248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
+  dayNightIcon: {fileID: 607114375278929197}
+  moon: {fileID: 21300000, guid: dffe89993af4a05408226bcabcfd8078, type: 3}
+  sun: {fileID: 21300000, guid: 1f53fad5d215dc24fa50005aaf2f5405, type: 3}
 --- !u!1 &607114375366955377
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,6 +916,7 @@ GameObject:
   - component: {fileID: 607114375366955376}
   - component: {fileID: 607114375366955391}
   - component: {fileID: 607114375366955390}
+  - component: {fileID: 7349335952772456798}
   m_Layer: 5
   m_Name: Days
   m_TagString: Untagged
@@ -986,6 +1039,30 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7349335952772456798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607114375366955377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263348b03e5ae4344aa806424de419e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
+  subscribers: 0
+  dayText: {fileID: 607114375366955390}
 --- !u!1 &607114375844948741
 GameObject:
   m_ObjectHideFlags: 0
