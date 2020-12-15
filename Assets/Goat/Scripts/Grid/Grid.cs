@@ -1,5 +1,6 @@
 ﻿using Goat.Storage;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.Grid
@@ -21,6 +22,8 @@ namespace Goat.Grid
         [Space(10), Header("Preview Object")]
         [SerializeField] private Material previewMaterial;
         [SerializeField] private GameObject previewPrefab;
+        [Header("Event")]
+        [SerializeField] private VoidEvent onGridChange;
         private GameObject previewObject;              // Preview object shown on grid
         private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;

@@ -7,6 +7,7 @@ TagManager:
   - Grid
   - Storage
   - Checkout
+  - TubeEnd
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,8 @@ TagManager:
   - Floor
   - Player
   - Wall
-  - 
+  - Building
+  - ResourcePack
   - 
   - 
   - 

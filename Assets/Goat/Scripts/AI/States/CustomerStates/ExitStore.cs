@@ -25,6 +25,7 @@ namespace Goat.AI.States
         {
             if (Vector3.Distance(npc.transform.position, entrance) <= destinationDistance)
                 exitedStore = true;
+            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public void OnEnter()
@@ -41,6 +42,7 @@ namespace Goat.AI.States
             Debug.Log("Exited store");
             // Set animation
             navMeshAgent.enabled = false;
+            animator.SetFloat("Move", 0);
         }
     }
 }

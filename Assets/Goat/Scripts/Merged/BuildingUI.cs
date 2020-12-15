@@ -12,6 +12,7 @@ namespace Goat.UI
         [SerializeField] private RectTransform wallsGrid;
         [SerializeField] private RectTransform furnitureGrid;
         [SerializeField] private RectTransform farmsGrid;
+        [SerializeField] private RectTransform tubesGrid;
         [SerializeField] private Grid grid;
         [SerializeField] private GridUIInfo gridUIInfo;
 
@@ -27,6 +28,7 @@ namespace Goat.UI
             SetupGrid(wallsGrid, "Walls");
             SetupGrid(furnitureGrid, "Furniture");
             SetupGrid(farmsGrid, "Farming");
+            SetupGrid(tubesGrid, "Tubes");
         }
 
         protected override void SelectCell(int cellIndex, Buyable buyable)

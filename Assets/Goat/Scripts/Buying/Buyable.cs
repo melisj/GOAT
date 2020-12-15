@@ -8,9 +8,9 @@ using Object = UnityEngine.Object;
 
 public class Buyable : SerializedScriptableObject
 {
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int identifier;
     private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
 
+    [SerializeField, FoldoutGroup("Base Buyable data")] private int id;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
@@ -23,31 +23,17 @@ public class Buyable : SerializedScriptableObject
 
     public event EventHandler<int> AmountChanged;
 
+    public int ID { get { return id; } set { id = value; } }
+
     public Money Money => money;
     private int oldAmount = 0;
     public int OldAmount => oldAmount;
 
     public float Price => price;
 
-    public int ID => identifier;
-
     public void OnValidate()
     {
         image = Resources.Load<Sprite>(name);
-    }
-
-    [Button("Set ID's")]
-    public void SetIdentifiers()
-    {
-        Object[] list = Resources.LoadAll("", typeof(Buyable));
-        for (int i =0; i < list.Length; i++) {
-            Buyable placeable = (Buyable)list[i];
-            placeable.identifier = i;
-            EditorUtility.SetDirty(placeable);
-        }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
     }
 
     /// <summary>

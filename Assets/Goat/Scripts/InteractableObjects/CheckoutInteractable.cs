@@ -9,39 +9,63 @@ namespace Goat.Grid.Interactions
 {
     public class CheckoutInteractable : BaseInteractable
     {
+        // Queue lists
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
         private List<Customer> customerQueue = new List<Customer>();
 
-        [SerializeField, InteractableAttribute] private int maxQueue = 20;
-
+        [Header("Queue Settings")]
+        [SerializeField] private int maxQueue = 20;
         [SerializeField] Transform queueStartingPosition;
         [SerializeField] private bool overrideQueueDirection;
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
-        public int QueueLength => customerQueue.Count;
+        // Properties
+        [InteractableAttribute] public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
 
+        // Direction data for the queue
+        List<Vector2Int> directionArray = new List<Vector2Int> { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right };
+
+
         public override object[] GetArgumentsForUI()
         {
-            return new object[] { PeekCustomerFromQueue() };
+            return new object[] { PeekCustomerFromQueue(), this };
         }
 
         public void AddCustomerToQueue(Customer customer)
         {
             if (customer != null && !customerQueue.Contains(customer))
                 customerQueue.Add(customer);
+
+            InvokeChange();
         }
 
+        [Button("Remove customer")]
         public void RemoveCustomerFromQueue()
         {
-            if (customerQueue.Count > 0)
-                customerQueue.Remove(customerQueue.First());
-
-            UpdateCustomersInQueue();
+            StartCoroutine(RemoveEndOfFrame());
         }
 
+        // [BUG REPORT] https://trello.com/c/ipURDq80/141-bug-button-event-in-ui-for-removing-customer-from-queue-not-working-as-it-should
+        // Dirty fix for catching button UI event and handling event after the frame
+        private IEnumerator RemoveEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (customerQueue.Count > 0)
+            {
+                customerQueue.First().LeaveStore();
+                customerQueue.RemoveAt(0);
+
+                UpdateCustomersInQueue();
+
+                InvokeChange();
+            }
+        }
+
+        // Move the queue along
         private void UpdateCustomersInQueue()
         {
             for (int i = 0; i < customerQueue.Count; i++)
@@ -50,6 +74,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
+        // Get the first customer in the queue
         public Customer PeekCustomerFromQueue()
         {
             if (customerQueue.Count == 0) return null; 
@@ -61,6 +86,8 @@ namespace Goat.Grid.Interactions
             StartCoroutine(GenerateQueue());
         }
 
+       
+        // Create a path for the queue
         public void CreateQueue()
         {
             queueGridPositions.Clear();
@@ -71,16 +98,9 @@ namespace Goat.Grid.Interactions
 
             Vector2Int gridStartPosition = grid.CalculateTilePositionInArray(queueStartingPosition.position);
             Vector2Int currentGridPosition = gridStartPosition;
-            Vector2Int currentDirection = Vector2Int.zero;
 
             // Check direction the queue should start growing towards
-            switch (((int)rotY + 360) % 360)
-            {
-                case 0: currentDirection = Vector2Int.down; break;
-                case 90: currentDirection = Vector2Int.left; break;
-                case 180: currentDirection = Vector2Int.up; break;
-                case 270: currentDirection = Vector2Int.right; break;
-            }
+            Vector2Int currentDirection = directionArray[((int)rotY + 360) % 360 / 90];
 
             // Add queue spots
             while (queuePositions.Count < maxQueue)
@@ -89,8 +109,8 @@ namespace Goat.Grid.Interactions
                 queuePositions.Add(new Vector3(currentGridPosition.x + tileOffset, 0, currentGridPosition.y + tileOffset));
 
                 Vector2Int[] directions = { currentDirection,
-                    new Vector2Int(currentDirection.y, currentDirection.x), // Relativly right
-                    -new Vector2Int(currentDirection.y, currentDirection.x) // Relativly left
+                    new Vector2Int(currentDirection.y, currentDirection.x), // Relativly left
+                    -new Vector2Int(currentDirection.y, currentDirection.x) // Relativly right
                 };
 
                 Vector2Int tempGridPos = currentGridPosition;
@@ -98,7 +118,7 @@ namespace Goat.Grid.Interactions
                 // Check for each directions 
                 for(int i = 0; i < directions.Length; i++)
                 {
-                    if (CheckIfTileEmpty(currentGridPosition + directions[i]))
+                    if (CheckIfTileEmpty(currentGridPosition, directions[i]))
                     {
                         currentDirection = directions[i];
                         currentGridPosition += directions[i];
@@ -113,11 +133,15 @@ namespace Goat.Grid.Interactions
         }
 
         // Get tile info and check if it has a floor and not a building
-        private bool CheckIfTileEmpty(Vector2Int gridPosition)
+        private bool CheckIfTileEmpty(Vector2Int currentPosition, Vector2Int direction)
         {
-            Tile tile = grid.ReturnTile(gridPosition);
-            if (tile == null) return false;
-            return tile.IsEmpty; 
+            Tile oldTile = grid.ReturnTile(currentPosition);
+            Tile newTile = grid.ReturnTile(currentPosition + direction);
+            if (newTile == null) return false;
+
+            return newTile.IsEmpty && 
+                !newTile.HasWallOnSide(directionArray.IndexOf(-direction)) && 
+                !oldTile.HasWallOnSide(directionArray.IndexOf(direction)); 
         }
 
         // Start queue creation after the frame it was enabled
@@ -134,6 +158,11 @@ namespace Goat.Grid.Interactions
                 Gizmos.color = new Color(i / (float)queuePositions.Count, 0, 0);
                 Gizmos.DrawSphere(queuePositions[i], 0.2f);
             }
+        }
+
+        public override string PrintObject(object obj)
+        {
+            return base.PrintObject(this);
         }
     }
 }

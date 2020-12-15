@@ -31,11 +31,18 @@ namespace Goat.AI.States
             {
                 if (npc.itemsToGet.ContainsKey(npc.targetStorage.GetItems[i].Resource))
                 {
-                    Debug.LogFormat("Took {0} from storage container", npc.targetStorage.GetItems[i].Resource);
+                    if (npc is Customer)
+                        ((Customer)npc).totalPriceProducts += npc.targetStorage.GetItems[i].Resource.Price;
+
+                    Debug.LogFormat("Took {0} from storage container", npc.targetStorage.GetItems[i].Resource.name);
                     npc.AddResourceToInventory(npc.targetStorage.GetItems[i].Resource, 1);
                     npc.RemoveItemToGet(npc.targetStorage.GetItems[i].Resource, 1);
                     npc.targetStorage.GetResource(i, returnToStock);
+
+                    animator.SetTrigger("Interact");
+
                     nothingFound = false;
+
                     break;
                 }
             }

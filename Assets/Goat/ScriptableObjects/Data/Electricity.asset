@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1a7bf0de00baf438079cb59bb90029, type: 3}
   m_Name: Electricity
   m_EditorClassIdentifier: 
-  capacity: 0
-  usedElectricity: 0
+  capacity: 40
+  usedElectricity: 7

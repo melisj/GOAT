@@ -16,6 +16,7 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class StorageInteractable : BaseInteractable
     {
+        [Header("Storage")]
         [SerializeField] private List<ItemInstance> itemList = new List<ItemInstance>();
         [SerializeField] private int maxResources = 4;
         [SerializeField] private StorageEnviroment enviroment;
@@ -32,10 +33,11 @@ namespace Goat.Grid.Interactions
         {
             get => itemPhysicalHolderArray; 
             set {
+                // Load in a new save
                 itemPhysicalHolderArray = value;
                 itemList = itemPhysicalHolderArray.ToList();
                 itemList.RemoveAll((item) => item == null);
-                InformationChanged.Invoke();
+                InvokeChange();
             }
         }
 
@@ -243,13 +245,12 @@ namespace Goat.Grid.Interactions
             for (int i = 0; i < itemPhysicalHolderArray.Length; i++) {
                 itemHolderMeshList[i].mesh = itemPhysicalHolderArray[i]?.Resource.Mesh[0];
             }
-            info.CurrentSelected = this;
         }
 
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey) {
             base.OnGetObject(objectInstance, poolKey);
 
-            InformationChanged.AddListener(UpdateVisuals);
+            UpdateInteractable.AddListener(UpdateVisuals);
             NpcManager.Instance.AddStorageShelve(this);
             ResetStorage();
         }
@@ -262,5 +263,10 @@ namespace Goat.Grid.Interactions
         }
 
         #endregion
+
+        public override string PrintObject(object obj)
+        {
+            return base.PrintObject(this);
         }
+    }
 }

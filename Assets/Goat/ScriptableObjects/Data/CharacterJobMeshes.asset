@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033243c59bffa224ca628205838a0e5d, type: 3}
+  m_Name: CharacterJobMeshes
+  m_EditorClassIdentifier: 
+  characterJobMeshes:
+  - {fileID: 8210952156559034139, guid: 5580dddbf0cbf774a8e1acd4205bdfe8, type: 3}
+  - {fileID: 553841768809747293, guid: f4b27bcacef2e9948a26dcfbf50b3895, type: 3}
+  - {fileID: -825300082263429694, guid: b6b3b11d268747f48bbb96388faf6b5b, type: 3}
+  - {fileID: 5082695407070622103, guid: 9a5ca374dddd0ea49b8240d2f8416b39, type: 3}

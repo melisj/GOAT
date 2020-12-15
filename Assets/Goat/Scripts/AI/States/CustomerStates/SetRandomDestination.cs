@@ -12,7 +12,6 @@ namespace Goat.AI.States
         NPC npc;
         NavMeshAgent navMeshAgent;
         LayerMask layerMask;
-        bool hit;
         private StorageInteractable prevStorage;
         private Vector3 wanderDestination;
         private NavMeshPath navPath = new NavMeshPath();
@@ -35,8 +34,6 @@ namespace Goat.AI.States
         {
             Vector3 tempDestination;
             bool hitDestination = false;
-            //while (!hit)
-            //{
             if (RandomStorageTarget(DetectOverlap(), out tempDestination))
             {
                 wanderDestination = tempDestination;
@@ -59,19 +56,14 @@ namespace Goat.AI.States
                 else
                 {
                     npc.targetDestination = wanderDestination;
-                    hit = true;
-                    Debug.Log("Found an new destination!");
-                    //break;
+                    //Debug.Log("Found an new destination!");
                 }
             }
-
-
-            //}
         }
 
         private Collider[] DetectOverlap()
         {
-            return Physics.OverlapSphere(npc.transform.position, radius: 3, layerMask);
+            return Physics.OverlapSphere(npc.transform.position, radius: 4, layerMask);
         }
 
         private bool RandomStorageTarget(Collider[] colliders, out Vector3 result)
@@ -85,7 +77,7 @@ namespace Goat.AI.States
 
             if (colliders[randomIndex].tag == "Storage")
             {
-                tempInteractable = colliders[randomIndex].GetComponent<StorageInteractable>();
+                tempInteractable = colliders[randomIndex].GetComponentInParent<StorageInteractable>();
                 if (prevStorage != tempInteractable)
                 {
                     Vector3 tempResult = tempInteractable.transform.position + ((tempInteractable.transform.forward * Random.Range(0, 1f)) + (tempInteractable.transform.right * Random.Range(-.5f, .5f)));
@@ -120,15 +112,14 @@ namespace Goat.AI.States
 
             }
 
-            Debug.LogWarning("No hit on NavMesh!");
+            //Debug.LogWarning("No hit on NavMesh!");
             result = npc.transform.position;
             return false;
         }
 
         public void OnEnter()
         {
-            hit = false;
-            Debug.Log("Searching for target");
+            //Debug.Log("Searching for target");
             npc.targetStorage = null;
             npc.targetDestination = npc.transform.position;
             wanderDestination = npc.transform.position;

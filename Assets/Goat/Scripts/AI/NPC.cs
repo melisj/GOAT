@@ -28,7 +28,6 @@ namespace Goat.AI
         [HideInInspector] public StorageInteractable targetStorage;
         public Dictionary<Resource, int> itemsToGet = new Dictionary<Resource, int>();
 
-        [SerializeField] protected float maxSearchingTime = 60;
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
 
@@ -38,7 +37,7 @@ namespace Goat.AI
             //targetDestination = Vector3.one;
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
 

@@ -26,6 +26,7 @@ namespace Goat.Farming
         [SerializeField, EnumToggleButtons()] private FarmType farmType;
         [SerializeField] private float storageCapacity = 1;
         [SerializeField] private int amountPerSecond = 2;
+        [SerializeField] private int amountPerResource = 2;
         [SerializeField, ShowIf("farmType", FarmType.OverTimeCost)] private int costPerSecond;
         [SerializeField] private ResourceCost[] resourceCost;
         [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
@@ -42,6 +43,8 @@ namespace Goat.Farming
         public FarmDeliverType FarmDeliverType => farmDeliverType;
 
         public float StorageCapacity => storageCapacity;
+
+        public int AmountPerResource => amountPerResource;
     }
 
     [System.Serializable]
