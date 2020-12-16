@@ -22,14 +22,14 @@ namespace Goat.AI.States
             this.animator = animator;
         }
 
-        private void PlaceItemInStorageContainer()
+        /*private void PlaceItemInStorageContainer()
         {
-            Resource resourceToBePlaced = stockClerk.inventory.Keys.First();
-            int amountToBePlaced = stockClerk.inventory[resourceToBePlaced];
+            Resource resourceToBePlaced = stockClerk.Inventory.Items.Keys.First();
+            int amountToBePlaced = stockClerk.Inventory.Items[resourceToBePlaced];
             stockClerk.targetStorage.AddResource(resourceToBePlaced, amountToBePlaced, out int amountLeft);
             int amountPlaced = amountToBePlaced - amountLeft;
             stockClerk.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
-        }
+        }*/
 
         public void Tick()
         {
@@ -38,7 +38,7 @@ namespace Goat.AI.States
             {
                 //animated
                 timeToFill = Time.time + (1 / fillingSpeed);
-                PlaceItemInStorageContainer();
+                //PlaceItemInStorageContainer();
             }
             //if(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
             //filledShelve = true;

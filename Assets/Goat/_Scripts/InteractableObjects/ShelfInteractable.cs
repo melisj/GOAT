@@ -1,4 +1,5 @@
 ﻿using Goat.Pooling;
+using Goat.Storage;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,8 +31,8 @@ namespace Goat.Grid.Interactions
         public override object[] GetArgumentsForUI()
         {
             return new object[] {
-            string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
-            ItemList,
+            string.Format("Storage -=- {0}/{1}", Inventory.ItemsInInventory, maxResources),
+            Inventory,
             this };
         }
 
@@ -102,9 +103,17 @@ namespace Goat.Grid.Interactions
         // Update the meshes on the grid
         private void UpdateVisuals()
         {
-            for (int i = 0; i < ItemList.Length; i++)
+            for(int i = Inventory.ItemsInInventory; i < itemHolderMeshList.Count; i++)
             {
-                itemHolderMeshList[i].mesh = ItemList[i]?.Resource.Mesh[0];
+                itemHolderMeshList[i].mesh = null;
+            } 
+
+            for (int i = 0, h = 0; i < Inventory.Items.Count; i++)
+            {
+                for (int j = 0; j < Inventory.Items.ElementAt(i).Value; j++, h++)
+                {
+                    itemHolderMeshList[h].mesh = Inventory.Items.ElementAt(i).Key.Mesh[0];
+                }
             }
         }
 

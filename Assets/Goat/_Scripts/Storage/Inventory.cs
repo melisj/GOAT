@@ -1,47 +1,51 @@
 ﻿using Sirenix.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Goat.Storage
 {
+    [Serializable]
     public struct Inventory
     {
-        public Dictionary<Resource, int> InventoryInstance { get; }
+        public Dictionary<Resource, int> Items { get; private set; }
         private int itemsInInventory;
-        private int maxCapacity;
+        private int capacity;
 
-        private int spaceLeft => maxCapacity - itemsInInventory;
+        public int SpaceLeft => capacity - itemsInInventory;
+        public int ItemsInInventory => itemsInInventory;
+        public int Capacity => capacity;
 
         public Inventory(int maxCapacity)
         {
             itemsInInventory = 0;
-            this.maxCapacity = maxCapacity;
-            InventoryInstance = new Dictionary<Resource, int>();
+            this.capacity = maxCapacity;
+            Items = new Dictionary<Resource, int>();
         }
 
         public void Add(Resource resource, int amount, out int amountStored)
         {
-            amountStored = Mathf.Min(amount, spaceLeft);
+            amountStored = Mathf.Min(amount, SpaceLeft);
             if (amountStored == 0) return;
 
             itemsInInventory += amountStored;
 
-            if (InventoryInstance.ContainsKey(resource))
-                InventoryInstance[resource] += amountStored;
+            if (Items.ContainsKey(resource))
+                Items[resource] += amountStored;
             else
-                InventoryInstance.Add(resource, amountStored);
+                Items.Add(resource, amountStored);
         }
 
         public void Remove(Resource resource, int amount, out int amountRemoved)
         {
-            if (InventoryInstance.ContainsKey(resource))
+            if (Items.ContainsKey(resource))
             {
-                amountRemoved = Mathf.Min(amount, InventoryInstance[resource]);
+                amountRemoved = Mathf.Min(amount, Items[resource]);
 
-                InventoryInstance[resource] -= amountRemoved;
-                if (InventoryInstance[resource] <= 0)
-                    InventoryInstance.Remove(resource);
+                Items[resource] -= amountRemoved;
+                if (Items[resource] <= 0)
+                    Items.Remove(resource);
 
                 itemsInInventory -= amountRemoved;
             }
@@ -49,7 +53,20 @@ namespace Goat.Storage
                 amountRemoved = 0;
         }
 
+        public bool Contains(Resource resource)
+        {
+            return Items.ContainsKey(resource);
+        }
 
+        public void SetInventory(Dictionary<Resource, int> newInventory)
+        {
+            Items = newInventory;
+        }
 
+        public void Clear()
+        {
+            Items.Clear();
+            itemsInInventory = 0;
+        }
     }
 }

@@ -5,8 +5,8 @@
         public override object[] GetArgumentsForUI()
         {
             return new object[] {
-            string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
-            ItemList,
+            string.Format("Storage -=- {0}/{1}", Inventory.ItemsInInventory, maxResources),
+            Inventory,
             this };
         }
 

@@ -151,7 +151,7 @@ public class DialogueManager : MonoBehaviour
 	private List<string> ShowInventory(NPC customer)
 	{
 		List<string> inventory = new List<string>();
-		foreach (var item in customer.inventory)
+		foreach (var item in customer.Inventory.Items)
 		{
 			inventory.Add(string.Format("{0}x{1,10}{2,20}",item.Value,item.Key,(item.Key.Price * item.Value)));
 		}

@@ -63,7 +63,7 @@ namespace Goat.Grid.Interactions.UI
         /// <summary>
         /// Sets the storage UI up with the items given by the arguments
         /// </summary>
-        /// <param name="args"> 0 = item text : 1 = items : 2 = StorageInteractable </param>
+        /// <param name="args"> 0 = item text : 1 = inventory : 2 = StorageInteractable </param>
         public override void SetUI(object[] args) {
             base.SetUI(args);
             if (args.Length != 3)
@@ -72,73 +72,59 @@ namespace Goat.Grid.Interactions.UI
             SetStorageLimitUI(args[0].ToString());
 
             if (showSeperateObject)
-                SpawnSeperateElements((ItemInstance[])args[1], (StorageInteractable)args[2]);
+                SpawnSeperateElements((Inventory)args[1], (StorageInteractable)args[2]);
             else
-                SpawnGroupedElements((ItemInstance[])args[1]);
+                SpawnGroupedElements((Inventory)args[1]);
         }
 
-        private void SpawnGroupedElements(ItemInstance[] itemArray)
+        private void SpawnGroupedElements(Inventory inventory)
         {
-            List<Resource> resourceList = new List<Resource>();
-            List<int> amountList = new List<int>();
-            foreach (ItemInstance item in itemArray)
-            {
-                if (item != null)
-                {
-                    Resource resource = item.Resource;
-                    if (!resourceList.Contains(resource))
-                    {
-                        resourceList.Add(resource);
-                        amountList.Add(0);
-                    }
-
-                    amountList[resourceList.IndexOf(resource)] += 1;
-                }
-            }
-
             // Add icons if pool is not enough
-            while (resourceList.Count > itemIcons.Count)
+            while (inventory.Items.Count > itemIcons.Count)
             {
                 AddStorageIcon();
             }
 
-            for(int i = resourceList.Count; i < itemIcons.Count; i++)
+            for(int i = inventory.Items.Count; i < itemIcons.Count; i++)
             {
                 DisableIcon(i);
             }
 
-            for (int i = 0; i < resourceList.Count; i++)
+            for (int i = 0; i < inventory.Items.Count; i++)
             {
-                EnableIcon(i, resourceList[i].Image, amountList[i]);
+                var resource = inventory.Items.ElementAt(i);
+                EnableIcon(i, resource.Key.Image, resource.Value);
             }
         }
 
-        private void SpawnSeperateElements(ItemInstance[] itemList, StorageInteractable interactable)
+        private void SpawnSeperateElements(Inventory inventory, StorageInteractable interactable)
         {
             // Add icons if pool is not enough
-            while (itemList.Length > itemIcons.Count)
+            while (inventory.ItemsInInventory > itemIcons.Count)
             {
                 AddStorageIcon();
             }
 
-            for (int i = 0; i < itemList.Length; i++)
+
+            for (int i = inventory.ItemsInInventory; i < itemIcons.Count; i++)
             {
-                // Disable the items that are not being used
-                if (itemList[i] == null)
-                {
-                    DisableIcon(i);
-                    continue;
-                }
-                else
-                    EnableIcon(i, itemList[i].Resource.Image, 0);
+                DisableIcon(i);
+            }
 
-
-                // Add the custom event to the resource
-                if (interactable is StorageInteractable)
+            for (int i = 0, total = 0; i < inventory.Items.Count; i++)
+            {
+                for (int j = 0; j < inventory.Items.ElementAt(i).Value; j++, total++)
                 {
-                    // This needs to happen, otherwise the index will not be what it says it is
-                    int index = i;
-                    itemIcons[i].IconButton.onClick.AddListener(() => interactable.GetResource(index, true));
+                    EnableIcon(total, inventory.Items.ElementAt(i).Key.Image, 0);
+
+                    // Add the custom event to the resource
+                    if (interactable is StorageInteractable)
+                    {
+                        // This needs to happen, otherwise the index will not be what it says it is
+                        int index = i;
+                        int totalIndex = total;
+                        itemIcons[totalIndex].IconButton.onClick.AddListener(() => interactable.RemoveResource(inventory.Items.ElementAt(index).Key, 1));
+                    }
                 }
             }
         }

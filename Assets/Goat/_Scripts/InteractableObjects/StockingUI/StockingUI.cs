@@ -128,13 +128,13 @@ namespace Goat.Grid.Interactions.UI
 
         private void MaxAmount()
         {
-            amountInput.text = Interactable.SpaceLeft.ToString();
+            amountInput.text = Interactable.Inventory.SpaceLeft.ToString();
         }
 
         private void MinAmount()
         {
             if (Interactable)
-                amountInput.text = Interactable.SpaceLeft > 0 ? 1.ToString() : Interactable.SpaceLeft.ToString();
+                amountInput.text = Interactable.Inventory.SpaceLeft > 0 ? "1" : Interactable.Inventory.SpaceLeft.ToString();
         }
 
         private void ConfirmStocking()

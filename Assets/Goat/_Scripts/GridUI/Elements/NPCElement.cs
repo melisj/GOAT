@@ -71,7 +71,7 @@ namespace Goat.Grid.Interactions.UI
             int amountItems = 0;
             if (customer)
             {
-                Dictionary<Resource, int> itemList = customer.inventory;
+                Dictionary<Resource, int> itemList = customer.Inventory.Items;
                 amountItems = itemList.Count;
 
                 // Add icons if pool is not enough
