@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using Goat.AI.States;
 using Goat.Storage;
 using Goat.Grid.Interactions;
+using Goat.AI.Satisfaction;
 
 namespace Goat.AI
 {
@@ -13,6 +14,8 @@ namespace Goat.AI
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
         [SerializeField] private float maxSearchingTime = 60;
+        [SerializeField] private CustomerReview review;
+        [SerializeField] private UnloadLocations entrances;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -26,7 +29,7 @@ namespace Goat.AI
 
         [HideInInspector] public float totalPriceProducts;
 
-        ExitStore exitStore;
+        private ExitStore exitStore;
 
         //[HideInInspector] public WaitAt
         protected override void Awake()
@@ -35,13 +38,13 @@ namespace Goat.AI
 
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
-            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
+            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStore(this, navMeshAgent, animator);
+            exitStore = new ExitStore(this, navMeshAgent, animator, review, entrances);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
@@ -51,8 +54,8 @@ namespace Goat.AI
             // Movement
             Func<bool> HasStorageTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null;
-            Func<bool> StuckForSeconds() => () =>  moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize/2 &&  targetStorage == null && !searchForCheckout.inQueue;
+            Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
+            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
@@ -94,10 +97,10 @@ namespace Goat.AI
             targetDestination = newPosition;
             stateMachine.SetState(moveToDestination);
         }
+
         public void LeaveStore()
         {
             stateMachine.SetState(exitStore);
         }
     }
 }
-

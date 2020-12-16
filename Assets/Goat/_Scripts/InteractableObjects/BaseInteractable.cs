@@ -3,10 +3,7 @@ using Goat.Pooling;
 using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -60,10 +57,14 @@ namespace Goat.Grid.Interactions
         [HideInInspector] public Grid grid;
 
         public bool IsClickedOn { get; set; }
-        [InteractableAttribute("Powered")] public bool IsPowered { 
-            get { return isPowered; } 
-            set { isPowered = value; if(isPowered != value) PowerChanged?.Invoke(this, value); } 
+
+        [InteractableAttribute("Powered")]
+        public bool IsPowered
+        {
+            get { return isPowered; }
+            set { isPowered = value; if (isPowered != value) PowerChanged?.Invoke(this, value); }
         }
+
         [InteractableAttribute("Powering")] public bool IsPowering => isPowering;
 
         [InteractableAttribute("Power Cost")] public int PowerCost => powerCost;
@@ -74,11 +75,10 @@ namespace Goat.Grid.Interactions
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
 
-
         // Pooling
         public int PoolKey { get; set; }
-        public ObjectInstance ObjInstance { get; set; }
 
+        public ObjectInstance ObjInstance { get; set; }
 
         protected virtual void Awake()
         {
@@ -93,7 +93,10 @@ namespace Goat.Grid.Interactions
                 IsClickedOn = clickCollider.transform == clickedObj;
         }
 
-        public virtual object[] GetArgumentsForUI() { return null; }
+        public virtual object[] GetArgumentsForUI()
+        {
+            return null;
+        }
 
         public void OpenUIFully()
         {
@@ -143,7 +146,8 @@ namespace Goat.Grid.Interactions
 
         #region Pooling
 
-        public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey) {
+        public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
 
@@ -153,7 +157,8 @@ namespace Goat.Grid.Interactions
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
-        public virtual void OnReturnObject() {
+        public virtual void OnReturnObject()
+        {
             gameObject.transform.position = new Vector3(-1000, 0);
             gameObject.SetActive(false);
 
@@ -163,9 +168,9 @@ namespace Goat.Grid.Interactions
             UpdateInteractable.RemoveAllListeners();
         }
 
-        #endregion
+        #endregion Pooling
 
-        #region Electricity 
+        #region Electricity
 
         private void SetupElectricity()
         {
@@ -185,7 +190,6 @@ namespace Goat.Grid.Interactions
                 electricityinfo.Capacity -= powerProduction;
         }
 
-        #endregion
-
+        #endregion Electricity
     }
 }

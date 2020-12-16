@@ -19,13 +19,15 @@ namespace Goat.Grid
         private Grid grid;
         private GameObject[] wallObjs = new GameObject[4];
         private bool[] wallAuto = new bool[4];
-
+        private int totalBeautyPoints;
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
 
         // A tile is empty when does not have a building but does have a floor
         public bool IsEmpty => buildingObject == null && floorObject != null;
+
+        public int TotalBeautyPoints => totalBeautyPoints;
 
         public bool HasWallOnSide(int rotation)
         {
@@ -207,6 +209,7 @@ namespace Goat.Grid
                 }
                 buildingObject = null;
                 placeable.Sell(1);
+                totalBeautyPoints -= placeable.BeautyPoints;
             }
             else if (floorObject && (!(placeable is Building) | destroyMode))
             {
@@ -261,7 +264,7 @@ namespace Goat.Grid
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
                 }
-
+                totalBeautyPoints += placeable.BeautyPoints;
                 placeable.Buy(1);
             }
 
@@ -311,6 +314,7 @@ namespace Goat.Grid
                     //}
                     if (!autoMode)
                         wall.Sell(1);
+                    totalBeautyPoints -= wall.BeautyPoints;
                     PoolManager.Instance.ReturnToPool(wallObjs[index]);
                     wallObjs[index] = null;
                     wallAuto[index] = false;
@@ -324,8 +328,8 @@ namespace Goat.Grid
                 Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                 Vector3 size = Vector3.one * grid.GetTileSize;
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
-                if (!wallObjs[index])
-                    wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                //if (!wallObjs[index])
+                wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
 
                 wallObjs[index].transform.localScale = size;
                 wallAuto[index] = wallAuto[index] ? wallAuto[index] : autoMode;
@@ -336,6 +340,9 @@ namespace Goat.Grid
                 }
                 if (!autoMode)
                     wall.Buy(1);
+
+                totalBeautyPoints += wall.BeautyPoints;
+
                 SaveData.SetWall(wall.ID, index);
             }
             // }

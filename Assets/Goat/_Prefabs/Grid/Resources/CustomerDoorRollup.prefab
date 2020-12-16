@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2326092500523055092}
-  - component: {fileID: 2326092500523055093}
+  - component: {fileID: 7179025377746281635}
   m_Layer: 12
   m_Name: CustomerDoorRollup
   m_TagString: Checkout
@@ -111,7 +111,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2326092500523055093
+--- !u!114 &7179025377746281635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,9 +120,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2326092500523055094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bd383653df65d14ca51286ba383c60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unload: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
 --- !u!1 &2326092501206763933
 GameObject:
   m_ObjectHideFlags: 0
