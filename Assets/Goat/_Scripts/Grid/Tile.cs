@@ -261,6 +261,7 @@ namespace Goat.Grid
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
                 }
+
                 placeable.Buy(1);
             }
 
@@ -278,16 +279,38 @@ namespace Goat.Grid
             // If walltype at position exists
 
             int index = 0;
-
+            MeshFilter[] tileObjectFilter = null;
             if (rotationAngle > 0)
             {
                 index = (int)(rotationAngle / 90);
+            }
+
+            if (wallObjs[index] && !destroyMode)
+            {
+                tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                for (int i = 0; i < tileObjectFilter.Length; i++)
+                {
+                    if (!autoMode && tileObjectFilter[i].sharedMesh == wall.Mesh[i])
+                    {
+                        return true;
+                    }
+                }
             }
 
             if (wallObjs[index])
             {
                 if ((!wallAuto[index] || autoMode))
                 {
+                    //MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                    //for (int i = 0; i < tileObjectFilter.Length; i++)
+                    //{
+                    //    if (!autoMode && tileObjectFilter[i].sharedMesh != wall.Mesh[i])
+                    //    {
+                    //        tileObjectFilter[i].mesh = null;
+                    //    }
+                    //}
+                    if (!autoMode)
+                        wall.Sell(1);
                     PoolManager.Instance.ReturnToPool(wallObjs[index]);
                     wallObjs[index] = null;
                     wallAuto[index] = false;
@@ -303,14 +326,16 @@ namespace Goat.Grid
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
                 if (!wallObjs[index])
                     wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+
                 wallObjs[index].transform.localScale = size;
                 wallAuto[index] = wallAuto[index] ? wallAuto[index] : autoMode;
-                MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
                     tileObjectFilter[i].mesh = wall.Mesh[i];
                 }
-
+                if (!autoMode)
+                    wall.Buy(1);
                 SaveData.SetWall(wall.ID, index);
             }
             // }

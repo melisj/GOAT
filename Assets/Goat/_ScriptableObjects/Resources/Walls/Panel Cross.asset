@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   id: 18
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 5
+  price: 2
   image: {fileID: 21300000, guid: af217ea0c45381b45855c9e231e529b8, type: 3}
   mesh:
   - {fileID: -8160062983964278767, guid: 42736a0feb170f741b1ed94c225bfea6, type: 3}
@@ -33,4 +33,4 @@ MonoBehaviour:
   deliveryTime: 0
   prefab: {fileID: 6941252125494193769, guid: 791f7195e6b9ba9458c0697d0d4fa11e, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
-  beautyPoints: 15
+  beautyPoints: 3
