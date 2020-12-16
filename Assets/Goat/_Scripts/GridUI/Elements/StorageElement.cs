@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Goat.Storage;
+using Sirenix.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +21,11 @@ namespace Goat.Grid.Interactions.UI
 
         [SerializeField] private InteractablesInfo info;
 
-        private List<Image> itemIcons = new List<Image>();
-        private List<Button> itemButtons = new List<Button>();
+        private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
 
         private int amountOfPrewarmedStorageElements = 10;
 
-        [Serializable] private class OnClickStorageItem : UnityEvent<ItemInstance> { }
-        private OnClickStorageItem onClickItemEvt = new OnClickStorageItem();
-
-        /// <summary>
-        /// Assign a callback for clicking on a storage item
-        /// This event will return a ItemInstance of the object that was selected
-        /// </summary>
-        /// <param name="evt"> Callback for clicking on item in the UI </param>
-        public void AssignCallback(UnityAction<ItemInstance> evt) {
-            onClickItemEvt.RemoveAllListeners();
-            onClickItemEvt.AddListener(evt);
-        }
+        [SerializeField] private bool showSeperateObject;
 
         /// <summary>
         /// 
@@ -52,8 +42,7 @@ namespace Goat.Grid.Interactions.UI
         private void AddStorageIcon() {
             GameObject instance = Instantiate(info.StorageIconPrefab, gridParent);
             instance.SetActive(false);
-            itemIcons.Add(instance.GetComponent<Image>());
-            itemButtons.Add(instance.GetComponent<Button>());
+            itemIcons.Add(instance.GetComponent<InventoryIcon>());
         }
 
         // Disable a storage icon
@@ -62,13 +51,13 @@ namespace Goat.Grid.Interactions.UI
         }
 
         // Enable a storage icon with a new sprite
-        private void EnableIcon(int iconIndex, Sprite newIcon) {
+        private void EnableIcon(int iconIndex, Sprite newIcon, int amount) {
             // Reset listeners
-            itemButtons[iconIndex].onClick.RemoveAllListeners();
+            itemIcons[iconIndex].IconButton.onClick.RemoveAllListeners();
 
             // Set the element active and set the icon
             itemIcons[iconIndex].gameObject.SetActive(true);
-            itemIcons[iconIndex].sprite = newIcon;
+            itemIcons[iconIndex].SetIconData(newIcon, 0, amount);
         }
 
         /// <summary>
@@ -82,29 +71,74 @@ namespace Goat.Grid.Interactions.UI
 
             SetStorageLimitUI(args[0].ToString());
 
-            if (args[1] is List<ItemInstance>) {
-                List<ItemInstance> itemList = (List<ItemInstance>)args[1];
-                // Add icons if pool is not enough
-                while(itemList.Count > itemIcons.Count) {
-                    AddStorageIcon();
+            if (showSeperateObject)
+                SpawnSeperateElements((ItemInstance[])args[1], (StorageInteractable)args[2]);
+            else
+                SpawnGroupedElements((ItemInstance[])args[1]);
+        }
+
+        private void SpawnGroupedElements(ItemInstance[] itemArray)
+        {
+            List<Resource> resourceList = new List<Resource>();
+            List<int> amountList = new List<int>();
+            foreach (ItemInstance item in itemArray)
+            {
+                if (item != null)
+                {
+                    Resource resource = item.Resource;
+                    if (!resourceList.Contains(resource))
+                    {
+                        resourceList.Add(resource);
+                        amountList.Add(0);
+                    }
+
+                    amountList[resourceList.IndexOf(resource)] += 1;
                 }
+            }
 
-                for (int i = 0; i < itemIcons.Count; i++) {
-                    // Disable the items that are not being used
-                    if (i >= itemList.Count) {
-                        DisableIcon(i);
-                        continue;
-                    }
+            // Add icons if pool is not enough
+            while (resourceList.Count > itemIcons.Count)
+            {
+                AddStorageIcon();
+            }
 
-                    EnableIcon(i, itemList[i].Resource.Image);
+            for(int i = resourceList.Count; i < itemIcons.Count; i++)
+            {
+                DisableIcon(i);
+            }
 
-                    // Add the custom event to the resource
-                    if (args[2] is StorageInteractable) {
-                        int index = i;
-                        itemButtons[i].onClick.AddListener(() => {
-                            onClickItemEvt?.Invoke(((StorageInteractable)args[2]).GetResource(index, true)); 
-                        });
-                    }
+            for (int i = 0; i < resourceList.Count; i++)
+            {
+                EnableIcon(i, resourceList[i].Image, amountList[i]);
+            }
+        }
+
+        private void SpawnSeperateElements(ItemInstance[] itemList, StorageInteractable interactable)
+        {
+            // Add icons if pool is not enough
+            while (itemList.Length > itemIcons.Count)
+            {
+                AddStorageIcon();
+            }
+
+            for (int i = 0; i < itemList.Length; i++)
+            {
+                // Disable the items that are not being used
+                if (itemList[i] == null)
+                {
+                    DisableIcon(i);
+                    continue;
+                }
+                else
+                    EnableIcon(i, itemList[i].Resource.Image, 0);
+
+
+                // Add the custom event to the resource
+                if (interactable is StorageInteractable)
+                {
+                    // This needs to happen, otherwise the index will not be what it says it is
+                    int index = i;
+                    itemIcons[i].IconButton.onClick.AddListener(() => interactable.GetResource(index, true));
                 }
             }
         }
