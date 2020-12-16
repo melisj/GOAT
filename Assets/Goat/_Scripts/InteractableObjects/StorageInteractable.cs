@@ -15,7 +15,6 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class StorageInteractable : BaseInteractable
     {
-        [Header("Storage")]
         private ItemInstance[] itemList;
         [SerializeField]
         public ItemInstance[] ItemList
@@ -30,6 +29,8 @@ namespace Goat.Grid.Interactions
         }
 
         public List<ItemInstance> GetItems { get => ItemList.ToList(); }
+
+        [Header("Storage")]
         [SerializeField] protected int maxResources = 4;
         [SerializeField] protected StorageEnviroment enviroment;
 
@@ -39,6 +40,7 @@ namespace Goat.Grid.Interactions
 
         protected override void Awake()
         {
+            itemList = new ItemInstance[maxResources];
             base.Awake();
         }
 

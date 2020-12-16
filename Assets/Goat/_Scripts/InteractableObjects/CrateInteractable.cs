@@ -1,15 +1,23 @@
-﻿using Goat.Storage;
-using Goat.Grid.UI;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Sirenix.OdinInspector;
-using Goat.Pooling;
-
-namespace Goat.Grid.Interactions
+﻿namespace Goat.Grid.Interactions
 {
     public class CrateInteractable : StorageInteractable
     {
+        public override object[] GetArgumentsForUI()
+        {
+            return new object[] {
+            string.Format("Storage -=- {0}/{1}", GetItemCount, maxResources),
+            ItemList,
+            this };
+        }
 
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
+        public override string PrintObject(object obj)
+        {
+            return base.PrintObject(this);
+        }
     }
 }

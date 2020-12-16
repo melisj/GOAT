@@ -12,7 +12,8 @@ namespace Goat.Grid.UI
     public enum InteractableUIElement
     {
         None,
-        Storage,
+        ShelfStorage,
+        CrateStorage,
         NPC
     }
 
@@ -57,9 +58,10 @@ namespace Goat.Grid.UI
         {
             InteractableUIElement elementToLoad = InteractableUIElement.None;
 
-            if (interactable is StorageInteractable) elementToLoad = InteractableUIElement.Storage;
+            if (interactable is ShelfInteractable) elementToLoad = InteractableUIElement.ShelfStorage;
+            else if (interactable is CrateInteractable) elementToLoad = InteractableUIElement.CrateStorage;
             else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
-
+           
             SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
         }
 
@@ -104,7 +106,7 @@ namespace Goat.Grid.UI
 
             if (IsThisActive && elementId != InteractableUIElement.None)
             {
-                StockingUI.gameObject.SetActive(elementId == InteractableUIElement.Storage);
+                StockingUI.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
                 loadedType = elementId;
 
                 UIElements.TryGetValue(elementId, out UISlotElement element);
