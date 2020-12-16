@@ -19,7 +19,6 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-
         }
 
         private void FindStorageAndItems()
@@ -46,7 +45,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage").OrderBy(y => y.GetItemCount).ToList();
+            sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null).OrderBy(y => y.GetItemCount).ToList();
         }
 
         public void OnExit()
