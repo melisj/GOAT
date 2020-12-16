@@ -28,7 +28,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        public List<ItemInstance> GetItems { get => ItemList.ToList(); }
+        public List<ItemInstance> GetItems { get => ItemList.Where(x => x != null).ToList(); }
 
         [Header("Storage")]
         [SerializeField] protected int maxResources = 4;
@@ -145,10 +145,5 @@ namespace Goat.Grid.Interactions
         }
 
         #endregion
-
-        public override string PrintObject(object obj)
-        {
-            return base.PrintObject(this);
-        }
     }
 }

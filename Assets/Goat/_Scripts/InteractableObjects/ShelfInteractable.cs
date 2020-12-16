@@ -125,9 +125,5 @@ namespace Goat.Grid.Interactions
 
         #endregion
 
-        public override string PrintObject(object obj)
-        {
-            return base.PrintObject(this);
-        }
     }
 }

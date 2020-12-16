@@ -18,9 +18,9 @@ public class InventoryIcon : MonoBehaviour
     public void SetIconData(Sprite resourceIcon, float price, int amount)
     {
         this.resourceIcon.sprite = resourceIcon;
-        if(priceText && price != 0)
-            priceText.text = string.Format("Price: {0}", price);
-        if(amountText && amount != 0)
-            amountText.text = string.Format("Amount: {0}", amount);
+        if(priceText)
+            priceText.text = price != 0 ? string.Format("Price: {0}", price) : "";
+        if(amountText)
+            amountText.text = amount != 0 ? string.Format("Amount: {0}", amount) : "";
     }
 }

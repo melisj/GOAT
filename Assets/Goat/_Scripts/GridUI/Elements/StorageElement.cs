@@ -79,28 +79,37 @@ namespace Goat.Grid.Interactions.UI
 
         private void SpawnGroupedElements(ItemInstance[] itemArray)
         {
-            Dictionary<Resource, int> itemDictionary = new Dictionary<Resource, int>();
+            List<Resource> resourceList = new List<Resource>();
+            List<int> amountList = new List<int>();
             foreach (ItemInstance item in itemArray)
             {
-                //.item.Resource;
-                //item.Resource 
-                //itemDictionary.Add(item, );
+                if (item != null)
+                {
+                    Resource resource = item.Resource;
+                    if (!resourceList.Contains(resource))
+                    {
+                        resourceList.Add(resource);
+                        amountList.Add(0);
+                    }
+
+                    amountList[resourceList.IndexOf(resource)] += 1;
+                }
             }
 
             // Add icons if pool is not enough
-            while (amountItems > itemIcons.Count)
+            while (resourceList.Count > itemIcons.Count)
             {
                 AddStorageIcon();
             }
 
-            for(int i = amountItems; i < itemIcons.Count; i++)
+            for(int i = resourceList.Count; i < itemIcons.Count; i++)
             {
                 DisableIcon(i);
             }
 
-            for (int i = 0; i < amountItems; i++)
+            for (int i = 0; i < resourceList.Count; i++)
             {
-                EnableIcon(i, itemHashSet.ElementAt(i).Resource.Image, 10);
+                EnableIcon(i, resourceList[i].Image, amountList[i]);
             }
         }
 

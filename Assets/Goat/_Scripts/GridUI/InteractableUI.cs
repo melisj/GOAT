@@ -93,7 +93,6 @@ namespace Goat.Grid.UI
             {
                 titleText.text = title;
                 descriptionText.text = description;
-                infoText.text = info.PrintObject(info);
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
         }

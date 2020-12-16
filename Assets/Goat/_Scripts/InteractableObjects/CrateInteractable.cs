@@ -14,10 +14,5 @@
         {
             base.Awake();
         }
-
-        public override string PrintObject(object obj)
-        {
-            return base.PrintObject(this);
-        }
     }
 }
