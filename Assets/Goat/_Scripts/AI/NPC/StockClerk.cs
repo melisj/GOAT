@@ -22,9 +22,12 @@ namespace Goat.AI
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
+            PlaceItem placeItem = new PlaceItem(this, animator);
+            SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
+            SetStorageTarget setStorageTarget = new SetStorageTarget(this);
 
             // Conditions
-
+            Func<bool> hasTarget() => () => targetStorage != null;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
