@@ -487,21 +487,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: reviews
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Review, Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 8c7276c304311e64da48e016b8e4c525, type: 2}
   subscribers: 0
+  reviews: []
   satisfactionLevel: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}
 --- !u!4 &1457055972
 Transform:
