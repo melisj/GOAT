@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Goat.Storage
 {
     [Serializable]
-    public struct Inventory
+    public class Inventory
     {
         public Dictionary<Resource, int> Items { get; private set; }
         private int itemsInInventory;
@@ -61,6 +61,10 @@ namespace Goat.Storage
         public void SetInventory(Dictionary<Resource, int> newInventory)
         {
             Items = newInventory;
+            foreach (var item in Items) {
+                itemsInInventory += item.Value;
+            }
+            Debug.Log(itemsInInventory);
         }
 
         public void Clear()
