@@ -4,13 +4,14 @@ using UnityEngine;
 using Goat.AI;
 using Goat.Grid.Interactions;
 using System.Linq;
+using Goat.Storage;
 
 namespace Goat.AI.States
 {
     public class SearchForEmptyShelves : IState
     {
         StockClerk stockClerk;
-        List<StorageInteractable> sortedStorages;
+        private bool foundEmptyShelves;
 
         public SearchForEmptyShelves(StockClerk stockClerk)
         {
@@ -21,36 +22,38 @@ namespace Goat.AI.States
         {
         }
 
-        private void FindStorageAndItems()
+        private void FindStorageAndItems(List<StorageInteractable> storages)
         {
+            if (storages.Count == 0 || storages == null) return;
+
             // Somehow check which shelves are already selected by other employeets
-            StorageInteractable tempStorage;
-            int itemsToGetCount = 0;
-            while (itemsToGetCount < stockClerk.maxCarryLoad)
+            while (stockClerk.ItemsToGet.SpaceLeft > 0 && storages.Count > 0)
             {
-                itemsToGetCount = 0;
+                StorageInteractable tempStorage = storages.First();
+                Resource tempResource = tempStorage.MainResource;
+                int amountToGet = tempStorage.Inventory.SpaceLeft;
 
-                // Somehow check for each item to add if storage target is already in list and if item can still be added.
-
-                //check how many items 
-                foreach (var item in stockClerk.itemsToGet)
+                stockClerk.ItemsToGet.Add(tempResource, amountToGet, out int amountStored);
+                if (amountStored > 0)
                 {
-                    itemsToGetCount += item.Value;
+                    stockClerk.targetStorages.Add(tempStorage);
+                    storages.RemoveAt(0);
                 }
             }
-            // while itemsToGet.count < maxCarryLoad
-            // take first empty storage from list and add to storagetargets list and remove from sortedStorages.
-            // add items to itemsToGet until storages is finished or itemsToGet is full.
+
+            foundEmptyShelves = true;
         }
 
         public void OnEnter()
         {
-            sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null).OrderBy(y => y.GetItemCount).ToList();
+            foundEmptyShelves = false;
+            List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft != 0).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
+            FindStorageAndItems(sortedStorages);
+            sortedStorages.Clear();
         }
 
         public void OnExit()
         {
-            sortedStorages.Clear();
         }
     }
 }

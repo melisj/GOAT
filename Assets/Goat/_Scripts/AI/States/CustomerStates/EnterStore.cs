@@ -7,26 +7,26 @@ namespace Goat.AI.States
 {
     public class EnterStore : IState
     {
-        private Customer customer;
+        private NPC npc;
         private NavMeshAgent navMeshAgent;
         private Animator animator;
         public bool enteredStore;
         Vector3 entrance;
-        private float destinationDistance = 3;
+        private float destinationDistance = 0.2f;
 
-        public EnterStore(Customer customer, NavMeshAgent navMeshAgent, Animator animator)
+        public EnterStore(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
         {
-            this.customer = customer;
+            this.npc = npc;
             this.navMeshAgent = navMeshAgent;
             this.animator = animator;
         }
 
         public void Tick()
         {
-            if (Vector3.Distance(customer.transform.position, entrance) <= destinationDistance)
+            if (Vector3.Distance(npc.transform.position, entrance) <= destinationDistance)
             {
                 enteredStore = true;
-                customer.enteredStore = this.enteredStore;
+                //npc.enteredStore = this.enteredStore;
             }
         }
 
@@ -44,7 +44,7 @@ namespace Goat.AI.States
             Debug.Log("Entered store");
             // Set animation
             navMeshAgent.enabled = false;
-            customer.enterTime = Time.time;
+            npc.enterTime = Time.time;
         }
     }
 }

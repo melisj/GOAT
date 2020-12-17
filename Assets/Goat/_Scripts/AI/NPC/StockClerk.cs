@@ -12,13 +12,13 @@ namespace Goat.AI
     public class StockClerk : NPC
     {
         public StorageLocations storageLocations;
-        public int maxCarryLoad = 20;
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
 
         protected override void Awake()
         {
             base.Awake();
 
+            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
@@ -27,7 +27,10 @@ namespace Goat.AI
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
 
             // Conditions
-            Func<bool> hasTarget() => () => targetStorage != null;
+            Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
+            Func<bool> HasTarget() => () => targetStorage != null;
+            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+            Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filledShelve && targetStorages.Count > 0;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);

@@ -15,7 +15,6 @@ namespace Goat.AI
         // Check variable visability
         public float npcSize = 1f;
         public float wanderRange = 10f;
-        [HideInInspector] public int carriedItemValue;
         [SerializeField] private int maxInventory;
 
         protected StateMachine stateMachine;

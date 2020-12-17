@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Goat.Grid.Interactions;
+using System.Linq;
 
 namespace Goat.AI.States
 {
@@ -23,7 +24,7 @@ namespace Goat.AI.States
             StorageInteractable tempStorage;
             if(stockClerk.targetStorages != null && stockClerk.targetStorages.Count > 0)
             {
-                tempStorage = stockClerk.targetStorages[0];
+                tempStorage = stockClerk.targetStorages.First();
                 stockClerk.targetStorages.RemoveAt(0);
                 return tempStorage;
             }
