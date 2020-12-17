@@ -122,7 +122,10 @@ namespace Goat.Farming
 
                     if (!connectedFarm)
                     {
-                        connectedFarm = previousTube.ConnectedFarm;
+                        if (previousTube)
+                        {
+                            connectedFarm = previousTube.ConnectedFarm;
+                        }
                     }
                 }
             }

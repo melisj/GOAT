@@ -121,6 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6562094742737124037}
   - component: {fileID: 1819247231626801989}
+  - component: {fileID: 2722855070482406779}
   m_Layer: 9
   m_Name: CooledStorageShelf-1
   m_TagString: Storage
@@ -169,6 +170,22 @@ MonoBehaviour:
   grid: {fileID: 0}
   maxResources: 2
   enviroment: 2
+  elementToLoad: 0
+  itemHolderMeshList: []
+  itemResourceArray: []
+--- !u!114 &2722855070482406779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6562094742737124038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &6562094743352375190
 GameObject:
   m_ObjectHideFlags: 0

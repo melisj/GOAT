@@ -11,4 +11,6 @@ public class Placeable : Buyable
     [SerializeField] private int beautyPoints;
 
     public GameObject Prefab => prefab;
+
+    public int BeautyPoints => beautyPoints;
 }

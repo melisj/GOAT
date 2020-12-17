@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6512529876676933935}
   - component: {fileID: 1624015345233473710}
+  - component: {fileID: 5559156003630423158}
   m_Layer: 10
   m_Name: UnloadArea
   m_TagString: Untagged
@@ -45,6 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unload: {fileID: 11400000, guid: 706157082f9aad142b923694830ffe3c, type: 2}
+--- !u!114 &5559156003630423158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624015345233473709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &2435749049012677713
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,14 +11,16 @@ namespace Goat.AI.States
         private NavMeshAgent navMeshAgent;
         private Animator animator;
         public bool enteredStore;
-        Vector3 entrance;
+        private Vector3 entrance;
         private float destinationDistance = 3;
+        private UnloadLocations entrances;
 
-        public EnterStore(Customer customer, NavMeshAgent navMeshAgent, Animator animator)
+        public EnterStore(Customer customer, NavMeshAgent navMeshAgent, Animator animator, UnloadLocations entrances)
         {
             this.customer = customer;
             this.navMeshAgent = navMeshAgent;
             this.animator = animator;
+            this.entrances = entrances;
         }
 
         public void Tick()
@@ -35,7 +37,9 @@ namespace Goat.AI.States
             enteredStore = false;
             navMeshAgent.enabled = true;
             // Set animation
-            entrance = GameObject.Find("Entrance").transform.position;
+            //entrance = GameObject.Find("Entrance").transform.position;
+            entrance = entrances.Locations.GetNearest(customer.transform.position);
+
             navMeshAgent.SetDestination(entrance);
         }
 
@@ -48,4 +52,3 @@ namespace Goat.AI.States
         }
     }
 }
-

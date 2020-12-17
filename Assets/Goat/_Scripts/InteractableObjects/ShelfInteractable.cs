@@ -10,8 +10,8 @@ namespace Goat.Grid.Interactions
 {
     public class ShelfInteractable : StorageInteractable
     {
-        public List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
-        public Resource[] itemResourceArray;
+        private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
+        private Resource[] itemResourceArray;
 
         // Get or create a item holder object
         private Transform ItemHolderParent;

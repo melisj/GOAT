@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using Goat.Grid.Interactions;
 using System.Linq;
 using Goat.Storage;
+using Goat.Events;
+using Sirenix.OdinInspector;
+using UnityAtoms.BaseAtoms;
+using DG.Tweening;
+using System;
 
 namespace Goat.AI
 {
     public class FieldOfView : MonoBehaviour
     {
+        private const int MAX_OBSTACLES = 10;
+        private const int MAX_TILES = 20;
+
         [Header("How fast a customer uses its FOV a second")]
         [SerializeField] private float viewingSpeed = 10;
 
@@ -16,12 +24,14 @@ namespace Goat.AI
         [Range(0, 360)]
         [SerializeField] private float viewAngle;
 
-        [SerializeField] private LayerMask targetMask;
+        [SerializeField] private LayerMask tilesMask;
+        [SerializeField] private LayerMask storageMask;
+
         [SerializeField] private LayerMask obstacleMask;
         [SerializeField] private LayerMask debugObstacles;
 
-        private List<Transform> visibleTargets = new List<Transform>();
-        private Transform[] visibleTargetsArray = new Transform[0];
+        [SerializeField] private List<Transform> visibleTargets = new List<Transform>();
+        [SerializeField] private Transform[] visibleTargetsArray = new Transform[0];
 
         [SerializeField] private float meshResolution;
         [SerializeField] private int edgeResolveIterations;
@@ -29,12 +39,24 @@ namespace Goat.AI
 
         [SerializeField] private float maskCutawayDst = .1f;
 
-        Mesh viewMesh;
+        private Mesh viewMesh;
 
         [SerializeField] private Customer customer;
+        [Title("Events")]
+        [SerializeField] private Vector3Event tileTargetFoundEvent;
         //[HideInInspector] StorageInteractable targetStorage, impulseStorage;
+        private Sequence findTargetSequence;
+        private WaitForSeconds waitDelay;
+        private Collider[] tiles;
+        [SerializeField] private RaycastHit[] obstaclesHits;
 
-        void Awake()
+        private Collider currentTarget;
+        [SerializeField] private Collider[] targetsInViewRadius;
+        public float ViewAngle => viewAngle;
+
+        public float ViewRadius => viewRadius;
+
+        private void Awake()
         {
             viewMesh = new Mesh();
             viewMesh.name = "View Mesh";
@@ -44,80 +66,194 @@ namespace Goat.AI
 
             customer = GetComponentInParent<Customer>();
 
-            //StartCoroutine(FindTargetsWithDelay(viewingSpeed));
+            findTargetSequence = DOTween.Sequence();
+            findTargetSequence.SetLoops(-1);
+            findTargetSequence.AppendCallback(FindVisibleTargets);
+            findTargetSequence.AppendInterval(3);
+            tiles = new Collider[MAX_TILES];
+            obstaclesHits = new RaycastHit[MAX_OBSTACLES];
+            waitDelay = new WaitForSeconds(2);
+            //StartCoroutine(FindTargetsWithDelay());
         }
 
-
-        IEnumerator FindTargetsWithDelay(float delay)
+        private IEnumerator FindTargetsWithDelay()
         {
             while (true)
             {
-                if(customer.targetStorage == null && customer.enteredStore)
-                {
-                    FindVisibleTargets();
-                    //Debug.LogFormat("Looking with FOV {0}", customer.targetStorage == null);
-                }
-                yield return new WaitForSeconds(1 / delay);
+                //if (customer.targetStorage == null && customer.enteredStore)
+                //{
+                FindVisibleTargets();
+                Debug.Log("CALLED");
+
+                //Debug.LogFormat("Looking with FOV {0}", customer.targetStorage == null);
+                //}
+                yield return waitDelay;
             }
         }
 
-        private void FixedUpdate()
-        {
-            FindVisibleTargets();
-            //DrawFieldOfView();
-        }
+        //private void Update()
+        //{
+        //    if (Time.frameCount % 144 == 0)
+        //    {
+        //        FindVisibleTargets();
+        //    }
+        //}
+
+        //private float timeSinceLastCalled;
+
+        //private float delay = 0.5f;
+
+        //private void Update()
+        //{
+        //    timeSinceLastCalled += Time.deltaTime;
+        //    if (timeSinceLastCalled > delay)
+        //    {
+        //        FindVisibleTargets();
+        //        timeSinceLastCalled = 0f;
+        //    }
+        //}
+
+        //private void FixedUpdate()
+        //{
+        //    FindVisibleTargets();
+        //    //DrawFieldOfView();
+        //}
 
         /// <summary>
         /// Find targets based on layer.
         /// </summary>
-        void FindVisibleTargets()
+        private void FindVisibleTargets()
         {
             // Clear target list to avoid duplicates.
-            visibleTargets.Clear();
             // Find targets in range.
-            Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+            FindVisibleStorages();
+            FindVisibleTiles();
+
+            //  FindVisibleTiles();
+
+            // order list by target distance form customer (and turn into array for faster alocation)
+        }
+
+        private void FindVisibleTiles()
+        {
+            if (Physics.OverlapSphereNonAlloc(transform.position, viewRadius, tiles, tilesMask) <= 0) return;
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                currentTarget = tiles[i];
+                if (!currentTarget) continue;
+
+                Vector3 dirToTarget = (currentTarget.bounds.center - transform.position).normalized;
+                // Only check targets within viewing angle.
+                if (!(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)) continue;
+
+                if (TargetObstructed(currentTarget, dirToTarget)) continue;
+
+                tileTargetFoundEvent.Raise(currentTarget.gameObject.transform.position);
+            }
+        }
+
+        private void FindVisibleStorages()
+        {
+            visibleTargets.Clear();
+
+            targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, storageMask);
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
-                Vector3 dirToTarget = (targetsInViewRadius[i].bounds.center - transform.position).normalized;
+                currentTarget = targetsInViewRadius[i];
+                Vector3 dirToTarget = (currentTarget.bounds.center - transform.position).normalized;
                 // Only check targets within viewing angle.
-                if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+                if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
-                    //targetsInRadius++;
-                    if(targetsInViewRadius[i].tag == "Storage")
-                    {
-                        string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().gameObject.name;
-                        float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].bounds.center);
-                        Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.red);
+                    if (TargetObstructed(currentTarget, dirToTarget)) continue;
 
-                        // Check if Raycast hits target or if there is another target or obstacle blocking it.
-                        if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask) &&
-                            Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, targetMask))
-                        {
-                            if(hit.transform.tag.Equals("Storage"))
-                                if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName)
-                                    visibleTargets.Add(targetsInViewRadius[i].transform);
-                        }
-                    }
+                    CheckForStorageTarget(currentTarget);
                 }
             }
 
-            // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
             if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
+                Debug.Log(targetStorage);
                 customer.targetStorage = targetStorage;
                 customer.targetDestination = targetStorage.transform.position;
                 //Debug.Log("Found target to get item from!");
             }
         }
 
+        public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal)
+        {
+            if (!angleIsGlobal)
+            {
+                angleInDegrees += transform.eulerAngles.y;
+            }
+
+            return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        }
+
+        private bool TargetObstructed(Collider targetInView, Vector3 dirToTarget)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, targetInView.bounds.center);
+            // Debug.DrawRay(transform.position, dirToTarget * 100, Color.magenta);
+            //  return Physics.OverlapSphereNonAlloc(targetInView.bounds.center, 0.1f, obstacles, obstacleMask) > 0;
+            //return Physics.OverlapSphere(targetInView.transform.position, 0.5f, obstacleMask).Length > 0;
+            return (Physics.RaycastNonAlloc(transform.position, dirToTarget, obstaclesHits, distanceToTarget, obstacleMask)) > 0;
+            //  return Physics.Linecast(transform.position, targetInView.transform.position, obstacleMask);
+            //RaycastNonAlloc(Vector3 origin, Vector3 direction, RaycastHit[] results, float maxDistance, int layerMask);
+        }
+
+        private void CheckForStorageTarget(Collider[] targetsInViewRadius, int i, Vector3 dirToTarget)
+        {
+            if (targetsInViewRadius[i].tag == "Storage")
+            {
+                string tempStorageName = targetsInViewRadius[i].GetComponentInParent<StorageInteractable>().gameObject.name;
+                float distanceToTarget = Vector3.Distance(transform.position, targetsInViewRadius[i].bounds.center);
+                Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.red);
+
+                // Check if Raycast hits target or if there is another target or obstacle blocking it.
+                if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask) &&
+                    Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distanceToTarget, storageMask))
+                {
+                    if (hit.transform.tag.Equals("Storage"))
+                        if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName)
+                            visibleTargets.Add(targetsInViewRadius[i].transform);
+                }
+            }
+        }
+
+        private void CheckForStorageTarget(Collider target)
+        {
+            if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
+            {
+                if (target.CompareTag("Storage"))
+                {
+                    visibleTargets.Add(target.transform);
+                }
+            }
+        }
+
+        //private void OnDrawGizmos()
+        //{
+        //    for (int i = 0; i < targetsInViewRadius.Length; i++)
+        //    {
+        //        if (!targetsInViewRadius[i]) continue;
+        //        Vector3 dirToTarget = (targetsInViewRadius[i].bounds.center - transform.position).normalized;
+        //        if (!(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)) continue;
+
+        //        Gizmos.color = TargetObstructed(targetsInViewRadius[i], dirToTarget) ? Color.red : Color.green;
+        //        // Only check targets within viewing angle.
+        //        Vector3 pos = targetsInViewRadius[i].bounds.center;
+        //        Gizmos.DrawSphere(pos, 0.1f);
+        //    }
+        //}
+
         /// <summary>
         /// Checks if a visible target contains any of the items the customer is searching for.
         /// </summary>
         /// <param name="target"> Out parameter of type StorageInteractable</param>
         /// <returns></returns>
-        bool ContainsGroceries(out StorageInteractable target)
+        private bool ContainsGroceries(out StorageInteractable target)
         {
             for (int i = 0; i < visibleTargetsArray.Length; i++)
             {
@@ -140,13 +276,12 @@ namespace Goat.AI
         //{
         //    bool buy = false;
 
-
         //    return buy;
         //}
 
         #region MeshRenderer for Field of View
 
-        void DrawFieldOfView()
+        private void DrawFieldOfView()
         {
             int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
             float stepAngleSize = viewAngle / stepCount;
@@ -168,9 +303,7 @@ namespace Goat.AI
                         if (edge.pointB != Vector3.zero)
                             viewPoints.Add(edge.pointB);
                     }
-
                 }
-
 
                 viewPoints.Add(newViewCast.point);
                 oldViewCast = newViewCast;
@@ -200,8 +333,7 @@ namespace Goat.AI
             viewMesh.RecalculateNormals();
         }
 
-
-        EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+        private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
         {
             float minAngle = minViewCast.angle;
             float maxAngle = maxViewCast.angle;
@@ -229,8 +361,7 @@ namespace Goat.AI
             return new EdgeInfo(minPoint, maxPoint);
         }
 
-
-        ViewCastInfo ViewCast(float globalAngle)
+        private ViewCastInfo ViewCast(float globalAngle)
         {
             Vector3 dir = DirFromAngle(globalAngle, true);
             RaycastHit hit;
@@ -277,6 +408,6 @@ namespace Goat.AI
             }
         }
 
-        #endregion
+        #endregion MeshRenderer for Field of View
     }
 }
