@@ -13,9 +13,9 @@ namespace Goat.AI
     {
         public int maxCarryLoad = 20;
 
-        protected override void Awake()
+        protected override void Setup()
         {
-            base.Awake();
+            base.Setup();
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);

@@ -13,12 +13,13 @@ namespace Goat.AI
     {
         public StorageLocations storageLocations;
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+        [SerializeField] private UnloadLocations entrances;
 
-        protected override void Awake()
+        protected override void Setup()
         {
-            base.Awake();
+            base.Setup();
 
-            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator);
+            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
@@ -31,9 +32,21 @@ namespace Goat.AI
             Func<bool> HasTarget() => () => targetStorage != null;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filledShelve && targetStorages.Count > 0;
+            Func<bool> EnteredStore() => () => enterStore.enteredStore;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
+
+            AT(enterStore, searchForEmptyShelves, EnteredStore());
+            //Find containers
+            //Take items from containers
+            //Set empty target
+            //Move to target
+            //Place item in target
+            //Set empty target
+            //Search for empty targets
+
+
         }
     }
 }

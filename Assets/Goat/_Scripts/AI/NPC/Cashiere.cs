@@ -9,9 +9,9 @@ namespace Goat.AI
     public class Cashiere : NPC
     {
 
-        protected override void Awake()
+        protected override void Setup()
         {
-            base.Awake();
+            base.Setup();
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
 

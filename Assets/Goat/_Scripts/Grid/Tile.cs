@@ -19,13 +19,15 @@ namespace Goat.Grid
         private Grid grid;
         private GameObject[] wallObjs = new GameObject[4];
         private bool[] wallAuto = new bool[4];
-
+        private int totalBeautyPoints;
         public GameObject FloorObj => floorObject;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
 
         // A tile is empty when does not have a building but does have a floor
         public bool IsEmpty => buildingObject == null && floorObject != null;
+
+        public int TotalBeautyPoints => totalBeautyPoints;
 
         public bool HasWallOnSide(int rotation)
         {
@@ -123,7 +125,7 @@ namespace Goat.Grid
         {
             if (placeable)
             {
-                if (placeable.CanBuy(1))
+                if (placeable.CanBuy(1) && !destroyMode)
                     return true;
             }
 
@@ -199,6 +201,7 @@ namespace Goat.Grid
             {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
                 //this.placeable.Amount++;
 
+                PlaceableInfo placeableInfo = buildingObject.GetComponent<PlaceableInfo>();
                 SaveData.SetBuilding(-1, 0);
                 PoolManager.Instance.ReturnToPool(buildingObject);
                 if (buildingObject == tileObject)
@@ -206,12 +209,16 @@ namespace Goat.Grid
                     tileObject = null;
                 }
                 buildingObject = null;
-                placeable.Sell(1);
+
+                placeableInfo.Placeable.Sell(1);
+                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+                placeableInfo.Setup(null);
             }
             else if (floorObject && (!(placeable is Building) | destroyMode))
             {
                 //So we deleted the building most likely, now it's time to delete the floor
                 //this.placeable.Amount++;
+                PlaceableInfo placeableInfo = floorObject.GetComponent<PlaceableInfo>();
 
                 SaveData.SetFloor(-1, 0);
                 PoolManager.Instance.ReturnToPool(floorObject);
@@ -220,7 +227,9 @@ namespace Goat.Grid
                     tileObject = null;
                 }
                 floorObject = null;
-                placeable.Sell(1);
+                placeableInfo.Placeable.Sell(1);
+                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+                placeableInfo.Setup(null);
             }
             if (placeable != null && !destroyMode)
             {
@@ -229,6 +238,8 @@ namespace Goat.Grid
                 // tileObject = GameObject.Instantiate(newObject, centerPosition, rotation);
 
                 tileObject = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                PlaceableInfo placeableInfo = tileObject.GetComponent<PlaceableInfo>();
+                placeableInfo.Setup(placeable);
                 MeshFilter[] tileObjectFilter = tileObject.GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
@@ -261,7 +272,7 @@ namespace Goat.Grid
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
                 }
-
+                totalBeautyPoints += placeable.BeautyPoints;
                 placeable.Buy(1);
             }
 
@@ -309,11 +320,15 @@ namespace Goat.Grid
                     //        tileObjectFilter[i].mesh = null;
                     //    }
                     //}
+                    PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                     if (!autoMode)
-                        wall.Sell(1);
+                        placeableInfo.Placeable.Sell(1);
+
+                    totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
                     PoolManager.Instance.ReturnToPool(wallObjs[index]);
                     wallObjs[index] = null;
                     wallAuto[index] = false;
+                    placeableInfo.Setup(null);
                     SaveData.SetWall(-1, index);
                 }
             }
@@ -324,9 +339,10 @@ namespace Goat.Grid
                 Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                 Vector3 size = Vector3.one * grid.GetTileSize;
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
-                if (!wallObjs[index])
-                    wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
-
+                //if (!wallObjs[index])
+                wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
+                PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
+                placeableInfo.Setup(wall);
                 wallObjs[index].transform.localScale = size;
                 wallAuto[index] = wallAuto[index] ? wallAuto[index] : autoMode;
                 tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
@@ -335,7 +351,10 @@ namespace Goat.Grid
                     tileObjectFilter[i].mesh = wall.Mesh[i];
                 }
                 if (!autoMode)
-                    wall.Buy(1);
+                    placeableInfo.Placeable.Buy(1);
+
+                totalBeautyPoints += placeableInfo.Placeable.BeautyPoints;
+
                 SaveData.SetWall(wall.ID, index);
             }
             // }
