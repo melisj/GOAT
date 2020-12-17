@@ -1,4 +1,5 @@
-﻿using Sirenix.Utilities;
+﻿using Newtonsoft.Json;
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,11 +18,19 @@ namespace Goat.Storage
         public int ItemsInInventory => itemsInInventory;
         public int Capacity => capacity;
 
+        public delegate void InventoryChanged();
+        public event InventoryChanged InventoryChangedEvent;
+
+        public delegate void InventoryReset();
+        public event InventoryReset InventoryResetEvent;
+
         public Inventory(int maxCapacity)
         {
             itemsInInventory = 0;
             this.capacity = maxCapacity;
             Items = new Dictionary<Resource, int>();
+
+            InventoryResetEvent?.Invoke();
         }
 
         public void Add(Resource resource, int amount, out int amountStored)
@@ -35,6 +44,8 @@ namespace Goat.Storage
                 Items[resource] += amountStored;
             else
                 Items.Add(resource, amountStored);
+
+            InventoryChangedEvent?.Invoke();
         }
 
         public void Remove(Resource resource, int amount, out int amountRemoved)
@@ -51,6 +62,8 @@ namespace Goat.Storage
             }
             else
                 amountRemoved = 0;
+
+            InventoryChangedEvent?.Invoke();
         }
 
         public bool Contains(Resource resource)
@@ -64,13 +77,38 @@ namespace Goat.Storage
             foreach (var item in Items) {
                 itemsInInventory += item.Value;
             }
-            Debug.Log(itemsInInventory);
+
+            InventoryResetEvent?.Invoke();
+        }
+
+        public string Save()
+        {
+            Dictionary<int, int> tempStorage = new Dictionary<int, int>();
+            foreach (var item in Items)
+            {
+                tempStorage.Add(item.Key.ID, item.Value);
+            }
+            return JsonConvert.SerializeObject(tempStorage);
+        }
+
+        public void Load(string storageString, ref GridObjectsList objectList)
+        {
+            Dictionary<int, int> jsonItems = JsonConvert.DeserializeObject<Dictionary<int, int>>(storageString);
+            Dictionary<Resource, int> items = new Dictionary<Resource, int>();
+            foreach (var item in jsonItems)
+            {
+                items.Add((Resource)objectList.GetObject(item.Key), item.Value);
+            }
+
+            SetInventory(items);
         }
 
         public void Clear()
         {
             Items.Clear();
             itemsInInventory = 0;
+
+            InventoryResetEvent?.Invoke();
         }
     }
 }

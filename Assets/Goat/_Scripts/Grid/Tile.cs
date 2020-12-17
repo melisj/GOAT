@@ -378,13 +378,16 @@ public class TileInfo
     public Vector2Int gridPosition;
     public int[] identifiers;
     public int[] rotations;
-    public Inventory storage;
+    //public Dictionary<int, int> storage;
+    public string storage;
+    //public Inventory storage;
 
     public TileInfo(Vector2Int gridPosition)
     {
         this.gridPosition = gridPosition;
         identifiers = new int[6] { -1, -1, -1, -1, -1, -1 };
         rotations = new int[2];
+        storage = "";
     }
 
     public void SaveStorageData(GameObject building, ref GridObjectsList objectList)
@@ -393,34 +396,17 @@ public class TileInfo
         {
             StorageInteractable interactable = building.GetComponentInChildren<StorageInteractable>();
             if (interactable)
-            {
-                storage = interactable.Inventory;
-                /*ItemInstance[] temp = interactable.ItemList;
-                storage = new int[temp.Length];
-                for (int i = 0; i < temp.Length; i++)
-                {
-                    storage[i] = temp[i] != null ? temp[i].Resource.ID : -1;
-                }*/
-            }
+                storage = interactable.Inventory.Save();
         }
     }
 
     public void LoadStorageData(GameObject building, ref GridObjectsList objectList)
     {
-        if (building && storage.ItemsInInventory != 0)
+        if (building && storage.Length != 0)
         {
             StorageInteractable interactable = building.GetComponentInChildren<StorageInteractable>();
             if (interactable)
-            {
-                interactable.SetInventory(storage);
-                /*ItemInstance[] instanceList = new ItemInstance[storage.Length];
-                for (int i = 0; i < instanceList.Length; i++)
-                {
-                    if (storage[i] != -1)
-                        instanceList[i] = new ItemInstance((Resource)objectList.GetObject(storage[i]));
-                }
-                interactable.ItemList = instanceList;*/
-            }
+                interactable.Inventory.Load(storage, ref objectList);
         }
     }
 
