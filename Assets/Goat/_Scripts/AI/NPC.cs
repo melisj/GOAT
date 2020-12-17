@@ -7,10 +7,11 @@ using Goat.Grid.Interactions;
 using Goat.Storage;
 using Goat.AI.States;
 using Sirenix.OdinInspector;
+using Goat.Pooling;
 
 namespace Goat.AI
 {
-    public class NPC : SerializedMonoBehaviour
+    public class NPC : SerializedMonoBehaviour, IPoolObject
     {
         // Check variable visability
         public float npcSize = 1f;
@@ -31,16 +32,22 @@ namespace Goat.AI
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
 
-        protected virtual void Awake()
+        public int PoolKey { get; set; }
+        public ObjectInstance ObjInstance { get; set; }
+
+        //protected virtual void Awake()
+        //{
+        //    //awakeTime = Time.time;
+        //    //targetDestination = Vector3.one;
+        //}
+
+        protected virtual void Setup()
         {
-            //awakeTime = Time.time;
-            //targetDestination = Vector3.one;
             stateMachine = new StateMachine();
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
-
         }
 
         protected virtual void Update() => stateMachine.Tick();
@@ -52,6 +59,7 @@ namespace Goat.AI
             else
                 inventory.Add(resource, amount);
         }
+
         public void RemoveResourceFromInventory(Resource resource, int amount)
         {
             if (inventory.ContainsKey(resource))
@@ -61,6 +69,7 @@ namespace Goat.AI
                     inventory.Remove(resource);
             }
         }
+
         public void RemoveItemToGet(Resource resource, int amount)
         {
             if (itemsToGet.ContainsKey(resource))
@@ -70,6 +79,17 @@ namespace Goat.AI
                     itemsToGet.Remove(resource);
             }
         }
+
+        public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        {
+            ObjInstance = objectInstance;
+            PoolKey = poolKey;
+            Setup();
+        }
+
+        public virtual void OnReturnObject()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
-

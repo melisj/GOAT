@@ -111,18 +111,20 @@ MonoBehaviour:
   viewingSpeed: 10
   viewRadius: 6
   viewAngle: 90
-  targetMask:
+  tilesMask:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 1024
   storageMask:
     serializedVersion: 2
     m_Bits: 512
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 4608
+    m_Bits: 4096
   debugObstacles:
     serializedVersion: 2
     m_Bits: 4608
+  visibleTargets: []
+  visibleTargetsArray: []
   meshResolution: 1
   edgeResolveIterations: 1
   edgeDstThreshold: 1
@@ -308,6 +310,7 @@ GameObject:
   - component: {fileID: 1159842780784928027}
   - component: {fileID: 3091236255396643805}
   - component: {fileID: 6035689405171998871}
+  - component: {fileID: 7639261632784874316}
   m_Layer: 0
   m_Name: ReviewFactors
   m_TagString: Untagged
@@ -358,6 +361,20 @@ MonoBehaviour:
   reviewWeight: {fileID: 11400000, guid: c26835a8c663977408e0ed3270d87fce, type: 2}
   subscribedEvent: {fileID: 11400000, guid: 15a2ba14e2b82e94ca4d359c416d9a6d, type: 2}
   subscribers: 0
+--- !u!114 &7639261632784874316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797977141250261532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411abb9bca6ba694ebc31ce65ff042c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reviewWeight: {fileID: 11400000, guid: ed17fe3bddd7230479af5806b2db88f2, type: 2}
+  npc: {fileID: 2094399924142381524}
 --- !u!114 &2094399923083953297
 MonoBehaviour:
   m_ObjectHideFlags: 0

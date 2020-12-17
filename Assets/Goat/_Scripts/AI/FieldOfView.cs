@@ -7,12 +7,15 @@ using Goat.Events;
 using Sirenix.OdinInspector;
 using UnityAtoms.BaseAtoms;
 using DG.Tweening;
+using System;
 
 namespace Goat.AI
 {
     public class FieldOfView : MonoBehaviour
     {
         private const int MAX_OBSTACLES = 10;
+        private const int MAX_TILES = 20;
+
         [Header("How fast a customer uses its FOV a second")]
         [SerializeField] private float viewingSpeed = 10;
 
@@ -20,14 +23,14 @@ namespace Goat.AI
         [Range(0, 360)]
         [SerializeField] private float viewAngle;
 
-        [SerializeField] private LayerMask targetMask;
+        [SerializeField] private LayerMask tilesMask;
         [SerializeField] private LayerMask storageMask;
 
         [SerializeField] private LayerMask obstacleMask;
         [SerializeField] private LayerMask debugObstacles;
 
-        private List<Transform> visibleTargets = new List<Transform>();
-        private Transform[] visibleTargetsArray = new Transform[0];
+        [SerializeField] private List<Transform> visibleTargets = new List<Transform>();
+        [SerializeField] private Transform[] visibleTargetsArray = new Transform[0];
 
         [SerializeField] private float meshResolution;
         [SerializeField] private int edgeResolveIterations;
@@ -43,12 +46,11 @@ namespace Goat.AI
         //[HideInInspector] StorageInteractable targetStorage, impulseStorage;
         private Sequence findTargetSequence;
         private WaitForSeconds waitDelay;
-        private Collider[] obstacles;
-        private RaycastHit[] obstaclesHits;
+        private Collider[] tiles;
+        [SerializeField] private RaycastHit[] obstaclesHits;
 
         private Collider currentTarget;
         [SerializeField] private Collider[] targetsInViewRadius;
-
         public float ViewAngle => viewAngle;
 
         public float ViewRadius => viewRadius;
@@ -63,23 +65,25 @@ namespace Goat.AI
 
             customer = GetComponentInParent<Customer>();
 
-            //findTargetSequence = DOTween.Sequence();
-            //findTargetSequence.SetLoops(-1);
-            //findTargetSequence.AppendInterval(0.5f);
-            //findTargetSequence.AppendCallback(FindVisibleTargets);
-            obstacles = new Collider[MAX_OBSTACLES];
+            findTargetSequence = DOTween.Sequence();
+            findTargetSequence.SetLoops(-1);
+            findTargetSequence.AppendCallback(FindVisibleTargets);
+            findTargetSequence.AppendInterval(3);
+            tiles = new Collider[MAX_TILES];
             obstaclesHits = new RaycastHit[MAX_OBSTACLES];
             waitDelay = new WaitForSeconds(2);
-            StartCoroutine(FindTargetsWithDelay(viewingSpeed));
+            //StartCoroutine(FindTargetsWithDelay());
         }
 
-        private IEnumerator FindTargetsWithDelay(float delay)
+        private IEnumerator FindTargetsWithDelay()
         {
             while (true)
             {
                 //if (customer.targetStorage == null && customer.enteredStore)
                 //{
                 FindVisibleTargets();
+                Debug.Log("CALLED");
+
                 //Debug.LogFormat("Looking with FOV {0}", customer.targetStorage == null);
                 //}
                 yield return waitDelay;
@@ -120,9 +124,39 @@ namespace Goat.AI
         private void FindVisibleTargets()
         {
             // Clear target list to avoid duplicates.
-            visibleTargets.Clear();
             // Find targets in range.
-            targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+            FindVisibleStorages();
+            FindVisibleTiles();
+
+            //  FindVisibleTiles();
+
+            // order list by target distance form customer (and turn into array for faster alocation)
+        }
+
+        private void FindVisibleTiles()
+        {
+            if (Physics.OverlapSphereNonAlloc(transform.position, viewRadius, tiles, tilesMask) <= 0) return;
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                currentTarget = tiles[i];
+                if (!currentTarget) continue;
+
+                Vector3 dirToTarget = (currentTarget.bounds.center - transform.position).normalized;
+                // Only check targets within viewing angle.
+                if (!(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)) continue;
+
+                if (TargetObstructed(currentTarget, dirToTarget)) continue;
+
+                tileTargetFoundEvent.Raise(currentTarget.gameObject.transform.position);
+            }
+        }
+
+        private void FindVisibleStorages()
+        {
+            visibleTargets.Clear();
+
+            targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, storageMask);
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
@@ -131,19 +165,16 @@ namespace Goat.AI
                 // Only check targets within viewing angle.
                 if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
-                    //targetsInRadius++;
-                    CheckForStorageTarget(targetsInViewRadius, i, dirToTarget);
-
                     if (TargetObstructed(currentTarget, dirToTarget)) continue;
 
-                    tileTargetFoundEvent.Raise(currentTarget.gameObject.transform.position);
+                    CheckForStorageTarget(currentTarget);
                 }
             }
 
-            // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
             if (customer.itemsToGet.Count > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
+                Debug.Log(targetStorage);
                 customer.targetStorage = targetStorage;
                 customer.targetDestination = targetStorage.transform.position;
                 //Debug.Log("Found target to get item from!");
@@ -162,11 +193,11 @@ namespace Goat.AI
 
         private bool TargetObstructed(Collider targetInView, Vector3 dirToTarget)
         {
-            //float distanceToTarget = Vector3.Distance(transform.position, targetInView.bounds.center);
-            //Debug.DrawRay(transform.position, dirToTarget * 100, Color.magenta);
+            float distanceToTarget = Vector3.Distance(transform.position, targetInView.bounds.center);
+            // Debug.DrawRay(transform.position, dirToTarget * 100, Color.magenta);
             //  return Physics.OverlapSphereNonAlloc(targetInView.bounds.center, 0.1f, obstacles, obstacleMask) > 0;
             //return Physics.OverlapSphere(targetInView.transform.position, 0.5f, obstacleMask).Length > 0;
-            return (Physics.RaycastNonAlloc(transform.position, dirToTarget, obstaclesHits, 100, obstacleMask)) > 0;
+            return (Physics.RaycastNonAlloc(transform.position, dirToTarget, obstaclesHits, distanceToTarget, obstacleMask)) > 0;
             //  return Physics.Linecast(transform.position, targetInView.transform.position, obstacleMask);
             //RaycastNonAlloc(Vector3 origin, Vector3 direction, RaycastHit[] results, float maxDistance, int layerMask);
         }
@@ -187,6 +218,14 @@ namespace Goat.AI
                         if (hit.transform.GetComponentInParent<StorageInteractable>().gameObject.name == tempStorageName)
                             visibleTargets.Add(targetsInViewRadius[i].transform);
                 }
+            }
+        }
+
+        private void CheckForStorageTarget(Collider target)
+        {
+            if (target.CompareTag("Storage"))
+            {
+                visibleTargets.Add(target.transform);
             }
         }
 

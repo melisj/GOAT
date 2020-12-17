@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e0f34ecc5e1a44868f377d2285558, type: 3}
   m_Name: SearchTimeWeight
   m_EditorClassIdentifier: 
-  weight: 0.69152397
+  weight: 10

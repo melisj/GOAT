@@ -21,6 +21,7 @@ namespace Goat.AI.Satisfaction
             Review review = new Review();
 
             review.ReviewFactors = new int[reviewFactors.Length];
+            review.SatisfactionPoints = 0;
 
             for (int i = 0; i < reviewFactors.Length; i++)
             {

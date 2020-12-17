@@ -10,7 +10,7 @@ public class SpawnPrefabOnKeyDown : MonoBehaviour
     {
         if (Input.GetKeyDown(m_KeyCode) && m_Prefab != null)
         {
-            Instantiate(m_Prefab, transform.position, transform.rotation);
+            //Instantiate(m_Prefab, transform.position, transform.rotation);
             amountSpawned++;
         }
     }

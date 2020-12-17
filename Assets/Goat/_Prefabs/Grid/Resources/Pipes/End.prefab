@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 3317845011053807669}
   - component: {fileID: 3317845011053807668}
   - component: {fileID: 1267717291007311182}
+  - component: {fileID: -5263532696533251496}
   m_Layer: 12
   m_Name: End
   m_TagString: TubeEnd
@@ -125,6 +126,19 @@ MonoBehaviour:
   resPacks: []
   pos: {x: 0, y: 0, z: -1.2}
   colls: []
+--- !u!114 &-5263532696533251496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317845011053807819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1001 &3317845009433361491
 PrefabInstance:
   m_ObjectHideFlags: 0

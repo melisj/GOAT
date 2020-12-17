@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 6257709004261703043}
   - component: {fileID: 1110723869718704107}
   - component: {fileID: 4116500539755273296}
+  - component: {fileID: -1485341760395434713}
   m_Layer: 12
   m_Name: OilWell
   m_TagString: Untagged
@@ -124,6 +125,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9297d7a092e47a4481b05905d15d3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: tubeEnds
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   farmStationSettings: {fileID: 11400000, guid: 84f536058b4f572408f3e886c0da10af,
     type: 2}
   radius: 0.3
@@ -137,6 +160,7 @@ MonoBehaviour:
   debugPathIndex: 0
   connectedTubes: []
   onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  resPacks: []
 --- !u!114 &4116500539755273296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +181,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: endTubes
+      Entry: 6
+      Data: 
   subscribedEvent: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   subscribers: 0
   farmStation: {fileID: 1110723869718704107}
@@ -166,7 +193,19 @@ MonoBehaviour:
     points: []
   paths: []
   colors: []
-  nodes: []
+--- !u!114 &-1485341760395434713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0

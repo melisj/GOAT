@@ -410,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5809023636791556662}
   - component: {fileID: 5809023636791556660}
+  - component: {fileID: -6540123680578139229}
   m_Layer: 9
   m_Name: StorageShelf-3
   m_TagString: Storage
@@ -458,6 +459,19 @@ MonoBehaviour:
   grid: {fileID: 0}
   maxResources: 6
   enviroment: 0
+--- !u!114 &-6540123680578139229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809023636791556661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &5809023637207023964
 GameObject:
   m_ObjectHideFlags: 0
