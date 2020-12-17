@@ -21,6 +21,10 @@ namespace Goat.Grid.Interactions
         [Header("Storage")]
         [SerializeField] protected int maxResources = 4;
         [SerializeField] protected StorageEnviroment enviroment;
+        [SerializeField] protected InteractableUIElement elementToLoad = InteractableUIElement.ShelfStorage;
+
+        public InteractableUIElement ElementToLoad => elementToLoad;
+
 
         protected override void Awake()
         {

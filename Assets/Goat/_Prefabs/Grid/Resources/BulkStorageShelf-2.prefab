@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6091984048075900294}
   - component: {fileID: 5883457481183923984}
+  - component: {fileID: -5137220808193811601}
   m_Layer: 9
   m_Name: BulkStorageShelf-2
   m_TagString: Storage
@@ -57,7 +58,20 @@ MonoBehaviour:
   grid: {fileID: 0}
   maxResources: 40
   enviroment: 0
-  mainResource: {fileID: 0}
+  elementToLoad: 2
+--- !u!114 &-5137220808193811601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2159719696188646359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &2260955763589966103
 GameObject:
   m_ObjectHideFlags: 0

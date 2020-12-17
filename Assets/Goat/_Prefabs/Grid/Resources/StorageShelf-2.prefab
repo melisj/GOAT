@@ -138,9 +138,7 @@ MonoBehaviour:
   grid: {fileID: 0}
   maxResources: 4
   enviroment: 0
-  elementToLoad: 0
-  itemHolderMeshList: []
-  itemResourceArray: []
+  elementToLoad: 1
 --- !u!114 &1706500133508893392
 MonoBehaviour:
   m_ObjectHideFlags: 0
