@@ -29,6 +29,7 @@ namespace Goat.AI.Satisfaction
                 review.SatisfactionPoints += reviewFactors[i].GetReviewPoints();
             }
 
+            Debug.Log($"{review.SatisfactionPoints} {reviewFactors.Length} {review.SatisfactionPoints / reviewFactors.Length}");
             review.SatisfactionPoints /= reviewFactors.Length;
 
             reviewEvent.Raise(review);
