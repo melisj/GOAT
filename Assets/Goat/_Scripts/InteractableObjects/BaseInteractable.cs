@@ -13,21 +13,6 @@ using UnityEngine.Events;
 namespace Goat.Grid.Interactions
 {
     /// <summary>
-    /// This attribute is for tagging value that should be printed out on the informations tab
-    /// This attribute can also be used to give a custom name
-    /// [TODO] can also flag the way a attribute should be displayed (eg. just numbers or health bar type display or something else)
-    /// </summary>
-    public class InteractableAttribute : Attribute
-    {
-        public string customName;
-
-        public InteractableAttribute(string customName = "")
-        {
-            this.customName = customName;
-        }
-    }
-
-    /// <summary>
     /// Base script for every interactable object in the game
     /// Contains information of the object
     /// </summary>
@@ -60,14 +45,14 @@ namespace Goat.Grid.Interactions
         [HideInInspector] public Grid grid;
 
         public bool IsClickedOn { get; set; }
-        [InteractableAttribute("Powered")] public bool IsPowered { 
+        public bool IsPowered { 
             get { return isPowered; } 
             set { isPowered = value; if(isPowered != value) PowerChanged?.Invoke(this, value); } 
         }
-        [InteractableAttribute("Powering")] public bool IsPowering => isPowering;
+        public bool IsPowering => isPowering;
 
-        [InteractableAttribute("Power Cost")] public int PowerCost => powerCost;
-        [InteractableAttribute("Power Production")] public int PowerProduction => powerProduction;
+        public int PowerCost => powerCost;
+        public int PowerProduction => powerProduction;
 
         public string Description => description;
         public string Name => name;
@@ -120,25 +105,6 @@ namespace Goat.Grid.Interactions
         protected virtual void InvokeChange()
         {
             UpdateInteractable.Invoke();
-        }
-
-        // Print out all the variables tagged with "InteractableInfo"
-        public virtual string PrintObject(object obj)
-        {
-            string infoList = "";
-
-            PropertyInfo[] fields = obj.GetType().GetProperties();
-            foreach (PropertyInfo field in fields)
-            {
-                InteractableAttribute meta = (InteractableAttribute)field.GetCustomAttribute(typeof(InteractableAttribute), true);
-                if (meta != null)
-                {
-                    string variableName = meta.customName != "" ? meta.customName : field.Name;
-                    infoList += string.Format("{0} - {1}\n", variableName, field.GetValue(obj).ToString());
-                }
-            }
-
-            return infoList;
         }
 
         #region Pooling

@@ -21,7 +21,7 @@ namespace Goat.Grid.Interactions
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
         // Properties
-        [InteractableAttribute] public int QueueLength => customerQueue.Count;
+        public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
 
@@ -162,11 +162,6 @@ namespace Goat.Grid.Interactions
                 Gizmos.color = new Color(i / (float)queuePositions.Count, 0, 0);
                 Gizmos.DrawSphere(queuePositions[i], 0.2f);
             }
-        }
-
-        public override string PrintObject(object obj)
-        {
-            return base.PrintObject(this);
         }
     }
 }

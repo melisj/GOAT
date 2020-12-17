@@ -2,8 +2,9 @@
 {
     using Sirenix.OdinInspector;
     using UnityEngine;
+    using Goat.Events;
 
-    public class MovementSystem : MonoBehaviour
+    public class MovementSystem : EventListenerKeyCodeModeEvent
     {
         #region Private Fields
 
@@ -25,26 +26,9 @@
 
         #endregion Private Fields
 
-        private void OnEnable()
-        {
-            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
-        }
-
         protected virtual void Instance_InputModeChanged(object sender, InputMode e)
         {
             inSelectMode = e == InputMode.Select;
-        }
-
-        protected virtual void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
-        {
-        }
-
-        protected virtual void OnDisable()
-        {
-            InputManager.Instance.InputModeChanged -= Instance_InputModeChanged;
-
-            InputManager.Instance.OnInputEvent -= Instance_OnInputEvent;
         }
 
         protected virtual Vector3 GetMoveDirection()
@@ -69,6 +53,20 @@
             currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
             moveableObject.Translate(moveTo * currentSpeed * Time.unscaledDeltaTime);
+        }
+
+        protected virtual void OnInput(KeyCode code, KeyMode keyMode)
+        {
+        }
+
+        public override void OnEventRaised(KeyCodeMode value)
+        {
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+
+            OnInput(code, mode);
         }
     }
 }

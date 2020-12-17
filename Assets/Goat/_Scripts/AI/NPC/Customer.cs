@@ -57,11 +57,11 @@ namespace Goat.AI
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.storageDepleted;
-            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (itemsToGet.Count == 0 && enterStore.enteredStore)) && searchForCheckout.checks < 1;
+            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore)) && searchForCheckout.checks < 1;
             Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
             // Interaction
-            Func<bool> AskForHelp() => () => itemsToGet.Count > 0 && searchingTime >= maxSearchingTime;
+            Func<bool> AskForHelp() => () => ItemsToGet.ItemsInInventory > 0 && searchingTime >= maxSearchingTime;
             // Checkout
             Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && navMeshAgent.remainingDistance < 0.1f;
 

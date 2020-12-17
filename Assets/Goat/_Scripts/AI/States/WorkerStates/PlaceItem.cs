@@ -12,57 +12,33 @@ namespace Goat.AI.States
     {
 
         private float fillingSpeed = 1, timeToFill = 0;
-        private NPC npc;
+        private StockClerk stockClerk;
         private Animator animator;
         public bool filledShelve;
 
-        private Resource resourceToBePlaced;
-
-        public PlaceItem(NPC npc, Animator animator)
+        public PlaceItem(StockClerk stockClerk, Animator animator)
         {
-            this.npc = npc;
+            this.stockClerk = stockClerk;
             this.animator = animator;
         }
 
-        // WarehouseWorker
-        private void PlaceItemInStorageContainer()
+        /*private void PlaceItemInStorageContainer()
         {
-            // Rewrite this shit
-            //Resource resourceToBePlaced = npc.inventory.Keys.First();
-            //int amountToBePlaced = npc.inventory[resourceToBePlaced];
-            //npc.targetStorage.AddResource(resourceToBePlaced, amountToBePlaced, out int amountLeft);
-            //int amountPlaced = amountToBePlaced - amountLeft;
-            //npc.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
-
-            // Has to work for big storage containers which don't exist yet
-
-        }
-        // StockClerk
-        private void PlaceItemOnShelves()
-        {
-            if(npc.targetStorage.SpaceLeft > 0 && npc.inventory.ContainsKey(resourceToBePlaced))
-            {
-                npc.targetStorage.AddResource(resourceToBePlaced, 1, out int amountPlaced);
-                npc.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
-                animator.SetTrigger("Interact");
-            }
-            else
-            {
-                filledShelve = true;
-            }
-        }
+            Resource resourceToBePlaced = stockClerk.Inventory.Items.Keys.First();
+            int amountToBePlaced = stockClerk.Inventory.Items[resourceToBePlaced];
+            stockClerk.targetStorage.AddResource(resourceToBePlaced, amountToBePlaced, out int amountLeft);
+            int amountPlaced = amountToBePlaced - amountLeft;
+            stockClerk.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
+        }*/
 
         public void Tick()
         {
             //&& !(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
-            if (timeToFill <= Time.time && !filledShelve)
+            if (timeToFill <= Time.time )
             {
+                //animated
                 timeToFill = Time.time + (1 / fillingSpeed);
-
-                if (npc is StockClerk)
-                    PlaceItemOnShelves();
-                else if (npc is WarehouseWorker)
-                    PlaceItemInStorageContainer();
+                //PlaceItemInStorageContainer();
             }
             //if(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
             //filledShelve = true;
@@ -71,8 +47,6 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             filledShelve = false;
-            if(npc is StockClerk)
-                resourceToBePlaced = npc.targetStorage.MainResource;
         }
 
         public void OnExit()

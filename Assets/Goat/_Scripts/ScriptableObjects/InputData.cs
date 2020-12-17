@@ -11,8 +11,8 @@ namespace Goat
     [CreateAssetMenu(fileName = "Inputs", menuName = "InputData")]
     public class InputData : SerializedScriptableObject
     {
-        [SerializeField] private Dictionary<KeyCode, InputManager.KeyMode> inputKeys = new Dictionary<KeyCode, InputManager.KeyMode>();
+        [SerializeField] private Dictionary<KeyCode, KeyMode> inputKeys = new Dictionary<KeyCode, KeyMode>();
 
-        public Dictionary<KeyCode, InputManager.KeyMode> InputKeys => inputKeys ;
+        public Dictionary<KeyCode, KeyMode> InputKeys => inputKeys;
     }
 }

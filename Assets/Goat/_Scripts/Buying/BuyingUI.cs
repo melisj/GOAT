@@ -200,12 +200,12 @@ namespace Goat.UI
                     for (int i = 0; i < station.ResourceCost.Length; i++)
                     {
                         ResourceCost resCost = station.ResourceCost[i];
-                        stringBuilder.AppendLine(resCost.CostType.ToString() + "\tx" + resCost.Amount);
+                        stringBuilder.AppendLine(resCost.GetResource.name.ToString() + "\tx" + resCost.Amount);
                     }
                 }
                 stringBuilder.AppendLine("Delivery type: " + station.FarmDeliverType);
                 stringBuilder.AppendLine("Capacity: " + station.StorageCapacity.ToString());
-                stringBuilder.AppendLine("Farm: " + station.ResourceFarm.ResourceType.ToString() + " x" + station.AmountPerSecond + "/s");
+                stringBuilder.AppendLine("Farm: " + station.ResourceFarm.name.ToString() + " x" + station.AmountPerSecond + "/s");
                 if (station.FarmType == FarmType.OverTimeCost)
                 {
                     stringBuilder.AppendLine("Production cost: " + station.CostPerSecond + "/s");

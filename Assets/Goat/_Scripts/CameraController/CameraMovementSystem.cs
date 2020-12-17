@@ -6,9 +6,9 @@ namespace Goat.CameraControls
 {
     public class CameraMovementSystem : MovementSystem
     {
-        protected override void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        protected override void OnInput(KeyCode code, KeyMode keyMode)
         {
-            if (keyMode.HasFlag(InputManager.KeyMode.Pressed))
+            if (keyMode.HasFlag(KeyMode.Pressed))
             {
                 moveTo = GetMoveDirection();
                 Move();

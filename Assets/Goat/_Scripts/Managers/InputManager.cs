@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
+using Goat.Events;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat
 {
@@ -14,48 +16,24 @@ namespace Goat
         Destroy
     }
 
+    [Flags]
+    public enum KeyMode
+    {
+        None = 0,
+        Up = 1,
+        Down = 2,
+        Pressed = 4,
+        All = 7
+    }
+
     public class InputManager : SerializedMonoBehaviour
     {
-        private static InputManager instance;
-
-        public static InputManager Instance
-        {
-            get
-            {
-                if (!instance)
-                {
-                    instance = FindObjectOfType<InputManager>();
-                }
-                return instance;
-            }
-        }
-
-        [Flags]
-        public enum KeyMode
-        {
-            None = 0,
-            Up = 1,
-            Down = 2,
-            Pressed = 4,
-            All = 7
-        }
-
-        public InputMode InputMode
-        {
-            get => inputMode;
-            set
-            {
-                if (value != inputMode)
-                {
-                    InputModeChanged?.Invoke(this, value);
-                    onInputModeChanged.Raise(value);
-                }
-                inputMode = value;
-            }
-        }
-
         [SerializeField] private InputMode inputMode;
         [SerializeField] private InputModeEvent onInputModeChanged;
+        [SerializeField] private KeyCodeModeEvent onNewInput;
+
+        [SerializeField] private BoolVariable inputFieldSelected;
+        [SerializeField] private InputData data;
 
         public delegate void OnInput(KeyCode code, KeyMode keyMode, InputMode inputMode);
 
@@ -63,11 +41,7 @@ namespace Goat
 
         public event EventHandler<InputMode> InputModeChanged;
 
-        [SerializeField] private InputData data;
-
         private Dictionary<KeyCode, KeyMode> inputKeys => data.InputKeys;
-
-        public bool InputFieldSelected { get; set; }
 
         /// <summary>
         /// Raycast from the position of the mouse to the world
@@ -90,7 +64,7 @@ namespace Goat
 
         private void Update()
         {
-            if (!InputFieldSelected)
+            if (!inputFieldSelected.Value)
             {
                 CheckKeys();
             }
@@ -104,12 +78,17 @@ namespace Goat
                 KeyCode currentCode = enumerator.Current.Key;
                 KeyMode toCheckMode = enumerator.Current.Value;
                 KeyMode currentMode = KeyMode.None;
+                KeyCodeMode keyCodeMode = new KeyCodeMode();
+                keyCodeMode.Item1 = currentCode;
+                keyCodeMode.Item2 = toCheckMode;
                 if (toCheckMode.HasFlag(KeyMode.Up))
                 {
                     if (Input.GetKeyUp(currentCode))
                     {
                         currentMode |= KeyMode.Up;
-                        OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        // OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+
+                        onNewInput.Raise(keyCodeMode);
                         currentMode &= ~KeyMode.Up;
                     }
                 }
@@ -119,7 +98,9 @@ namespace Goat
                     {
                         currentMode |= KeyMode.Down;
 
-                        OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        // OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        onNewInput.Raise(keyCodeMode);
+
                         currentMode &= ~KeyMode.Down;
                     }
                 }
@@ -129,7 +110,9 @@ namespace Goat
                     {
                         currentMode |= KeyMode.Pressed;
 
-                        OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        //   OnInputEvent.Invoke(currentCode, currentMode, InputMode);
+                        onNewInput.Raise(keyCodeMode);
+
                         currentMode &= ~KeyMode.Pressed;
                     }
                 }

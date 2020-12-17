@@ -4,6 +4,7 @@ using UnityEngine;
 using Goat.Storage;
 using Goat.Grid.Interactions;
 using System;
+using System.Linq;
 
 namespace Goat.AI.States
 {
@@ -27,17 +28,18 @@ namespace Goat.AI.States
         {
             // If target still has item grab item.
             bool nothingFound = true;
-            for (int i = 0; i < npc.targetStorage.GetItemCount; i++)
+            for (int i = 0; i < npc.targetStorage.Inventory.Items.Count; i++)
             {
-                if (npc.itemsToGet.ContainsKey(npc.targetStorage.GetItems[i].Resource))
+                Resource tempResource = npc.targetStorage.Inventory.Items.ElementAt(i).Key;
+                if (npc.ItemsToGet.Contains(tempResource))
                 {
                     if (npc is Customer)
-                        ((Customer)npc).totalPriceProducts += npc.targetStorage.GetItems[i].Resource.Price;
+                        ((Customer)npc).totalPriceProducts += tempResource.Price;
 
-                    Debug.LogFormat("Took {0} from storage container", npc.targetStorage.GetItems[i].Resource.name);
-                    npc.AddResourceToInventory(npc.targetStorage.GetItems[i].Resource, 1);
-                    npc.RemoveItemToGet(npc.targetStorage.GetItems[i].Resource, 1);
-                    npc.targetStorage.GetResource(i, returnToStock);
+                    Debug.LogFormat("Took {0} from storage container", tempResource.name);
+                    npc.Inventory.Add(tempResource, 1, out int amountStored);
+                    npc.ItemsToGet.Remove(tempResource, amountStored, out int amountRemoved);
+                    npc.targetStorage.RemoveResource(tempResource, amountStored);
 
                     animator.SetTrigger("Interact");
 

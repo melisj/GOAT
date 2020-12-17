@@ -70,7 +70,7 @@ namespace Goat.AI.States
             // Check customer money
             percentageWillingToSpend = Random.Range(0.7f, 1.0f);
             availableMoney = (int)(customer.money * percentageWillingToSpend);
-            customer.itemsToGet = GetGroceries();
+            customer.ItemsToGet.SetInventory(GetGroceries());
         }
         public void OnExit()
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Goat.Grid.Interactions;
 using System.Linq;
+using Goat.Storage;
 
 namespace Goat.AI
 {
@@ -103,7 +104,7 @@ namespace Goat.AI
 
             // order list by target distance form customer (and turn into array for faster alocation)
             visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-            if (customer.itemsToGet.Count > 0 && ContainsGroceries(out StorageInteractable targetStorage))
+            if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 customer.targetStorage = targetStorage;
                 customer.targetDestination = targetStorage.transform.position;
@@ -121,9 +122,10 @@ namespace Goat.AI
             for (int i = 0; i < visibleTargetsArray.Length; i++)
             {
                 StorageInteractable tempStorage = visibleTargetsArray[i].GetComponentInParent<StorageInteractable>();
-                for (int j = 0; j < tempStorage.GetItemCount; j++)
+                for (int j = 0; j < tempStorage.Inventory.Items.Count; j++)
                 {
-                    if (customer.itemsToGet.ContainsKey(tempStorage.GetItems[j].Resource))
+                    Resource tempResource = tempStorage.Inventory.Items.ElementAt(j).Key;
+                    if (customer.ItemsToGet.Contains(tempResource))
                     {
                         target = tempStorage;
                         return true;

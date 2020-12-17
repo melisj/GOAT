@@ -31,7 +31,7 @@ namespace Goat.Farming
         [SerializeField] private ResourceCost[] resourceCost;
         [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
 
-        public string Name => resourceFarm.ResourceType.ToString() + " Farm";
+        public string Name => resourceFarm.name.ToString() + " Farm";
 
         public ResourceCost[] ResourceCost => resourceCost;
 
@@ -50,10 +50,10 @@ namespace Goat.Farming
     [System.Serializable]
     public class ResourceCost
     {
-        [SerializeField] private ResourceType costType;
+        [SerializeField] private Resource resource;
         [SerializeField] private int amount;
 
-        public ResourceType CostType => costType;
+        public Resource GetResource => resource;
         public int Amount => amount;
     }
 }
