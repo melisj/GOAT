@@ -9,7 +9,7 @@ using Goat.Grid.Interactions;
 
 namespace Goat.AI
 {
-    public class WarehouseWorker : NPC
+    public class WarehouseWorker : Worker
     {
 
         protected override void Setup()

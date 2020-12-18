@@ -423,17 +423,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3836902786193690353, guid: a1d66e169eeffaf4b9ac8daa6214928c,
         type: 3}
-    - target: {fileID: 3836902786193690353, guid: a1d66e169eeffaf4b9ac8daa6214928c,
-        type: 3}
-      propertyPath: maxInventory
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836902786193690353, guid: a1d66e169eeffaf4b9ac8daa6214928c,
-        type: 3}
-      propertyPath: entrances
-      value: 
-      objectReference: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440,
-        type: 2}
     - target: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c,
         type: 3}
       propertyPath: m_Name

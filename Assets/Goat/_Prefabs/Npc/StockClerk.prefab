@@ -653,55 +653,19 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: inventory
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Goat.Storage.Resource, Assembly-CSharp],[System.Int32,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Goat.Storage.Resource,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: itemsToGet
-      Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[Goat.Storage.Resource, Assembly-CSharp],[System.Int32,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 1
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   npcSize: 1
   wanderRange: 10
-  carriedItemValue: 0
+  maxInventory: 20
   targetDestination: {x: 0, y: 0, z: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   targetStorage: {fileID: 0}
   enterTime: 0
   searchingTime: 0
-  storageLocations: {fileID: 0}
-  maxCarryLoad: 20
+  storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
+  entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
 --- !u!1 &8620672143192345974
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,10 +9,9 @@ using Goat.Grid.Interactions;
 
 namespace Goat.AI
 {
-    public class StockClerk : NPC
+    public class StockClerk : Worker
     {
-        public StorageList storageLocations;
-        [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+
         [SerializeField] private UnloadLocations entrances;
 
         protected override void Setup()
@@ -26,6 +25,7 @@ namespace Goat.AI
             PlaceItem placeItem = new PlaceItem(this, animator);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
+            SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
 
             // Conditions
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
@@ -34,11 +34,22 @@ namespace Goat.AI
             Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filledShelve && targetStorages.Count > 0;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
 
+            Func<bool> NoItemsToGetOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0 && targetStorages.Count == 0;
+            Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 && !placeItem.filledShelve;
+            Func<bool> TakeItems() => () => ItemsToGet.ItemsInInventory > 0 && ReachedTarget().Invoke();
+            Func<bool> PlaceItems() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory > 0 && ReachedTarget().Invoke();
+
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
 
             AT(enterStore, searchForEmptyShelves, EnteredStore());
-            //Find containers
+            AT(placeItem, searchForEmptyShelves, NoItemsToGetOrPlace());
+            AT(searchForEmptyShelves, searchForStorageInWarehouse, FindItemInWarehouse());
+
+            AT(searchForStorageInWarehouse, moveToTarget, HasTarget());
+            AT(moveToTarget, takeItem, TakeItems());
+            AT(moveToTarget, placeItem, PlaceItems());
+
             //Take items from containers
             //Set empty target
             //Move to target

@@ -1,22 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Goat.ScriptableObjects;
+using Goat.Grid.Interactions;
 
 namespace Goat.AI
 {
     public class Worker : NPC
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public StorageList storageLocations;
+        [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
     }
 }
 

@@ -14,15 +14,15 @@ namespace Goat.ScriptableObjects
     [CreateAssetMenu(fileName = "StorageList", menuName = "ScriptableObjects/RuntimeVariables/StorageList")]
     public class StorageList : ScriptableObject
     {
-        [SerializeField] private List<StorageInteractable> storageTransformLocation = new List<StorageInteractable>();
-        public List<StorageInteractable> Storages => storageTransformLocation;
+        [SerializeField, ReadOnly] private List<StorageInteractable> storages = new List<StorageInteractable>();
+        public List<StorageInteractable> Storages => storages;
         public void Add(StorageInteractable storage)
         {
-            storageTransformLocation.Add(storage);
+            storages.Add(storage);
         }
         public void Remove(StorageInteractable storage)
         {
-            storageTransformLocation.Remove(storage);
+            storages.Remove(storage);
         }
     }
 }
