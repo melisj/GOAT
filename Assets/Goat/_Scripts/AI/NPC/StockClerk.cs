@@ -11,7 +11,7 @@ namespace Goat.AI
 {
     public class StockClerk : NPC
     {
-        public StorageLocations storageLocations;
+        public StorageList storageLocations;
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
         [SerializeField] private UnloadLocations entrances;
 

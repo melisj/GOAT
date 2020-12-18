@@ -6,9 +6,9 @@ using Goat.Grid.Interactions;
 
 namespace Goat.Pooling
 {
-    public class StoragePool : MonoBehaviour, IPoolObject
+    public class StoragePooler : MonoBehaviour, IPoolObject
     {
-        [SerializeField] private StorageLocations storages;
+        [SerializeField] private StorageList storages;
         [SerializeField] private StorageInteractable storage;
 
         public int PoolKey { get; set; }

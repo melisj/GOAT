@@ -11,7 +11,6 @@ namespace Goat.AI
 {
     public class WarehouseWorker : NPC
     {
-        public int maxCarryLoad = 20;
 
         protected override void Setup()
         {

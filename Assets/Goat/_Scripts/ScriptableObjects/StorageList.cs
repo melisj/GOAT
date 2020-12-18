@@ -11,28 +11,11 @@ namespace Goat.ScriptableObjects
     /// Creates a list of StorageInteractable locations inside the project.
     /// Can be used for bpc to check where StorageInteractables are located.
     /// </summary>
-    [CreateAssetMenu(fileName = "StorageLocations", menuName = "ScriptableObjects/RuntimeVariables/StorageLocations")]
-    public class StorageLocations : ScriptableObject
+    [CreateAssetMenu(fileName = "StorageList", menuName = "ScriptableObjects/RuntimeVariables/StorageList")]
+    public class StorageList : ScriptableObject
     {
         private List<StorageInteractable> storageTransformLocation = new List<StorageInteractable>();
-        private StorageInteractable[] storageTransformArray;
         public List<StorageInteractable> Storages => storageTransformLocation;
-
-        //private void OnValidate()
-        //{
-        //    FindStorageTransforms();
-        //}
-
-        //[Button("Find Storages")]
-        //public void FindStorageTransforms()
-        //{
-        //    storageTransformLocation.Clear();
-        //    storageTransformArray = Object.FindObjectsOfType<StorageInteractable>();
-
-        //    for (int i = 0; i < storageTransformArray.Length; i++)
-        //        storageTransformLocation.Add(storageTransformArray[i].transform);
-        //}
-
         public void AddStorage(StorageInteractable storage)
         {
             storageTransformLocation.Add(storage);
