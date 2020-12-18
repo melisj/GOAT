@@ -36,7 +36,7 @@ namespace Goat.AI.States
 
             if(resourceToPlace != null && npc.targetStorage.Inventory.SpaceLeft > 0)
             {
-                npc.targetStorage.AddResource(resourceToPlace, 1, out int amountPlaced);
+                npc.targetStorage.Add(resourceToPlace, 1, out int amountPlaced);
                 if (amountPlaced > 0)
                 {
                     npc.Inventory.Remove(resourceToPlace, 1, out int amountRemoved);

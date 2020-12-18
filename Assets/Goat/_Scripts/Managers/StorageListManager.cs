@@ -6,10 +6,10 @@ using Goat.Grid.Interactions;
 
 namespace Goat.Pooling
 {
-    public class StoragePooler : MonoBehaviour, IPoolObject
+    public class StorageListManager : MonoBehaviour
     {
         [SerializeField] private StorageList storages;
-        [SerializeField] private StorageInteractable storage;
+        private StorageInteractable storage;
 
         public int PoolKey { get; set; }
 
@@ -20,23 +20,18 @@ namespace Goat.Pooling
             storage = GetComponent<StorageInteractable>();
         }
 
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        private void OnEnable()
         {
-            storages.AddStorage(storage);
-            ObjInstance = objectInstance;
-            PoolKey = poolKey;
-        }
-
-        public void OnReturnObject()
+            storages.Add(storage);
+        }        
+        private void OnDisable()
         {
-            storages.RemoveStorage(storage);
-
-            gameObject.SetActive(false);
+            storages.Remove(storage);
         }
 
         private void OnDestroy()
         {
-            storages.RemoveStorage(storage);
+            storages.Remove(storage);
         }
     }
 }
