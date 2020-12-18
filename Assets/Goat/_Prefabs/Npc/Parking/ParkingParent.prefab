@@ -74,8 +74,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579984087554311390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: -5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.84, y: -0, z: -3.2}
+  m_LocalScale: {x: 0.36801404, y: 1, z: 0.6400094}
   m_Children: []
   m_Father: {fileID: 579984085952958863}
   m_RootOrder: 0
@@ -152,42 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad30940f26f113441a086b853aef8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parkingRows: {x: 4, y: 3}
-  parkingAmount: 12
+  parkingRows: {x: 1, y: 1}
+  parkingAmount: 1
   parkingList:
-  - position: {x: 25, y: 0, z: -10}
+  - position: {x: 9.2, y: 0, z: -6.4}
     arrayPos: 0
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 1
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 2
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 3
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 4
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 5
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 6
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 7
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 8
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 9
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 10
-    ocupied: 0
-  - position: {x: 25, y: 0, z: -10}
-    arrayPos: 11
     ocupied: 0

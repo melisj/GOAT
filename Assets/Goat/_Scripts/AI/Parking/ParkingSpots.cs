@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,21 +9,14 @@ namespace Goat.AI.Parking
 
     public class ParkingSpots : MonoBehaviour
     {
-        [SerializeField] private Vector2Int parkingRows;
-        [SerializeField, ReadOnly] private int parkingAmount;
-        [SerializeField] private ParkingSpot[] parkingList;
+        [Header("Settings")]
+        [SerializeField] private float spaceBetweenParking;
+        [Header("References")]
+        [SerializeField] private Parking parkingInfo;
+
+        private ParkingSpot[] parkingList;
 
         private Bounds bounds;
-
-        private void OnValidate()
-        {
-            parkingRows.x = Mathf.Clamp(parkingRows.x, 0, 50);
-            parkingRows.y = Mathf.Clamp(parkingRows.y, 0, 50);
-
-            parkingAmount = parkingRows.x * parkingRows.y;
-
-            StartGeneration();
-        }
 
         private void Awake()
         {
@@ -34,7 +28,6 @@ namespace Goat.AI.Parking
         [Button("Generate Parking", ButtonSizes.Large)]
         private void StartGeneration()
         {
-            parkingList = new ParkingSpot[parkingAmount];
 
             if (GetBounds())
                 GenerateParkingSpaces();
@@ -58,6 +51,16 @@ namespace Goat.AI.Parking
 
         private void GenerateParkingSpaces()
         {
+            Bounds shipBounds = parkingInfo.shipPrefab.gameObject.GetComponentInChildren<MeshRenderer>().bounds;
+            float maxBounds = Mathf.Max(shipBounds.size.x, shipBounds.size.z);
+            
+            Vector2Int parkingRows = new Vector2Int(
+                Mathf.FloorToInt(bounds.size.x / (maxBounds + spaceBetweenParking)),
+                Mathf.FloorToInt(bounds.size.z / (maxBounds + spaceBetweenParking))
+                );
+
+            parkingList = new ParkingSpot[parkingRows.x * parkingRows.y];
+
             float offsetX = bounds.size.x / (parkingRows.x + 1);
             float offsetY = bounds.size.z / (parkingRows.y + 1);
 
@@ -80,7 +83,7 @@ namespace Goat.AI.Parking
             IEnumerable<ParkingSpot> enumerator = parkingList.Where(x => x.ocupied == false);
             if (enumerator.Count() != 0)
             {
-                int randomSpot = Random.Range(0, enumerator.Count());
+                int randomSpot = UnityEngine.Random.Range(0, enumerator.Count());
                 ParkingSpot spot = enumerator.ElementAt(randomSpot);
                 spot.ocupied = true;
 
@@ -113,10 +116,13 @@ namespace Goat.AI.Parking
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.green;
-            foreach (ParkingSpot location in parkingList)
+            if (parkingList != null)
             {
-                Gizmos.DrawCube(location.position, Vector3.one);
+                Gizmos.color = Color.green;
+                foreach (ParkingSpot location in parkingList)
+                {
+                    Gizmos.DrawCube(location.position, Vector3.one);
+                }
             }
         }
 
