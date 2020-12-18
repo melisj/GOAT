@@ -125,7 +125,6 @@ namespace Goat.AI.Parking
         [System.Serializable]
         public class ParkingSpot
         {
-
             public Vector3 position;
             public int arrayPos;
             public bool ocupied;

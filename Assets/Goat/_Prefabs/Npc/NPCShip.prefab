@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4387832084956413548}
   - component: {fileID: 813864682303287753}
   - component: {fileID: 3219962494889788675}
+  - component: {fileID: 3708550631070552149}
+  - component: {fileID: 3467048126719724173}
   m_Layer: 0
   m_Name: ShipCivilian
   m_TagString: Untagged
@@ -79,6 +81,35 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3708550631070552149
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012538647828178134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.157655, y: 4.5891123, z: 13.385208}
+  m_Center: {x: 0, y: 2.1477551, z: -3.4952412}
+--- !u!208 &3467048126719724173
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012538647828178134}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.0790005, y: 2.295, z: 6.6930003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 2.148, z: -3.4950001}
+  m_TimeToStationary: 0.5
 --- !u!1 &7662238008269417591
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7662238008269417590}
+  - component: {fileID: 1182583249}
   m_Layer: 0
   m_Name: Entrance
   m_TagString: Untagged
@@ -109,6 +141,20 @@ Transform:
   m_Father: {fileID: 7662238008717331642}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1182583249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662238008269417591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7aac99526d9cbd468cd889454bca729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcPrefab: {fileID: 2094399924142381527, guid: c03b105514831234c9e5d1b187780afb,
+    type: 3}
 --- !u!1 &7662238008717331643
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +166,7 @@ GameObject:
   - component: {fileID: 7662238008717331642}
   - component: {fileID: 2621219574453859726}
   m_Layer: 0
-  m_Name: NPCShip 1
+  m_Name: NPCShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,4 +200,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808d0b6689e8c124a95e9a72540d7943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parkingInfo: {fileID: 11400000, guid: 6ca13f1c83e4ca14a89c758e4d49ca74, type: 2}
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0019773925
+      value: 0.099047974
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.083398014
+      value: 0.4414672
+      inSlope: 3.8628054
+      outSlope: 3.8628054
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.060528785
+    - serializedVersion: 3
+      time: 0.4126076
+      value: 0.6371389
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0007665
+      value: 0.014435858
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

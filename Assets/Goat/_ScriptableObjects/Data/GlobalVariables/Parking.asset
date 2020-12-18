@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37e82b88e131764790449106e81e24d, type: 3}
   m_Name: Parking
   m_EditorClassIdentifier: 
+  shipPrefab: {fileID: 7662238008717331643, guid: e84e7205bc0745d4c9a8aac95ab175de,
+    type: 3}
+  warpEffectPrefab: {fileID: 4328525299985402912, guid: cdfafce32221d894185c7bb55ccc61fd,
+    type: 3}

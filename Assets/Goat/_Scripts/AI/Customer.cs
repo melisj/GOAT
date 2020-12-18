@@ -8,6 +8,7 @@ using Goat.Storage;
 using Goat.Grid.Interactions;
 using Goat.AI.Satisfaction;
 using Goat.Pooling;
+using Goat.AI.Parking;
 
 namespace Goat.AI
 {
@@ -31,6 +32,7 @@ namespace Goat.AI
         [HideInInspector] public float totalPriceProducts;
 
         private ExitStore exitStore;
+        public NPCShip Ship { get; set; }
 
         //[HideInInspector] public WaitAt
         //protected override void Awake()
