@@ -8,6 +8,7 @@ using Goat.Storage;
 using Goat.Grid.Interactions;
 using Goat.AI.Satisfaction;
 using Goat.Pooling;
+using Goat.AI.Feelings;
 
 namespace Goat.AI
 {
@@ -16,6 +17,7 @@ namespace Goat.AI
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
         [SerializeField] private float maxSearchingTime = 60;
         [SerializeField] private CustomerReview review;
+        [SerializeField] private CustomerFeelings feelings;
         [SerializeField] private UnloadLocations entrances;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
@@ -150,6 +152,7 @@ namespace Goat.AI
             stateMachine.SetState(calculateGroceries);
 
             fov = GetComponentInChildren<FieldOfView>();
+            feelings.Setup();
         }
 
         public void UpdatePositionInCheckoutQueue(Vector3 newPosition)
@@ -166,6 +169,12 @@ namespace Goat.AI
             enteredStore = false;
             leavingStore = false;
             money = UnityEngine.Random.Range(1, 3) * 100;
+        }
+
+        public override void OnReturnObject()
+        {
+            feelings.OnReturn();
+            base.OnReturnObject();
         }
 
         public void LeaveStore()

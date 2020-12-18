@@ -60,8 +60,6 @@ namespace Goat.AI
 
         protected virtual void Update() => stateMachine.Tick();
 
-
-
         public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
             ObjInstance = objectInstance;
