@@ -426,6 +426,7 @@ MonoBehaviour:
   maxResources: 6
   enviroment: 2
   elementToLoad: 1
+  resourceSize: 0.6
 --- !u!114 &4709982844820687041
 MonoBehaviour:
   m_ObjectHideFlags: 0
