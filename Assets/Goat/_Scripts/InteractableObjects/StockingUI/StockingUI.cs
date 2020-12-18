@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Goat.Events;
+
 // Original Author: Stanley
 
 namespace Goat.Grid.Interactions.UI
@@ -12,7 +14,7 @@ namespace Goat.Grid.Interactions.UI
     /// <summary>
     /// Script for managing the UI of stocking storage units in the game
     /// </summary>
-    public class StockingUI : MonoBehaviour
+    public class StockingUI : EventListenerKeyCodeModeEvent
     {
         [Header("Resource UI")]
         [SerializeField] private Resource resource;
@@ -28,6 +30,7 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] private Button sellButton;
 
         [Header("References")]
+        [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private InteractablesInfo interactableInfo;
 
         private int currentAmount;
@@ -51,14 +54,22 @@ namespace Goat.Grid.Interactions.UI
         private void Awake()
         {
             previousResource = resource;
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             SetupUI();
         }
 
-        private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+        public override void OnEventRaised(KeyCodeMode value)
         {
-            if (keyMode == InputManager.KeyMode.Down &&
-                inputMode == InputMode.Select &&
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+            OnInput(code, mode);
+        }
+
+        private void OnInput(KeyCode code, KeyMode keyMode)
+        {
+            if (keyMode == KeyMode.Down &&
+                currentMode.InputMode == InputMode.Select &&
                 stockingUI.activeInHierarchy)
             {
                 if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
@@ -94,7 +105,7 @@ namespace Goat.Grid.Interactions.UI
 
         private void SetupResourceUI()
         {
-            resourceName.text = resource.ResourceType.ToString();
+            resourceName.text = resource.name.ToString();
             //stock.text = resource.Amount.ToString();
             //resourceImage.sprite = resource.Image;
             resource.AmountChanged += Resource_AmountChanged;
@@ -117,19 +128,19 @@ namespace Goat.Grid.Interactions.UI
 
         private void MaxAmount()
         {
-            amountInput.text = Interactable.SpaceLeft.ToString();
+            amountInput.text = Interactable.Inventory.SpaceLeft.ToString();
         }
 
         private void MinAmount()
         {
             if (Interactable)
-                amountInput.text = Interactable.SpaceLeft > 0 ? 1.ToString() : Interactable.SpaceLeft.ToString();
+                amountInput.text = Interactable.Inventory.SpaceLeft > 0 ? "1" : Interactable.Inventory.SpaceLeft.ToString();
         }
 
         private void ConfirmStocking()
         {
             currentAmount = (resource.Amount - currentAmount) <= 0 ? resource.Amount : currentAmount;
-            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            if (Interactable.Add(resource, currentAmount, out int actualStoredAmount))
             {
                 resource.Amount -= actualStoredAmount;
                 stockingUI.SetActive(false);

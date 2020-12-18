@@ -1,41 +1,44 @@
 ﻿using Goat;
+using Goat.Events;
 using Goat.Grid.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Goat.InputManager;
 
-public class ChangeMode : MonoBehaviour
+public class ChangeMode : EventListenerKeyCodeModeEvent
 {
     [SerializeField] private GridUIInfo gridUIInfo;
+    [SerializeField] private InputModeVariable inputMode;
     public bool AllowedToChange { get; set; }
 
-    private void Awake()
+    private void ChangeModes(KeyCode code, KeyMode keyMode)
     {
-        InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+        if (code == KeyCode.C && keyMode == KeyMode.Down)
+        {
+            gridUIInfo.CurrentUIElement = GridUIElement.Building;
+            inputMode.InputMode = InputMode.Edit;
+        }
+        if (code == KeyCode.B && keyMode == KeyMode.Down)
+        {
+            inputMode.InputMode = InputMode.Destroy;
+        }
+        if (code == KeyCode.X && keyMode == KeyMode.Down)
+        {
+            inputMode.InputMode = InputMode.Select;
+        }
     }
 
-    private void Instance_OnInputEvent(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
+    public override void OnEventRaised(KeyCodeMode value)
     {
         if (AllowedToChange)
         {
-            ChangeModes(code, keyMode, inputMode);
-        }
-    }
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
 
-    private void ChangeModes(KeyCode code, InputManager.KeyMode keyMode, InputMode inputMode)
-    {
-        if (code == KeyCode.C && keyMode == InputManager.KeyMode.Down)
-        {
-            gridUIInfo.CurrentUIElement = GridUIElement.Building;
-            InputManager.Instance.InputMode = InputMode.Edit;
-        }
-        if (code == KeyCode.B && keyMode == InputManager.KeyMode.Down)
-        {
-            InputManager.Instance.InputMode = InputMode.Destroy;
-        }
-        if (code == KeyCode.X && keyMode == InputManager.KeyMode.Down)
-        {
-            InputManager.Instance.InputMode = InputMode.Select;
+            value.Deconstruct(out code, out mode);
+
+            ChangeModes(code, mode);
         }
     }
 }

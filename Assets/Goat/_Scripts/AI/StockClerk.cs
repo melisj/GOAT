@@ -7,16 +7,13 @@ namespace Goat.AI
 {
     public class StockClerk : NPC
     {
+        //protected override void Awake()
+        //{
+        //    base.Awake();
 
-        protected override void Awake()
-        {
-            base.Awake();
+        //    MoveToDestination moveToTarget = new MoveToDestination(this, navMeshAgent, animator);
+        //    TakeItem takeItem = new TakeItem(this, animator, false);
 
-            MoveToDestination moveToTarget = new MoveToDestination(this, navMeshAgent, animator);
-            TakeItem takeItem = new TakeItem(this, animator, false);
-
-
-        }
+        //}
     }
 }
-

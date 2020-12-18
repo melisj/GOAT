@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8065333641304272210}
   - component: {fileID: 3640399235552808776}
+  - component: {fileID: 8022739660516259458}
   m_Layer: 12
   m_Name: Wall-WoodSolid
   m_TagString: Untagged
@@ -156,3 +157,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8022739660516259458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065333641304272209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}

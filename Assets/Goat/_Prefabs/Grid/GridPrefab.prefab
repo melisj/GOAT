@@ -11,10 +11,14 @@ GameObject:
   - component: {fileID: 612029029412865794}
   - component: {fileID: 612029029412865795}
   - component: {fileID: 612029029412865800}
+  - component: {fileID: 5621511813930087197}
   - component: {fileID: 612029029412865804}
   - component: {fileID: 612029029412865805}
   - component: {fileID: 612029029412865801}
   - component: {fileID: 612029029412865807}
+  - component: {fileID: 4233259508223697211}
+  - component: {fileID: 7939294644737218720}
+  - component: {fileID: 6608607777775956720}
   m_Layer: 8
   m_Name: GridPrefab
   m_TagString: Grid
@@ -29,7 +33,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612029029412865802}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -48,6 +52,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4620ccd9452a5714b89d7476ec138284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: tiles
+      Entry: 6
+      Data: 
+  subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
+  subscribers: 0
   defaultWall: {fileID: 11400000, guid: 78b2f91a5bd12af4885388421c4a79b0, type: 2}
   gridSize: {x: 100, y: 100}
   tileSize: 1
@@ -58,6 +76,8 @@ MonoBehaviour:
   previewPrefab: {fileID: 8854570225898694511, guid: c7b01b0813d130e4794f82630a8be13b,
     type: 3}
   onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
+  gridRayCaster: {fileID: 4233259508223697211}
 --- !u!114 &612029029412865800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +93,30 @@ MonoBehaviour:
   saveFolder: /Goat/SaveData/
   fileName: BasicTestStore
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+--- !u!114 &5621511813930087197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41826dfbe6478ef42b4fbd6619723a86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 96c1596972885b248891851bed3115d3, type: 2}
+  subscribers: 0
+  grid: {fileID: 612029029412865795}
 --- !u!65 &612029029412865804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,3 +193,64 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: f2652fae
+--- !u!114 &4233259508223697211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c5c9ce644eff34c860ea8e42ace56d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7939294644737218720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2638e22f1a08df4cba02d6cfd697162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
+  subscribers: 0
+  grid: {fileID: 612029029412865795}
+--- !u!114 &6608607777775956720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa52c3c445cdcf44b0b0bce2059b2fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 8fce16220060c6b4c9315b34d56305e0, type: 2}
+  subscribers: 0
+  tileDataEvent: {fileID: 11400000, guid: 15a2ba14e2b82e94ca4d359c416d9a6d, type: 2}
+  grid: {fileID: 612029029412865795}
