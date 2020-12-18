@@ -1,4 +1,4 @@
-﻿using Goat.Storage;
+﻿using Goat.Events;
 using System.Collections.Generic;
 using System.IO;
 using UnityAtoms.BaseAtoms;
@@ -7,14 +7,14 @@ using UnityEngine;
 namespace Goat.Grid
 {
     [RequireComponent(typeof(GridDataHandler))]
-    public class Grid : MonoBehaviour
+    public class Grid : EventListenerKeyCodeModeEvent
     {
         [Header("Generation")]
         [SerializeField] private Wall defaultWall;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
-        public Tile[,] tiles;
+        [HideInInspector] public Tile[,] tiles;
 
         [Space(10), Header("Hit Detection")]
         [SerializeField] private LayerMask gridMask;
@@ -25,6 +25,8 @@ namespace Goat.Grid
         [SerializeField] private GameObject previewPrefab;
         [Header("Event")]
         [SerializeField] private VoidEvent onGridChange;
+        [SerializeField] private InputModeVariable currentMode;
+        [SerializeField] private GridRayCaster gridRayCaster;
         private GameObject previewObject;              // Preview object shown on grid
         private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
@@ -36,6 +38,8 @@ namespace Goat.Grid
         private Tile currentTile;
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
+        private Placeable previousAutoPlaceable = null;
+
         private Vector2Int currentTileIndex;
         private bool autoWalls;
 
@@ -53,12 +57,13 @@ namespace Goat.Grid
                 dataHandler = GetComponent<GridDataHandler>();
                 dataHandler.LoadGrid();
             }
-            catch (FileNotFoundException e) {
+            catch (FileNotFoundException e)
+            {
                 print(e);
             }
 
-            InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
-            InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
+            //InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
+            //InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
         }
 
         public void Reset()
@@ -77,7 +82,17 @@ namespace Goat.Grid
 
         #region Input
 
-        private void Instance_InputModeChanged(object sender, InputMode mode)
+        public override void OnEventRaised(KeyCodeMode value)
+        {
+            KeyCode code = KeyCode.None;
+            KeyMode mode = KeyMode.None;
+
+            value.Deconstruct(out code, out mode);
+
+            OnInput(code, mode);
+        }
+
+        public void DestroyModeChange(InputMode mode)
         {
             DestroyMode = mode == InputMode.Destroy;
             if (previewObject)
@@ -96,33 +111,30 @@ namespace Goat.Grid
             }
         }
 
-        private void Instance_OnInputEvent(KeyCode keyCode, InputManager.KeyMode keyMode, InputMode inputMode)
+        private void OnInput(KeyCode keyCode, KeyMode keyMode)
         {
-            if (inputMode == InputMode.Edit | inputMode == InputMode.Destroy)
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(InputManager.KeyMode.Pressed))
+                if (keyCode == KeyCode.Mouse0 && (DestroyMode ? keyMode.HasFlag(KeyMode.Down) : keyMode.HasFlag(KeyMode.Pressed)))
                 {
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
-                        currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode);
-                        if (autoWalls)
+                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
+                            && !(previewPlaceableInfo is Wall))
+                        {
+                            //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
+                        }
+
+                        previousAutoPlaceable = previewPlaceableInfo;
                     }
                 }
-                if (keyCode == KeyCode.R && keyMode.HasFlag(InputManager.KeyMode.Down))
+                if (keyCode == KeyCode.R && keyMode.HasFlag(KeyMode.Down))
                 {
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
-                }
-                if (keyCode == KeyCode.T && keyMode.HasFlag(InputManager.KeyMode.Down))
-                {
-                    // Always has to rotate a 90 degrees
-                    autoWalls = !autoWalls;
-                    if (autoWalls)
-                        SetupNeighborTiles(currentTileIndex);
-                    Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
                 }
             }
         }
@@ -148,6 +160,32 @@ namespace Goat.Grid
             CheckNeighbourTiles(tileToSet, index);
         }
 
+        private bool CanPayAuto(Vector2Int index)
+        {
+            checkedTiles.Clear();
+            SetupNeighborTilesWithoutEditing(index);
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+            float total = wallPlace.Price * (checkedTiles.Count * 2);
+            return wallPlace.Money.Amount > total;
+        }
+
+        private void SetupNeighborTilesWithoutEditing(Vector2Int index)
+        {
+            Tile tileToSet = tiles[index.x, index.y];
+            checkedTiles.Add(index);
+            CheckNeighbourTilesWithoutEditing(tileToSet, index);
+        }
+
+        private void AutoPayment()
+        {
+            if (checkedTiles.Count > 0)
+            {
+                Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
+
+                wallPlace.Buy(checkedTiles.Count * 2);
+            }
+        }
+
         private void CheckNeighbourTiles(Tile tile, Vector2Int index2D)
         {
             int rotation = -90;
@@ -157,33 +195,65 @@ namespace Goat.Grid
             CheckTile(tile, ref rotation, index2D, Vector2Int.right);
         }
 
+        private void CheckNeighbourTilesWithoutEditing(Tile tile, Vector2Int index2D)
+        {
+            int rotation = -90;
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.down);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.left);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.up);
+            CheckTileWithoutEditing(tile, ref rotation, index2D, Vector2Int.right);
+        }
+
         private void CheckTile(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
         {
             Tile neighbourTile = GetNeighbourTile(index2D + offset);
-            Placeable wallPlace = defaultWall;
+            Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
-                if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                //if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                //{
+                //    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                //}
+
+                tile.EditAnyWall(wallPlace, rotation, true, true);
+                neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), true, true);
+                if (tile.FloorObj == null)
                 {
-                    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                    neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), false, true);
                 }
-
-                tile.EditAnyWall(wallPlace, rotation, true);
-
                 return;
             }
 
             if (tile.FloorObj == null)
             {
-                tile.EditAnyWall(wallPlace, rotation, true);
+                tile.EditAnyWall(wallPlace, rotation, true, true);
             }
             else
             {
-                tile.EditAnyWall(wallPlace, rotation, false);
+                tile.EditAnyWall(wallPlace, rotation, false, true);
             }
 
             //Placewalls
+        }
+
+        private int InverseRotation(int rotation)
+        {
+            return (rotation + 180) % 360;
+        }
+
+        private void CheckTileWithoutEditing(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)
+        {
+            Tile neighbourTile = GetNeighbourTile(index2D + offset);
+            if (neighbourTile != null && neighbourTile.FloorObj != null)
+            {
+                if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                {
+                    SetupNeighborTilesWithoutEditing(neighbourTile.SaveData.gridPosition);
+                }
+
+                return;
+            }
         }
 
         private Tile GetNeighbourTile(Vector2Int index)
@@ -197,7 +267,7 @@ namespace Goat.Grid
 
         private void EditTile()
         {
-            if (InputManager.Instance.InputMode == InputMode.Edit | InputManager.Instance.InputMode == InputMode.Destroy)
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
                 // Highlight tile with selected building/floor
                 currentTile = SelectTile();
@@ -244,8 +314,8 @@ namespace Goat.Grid
             // Hide target object on selected tile
             if (selectedTile != null)
             {
-                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, autoWalls), DestroyMode);
-                if (InputManager.Instance.InputMode == InputMode.Edit)
+                ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, objectRotationAngle, DestroyMode), DestroyMode);
+                if (currentMode.InputMode != InputMode.Select)
                 {
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
@@ -325,7 +395,7 @@ namespace Goat.Grid
         private Tile SelectTile()
         {
             Tile selectedTile = null;
-            if (InputManager.Instance.DoRaycastFromMouse(out RaycastHit hit, gridMask))
+            if (gridRayCaster.DoRaycastFromMouse(out RaycastHit hit, gridMask))
             {
                 Vector2Int tileIndex = CalculateTilePositionInArray(hit.point);
                 currentTileIndex = tileIndex;
@@ -357,7 +427,7 @@ namespace Goat.Grid
         /// <returns></returns>
         public Tile ReturnTile(Vector2Int tilePositionInArray)
         {
-            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) && 
+            if (tilePositionInArray.x < tiles.GetLength(0) && tilePositionInArray.y < tiles.GetLength(1) &&
                 tilePositionInArray.x >= 0 && tilePositionInArray.y >= 0)
             {
                 return tiles[tilePositionInArray.x, tilePositionInArray.y];

@@ -110,9 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32480021042082143aa359f35e027a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasPrice: 1
   priceText: {fileID: 5066080167329833357}
+  hasAmount: 1
   amountText: {fileID: 7669106911449936033}
   resourceIcon: {fileID: 6284350252108204880}
+  IconButton: {fileID: 0}
 --- !u!1 &6784712553830988312
 GameObject:
   m_ObjectHideFlags: 0

@@ -247,6 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3657551356205995744}
   - component: {fileID: 6892709122040733696}
+  - component: {fileID: 5652699245528965849}
   m_Layer: 12
   m_Name: WorkerDoor
   m_TagString: Checkout
@@ -281,6 +282,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5652699245528965849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810752957041308474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
 --- !u!1 &4965405394248759438
 GameObject:
   m_ObjectHideFlags: 0

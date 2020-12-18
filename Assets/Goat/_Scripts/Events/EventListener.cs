@@ -5,6 +5,7 @@ using UnityAtoms;
 using UnityAtoms.BaseAtoms;
 using Goat.Grid.Interactions;
 using Sirenix.OdinInspector;
+using Goat.Grid;
 
 namespace Goat.Events
 {
@@ -51,6 +52,7 @@ namespace Goat.Events
         protected virtual void InitOnEnable()
         {
         }
+
         protected virtual void InitOnDisable()
         {
         }
@@ -69,6 +71,14 @@ namespace Goat.Events
     public abstract class EventListenerString : EventListener<string, StringEvent> { }
 
     public abstract class EventListenerInputMode : EventListener<InputMode, InputModeEvent> { }
+
+    public abstract class EventListenerKeyCodeModeEvent : EventListener<KeyCodeMode, KeyCodeModeEvent> { }
+
+    public abstract class EventListenerPlaceable : EventListener<Placeable, PlaceableEvent> { }
+
+    public abstract class EventListenerTileData : EventListener<Tile, TileDataEvent> { }
+
+    public abstract class EventListenerReview : EventListener<Review, ReviewEvent> { }
 
     public abstract class EventListenerDeliveryResource : EventListener<DeliveryResource, DeliveryResourceEvent> { }
 }

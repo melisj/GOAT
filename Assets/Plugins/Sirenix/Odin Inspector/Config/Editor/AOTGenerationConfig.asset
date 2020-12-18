@@ -16,8 +16,18 @@ MonoBehaviour:
   deleteDllAfterBuilds: 1
   AutomateForAllAOTPlatforms: 1
   automateForPlatforms: 0900000014000000
-  lastScan: 637418490549868424
+  lastScan: 637437560708567449
   supportSerializedTypes:
+  - TypeName: Goat.Grid.UI.BasicGridUIElement, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Goat.Events.DeliveryResource, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.Dictionary`2[[Goat.Grid.UI.GridUIElement,
+      Assembly-CSharp],[Goat.Grid.UI.BasicGridUIElement, Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
   - TypeName: System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.GameObject,
       UnityEngine.CoreModule]], mscorlib
     IsCustom: 0
@@ -26,12 +36,20 @@ MonoBehaviour:
       Assembly-CSharp]], System]], mscorlib
     IsCustom: 0
     Emit: 1
-  - TypeName: System.Collections.Generic.Dictionary`2[[Goat.Storage.ResourceType,
-      Assembly-CSharp],[Goat.Storage.Resource, Assembly-CSharp]], mscorlib
+  - TypeName: System.Collections.Generic.Dictionary`2[[UnityEngine.KeyCode, UnityEngine.CoreModule],[Goat.KeyMode,
+      Assembly-CSharp]], mscorlib
     IsCustom: 0
     Emit: 1
-  - TypeName: System.Collections.Generic.EnumEqualityComparer`1[[Goat.Storage.ResourceType,
+  - TypeName: System.Collections.Generic.Dictionary`2[[Goat.Storage.Resource, Assembly-CSharp],[System.Int32,
+      mscorlib]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.EnumEqualityComparer`1[[Goat.Grid.UI.GridUIElement,
       Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.EnumEqualityComparer`1[[UnityEngine.KeyCode,
+      UnityEngine.CoreModule]], mscorlib
     IsCustom: 0
     Emit: 1
   - TypeName: UnityEngine.GameObject, UnityEngine.CoreModule
@@ -41,18 +59,57 @@ MonoBehaviour:
       mscorlib]], mscorlib
     IsCustom: 0
     Emit: 1
+  - TypeName: Goat.Grid.UI.GridUIElement, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+      System.Core
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.HashSet`1[[Goat.Farming.TubeDirection, Assembly-CSharp]],
+      System.Core
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.IEqualityComparer`1[[Goat.Grid.UI.GridUIElement,
+      Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
   - TypeName: System.Collections.Generic.IEqualityComparer`1[[System.Int32, mscorlib]],
       mscorlib
     IsCustom: 0
     Emit: 1
-  - TypeName: System.Collections.Generic.IEqualityComparer`1[[Goat.Storage.ResourceType,
+  - TypeName: System.Collections.Generic.IEqualityComparer`1[[UnityEngine.KeyCode,
+      UnityEngine.CoreModule]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.IEqualityComparer`1[[Goat.Storage.Resource,
       Assembly-CSharp]], mscorlib
     IsCustom: 0
     Emit: 1
   - TypeName: System.Int32, mscorlib
     IsCustom: 0
     Emit: 1
+  - TypeName: UnityEngine.KeyCode, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Goat.KeyMode, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.List`1[[Review, Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Object, mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.ObjectEqualityComparer`1[[Goat.Storage.Resource,
+      Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
   - TypeName: Goat.Pooling.ObjectInstance, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.Queue`1[[Goat.Events.DeliveryResource, Assembly-CSharp]],
+      System
     IsCustom: 0
     Emit: 1
   - TypeName: System.Collections.Generic.Queue`1[[Goat.Pooling.ObjectInstance, Assembly-CSharp]],
@@ -62,6 +119,12 @@ MonoBehaviour:
   - TypeName: Goat.Storage.Resource, Assembly-CSharp
     IsCustom: 0
     Emit: 1
-  - TypeName: Goat.Storage.ResourceType, Assembly-CSharp
+  - TypeName: Review, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Goat.Grid.Tile[,], Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Goat.Farming.TubeDirection, Assembly-CSharp
     IsCustom: 0
     Emit: 1

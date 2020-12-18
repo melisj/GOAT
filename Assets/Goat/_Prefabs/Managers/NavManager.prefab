@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 265703103934769764}
-  - component: {fileID: 7013844747956353958}
+  - component: {fileID: 7854265997893453777}
+  - component: {fileID: 1527252795599047950}
+  - component: {fileID: 6436866685360654899}
   m_Layer: 0
   m_Name: NavManager
   m_TagString: Untagged
@@ -24,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5549323350785637579}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -177.03569, y: -1.4712315, z: -0.408782}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -33,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7013844747956353958
+--- !u!114 &7854265997893453777
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,6 +47,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9eedd252b3b2cf4d9c783f3602d3513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  surfaceAI: {fileID: 8488590339882127615}
+  surfacePlayer: {fileID: 8488590340979480729}
+--- !u!114 &1527252795599047950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549323350785637579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fc4e69c7143d247aec6fe118169fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
+  subscribers: 0
+  surfaceAI: {fileID: 8488590339882127615}
+  surfacePlayer: {fileID: 8488590340979480729}
+--- !u!114 &6436866685360654899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549323350785637579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab8eb10fcfeb8a43a39b1ecc90ee997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
+  subscribers: 0
   surfaceAI: {fileID: 8488590339882127615}
   surfacePlayer: {fileID: 8488590340979480729}
 --- !u!1 &8488590339882127602

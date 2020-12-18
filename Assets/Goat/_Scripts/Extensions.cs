@@ -29,6 +29,24 @@ public static class Extensions
         return seq?.IsActive() ?? false;
     }
 
+    public static Vector3 GetNearest(this List<Vector3> positions, Vector3 myPos)
+    {
+        if (positions.Count <= 0) return Vector3.zero;
+        Vector3 nearestPos = positions[0];
+        float nearestDist = 0;
+
+        for (int i = 0; i < positions.Count; i++)
+        {
+            float currentDist = (myPos - positions[i]).sqrMagnitude;
+            if (currentDist < nearestDist)
+            {
+                nearestDist = currentDist;
+                nearestPos = positions[i];
+            }
+        }
+        return nearestPos;
+    }
+
     public static void Rotate<T>(this T[] array, int count)
     {
         if (array == null || array.Length < 2) return;
