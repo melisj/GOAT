@@ -45,7 +45,8 @@ namespace Goat.AI.States
 
             // Set animation
             //entrance = GameObject.Find("Entrance").transform.position;
-            entrance = entrances.Locations.GetNearest(npc.transform.position);
+            //entrance = entrances.Locations.GetNearest(npc.transform.position);
+            entrance = ((Customer)npc).Ship.NpcSpawner.transform.position;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(entrance);
         }
@@ -57,6 +58,7 @@ namespace Goat.AI.States
             // Set animation
             navMeshAgent.enabled = false;
             animator.SetFloat("Move", 0);
+            ((Customer)npc).Ship.ShipReadyToFly();
             PoolManager.Instance.ReturnToPool(npc.gameObject);
         }
     }

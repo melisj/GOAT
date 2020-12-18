@@ -168,14 +168,14 @@ namespace Goat.Grid
             //OK!
         }
 
-        public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode)
+        public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode, bool isLoading = false)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
             if (CheckForFloor(placeable, rotationAngle, destroyMode)) { return false; }
 
             if (placeable is Wall)
             {
-                EditAnyWall(placeable, rotationAngle, destroyMode);
+                EditAnyWall(placeable, rotationAngle, destroyMode, isLoading);
                 return true;
             }
 
@@ -210,7 +210,8 @@ namespace Goat.Grid
                 }
                 buildingObject = null;
 
-                placeableInfo.Placeable.Sell(1);
+                if (!isLoading)
+                    placeableInfo.Placeable.Sell(1);
                 totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
                 placeableInfo.Setup(null);
             }
@@ -227,7 +228,8 @@ namespace Goat.Grid
                     tileObject = null;
                 }
                 floorObject = null;
-                placeableInfo.Placeable.Sell(1);
+                if (!isLoading)
+                    placeableInfo.Placeable.Sell(1);
                 totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
                 placeableInfo.Setup(null);
             }
@@ -273,7 +275,8 @@ namespace Goat.Grid
                     buildingObject = tileObject;
                 }
                 totalBeautyPoints += placeable.BeautyPoints;
-                placeable.Buy(1);
+                if (!isLoading)
+                    placeable.Buy(1);
             }
 
             this.placeable = placeable;
@@ -283,7 +286,7 @@ namespace Goat.Grid
         //Detect tile has neighbouring tiles
         //if no neighbouring tiles, add wall in that direction
         //if neighbouring tiles, delete wall there
-        public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode, bool autoMode = false)
+        public bool EditAnyWall(Placeable wall, float rotationAngle, bool destroyMode, bool autoMode = false, bool isLoading = false)
         {
             //if (this.placeable != wall)
             //{
@@ -321,7 +324,7 @@ namespace Goat.Grid
                     //    }
                     //}
                     PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
-                    if (!autoMode)
+                    if (!autoMode && !isLoading)
                         placeableInfo.Placeable.Sell(1);
 
                     totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
@@ -329,7 +332,7 @@ namespace Goat.Grid
                     wallObjs[index] = null;
                     wallAuto[index] = false;
                     placeableInfo.Setup(null);
-                    SaveData.SetWall(-1, index);
+                    SaveData.SetWall(-1, index, false);
                 }
             }
 
@@ -350,12 +353,12 @@ namespace Goat.Grid
                 {
                     tileObjectFilter[i].mesh = wall.Mesh[i];
                 }
-                if (!autoMode)
+                if (!autoMode && !isLoading)
                     placeableInfo.Placeable.Buy(1);
 
                 totalBeautyPoints += placeableInfo.Placeable.BeautyPoints;
 
-                SaveData.SetWall(wall.ID, index);
+                SaveData.SetWall(wall.ID, index, autoMode);
             }
             // }
             return true;
@@ -367,20 +370,20 @@ namespace Goat.Grid
 
             int floorIndex = SaveData.GetFloor(out int floorRotation);
             if (floorIndex != -1 && objectList.GetObject(floorIndex) is Placeable)
-                EditAny((Placeable)objectList.GetObject(floorIndex), floorRotation, false);
+                EditAny((Placeable)objectList.GetObject(floorIndex), floorRotation, false, true);
 
             int buildingIndex = SaveData.GetBuilding(out int buildingRotation);
             if (buildingIndex != -1 && objectList.GetObject(buildingIndex) is Placeable)
             {
-                EditAny((Placeable)objectList.GetObject(buildingIndex), buildingRotation, false);
+                EditAny((Placeable)objectList.GetObject(buildingIndex), buildingRotation, false, true);
                 SaveData.LoadStorageData(buildingObject, ref objectList);
             }
 
             for (int i = 0; i < 4; i++)
             {
-                int wallIndex = SaveData.GetWall(i);
+                int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
-                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false);
+                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall);
             }
         }
 
@@ -397,15 +400,15 @@ public class TileInfo
     public Vector2Int gridPosition;
     public int[] identifiers;
     public int[] rotations;
-    //public Dictionary<int, int> storage;
+    public bool[] wallAuto;
     public string storage;
-    //public Inventory storage;
 
     public TileInfo(Vector2Int gridPosition)
     {
         this.gridPosition = gridPosition;
         identifiers = new int[6] { -1, -1, -1, -1, -1, -1 };
         rotations = new int[2];
+        wallAuto = new bool[4];
         storage = "";
     }
 
@@ -441,9 +444,10 @@ public class TileInfo
         rotations[1] = rotation;
     }
 
-    public void SetWall(int ID, int rotation)
+    public void SetWall(int ID, int rotation, bool wallAuto)
     {
         identifiers[rotation + 2] = ID;
+        this.wallAuto[rotation] = wallAuto;
     }
 
     public int GetFloor(out int rotation)
@@ -458,8 +462,9 @@ public class TileInfo
         return identifiers[1];
     }
 
-    public int GetWall(int rotationIndex)
+    public int GetWall(int rotationIndex, out bool isAutoWall)
     {
+        isAutoWall = wallAuto[rotationIndex];
         return identifiers[rotationIndex + 2];
     }
 }
