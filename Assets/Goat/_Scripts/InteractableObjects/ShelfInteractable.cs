@@ -10,7 +10,11 @@ namespace Goat.Grid.Interactions
 {
     public class ShelfInteractable : StorageInteractable
     {
+        [Header("Shelf Settings")]
+        [SerializeField] private float resourceSize = 1;
+
         private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
+        private Resource[] itemResourceArray;
 
         // Get or create a item holder object
         private Transform ItemHolderParent;
@@ -39,7 +43,14 @@ namespace Goat.Grid.Interactions
         protected override void Awake()
         {
             base.Awake();
+            Inventory.InventoryResetEvent += Inventory_InventoryResetEvent;
             InitStorage();
+            ResetVisuals();
+        }
+
+        private void Inventory_InventoryResetEvent()
+        {
+            ResetVisuals();
         }
 
         #region Item Holders
@@ -72,7 +83,11 @@ namespace Goat.Grid.Interactions
 
             // Set material and save the meshfilter
             itemHolder.GetComponent<MeshRenderer>().material = info.ItemMaterial;
-            itemHolderMeshList.Add(itemHolder.GetComponent<MeshFilter>());
+
+            MeshFilter filter = itemHolder.GetComponent<MeshFilter>();
+            itemHolderMeshList.Add(filter);
+            filter.gameObject.SetActive(false);
+            filter.transform.localScale = Vector3.one * resourceSize;
         }
 
         // Create a new item holder
@@ -101,38 +116,67 @@ namespace Goat.Grid.Interactions
         #region Physical Storage
 
         // Update the meshes on the grid
-        private void UpdateVisuals()
+        private void ResetVisuals()
         {
-            for(int i = Inventory.ItemsInInventory; i < itemHolderMeshList.Count; i++)
-            {
-                itemHolderMeshList[i].mesh = null;
-            } 
+            itemResourceArray = new Resource[maxResources];
 
-            for (int i = 0, h = 0; i < Inventory.Items.Count; i++)
+            for (int i = Inventory.ItemsInInventory; i < itemResourceArray.Length; i++)
             {
-                for (int j = 0; j < Inventory.Items.ElementAt(i).Value; j++, h++)
+                itemHolderMeshList[i].gameObject.SetActive(false);
+            }
+
+            for (int i = 0; i < Inventory.Items.Count; i++)
+            {
+                for (int j = 0; j < Inventory.Items.ElementAt(i).Value; j++)
                 {
-                    itemHolderMeshList[h].mesh = Inventory.Items.ElementAt(i).Key.Mesh[0];
+                    int index = itemResourceArray.ToList().FindIndex(x => x == null);
+                    itemResourceArray[index] = Inventory.Items.ElementAt(i).Key;
+
+                    itemHolderMeshList[index].gameObject.SetActive(true);
+                    itemHolderMeshList[index].mesh = itemResourceArray[index].Mesh[0];
                 }
             }
         }
 
-        public override void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        public override bool Add(Resource resource, int amount, out int storedAmount)
         {
-            base.OnGetObject(objectInstance, poolKey);
+            bool succeeded = base.Add(resource, amount, out storedAmount);
+            for (int i = 0; i < storedAmount; i++)
+            {
+                int index = itemResourceArray.ToList().FindIndex(x => x == null);
+                itemResourceArray[index] = resource;
 
-            UpdateInteractable.AddListener(UpdateVisuals);
-            ResetStorage();
+                itemHolderMeshList[index].mesh = resource.Mesh[0];
+                itemHolderMeshList[index].gameObject.SetActive(true);
+            }
+
+            return succeeded;
         }
 
-        public override void OnReturnObject()
+        public override void Remove(Resource resource, int amount, out int removedAmount)
         {
-            ResetStorage();
+            base.Remove(resource, amount, out removedAmount);
+            for (int i = 0; i < removedAmount; i++)
+            {
+                int index = itemResourceArray.ToList().FindIndex(x => x == resource);
+                itemResourceArray[index] = null;
 
-            base.OnReturnObject();
+                itemHolderMeshList[index].gameObject.SetActive(false);
+            }
         }
 
         #endregion
 
+        public override void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        {
+            base.OnGetObject(objectInstance, poolKey);
+        }
+
+        public override void OnReturnObject()
+        {
+            Inventory.Clear();
+
+            base.OnReturnObject();
+        }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Goat.Grid.Interactions;
 using System.Linq;
+using Goat.Storage;
 using Goat.Events;
 using Sirenix.OdinInspector;
 using UnityAtoms.BaseAtoms;
 using DG.Tweening;
 using System;
-using Goat.Storage;
 
 namespace Goat.AI
 {

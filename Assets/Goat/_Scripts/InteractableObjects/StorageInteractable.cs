@@ -21,11 +21,10 @@ namespace Goat.Grid.Interactions
         [Header("Storage")]
         [SerializeField] protected int maxResources = 4;
         [SerializeField] protected StorageEnviroment enviroment;
+        [SerializeField] protected InteractableUIElement elementToLoad = InteractableUIElement.ShelfStorage;
 
-        public void SetInventory(Inventory newInventory)
-        {
-            inventory = newInventory;
-        }
+        public InteractableUIElement ElementToLoad => elementToLoad;
+
 
         [SerializeField] private Resource mainResource;
         [HideInInspector] public Resource MainResource { get => mainResource; }
@@ -33,8 +32,18 @@ namespace Goat.Grid.Interactions
         protected override void Awake()
         {
             inventory = new Inventory(maxResources);
-            ResetStorage();
             base.Awake();
+            Inventory.InventoryChangedEvent += Inventory_InventoryChangedEvent;
+        }
+
+        protected void OnDestroy()
+        {
+            Inventory.InventoryChangedEvent -= Inventory_InventoryChangedEvent;
+        }
+
+        private void Inventory_InventoryChangedEvent()
+        {
+            InvokeChange();
         }
 
         public override object[] GetArgumentsForUI() {
@@ -53,10 +62,8 @@ namespace Goat.Grid.Interactions
         /// <param name="amount"> Give amount it should generate </param>
         /// <param name="storedAmount"> Outs the amount that was actually stored </param>
         /// <returns> Return whether it stored at least one item </returns>
-        public virtual bool AddResource(Resource resource, int amount, out int storedAmount) {
+        public virtual bool Add(Resource resource, int amount, out int storedAmount) {
             inventory.Add(resource, amount, out storedAmount);
-            InvokeChange();
-
             return storedAmount != 0;
         }
 
@@ -67,21 +74,8 @@ namespace Goat.Grid.Interactions
         /// <param name="index"> Index of the item you want </param>
         /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
         /// <returns> Returns the selected item </returns>
-        public virtual void RemoveResource(Resource resource, int amount) {
-            inventory.Remove(resource, amount, out int storedAmount);
-            InvokeChange();
-        }
-
-        /// <summary>
-        /// Returns all items from the storage
-        /// Remove all items from the shelf
-        /// </summary>
-        /// <param name="index"> Index of the item you want </param>
-        /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
-        /// <returns> Returns all the stored items </returns>
-        public virtual void ResetStorage() {
-            inventory.Clear();
-            InvokeChange();
+        public virtual void Remove(Resource resource, int amount, out int removedAmount) {
+            inventory.Remove(resource, amount, out removedAmount);
         }
 
         #endregion

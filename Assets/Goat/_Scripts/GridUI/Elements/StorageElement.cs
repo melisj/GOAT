@@ -123,7 +123,9 @@ namespace Goat.Grid.Interactions.UI
                         // This needs to happen, otherwise the index will not be what it says it is
                         int index = i;
                         int totalIndex = total;
-                        itemIcons[totalIndex].IconButton.onClick.AddListener(() => interactable.RemoveResource(inventory.Items.ElementAt(index).Key, 1));
+                        itemIcons[totalIndex].IconButton.onClick.AddListener(() => 
+                            interactable.Remove(inventory.Items.ElementAt(index).Key, 1, out int removedAmount)
+                            );
                     }
                 }
             }

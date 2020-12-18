@@ -58,8 +58,7 @@ namespace Goat.Grid.UI
         {
             InteractableUIElement elementToLoad = InteractableUIElement.None;
 
-            if (interactable is ShelfInteractable) elementToLoad = InteractableUIElement.ShelfStorage;
-            else if (interactable is CrateInteractable) elementToLoad = InteractableUIElement.CrateStorage;
+            if (interactable is StorageInteractable) elementToLoad = ((StorageInteractable)interactable).ElementToLoad;
             else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
            
             SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);

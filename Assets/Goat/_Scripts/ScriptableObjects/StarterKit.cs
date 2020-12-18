@@ -8,6 +8,7 @@ public class StarterKit : MonoBehaviour
     [SerializeField] private Money money;
     [SerializeField] private Electricity electricity;
     [SerializeField] private TimeOfDay timeOfDay;
+    [SerializeField] private SatisfactionLevel satisfactionLevel;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class StarterKit : MonoBehaviour
             buyables[i].Amount = buyables[i].StarterAmount;
         }
         timeOfDay.Reset();
+        satisfactionLevel.Satisfaction = 0;
         money.Amount = money.StarterAmount;
     }
 
