@@ -10,6 +10,9 @@ namespace Goat.Grid.Interactions
 {
     public class ShelfInteractable : StorageInteractable
     {
+        [Header("Shelf Settings")]
+        [SerializeField] private float resourceSize = 1;
+
         private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
         private Resource[] itemResourceArray;
 
@@ -80,8 +83,11 @@ namespace Goat.Grid.Interactions
 
             // Set material and save the meshfilter
             itemHolder.GetComponent<MeshRenderer>().material = info.ItemMaterial;
-            itemHolderMeshList.Add(itemHolder.GetComponent<MeshFilter>());
-            itemHolderMeshList[itemHolderMeshList.Count - 1].gameObject.SetActive(false);
+
+            MeshFilter filter = itemHolder.GetComponent<MeshFilter>();
+            itemHolderMeshList.Add(filter);
+            filter.gameObject.SetActive(false);
+            filter.transform.localScale = Vector3.one * resourceSize;
         }
 
         // Create a new item holder

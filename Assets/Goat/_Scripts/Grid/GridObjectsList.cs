@@ -30,7 +30,7 @@ public class GridObjectsList : SerializedScriptableObject
         bool changedList = false;
         for (int i = 0; i < buyables.Count; i++)
         {
-            if (buyables[i].ID != i)
+            if (buyables[i] && buyables[i].ID != i)
             {
                 buyables[i].ID = i;
 #if UNITY_EDITOR

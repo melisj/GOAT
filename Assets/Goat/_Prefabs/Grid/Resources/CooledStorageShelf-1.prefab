@@ -170,9 +170,8 @@ MonoBehaviour:
   grid: {fileID: 0}
   maxResources: 2
   enviroment: 2
-  elementToLoad: 0
-  itemHolderMeshList: []
-  itemResourceArray: []
+  elementToLoad: 1
+  resourceSize: 0.6
 --- !u!114 &2722855070482406779
 MonoBehaviour:
   m_ObjectHideFlags: 0
