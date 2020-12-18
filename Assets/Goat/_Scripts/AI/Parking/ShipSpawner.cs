@@ -11,6 +11,10 @@ namespace Goat.AI.Parking
         [SerializeField] private ParkingSpots parkingHandler;
         [SerializeField] private Parking parkingInfo;
 
+        [Header("Settings")]
+        [SerializeField] private float arrivalHeight;
+        public float ArrivalHeight => arrivalHeight;
+
         [Button("Spawn Ship Random", ButtonSizes.Large)]
         private void SpawnShip()
         {
@@ -46,7 +50,7 @@ namespace Goat.AI.Parking
         private void SetArrivingFlightPath(NPCShip ship, ParkingSpots.ParkingSpot parkingSpot)
         {
             ship.Spawner = this;
-            ship.AddFlightPath(parkingSpot.position + new Vector3(0, 10, 0), 5);
+            ship.AddFlightPath(parkingSpot.position + new Vector3(0, arrivalHeight, 0), 5);
             ship.AddFlightPath(parkingSpot.position, 0.1f);
             ship.ParkingSpot = parkingSpot;
         }

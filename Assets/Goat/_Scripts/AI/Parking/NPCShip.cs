@@ -41,7 +41,6 @@ namespace Goat.AI.Parking
         private void ShipHasLanded()
         {
             // Spawn NPC
-            print("The eagle has landed");
             NpcSpawner.SpawnNPC();
         }
 
@@ -49,7 +48,7 @@ namespace Goat.AI.Parking
         {
             // Customer has arrived
             parkingSpot.ocupied = false;
-            AddFlightPath(transform.position + new Vector3(0,10,0), 1);
+            AddFlightPath(transform.position + new Vector3(0, Spawner.ArrivalHeight, 0), 1);
             AddFlightPath(transform.position + transform.forward * 100, 20);
             StartCoroutine(FollowFlightPath(() => ShipHasDeparted()));
         }
