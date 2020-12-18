@@ -213,7 +213,6 @@ MonoBehaviour:
     SerializationNodes: []
   npcSize: 1
   wanderRange: 10
-  carriedItemValue: 0
   maxInventory: 10
   targetDestination: {x: 0, y: 0, z: 0}
   navMeshAgent: {fileID: 0}
@@ -340,7 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reviewWeight: {fileID: 11400000, guid: ed17fe3bddd7230479af5806b2db88f2, type: 2}
   npc: {fileID: 2094399924142381524}
---- !u!114 &2094399923083953297
+--- !u!114 &7209394636905989686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

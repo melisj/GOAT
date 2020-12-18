@@ -32,13 +32,20 @@ namespace Goat.AI.States
             if (worker.targetStorage.tag == storage)
                 resourceToPlace = worker.targetStorage.MainResource;
             else if(worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
-                resourceToPlace = worker.Inventory.Items.Keys.First();
+                resourceToPlace = worker.Inventory.Items.First().Key;
 
-            if(resourceToPlace != null && worker.targetStorage.Inventory.SpaceLeft > 0)
+            if(resourceToPlace == null)
+            {
+                filledShelve = true;
+                return;
+            }
+
+            if(worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
             {
                 worker.targetStorage.Add(resourceToPlace, 1, out int amountPlaced);
                 if (amountPlaced > 0)
                 {
+                    Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
                     worker.Inventory.Remove(resourceToPlace, 1, out int amountRemoved);
                     animator.SetTrigger("Interact");
                 }

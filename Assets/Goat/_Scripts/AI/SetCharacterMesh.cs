@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Goat.AI
 {
-    public class ChangeCharacterMesh : MonoBehaviour
+    public class SetCharacterMesh : MonoBehaviour
     {
         [SerializeField] private CharacterMeshes meshes;
         private void Awake()

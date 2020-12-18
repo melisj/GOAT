@@ -11,7 +11,8 @@ namespace Goat.AI.States
     public class SearchForEmptyShelves : IState
     {
         StockClerk stockClerk;
-        private bool foundEmptyShelves;
+        public bool foundEmptyShelves { get; private set; }
+        private float tickTime = 0, tickSpeed = 1;
 
         public SearchForEmptyShelves(StockClerk stockClerk)
         {
@@ -20,12 +21,20 @@ namespace Goat.AI.States
 
         public void Tick()
         {
+            if(tickTime <= Time.time)
+            {
+                tickTime = Time.time + (1 / tickSpeed);
+                List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
+                FindStorageAndItems(sortedStorages);
+                sortedStorages.Clear();
+            }
         }
 
         private void FindStorageAndItems(List<StorageInteractable> storages)
         {
             if (storages.Count == 0 || storages == null) return;
 
+            bool found = false;
             // Somehow check which shelves are already selected by other employeets
             while (stockClerk.ItemsToGet.SpaceLeft > 0 && storages.Count > 0)
             {
@@ -36,20 +45,22 @@ namespace Goat.AI.States
                 stockClerk.ItemsToGet.Add(tempResource, amountToGet, out int amountStored);
                 if (amountStored > 0)
                 {
-                    stockClerk.targetStorages.Add(tempStorage);
-                    storages.RemoveAt(0);
+                    found = true;
+                    stockClerk.targetStorages.Add(tempStorage);                    
                 }
+                storages.RemoveAt(0);
             }
 
-            foundEmptyShelves = true;
+            foundEmptyShelves = found;
         }
 
         public void OnEnter()
         {
+            Debug.Log("StockClerk started searching for empty shelves");
             foundEmptyShelves = false;
-            List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft != 0).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
-            FindStorageAndItems(sortedStorages);
-            sortedStorages.Clear();
+            tickTime = 0;
+            stockClerk.targetStorage = null;
+            stockClerk.targetStorages = new List<StorageInteractable>();
         }
 
         public void OnExit()

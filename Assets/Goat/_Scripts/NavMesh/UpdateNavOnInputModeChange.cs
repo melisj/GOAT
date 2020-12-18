@@ -8,6 +8,7 @@ namespace Goat.AI
     {
         [SerializeField] private NavMeshSurface surfaceAI;
         [SerializeField] private NavMeshSurface surfacePlayer;
+        [SerializeField] private NavMeshSurface surfaceWorker;
 
         public override void OnEventRaised(InputMode value)
         {
@@ -15,6 +16,7 @@ namespace Goat.AI
             {
                 surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
                 surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
+                surfaceWorker?.UpdateNavMesh(surfaceWorker?.navMeshData);
             }
         }
     }

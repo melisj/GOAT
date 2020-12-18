@@ -1263,7 +1263,7 @@ GameObject:
   - component: {fileID: 8251124710622384765}
   m_Layer: 9
   m_Name: BulkStorageShelf-1
-  m_TagString: Storage
+  m_TagString: Container
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
