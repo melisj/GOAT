@@ -34,7 +34,7 @@ public class DialogueManager : MonoBehaviour
 
 	void Start()
 	{
-		Debug.LogFormat("{0}x{1,-10}{2,-20}", 10, "testitem", 357);
+		
 		// First names
 		firstNames.Clear();
 		firstNames.Add("Grogu");
@@ -76,7 +76,7 @@ public class DialogueManager : MonoBehaviour
 		{
 			listDialogueMax = sentenceOne.Count + 1;
 		}
-		if (sentenceTwo.Count > sentenceOne.Count || sentenceTwo.Count > sentenceThree.Count)
+		if (sentenceTwo.Count < sentenceOne.Count || sentenceTwo.Count > sentenceThree.Count)
 		{
 			listDialogueMax = sentenceTwo.Count + 1;
 		}
@@ -86,7 +86,7 @@ public class DialogueManager : MonoBehaviour
 		}
 
 		//check which list is longer and use that one as the max
-		if (firstNames.Count < lastNames.Count)
+		if (firstNames.Count > lastNames.Count)
 		{
 			listNameMax = lastNames.Count;
 
@@ -148,14 +148,14 @@ public class DialogueManager : MonoBehaviour
 			senThreeDone = true;
 		}
 	}
+
 	private List<string> ShowInventory(NPC customer)
 	{
 		List<string> inventory = new List<string>();
 		foreach (var item in customer.inventory)
 		{
 			inventory.Add(string.Format("{0}x{1,10}{2,20}",item.Value,item.Key,(item.Key.Price * item.Value)));
-		}
-		
+		}		
 		return inventory;
 	}
 }
