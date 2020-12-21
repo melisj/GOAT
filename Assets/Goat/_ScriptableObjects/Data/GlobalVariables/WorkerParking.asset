@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37e82b88e131764790449106e81e24d, type: 3}
+  m_Name: WorkerParking
+  m_EditorClassIdentifier: 
+  shipPrefab: {fileID: 290712558274142188, guid: 389ece5f0f0fc6047bb557a5e7c70d77,
+    type: 3}
+  warpEffectPrefab: {fileID: 4328525299985402912, guid: cdfafce32221d894185c7bb55ccc61fd,
+    type: 3}

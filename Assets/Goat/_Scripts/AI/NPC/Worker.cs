@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Goat.ScriptableObjects;
 using Goat.Grid.Interactions;
+using Goat.AI.Parking;
+using Goat.AI.Satisfaction;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
@@ -12,4 +15,3 @@ namespace Goat.AI
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
     }
 }
-

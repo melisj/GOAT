@@ -8,6 +8,7 @@ using Goat.Storage;
 using Goat.AI.States;
 using Sirenix.OdinInspector;
 using Goat.Pooling;
+using Goat.AI.Parking;
 
 namespace Goat.AI
 {
@@ -36,7 +37,7 @@ namespace Goat.AI
 
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
-
+        public NPCShip Ship { get; set; }
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 

@@ -36,7 +36,6 @@ namespace Goat.AI
         [HideInInspector] public float totalPriceProducts;
 
         private ExitStore exitStore;
-        public NPCShip Ship { get; set; }
 
         protected override void Setup()
         {
@@ -50,7 +49,7 @@ namespace Goat.AI
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStore(this, navMeshAgent, animator, review, entrances);
+            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions

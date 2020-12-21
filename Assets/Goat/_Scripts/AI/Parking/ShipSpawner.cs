@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.AI.Parking
@@ -16,14 +17,14 @@ namespace Goat.AI.Parking
         public float ArrivalHeight => arrivalHeight;
 
         [Button("Spawn Ship Random", ButtonSizes.Large)]
-        private void SpawnShip()
+        public virtual void SpawnShip(int amountPassengers)
         {
             if (Application.isPlaying)
             {
                 ParkingSpots.ParkingSpot parkingSpot = parkingHandler.GetRandomParkingSpot();
                 if (parkingSpot != null)
                 {
-                    StartCoroutine(SpawnSequence(parkingSpot));
+                    StartCoroutine(SpawnSequence(parkingSpot, amountPassengers));
                 }
             }
             else
@@ -47,16 +48,16 @@ namespace Goat.AI.Parking
             return new Vector3(Random.Range(-50, 50), Random.Range(30, 50), Random.Range(-200, -100));
         }
 
-        private void SetArrivingFlightPath(NPCShip ship, ParkingSpots.ParkingSpot parkingSpot)
+        protected virtual void SetArrivingFlightPath(NPCShip ship, ParkingSpots.ParkingSpot parkingSpot, int amountPassengers)
         {
+            ship.AmountPassengers = amountPassengers;
             ship.Spawner = this;
             ship.AddFlightPath(parkingSpot.position + new Vector3(0, arrivalHeight, 0), 5);
             ship.AddFlightPath(parkingSpot.position, 0.1f);
             ship.ParkingSpot = parkingSpot;
         }
 
-        // Spawn in the ship with a warp effect
-        private IEnumerator SpawnSequence(ParkingSpots.ParkingSpot parkingSpot)
+        protected virtual IEnumerator SpawnSequence(ParkingSpots.ParkingSpot parkingSpot, int amountPassengers)
         {
             Vector3 spawnPosition = CalculateSpawnPosition(parkingSpot);
             Quaternion spawnRotation = CalculateSpawnRotation(parkingSpot, spawnPosition);
@@ -66,7 +67,7 @@ namespace Goat.AI.Parking
             yield return new WaitForSeconds(2);
 
             GameObject shipObject = PoolManager.Instance.GetFromPool(parkingInfo.shipPrefab, spawnPosition, spawnRotation);
-            SetArrivingFlightPath(shipObject.GetComponentInChildren<NPCShip>(), parkingSpot);
+            SetArrivingFlightPath(shipObject.GetComponentInChildren<NPCShip>(), parkingSpot, amountPassengers);
 
             // Do ship animation
         }

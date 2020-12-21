@@ -9,13 +9,13 @@ public abstract class CollisionDetection : MonoBehaviour, ICollideDetect
     [Title("OverlapSphere method")]
     [SerializeField] private Vector3 center;
 
-    [SerializeField] private int size;
+    [SerializeField] private float size;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private bool onlyNearest;
     [SerializeField, HideIf("onlyNearest")] private int maxAmountColliders;
     [SerializeField] private bool repeatDetectionOverTime;
     [SerializeField, ShowIf("repeatDetectionOverTime")] private float intervalTime;
-    [SerializeField] private bool updateDetectionOnIdleOnly;
+    [SerializeField, HideIf("repeatDetectionOverTime")] private bool updateDetectionOnIdleOnly;
     private Vector3 oldPos;
     private bool isMoving;
     protected Collider latestCollider, previousCollider;
@@ -44,23 +44,26 @@ public abstract class CollisionDetection : MonoBehaviour, ICollideDetect
         }
     }
 
-    //private void Update()
-    //{
-    //    if (updateDetectionOnIdleOnly)
-    //    {
-    //        isMoving = (transform.position != oldPos);
-    //        oldPos = transform.position;
+    private void Update()
+    {
+        if (!repeatDetectionOverTime)
+        {
+            if (updateDetectionOnIdleOnly)
+            {
+                isMoving = (transform.position != oldPos);
+                oldPos = transform.position;
 
-    //        if (!isMoving)
-    //        {
-    //            Detect();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Detect();
-    //    }
-    //}
+                if (!isMoving)
+                {
+                    Detect();
+                }
+            }
+            else
+            {
+                Detect();
+            }
+        }
+    }
 
     private void Detect()
     {
@@ -90,9 +93,8 @@ public abstract class CollisionDetection : MonoBehaviour, ICollideDetect
             if (previousCollider != latestCollider)
             {
                 OnExit();
-
-                OnEnter();
             }
+            OnEnter();
         }
         else
         {

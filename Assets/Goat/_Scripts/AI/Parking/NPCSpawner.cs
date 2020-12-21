@@ -1,4 +1,5 @@
 ﻿using Goat.Pooling;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,28 +10,50 @@ namespace Goat.AI.Parking
     {
         private NPCShip ship;
         [SerializeField] private GameObject npcPrefab;
+        [SerializeField] private int spawnDelay;
+        protected WaitForSeconds spawnDelaySeconds;
+        private GameObject currentPrefab;
 
-        public void Awake()
+        private void Awake()
         {
             ship = GetComponentInParent<NPCShip>();
+            spawnDelaySeconds = new WaitForSeconds(spawnDelay);
         }
 
-        public virtual void SpawnNPC()
+        public void SpawnNPC(int amountPassengers = 1, GameObject prefab = null)
         {
-            GameObject customerObject = PoolManager.Instance.GetFromPool(npcPrefab, transform.position, Quaternion.identity);
-            Customer customer = customerObject.GetComponent<Customer>();
-
-            customer.Ship = ship;
+            currentPrefab = prefab == null ? npcPrefab : prefab;
+            if (amountPassengers == 1)
+            {
+                SpawnOneNPC(currentPrefab);
+            }
+            else
+            {
+                StartCoroutine(SpawnMultipleNPC(amountPassengers));
+            }
         }
-    }
 
-    public class EmployeeSpawner : MonoBehaviour
-    {
-        [SerializeField] private GameObject[] npcPrefab;
-    }
+        protected virtual IEnumerator SpawnMultipleNPC(int amountPassengers = 2)
+        {
+            int amountLeft = amountPassengers;
+            while (amountLeft > 0)
+            {
+                yield return spawnDelaySeconds;
+                SpawnOneNPC(currentPrefab);
+                amountLeft--;
+            }
+        }
 
-    public class HiredEmployees : ScriptableObject
-    {
-        [SerializeField] private GameObject obj;
+        protected void SpawnOneNPC(GameObject prefab)
+        {
+            GameObject npcObject = PoolManager.Instance.GetFromPool(prefab, transform.position, Quaternion.identity);
+            SetupNPC(npcObject);
+        }
+
+        private void SetupNPC(GameObject npcObject)
+        {
+            NPC npc = npcObject.GetComponent<NPC>();
+            npc.Ship = ship;
+        }
     }
 }
