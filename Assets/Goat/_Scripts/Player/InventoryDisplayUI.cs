@@ -40,7 +40,7 @@ namespace Goat.Player
 
         private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
         {
-            stockingUI.gameObject.SetActive(false);
+            stockingUI.StockingUIElement.SetActive(false);
         }
 
         private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)
@@ -97,7 +97,7 @@ namespace Goat.Player
                 var resource = inventory.Items.ElementAt(i);
                 EnableIcon(i, resource.Key, resource.Value, () => {
                     stockingUI.ChangeResource(resource.Key, inventory, ((StorageInteractable)info.CurrentSelected).Inventory);
-                    stockingUI.gameObject.SetActive(true);
+                    stockingUI.StockingUIElement.SetActive(true);
                 });
             }
         }
