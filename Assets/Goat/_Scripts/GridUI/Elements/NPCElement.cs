@@ -46,10 +46,10 @@ namespace Goat.Grid.Interactions.UI
         }
 
         // Enable a storage icon with a new sprite
-        private void EnableIcon(int iconIndex, Sprite newIcon, float price, int amount)
+        private void EnableIcon(int iconIndex, Resource resource, float price, int amount)
         {
             icons[iconIndex].gameObject.SetActive(true);
-            icons[iconIndex].SetIconData(newIcon, price, amount);
+            icons[iconIndex].SetIconData(resource, price, amount);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Goat.Grid.Interactions.UI
                 int i = 0;
                 foreach (KeyValuePair<Resource, int> item in itemList)
                 {
-                    EnableIcon(i, item.Key.Image, item.Key.Price, item.Value);
+                    EnableIcon(i, item.Key, item.Key.Price, item.Value);
                     i++;
                 }
 

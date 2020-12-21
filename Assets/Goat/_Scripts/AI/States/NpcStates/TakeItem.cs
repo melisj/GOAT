@@ -39,7 +39,7 @@ namespace Goat.AI.States
                     Debug.LogFormat("Took {0} from storage container", tempResource.name);
                     npc.Inventory.Add(tempResource, 1, out int amountStored);
                     npc.ItemsToGet.Remove(tempResource, amountStored, out int itemsRemoved);
-                    npc.targetStorage.Remove(tempResource, amountStored, out int storageRemoved);
+                    npc.targetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
 
                     animator.SetTrigger("Interact");
 

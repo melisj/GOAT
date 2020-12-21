@@ -1,9 +1,12 @@
-﻿using Goat.Storage;
+﻿using Goat.Grid.UI;
+using Goat.Player;
+using Goat.Storage;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,7 +22,10 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] private TextMeshProUGUI itemsText;
         [SerializeField] private Transform gridParent;
 
+        [SerializeField] private PlayerInventory playerInventory;
         [SerializeField] private InteractablesInfo info;
+
+        [SerializeField] private InteractableUI interactableUI;
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
 
@@ -27,11 +33,9 @@ namespace Goat.Grid.Interactions.UI
 
         [SerializeField] private bool showSeperateObject;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public override void InitUI() {
             base.InitUI();
+            interactableUI = GetComponentInParent<InteractableUI>();
 
             for (int i = 0; i < amountOfPrewarmedStorageElements; i++) {
                 AddStorageIcon();
@@ -51,13 +55,13 @@ namespace Goat.Grid.Interactions.UI
         }
 
         // Enable a storage icon with a new sprite
-        private void EnableIcon(int iconIndex, Sprite newIcon, int amount) {
+        private void EnableIcon(int iconIndex, Resource resource, int amount, Action callback) {
             // Reset listeners
             itemIcons[iconIndex].IconButton.onClick.RemoveAllListeners();
 
             // Set the element active and set the icon
             itemIcons[iconIndex].gameObject.SetActive(true);
-            itemIcons[iconIndex].SetIconData(newIcon, 0, amount);
+            itemIcons[iconIndex].SetIconData(resource, 0, amount, callback);
         }
 
         /// <summary>
@@ -74,10 +78,10 @@ namespace Goat.Grid.Interactions.UI
             if (showSeperateObject)
                 SpawnSeperateElements((Inventory)args[1], (StorageInteractable)args[2]);
             else
-                SpawnGroupedElements((Inventory)args[1]);
+                SpawnGroupedElements((Inventory)args[1], (StorageInteractable)args[2]);
         }
 
-        private void SpawnGroupedElements(Inventory inventory)
+        private void SpawnGroupedElements(Inventory inventory, StorageInteractable interactable)
         {
             // Add icons if pool is not enough
             while (inventory.Items.Count > itemIcons.Count)
@@ -93,7 +97,11 @@ namespace Goat.Grid.Interactions.UI
             for (int i = 0; i < inventory.Items.Count; i++)
             {
                 var resource = inventory.Items.ElementAt(i);
-                EnableIcon(i, resource.Key.Image, resource.Value);
+                EnableIcon(i, resource.Key, resource.Value, () =>
+                {
+                    interactableUI.StockingScript.ChangeResource(resource.Key, interactable.Inventory, playerInventory.Inventory);
+                    interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
+                });
             }
         }
 
@@ -115,18 +123,12 @@ namespace Goat.Grid.Interactions.UI
             {
                 for (int j = 0; j < inventory.Items.ElementAt(i).Value; j++, total++)
                 {
-                    EnableIcon(total, inventory.Items.ElementAt(i).Key.Image, 0);
+                    Resource resource = inventory.Items.ElementAt(i).Key;
 
-                    // Add the custom event to the resource
-                    if (interactable is StorageInteractable)
-                    {
-                        // This needs to happen, otherwise the index will not be what it says it is
-                        int index = i;
-                        int totalIndex = total;
-                        itemIcons[totalIndex].IconButton.onClick.AddListener(() => 
-                            interactable.Remove(inventory.Items.ElementAt(index).Key, 1, out int removedAmount)
-                            );
-                    }
+                    EnableIcon(total, inventory.Items.ElementAt(i).Key, 0, () => {
+                        playerInventory.Inventory.Add(resource, 1, out int amountStored);
+                        interactable.Inventory.Remove(resource, amountStored, out int removedAmount);
+                    });
                 }
             }
         }

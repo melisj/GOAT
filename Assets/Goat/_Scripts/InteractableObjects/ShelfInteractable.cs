@@ -46,6 +46,14 @@ namespace Goat.Grid.Interactions
             Inventory.InventoryResetEvent += Inventory_InventoryResetEvent;
             InitStorage();
             ResetVisuals();
+
+            Inventory.InventoryChangedEvent += Inventory_InventoryChangedEvent;
+        }
+
+        private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)
+        {
+            if (removed) Remove(resource, amount);
+            else Add(resource, amount);
         }
 
         private void Inventory_InventoryResetEvent()
@@ -138,10 +146,9 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        public override bool Add(Resource resource, int amount, out int storedAmount)
+        public void Add(Resource resource, int amount)
         {
-            bool succeeded = base.Add(resource, amount, out storedAmount);
-            for (int i = 0; i < storedAmount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 int index = itemResourceArray.ToList().FindIndex(x => x == null);
                 itemResourceArray[index] = resource;
@@ -149,14 +156,11 @@ namespace Goat.Grid.Interactions
                 itemHolderMeshList[index].mesh = resource.Mesh[0];
                 itemHolderMeshList[index].gameObject.SetActive(true);
             }
-
-            return succeeded;
         }
 
-        public override void Remove(Resource resource, int amount, out int removedAmount)
+        public void Remove(Resource resource, int amount)
         {
-            base.Remove(resource, amount, out removedAmount);
-            for (int i = 0; i < removedAmount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 int index = itemResourceArray.ToList().FindIndex(x => x == resource);
                 itemResourceArray[index] = null;
