@@ -8,6 +8,7 @@ namespace Goat.AI
     {
         [SerializeField] private NavMeshSurface surfaceAI;
         [SerializeField] private NavMeshSurface surfacePlayer;
+        [SerializeField] private NavMeshSurface surfaceWorker;
 
         public override void OnEventRaised(KeyCodeMode value)
         {
@@ -18,11 +19,9 @@ namespace Goat.AI
 
             if (code == KeyCode.N && mode == KeyMode.Down)
             {
-                //surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
-
-                surfaceAI.BuildNavMesh();
-                surfacePlayer.BuildNavMesh();
-                //surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
+                surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
+                surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
+                surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
             }
         }
     }

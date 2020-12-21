@@ -8,15 +8,15 @@ namespace Goat.AI
     {
         [SerializeField] private NavMeshSurface surfaceAI;
         [SerializeField] private NavMeshSurface surfacePlayer;
+        [SerializeField] private NavMeshSurface surfaceWorker;
 
         public override void OnEventRaised(InputMode value)
         {
             if (value != InputMode.Edit)
             {
-                //surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
-                //surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
-                surfaceAI?.BuildNavMesh();
-                surfacePlayer?.BuildNavMesh();
+                surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
+                surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
+                surfaceWorker?.UpdateNavMesh(surfaceWorker?.navMeshData);
             }
         }
     }

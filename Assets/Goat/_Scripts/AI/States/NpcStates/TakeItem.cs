@@ -60,7 +60,6 @@ namespace Goat.AI.States
             {
                 nextItemTime = Time.time + (1 / takingSpeed);
                 TakeItemFromStorage();
-                // Animate
             }
         }
 
