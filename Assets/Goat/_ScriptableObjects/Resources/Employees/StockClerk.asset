@@ -28,9 +28,10 @@ MonoBehaviour:
   interchangeableMesh: 0
   mesh: []
   summary: 
-  amount: 0
+  amount: 6
   starterAmount: 0
   deliverable: 0
   deliveryTime: 0
   salary: 30
   prefab: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c, type: 3}
+  hiredEmployeeEvent: {fileID: 11400000, guid: 251047beea19f6241ad7adcf46fdddc6, type: 2}
