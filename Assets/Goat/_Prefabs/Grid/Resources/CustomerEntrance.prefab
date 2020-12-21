@@ -128,8 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
   m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: 00000000f2652fae
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: 00000000
 --- !u!95 &4224341978915338503
 Animator:
   serializedVersion: 3
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: -6582482699782147952}
   - component: {fileID: -9220640871344340304}
   m_Layer: 12
-  m_Name: CustomerDoorGarage
+  m_Name: CustomerEntrance
   m_TagString: Checkout
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

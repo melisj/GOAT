@@ -22,12 +22,15 @@ namespace Goat.AI.Feelings
         public void Setup()
         {
             npc.ItemsToGet.InventoryChangedEvent += ItemsToGet_InventoryChangedEvent;
+            npc.ItemsToGet.InventoryResetEvent += ItemsToGet_InventoryChangedEvent;
+
             ChangeQuestionMark();
         }
 
         public void OnReturn()
         {
             npc.ItemsToGet.InventoryChangedEvent -= ItemsToGet_InventoryChangedEvent;
+            npc.ItemsToGet.InventoryResetEvent -= ItemsToGet_InventoryChangedEvent;
         }
 
         private void ItemsToGet_InventoryChangedEvent()

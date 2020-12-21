@@ -13,8 +13,10 @@ namespace Goat.AI
         {
             if (value != InputMode.Edit)
             {
-                surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
-                surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
+                //surfaceAI?.UpdateNavMesh(surfaceAI?.navMeshData);
+                //surfacePlayer?.UpdateNavMesh(surfacePlayer?.navMeshData);
+                surfaceAI?.BuildNavMesh();
+                surfacePlayer?.BuildNavMesh();
             }
         }
     }
