@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
+  m_Name: Inside Door
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  id: 19
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  price: 3
+  image: {fileID: 21300000, guid: 12b77086f50b4d3419a875c0b55fcd3b, type: 3}
+  mesh:
+  - {fileID: 6172208401620928732, guid: 75c0c23bb1e509b489d9714cf9722d3f, type: 3}
+  - {fileID: -5113792887757093629, guid: 75c0c23bb1e509b489d9714cf9722d3f, type: 3}
+  summary: 
+  amount: 100
+  starterAmount: 100
+  deliveryTime: 0
+  prefab: {fileID: 2326092500523055094, guid: 931452ba7e6d27649ad38154f9a15daf, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
+  beautyPoints: 4
