@@ -15,12 +15,22 @@ namespace Goat.AI.Parking
             ship = GetComponentInParent<NPCShip>();
         }
 
-        public void SpawnNPC()
+        public virtual void SpawnNPC()
         {
             GameObject customerObject = PoolManager.Instance.GetFromPool(npcPrefab, transform.position, Quaternion.identity);
             Customer customer = customerObject.GetComponent<Customer>();
 
             customer.Ship = ship;
         }
+    }
+
+    public class EmployeeSpawner : MonoBehaviour
+    {
+        [SerializeField] private GameObject[] npcPrefab;
+    }
+
+    public class HiredEmployees : ScriptableObject
+    {
+        [SerializeField] private GameObject obj;
     }
 }
