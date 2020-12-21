@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a61e6fc73768f41a65d6ad0f0de842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Prefab: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c,
+  m_Prefab: {fileID: 2094399924142381527, guid: c03b105514831234c9e5d1b187780afb,
     type: 3}
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
   m_KeyCode: 32

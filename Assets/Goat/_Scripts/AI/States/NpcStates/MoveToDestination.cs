@@ -40,7 +40,6 @@ namespace Goat.AI.States
             timeStuck = 0f;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(npc.targetDestination);
-            // Animation
         }
 
         public void OnExit()

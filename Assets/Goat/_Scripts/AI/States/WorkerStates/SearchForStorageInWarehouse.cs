@@ -74,7 +74,7 @@ namespace Goat.AI.States
             }
             else if (worker is WarehouseWorker)
             {
-                StorageInteractable[] sortedStorages = worker.storageLocations.Storages.Where(x => x.tag == "Container" && x.Inventory.SpaceLeft != 0).OrderBy(y => y.Inventory.ItemsInInventory).ToArray();
+                StorageInteractable[] sortedStorages = worker.storageLocations.Storages.Where(x => x.tag == "Container" && x.Inventory.SpaceLeft > 0).OrderBy(y => y.Inventory.ItemsInInventory).ToArray();
                 worker.targetStorage = SetStorageTarget(worker.Inventory.Items, sortedStorages);
             }
         }

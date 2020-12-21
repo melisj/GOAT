@@ -21,11 +21,15 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             Debug.Log("Doing nothing");
+            if (npc is WarehouseWorker)
+                ((WarehouseWorker)npc).searching = true;
+            npc.targetDestination = npc.transform.position;
         }
 
         public void OnExit()
         {
-
+            if (npc is WarehouseWorker)
+                ((WarehouseWorker)npc).searching = false;
         }
     }
 }

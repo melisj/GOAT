@@ -11,6 +11,8 @@ namespace Goat.AI
 {
     public class WarehouseWorker : Worker
     {
+        [HideInInspector] public bool searching;
+        [SerializeField] private ResourceDetection resourceDetecter;
 
         protected override void Setup()
         {
@@ -20,12 +22,28 @@ namespace Goat.AI
             //TakeItem takeItem = new TakeItem(this, animator, false);
             PlaceItem placeItem = new PlaceItem(this, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
+            SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
+            DoNothing doNothing = new DoNothing(this);
 
             // Conditions
-
+            Func<bool> HasDestination() => () => resourceDetecter.detected = true && Vector3.Distance(transform.position, targetDestination) > navMeshAgent.radius;
+            Func<bool> ReachedDestination() => () => Vector3.Distance(transform.position, targetDestination) < navMeshAgent.radius && targetStorage == null;
+            Func<bool> ReachedTarget() => () => Vector3.Distance(transform.position, targetDestination) < navMeshAgent.radius && targetStorage != null;
+            Func<bool> GoStoreItems() => () => Inventory.SpaceLeft == 0 || Inventory.ItemsInInventory > 0 && !resourceDetecter.detected;
+            Func<bool> HasTarget() => () => targetStorage != null;
+            Func<bool> EmptiedInventory() => () => Inventory.ItemsInInventory == 0;
+            Func<bool> FindNextStorage() => () => Inventory.ItemsInInventory > 0 && placeItem.filledShelve;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
+
+            AT(searchForStorageInWarehouse, moveToTarget, HasTarget());
+            AT(doNothing, moveToDestination, HasDestination());
+            AT(moveToDestination, doNothing, ReachedDestination());
+            AT(doNothing, searchForStorageInWarehouse, GoStoreItems());
+            AT(moveToTarget, placeItem, ReachedTarget());
+            AT(placeItem, doNothing, EmptiedInventory());
+            AT(placeItem, searchForStorageInWarehouse, FindNextStorage());
         }
     }
 }
