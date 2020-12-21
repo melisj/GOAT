@@ -84,24 +84,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storageText: {fileID: 1852502013}
   iconParent: {fileID: 753548497}
-  stockingUI: {fileID: 3144552901515554544}
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   playerInventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
-  selectedResourceChangeEvt:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1641873274}
-        m_MethodName: ChangeResource
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  stockingUI: {fileID: 1641873274}
 --- !u!1 &967529516
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 using Goat.Grid.UI;
+using Goat.Grid.Interactions.UI;
 
 namespace Goat.Player
 {
@@ -15,14 +16,12 @@ namespace Goat.Player
     {
         [SerializeField] private TextMeshProUGUI storageText;
         [SerializeField] private Transform iconParent;
-        [SerializeField] private GameObject stockingUI;
 
         [SerializeField] private InteractablesInfo info;
         [SerializeField] private PlayerInventory playerInventory;
         [SerializeField] private GridUIInfo gridUIInfo;
 
-        [Serializable] private class SelectedResourceChanged : UnityEvent<Resource, Inventory, Inventory> { }
-        [SerializeField] private SelectedResourceChanged selectedResourceChangeEvt;
+        [SerializeField] private StockingUI stockingUI; 
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
 
@@ -41,7 +40,7 @@ namespace Goat.Player
 
         private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
         {
-            stockingUI.SetActive(false);
+            stockingUI.gameObject.SetActive(false);
         }
 
         private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)
@@ -96,9 +95,9 @@ namespace Goat.Player
             for (int i = 0; i < inventory.Items.Count; i++)
             {
                 var resource = inventory.Items.ElementAt(i);
-                EnableIcon(i, resource.Key, resource.Value, () => { 
-                    selectedResourceChangeEvt?.Invoke(resource.Key, inventory, ((StorageInteractable)info.CurrentSelected).Inventory); 
-                    stockingUI.SetActive(true);
+                EnableIcon(i, resource.Key, resource.Value, () => {
+                    stockingUI.ChangeResource(resource.Key, inventory, ((StorageInteractable)info.CurrentSelected).Inventory);
+                    stockingUI.gameObject.SetActive(true);
                 });
             }
         }
