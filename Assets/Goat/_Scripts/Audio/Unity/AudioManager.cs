@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioCueEventChannelSO _SFXEventChannel = default;
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play Music")]
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
-
+    private Dictionary<AudioCueSO, List<SoundEmitter>> audioCuesCreated;
     [Header("Audio control")]
     [SerializeField] private AudioMixer audioMixer = default;
     [Range(0f, 1f)]
@@ -29,6 +29,9 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         //TODO: Get the initial volume levels from the settings
+        audioCuesCreated = new Dictionary<AudioCueSO, List<SoundEmitter>>();
+        _SFXEventChannel.OnAudioCueStopRequested += StopAudioCue;
+        _musicEventChannel.OnAudioCueStopRequested += StopAudioCue;
 
         _SFXEventChannel.OnAudioCueRequested += PlayAudioCue;
         _musicEventChannel.OnAudioCueRequested += PlayAudioCue; //TODO: Treat music requests differently?
@@ -90,19 +93,36 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip[] clipsToPlay = audioCue.GetClips();
         int nOfClips = clipsToPlay.Length;
-
+        List<SoundEmitter> soundEmitters = new List<SoundEmitter>();
         for (int i = 0; i < nOfClips; i++)
         {
             SoundEmitter soundEmitter = _factory.Create();
             if (soundEmitter != null)
             {
+                soundEmitters.Add(soundEmitter);
                 soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
                 if (!audioCue.looping)
                     soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;
             }
         }
 
+        audioCuesCreated.Add(audioCue, soundEmitters);
+
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
+    }
+
+    public void StopAudioCue(AudioCueSO audioCue)
+    {
+        if (!audioCuesCreated.ContainsKey(audioCue)) return;
+        audioCuesCreated.TryGetValue(audioCue, out List<SoundEmitter> soundEmitters);
+
+        for (int i = 0; i < soundEmitters.Count; i++)
+        {
+            soundEmitters[i].Stop();
+            PoolManager.Instance.ReturnToPool(soundEmitters[i].gameObject);
+        }
+
+        audioCuesCreated.Remove(audioCue);
     }
 
     private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter)

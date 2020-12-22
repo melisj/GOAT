@@ -13,9 +13,14 @@ namespace Goat.Grid.Interactions
 
             bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity, mask);
             hit = mouseHit;
-
+            Debug.DrawRay(mouseWorldPosition, cameraPerspective * 100, isHitting ? Color.green : Color.red);
             if (EventSystem.current.IsPointerOverGameObject())
                 return false;
+
+            //if (isHitting)
+            //{
+            //    Debug.Log(hit.transform.parent.parent);
+            //}
             return isHitting;
         }
     }

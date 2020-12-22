@@ -8,6 +8,7 @@ TagManager:
   - Storage
   - Checkout
   - TubeEnd
+  - Container
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,6 @@ TagManager:
   - Building
   - ResourcePack
   - Customer
-  - 
   - 
   - 
   - 

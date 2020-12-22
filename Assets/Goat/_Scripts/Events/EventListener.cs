@@ -6,6 +6,7 @@ using UnityAtoms.BaseAtoms;
 using Goat.Grid.Interactions;
 using Sirenix.OdinInspector;
 using Goat.Grid;
+using Goat.AI.Parking;
 
 namespace Goat.Events
 {
@@ -81,4 +82,6 @@ namespace Goat.Events
     public abstract class EventListenerReview : EventListener<Review, ReviewEvent> { }
 
     public abstract class EventListenerDeliveryResource : EventListener<DeliveryResource, DeliveryResourceEvent> { }
+
+    public abstract class EventListenerHiredEmployee : EventListener<HiredEmployee, HiredEmployeeEvent> { }
 }

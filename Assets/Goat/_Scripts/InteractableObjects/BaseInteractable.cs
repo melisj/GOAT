@@ -42,10 +42,14 @@ namespace Goat.Grid.Interactions
         [HideInInspector] public Grid grid;
 
         public bool IsClickedOn { get; set; }
-        public bool IsPowered { 
-            get { return isPowered; } 
-            set { isPowered = value; if(isPowered != value) PowerChanged?.Invoke(this, value); } 
+        public bool UIOpen => gridUIInfo.IsUIActive;
+
+        public bool IsPowered
+        {
+            get { return isPowered; }
+            set { isPowered = value; if (isPowered != value) PowerChanged?.Invoke(this, value); }
         }
+
         public bool IsPowering => isPowering;
 
         public int PowerCost => powerCost;
@@ -70,8 +74,8 @@ namespace Goat.Grid.Interactions
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj)
         {
-            if (clickCollider.transform == clickedObj)
-                IsClickedOn = clickCollider.transform == clickedObj;
+            //  if (clickCollider.transform == clickedObj)
+            IsClickedOn = clickCollider.transform == clickedObj;
         }
 
         public virtual object[] GetArgumentsForUI()

@@ -10,38 +10,60 @@ namespace Goat.AI.States
 {
     public class PlaceItem : IState
     {
-
-        private float fillingSpeed = 1, timeToFill = 0;
-        private StockClerk stockClerk;
+        private Worker worker;
         private Animator animator;
-        public bool filledShelve;
+        public bool filledShelve = false;
 
-        public PlaceItem(StockClerk stockClerk, Animator animator)
+        // Get this from npc
+        private float placingSpeed = 0.5f, nextItemTime = 0;
+
+        string storage = "Storage", container = "Container";
+
+        public PlaceItem(Worker worker, Animator animator)
         {
-            this.stockClerk = stockClerk;
+            this.worker = worker;
             this.animator = animator;
         }
 
-        /*private void PlaceItemInStorageContainer()
-        {
-            Resource resourceToBePlaced = stockClerk.Inventory.Items.Keys.First();
-            int amountToBePlaced = stockClerk.Inventory.Items[resourceToBePlaced];
-            stockClerk.targetStorage.AddResource(resourceToBePlaced, amountToBePlaced, out int amountLeft);
-            int amountPlaced = amountToBePlaced - amountLeft;
-            stockClerk.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
-        }*/
+        private void PlaceItemInStorage()
+        {  
+            Resource resourceToPlace = null;
+
+            if (worker.targetStorage.tag == storage)
+                resourceToPlace = worker.targetStorage.MainResource;
+            else if(worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
+                resourceToPlace = worker.Inventory.Items.First().Key;
+
+            if(resourceToPlace == null)
+            {
+                filledShelve = true;
+                return;
+            }
+
+            if(worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
+            {
+                worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
+                if (amountPlaced > 0)
+                {
+                    Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
+                    worker.Inventory.Remove(resourceToPlace, 1, out int amountRemoved);
+                    animator.SetTrigger("Interact");
+                }
+                else
+                    filledShelve = true;
+            }
+            else
+                filledShelve = true;
+
+        }
 
         public void Tick()
         {
-            //&& !(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
-            if (timeToFill <= Time.time )
+            if(!filledShelve && nextItemTime <= Time.time)
             {
-                //animated
-                timeToFill = Time.time + (1 / fillingSpeed);
-                //PlaceItemInStorageContainer();
+                PlaceItemInStorage();
+                nextItemTime = Time.time + (1 / placingSpeed);
             }
-            //if(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
-            //filledShelve = true;
         }
 
         public void OnEnter()
@@ -51,7 +73,7 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
-
+            worker.targetStorage = null;
         }
     }
 }

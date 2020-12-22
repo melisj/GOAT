@@ -10,21 +10,23 @@ public class InteractableOnClick : CollisionDetection
         {
             currentInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
 
-            if (currentInteractable.IsClickedOn)
+            if (currentInteractable.IsClickedOn && !currentInteractable.UIOpen)
             {
                 currentInteractable.OpenUIFully();
             }
-            previousInteractable = currentInteractable;
         }
     }
 
     public override void OnExit()
     {
-        if (previousInteractable != currentInteractable)
+        if (!previousCollider) return;
+        previousInteractable = previousCollider.GetComponentInParent<BaseInteractable>();
+        if (previousInteractable)
         {
+            previousInteractable.IsClickedOn = false;
             previousInteractable.CloseUI();
             previousInteractable = null;
-            latestCollider = null;
+            previousCollider = null;
         }
     }
 }

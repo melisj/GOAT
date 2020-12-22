@@ -27,6 +27,9 @@ namespace Goat.Grid.Interactions
         public InteractableUIElement ElementToLoad => elementToLoad;
 
 
+        [SerializeField] private Resource mainResource;
+        [HideInInspector] public Resource MainResource { get => mainResource; }
+
         protected override void Awake()
         {
             inventory = new Inventory(maxResources);

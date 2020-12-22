@@ -1,4 +1,5 @@
-﻿using Goat.Storage;
+﻿using Goat.ScriptableObjects;
+using Goat.Storage;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;

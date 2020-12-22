@@ -28,7 +28,7 @@ namespace Goat.AI.Satisfaction
 
             while (looper.MoveNext())
             {
-                if(looper.Current != null)
+                if (looper.Current != null)
                     totalBP += looper.Current.TotalBeautyPoints;
             }
 

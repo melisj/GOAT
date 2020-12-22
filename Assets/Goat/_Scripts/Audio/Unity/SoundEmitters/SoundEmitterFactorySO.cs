@@ -10,7 +10,7 @@ public class SoundEmitterFactorySO : FactorySO<SoundEmitter>
     public override SoundEmitter Create()
     {
         GameObject obj = PoolManager.Instance.GetFromPool(prefab.gameObject);
-        SoundEmitter emitter = obj.AddComponent<SoundEmitter>();
+        SoundEmitter emitter = obj.GetComponent<SoundEmitter>();
         return emitter;
     }
 }
