@@ -1064,6 +1064,7 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
   subscribers: 0
   dayText: {fileID: 607114375366955390}
+  timeOfDay: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
 --- !u!1 &607114375844948741
 GameObject:
   m_ObjectHideFlags: 0

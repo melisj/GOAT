@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
+using System;
+using System.Globalization;
+using System.Threading;
 
 [CreateAssetMenu(fileName = "Time", menuName = "ScriptableObjects/GlobalVariables/Time")]
 public class TimeOfDay : ScriptableObject
@@ -17,29 +20,64 @@ public class TimeOfDay : ScriptableObject
 
     [SerializeField, ProgressBar(0, 24, r: 1f, g: 0.9f, b: 0.7f)] private int timeOfSunrise = 8;
     [SerializeField, ProgressBar(0, 24, r: 0.5f, g: 0.4f, b: 0.6f)] private int timeOfSunset = 17;
+    [SerializeField] private int currentYear;
+    [SerializeField, Range(1, 12)] private int currentMonth;
 
     [Title("Events")]
     [SerializeField] private StringEvent onTime24Changed;
     [SerializeField] private StringEvent onTime12Changed;
     [SerializeField] private IntEvent onDayChanged;
+    [SerializeField] private IntEvent onMonthChanged;
+    private DateTime date;
 
     public string EnglishTime => englishTime = timeOfDayHours / 12 >= 1 ? PM : AM;
-    public string GetTime12Hour => $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {englishTime}";
+    public string GetTime12Hour => $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {EnglishTime}";
     public string GetTime24Hour => $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
 
     public int TimeOfDayHours { get => timeOfDayHours; set => timeOfDayHours = value; }
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
+    private CultureInfo usInfo;
+
+    public string GetDate()
+    {
+        if (usInfo == null)
+        {
+            usInfo = new CultureInfo("en-US", false);
+        }
+        if (date.Year == 1)
+        {
+            long ticks = new DateTime(currentYear, currentMonth, currentDay, 0, 0, 0,
+            usInfo.Calendar).Ticks;
+            date = new DateTime(ticks);
+        }
+
+        //Thread.CurrentThread.CurrentCulture = usInfo;
+        return date.ToString("d");
+    }
 
     public int CurrentDay
     {
         get => currentDay;
         set
         {
+            bool newMonth = (CheckForNewMonth(currentDay));
             currentDay = value;
+
+            date.AddDays(1);
+
+            if (newMonth)
+                onMonthChanged.Raise(date.Month);
+
             onDayChanged.Raise(currentDay);
         }
+    }
+
+    private bool CheckForNewMonth(int dayBeforeChange)
+    {
+        int amountDaysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
+        return (amountDaysInMonth == dayBeforeChange);
     }
 
     public float TimeOfDayMinutes
@@ -57,7 +95,7 @@ public class TimeOfDay : ScriptableObject
     {
         timeOfDayHours = 0;
         timeOfDay12Hours = 0;
-        currentDay = 0;
+        currentDay = 1;
         timeOfDayMinutes = 0;
     }
 }

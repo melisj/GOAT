@@ -6,6 +6,7 @@ using System;
 using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using System.Globalization;
 
 public partial class DayNightCycle : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public partial class DayNightCycle : MonoBehaviour
 
     //Events for OnDayTime and OnNightTime
     //public event EventHandler<bool> OnChangeCycle;
+    private DateTime Date;
 
     private void Start()
     {
