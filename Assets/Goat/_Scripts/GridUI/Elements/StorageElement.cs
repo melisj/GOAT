@@ -1,4 +1,6 @@
-﻿using Goat.Storage;
+﻿using Goat.ScriptableObjects;
+using Goat.Storage;
+using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
@@ -26,6 +28,10 @@ namespace Goat.Grid.Interactions.UI
         private int amountOfPrewarmedStorageElements = 10;
 
         [SerializeField] private bool showSeperateObject;
+
+        [SerializeField] private bool hasMainResource;
+        [SerializeField, ShowIf("hasMainResource")] private ResourceArray resourceArray;
+        [SerializeField, ShowIf("hasMainResource")] private GameObject resourceListParent;
 
         /// <summary>
         /// 
@@ -60,6 +66,7 @@ namespace Goat.Grid.Interactions.UI
             itemIcons[iconIndex].SetIconData(newIcon, 0, amount);
         }
 
+        #region Storage
         /// <summary>
         /// Sets the storage UI up with the items given by the arguments
         /// </summary>
@@ -130,6 +137,23 @@ namespace Goat.Grid.Interactions.UI
                 }
             }
         }
+
+        #endregion
+
+        #region Main Resource UI
+
+        private void SetupAllResources()
+        {
+            foreach(Resource resource in resourceArray.Resources)
+            {
+                if(resource.Available)
+                {
+                    //GameObject object = new GameObject();
+                }
+            } 
+        }
+
+        #endregion
 
         private void SetStorageLimitUI(string text) {
             itemsText.text = text;
