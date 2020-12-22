@@ -9,6 +9,7 @@ TagManager:
   - Checkout
   - TubeEnd
   - Container
+  - DroppedResource
   layers:
   - Default
   - TransparentFX
@@ -26,6 +27,7 @@ TagManager:
   - Building
   - ResourcePack
   - Customer
+  - ResourceDetection
   - 
   - 
   - 

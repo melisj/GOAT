@@ -58,7 +58,7 @@ namespace Goat.AI.States
         {
             Debug.Log("StockClerk started searching for empty shelves");
             foundEmptyShelves = false;
-            tickTime = 0;
+            tickTime = Time.time + (1/ tickSpeed);
             stockClerk.targetStorage = null;
             stockClerk.targetStorages = new List<StorageInteractable>();
         }

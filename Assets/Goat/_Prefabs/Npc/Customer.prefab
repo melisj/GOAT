@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -324,7 +324,7 @@ MonoBehaviour:
   targetStorage: {fileID: 0}
   enterTime: 0
   searchingTime: 0
-  maxSearchingTime: 60
+  maxSearchingTime: 10
   review: {fileID: 1771665820897415727}
   feelings: {fileID: 3148984614122792479}
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
