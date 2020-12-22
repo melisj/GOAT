@@ -9,29 +9,26 @@ namespace Goat.AI
     public class ResourceGrabber : MonoBehaviour
     {
         [SerializeField] private NPC npc;
-        private LayerMask layerMask;
 
-        private void Awake()
-        {
-            layerMask = LayerMask.GetMask("DroppedResource");
-        }
+        //private void Awake()
+        //{
+        //    layerMask = LayerMask.GetMask("ResourcePack");
+        //}
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.layer == layerMask)
+            Debug.Log("Collider entered" + other.name);
+            Resource resource = other.GetComponent<ResourcePack>().Resource;
+            if (resource != null)
             {
-                Resource resource = other.GetComponent<Resource>();
-                if(resource != null)
+                npc.Inventory.Add(resource, 1, out int amountAdded);
+                if (amountAdded > 0)
                 {
-                    npc.Inventory.Add(resource, 1, out int amountAdded);
-                    if(amountAdded > 0)
-                    {
-                        PoolManager.Instance.ReturnToPool(other.gameObject);
-                    }
+                    Debug.LogFormat("picked up {0}", resource.name);
+                    PoolManager.Instance.ReturnToPool(other.gameObject);
                 }
             }
         }
-
     }
 }
 

@@ -13,7 +13,7 @@ namespace Goat.AI.States
         NPC npc;
         Animator animator;
         bool returnToStock;
-        public bool storageDepleted;
+        public bool depleted = false, storageDepleted = false;
         // Get this from npc
         private float takingSpeed = 0.5f, nextItemTime = 0;
 
@@ -48,7 +48,7 @@ namespace Goat.AI.States
                     break;
                 }
             }
-            storageDepleted = nothingFound;
+            depleted = nothingFound;
         }
 
         public void Tick()
@@ -56,17 +56,20 @@ namespace Goat.AI.States
             npc.searchingTime += Time.deltaTime;
 
             // If time to grab next item
-            if (!storageDepleted && nextItemTime <= Time.time)
+            if (!depleted && nextItemTime <= Time.time)
             {
                 nextItemTime = Time.time + (1 / takingSpeed);
                 TakeItemFromStorage();
             }
+            else if (depleted && nextItemTime <= Time.time)
+                storageDepleted = false;
         }
 
         public void OnEnter()
         {
             Debug.Log("Started taking items");
             // Start animation?
+            depleted = false;
             storageDepleted = false;
         }
 

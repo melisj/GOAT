@@ -9,12 +9,12 @@ namespace Goat.AI
         [SerializeField] private float detectionRange = 3;
         [HideInInspector] public bool detected = false;
         [SerializeField] WarehouseWorker worker;
-        private LayerMask layerMask;
+        [SerializeField] private LayerMask layerMask;
 
-        private void Awake()
-        {
-            LayerMask.GetMask("DroppedResource");
-        }
+        //private void Awake()
+        //{
+        //    LayerMask.GetMask("ResourcePack");
+        //}
 
         private void FixedUpdate()
         {
@@ -30,7 +30,7 @@ namespace Goat.AI
             Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRange, layerMask);
             Vector3 resourcePosition = Vector3.zero;
 
-            if (colliders != null)
+            if (colliders != null && colliders.Length > 0)
             {
                 detected = true;
                 resourcePosition = colliders[0].transform.position;

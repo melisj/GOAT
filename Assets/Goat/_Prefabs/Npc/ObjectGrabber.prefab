@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3959569668178455133}
   - component: {fileID: 1789150036}
   - component: {fileID: 1789150035}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: ObjectGrabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +62,9 @@ MonoBehaviour:
   detectionRange: 3
   detected: 0
   worker: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!136 &1789150036
 CapsuleCollider:
   m_ObjectHideFlags: 0
