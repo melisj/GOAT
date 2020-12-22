@@ -35,6 +35,11 @@ namespace Goat.AI.Feelings
             npc.ItemsToGet.InventoryResetEvent -= ItemsToGet_InventoryChangedEvent;
         }
 
+        private void ItemsToGet_InventoryChangedEvent(Resource resource, int amount, bool removed)
+        {
+            ChangeQuestionMark();
+        }
+
         private void ItemsToGet_InventoryChangedEvent()
         {
             ChangeQuestionMark();

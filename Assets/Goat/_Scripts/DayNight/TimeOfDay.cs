@@ -85,8 +85,11 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            onTime24Changed.Raise(GetTime24Hour);
-            onTime12Changed.Raise(GetTime12Hour);
+            if(Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            {
+                onTime24Changed.Raise(GetTime24Hour);
+                onTime12Changed.Raise(GetTime12Hour);
+            }
             timeOfDayMinutes = value;
         }
     }

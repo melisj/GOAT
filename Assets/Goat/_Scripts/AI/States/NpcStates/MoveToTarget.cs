@@ -36,7 +36,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            //Debug.LogFormat("Moving to target");
+            Debug.LogFormat("Moving to target");
             timeStuck = 0f;
             navMeshAgent.enabled = true;
             //navMeshAgent.SetDestination(npc.targetDestination);
@@ -47,7 +47,7 @@ namespace Goat.AI.States
         public void OnExit()
         {
             timeStuck = 0f;
-            //Debug.Log("Arrived at target");
+            Debug.Log("Arrived at target");
             navMeshAgent.enabled = false;
             // Animation
             animator.SetFloat("Move", 0);

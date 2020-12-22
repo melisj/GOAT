@@ -12,7 +12,7 @@ namespace Goat.AI.States
     {
         private Worker worker;
         private Animator animator;
-        public bool filledShelve = false;
+        public bool filled = false;
 
         // Get this from npc
         private float placingSpeed = 0.5f, nextItemTime = 0;
@@ -36,30 +36,26 @@ namespace Goat.AI.States
 
             if(resourceToPlace == null)
             {
-                filledShelve = true;
+                filled = true;
                 return;
             }
 
             if(worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
             {
-                worker.targetStorage.Add(resourceToPlace, 1, out int amountPlaced);
-                if (amountPlaced > 0)
-                {
-                    Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
-                    worker.Inventory.Remove(resourceToPlace, 1, out int amountRemoved);
-                    animator.SetTrigger("Interact");
-                }
-                else
-                    filledShelve = true;
+                animator.SetTrigger("Interact");
+                //Delay
+                
+                worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
+                worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
+                Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
             }
             else
-                filledShelve = true;
-
+                filled = true;
         }
 
         public void Tick()
         {
-            if(!filledShelve && nextItemTime <= Time.time)
+            if (!filled && nextItemTime <= Time.time)
             {
                 PlaceItemInStorage();
                 nextItemTime = Time.time + (1 / placingSpeed);
@@ -68,12 +64,14 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            filledShelve = false;
+            filled = false;
+            animator.speed = 2 * placingSpeed;
         }
 
         public void OnExit()
         {
             worker.targetStorage = null;
+            animator.speed = 1;
         }
     }
 }

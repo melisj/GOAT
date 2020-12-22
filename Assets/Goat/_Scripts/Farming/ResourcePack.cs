@@ -10,6 +10,8 @@ namespace Goat.Storage
 
         [SerializeField] private MeshFilter filter;
 
+        public Resource Resource => (Resource)buyable;
+
         public void SetupResPack(Buyable buyable, int amount)
         {
             this.amount = amount;

@@ -18,7 +18,7 @@ namespace Goat.Storage
         public int ItemsInInventory => itemsInInventory;
         public int Capacity => capacity;
 
-        public delegate void InventoryChanged();
+        public delegate void InventoryChanged(Resource resource, int amount, bool removed);
         public event InventoryChanged InventoryChangedEvent;
 
         public delegate void InventoryReset();
@@ -45,7 +45,7 @@ namespace Goat.Storage
             else
                 Items.Add(resource, amountStored);
 
-            InventoryChangedEvent?.Invoke();
+            InventoryChangedEvent?.Invoke(resource, amountStored, false);
         }
 
         public void Remove(Resource resource, int amount, out int amountRemoved)
@@ -63,7 +63,7 @@ namespace Goat.Storage
             else
                 amountRemoved = 0;
 
-            InventoryChangedEvent?.Invoke();
+            InventoryChangedEvent?.Invoke(resource, amountRemoved, true);
         }
 
         public bool Contains(Resource resource)
