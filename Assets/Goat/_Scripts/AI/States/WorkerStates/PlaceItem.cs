@@ -65,7 +65,6 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             filled = false;
-            filledShelve = false;
             animator.speed = 2 * placingSpeed;
         }
 

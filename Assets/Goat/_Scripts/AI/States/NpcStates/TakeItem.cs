@@ -69,7 +69,6 @@ namespace Goat.AI.States
             Debug.Log("Started taking items");
             // Start animation?
             depleted = false;
-            storageDepleted = false;
         }
 
         public void OnExit()
