@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Goat.Pooling;
+using System;
 
 namespace Goat.Grid.Interactions
 {
@@ -41,7 +42,7 @@ namespace Goat.Grid.Interactions
             Inventory.InventoryChangedEvent -= Inventory_InventoryChangedEvent;
         }
 
-        private void Inventory_InventoryChangedEvent()
+        private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)
         {
             InvokeChange();
         }
@@ -52,32 +53,5 @@ namespace Goat.Grid.Interactions
             inventory,
             this };
         }
-
-        #region Inventory Management
-
-        /// <summary>
-        /// Add resources based on amount and type of resource
-        /// </summary>
-        /// <param name="resource"> Give type it should generate </param>
-        /// <param name="amount"> Give amount it should generate </param>
-        /// <param name="storedAmount"> Outs the amount that was actually stored </param>
-        /// <returns> Return whether it stored at least one item </returns>
-        public virtual bool Add(Resource resource, int amount, out int storedAmount) {
-            inventory.Add(resource, amount, out storedAmount);
-            return storedAmount != 0;
-        }
-
-        /// <summary>
-        /// Get an item with given index
-        /// Removes item from the storage and returns it
-        /// </summary>
-        /// <param name="index"> Index of the item you want </param>
-        /// <param name="returnToStock"> Return the item to the stock by adding to the resources </param>
-        /// <returns> Returns the selected item </returns>
-        public virtual void Remove(Resource resource, int amount, out int removedAmount) {
-            inventory.Remove(resource, amount, out removedAmount);
-        }
-
-        #endregion
     }
 }

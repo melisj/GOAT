@@ -38,14 +38,14 @@ namespace Goat.AI
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> HasTarget() => () => targetStorage != null;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
-            Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filledShelve && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
 
             Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0;
             Func<bool> TakenAllItemsFromWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> NoItemsFoundInWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory == 0;
             Func<bool> FoundEmptyShelves() => () => searchForEmptyShelves.foundEmptyShelves;
-            Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 || takeItem.storageDepleted;
+            Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 || takeItem.depleted;
             Func<bool> TakeItems() => () => ItemsToGet.ItemsInInventory > 0 && ReachedTarget().Invoke();
             Func<bool> PlaceItems() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory > 0 && ReachedTarget().Invoke();
 

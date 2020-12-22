@@ -24,11 +24,10 @@ namespace Goat.Grid.UI
     {
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI descriptionText;
-        [SerializeField] private TextMeshProUGUI infoText;
         [SerializeField] private Image interactableIcon;
 
         [SerializeField] private Transform UIElementSlot;
-        [SerializeField] private Transform StockingUI;
+        [SerializeField] private StockingUI stockingUI;
 
         [SerializeField] private InteractablesInfo interactableInfo;
         [SerializeField] private InteractableUIElements elements;
@@ -38,10 +37,12 @@ namespace Goat.Grid.UI
         private InteractableUIElement loadedType;
 
         private bool IsThisActive => gameObject.activeInHierarchy;
+        public StockingUI StockingScript => stockingUI;
 
         protected virtual void Awake()
         {
             SpawnUIElements();
+            stockingUI = GetComponentInChildren<StockingUI>();
         }
 
         private void OnEnable()
@@ -104,7 +105,7 @@ namespace Goat.Grid.UI
 
             if (IsThisActive && elementId != InteractableUIElement.None)
             {
-                StockingUI.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
+                StockingScript.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
                 loadedType = elementId;
 
                 UIElements.TryGetValue(elementId, out UISlotElement element);
@@ -123,7 +124,7 @@ namespace Goat.Grid.UI
         {
             if (IsThisActive && activeElement)
             {
-                StockingUI.gameObject.SetActive(false);
+                StockingScript.gameObject.SetActive(false);
                 activeElement.gameObject.SetActive(false);
                 loadedType = InteractableUIElement.None;
             }

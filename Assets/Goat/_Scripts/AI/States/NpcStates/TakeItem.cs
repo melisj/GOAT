@@ -13,7 +13,7 @@ namespace Goat.AI.States
         NPC npc;
         Animator animator;
         bool returnToStock;
-        public bool depleted = false, storageDepleted = false;
+        public bool depleted = false;
         // Get this from npc
         private float takingSpeed = 0.5f, nextItemTime = 0;
 
@@ -39,7 +39,7 @@ namespace Goat.AI.States
                     Debug.LogFormat("Took {0} from storage container", tempResource.name);
                     npc.Inventory.Add(tempResource, 1, out int amountStored);
                     npc.ItemsToGet.Remove(tempResource, amountStored, out int itemsRemoved);
-                    npc.targetStorage.Remove(tempResource, amountStored, out int storageRemoved);
+                    npc.targetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
 
                     animator.SetTrigger("Interact");
 
@@ -61,8 +61,7 @@ namespace Goat.AI.States
                 nextItemTime = Time.time + (1 / takingSpeed);
                 TakeItemFromStorage();
             }
-            else if (depleted && nextItemTime <= Time.time)
-                storageDepleted = false;
+
         }
 
         public void OnEnter()
@@ -70,7 +69,6 @@ namespace Goat.AI.States
             Debug.Log("Started taking items");
             // Start animation?
             depleted = false;
-            storageDepleted = false;
         }
 
         public void OnExit()

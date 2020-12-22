@@ -12,7 +12,7 @@ namespace Goat.AI.States
     {
         private Worker worker;
         private Animator animator;
-        public bool filled = false, filledShelve = false;
+        public bool filled = false;
 
         // Get this from npc
         private float placingSpeed = 0.5f, nextItemTime = 0;
@@ -45,7 +45,7 @@ namespace Goat.AI.States
                 animator.SetTrigger("Interact");
                 //Delay
                 
-                worker.targetStorage.Add(resourceToPlace, 1, out int amountPlaced);
+                worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
             }
@@ -60,14 +60,11 @@ namespace Goat.AI.States
                 PlaceItemInStorage();
                 nextItemTime = Time.time + (1 / placingSpeed);
             }
-            else if (filled && nextItemTime <= Time.time)
-                filledShelve = true;
         }
 
         public void OnEnter()
         {
             filled = false;
-            filledShelve = false;
             animator.speed = 2 * placingSpeed;
         }
 

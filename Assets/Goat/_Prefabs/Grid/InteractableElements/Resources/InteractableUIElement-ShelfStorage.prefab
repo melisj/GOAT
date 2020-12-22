@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsText: {fileID: 5058131760992905997}
   gridParent: {fileID: 5058131762215923443}
+  playerInventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   showSeperateObject: 1
 --- !u!114 &1987791712
