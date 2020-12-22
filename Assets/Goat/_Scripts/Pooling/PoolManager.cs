@@ -93,6 +93,39 @@ namespace Goat.Pooling
         }
 
         /// <summary>
+        /// Gets the pooled object from the dictionary
+        /// Makes a new pool if there wasn't one already
+        /// Adds more to the existing pool if the Queue is empty
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <param name="pos"></param>
+        /// <param name="rot"></param>
+        /// <returns>The pooled object</returns>
+        public GameObject GetFromPool(GameObject prefab, Transform parent = null)
+        {
+            int poolKey = prefab.GetInstanceID();
+            if (!poolDictionary.ContainsKey(poolKey))
+            {
+                CreatePool(prefab, 1, parent);
+            }
+            else
+            {
+                if (poolDictionary[poolKey].Count == 0)
+                {
+                    AddToPool(prefab, 1, parent);
+                }
+            }
+
+            ObjectInstance objInstance = poolDictionary[poolKey].Dequeue();
+            //poolDictionary[poolKey].Enqueue(objInstance);
+
+            objInstance.SetParent(parent ? parent : parentDictionary[poolKey].transform);
+            objInstance.GetObject(Vector3.zero, Quaternion.identity, poolKey);
+
+            return objInstance.GameObject;
+        }
+
+        /// <summary>
         /// Adds objToReturn back to the Queue
         /// </summary>
         /// <param name="objToReturn"></param>

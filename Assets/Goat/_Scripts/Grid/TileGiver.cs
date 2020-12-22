@@ -12,7 +12,9 @@ namespace Goat.Grid
 
         public override void OnEventRaised(Vector3 value)
         {
-            tileDataEvent.Raise(grid.ReturnTile(grid.CalculateTilePositionInArray(value)));
+            Tile tile = grid.ReturnTile(grid.CalculateTilePositionInArray(value));
+            if (tile != null)
+                tileDataEvent.Raise(tile);
         }
     }
 }

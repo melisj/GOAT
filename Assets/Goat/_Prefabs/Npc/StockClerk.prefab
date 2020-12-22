@@ -678,6 +678,7 @@ MonoBehaviour:
     SerializationNodes: []
   npcSize: 1
   wanderRange: 10
+  carriedItemValue: 0
   maxInventory: 20
   targetDestination: {x: 0, y: 0, z: 0}
   navMeshAgent: {fileID: 0}
@@ -687,6 +688,8 @@ MonoBehaviour:
   searchingTime: 0
   storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
+  subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
 --- !u!1 &8620672143192345974
 GameObject:

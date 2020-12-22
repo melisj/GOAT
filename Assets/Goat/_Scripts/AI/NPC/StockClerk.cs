@@ -5,19 +5,25 @@ using UnityEngine;
 using Goat.AI.States;
 using Goat.ScriptableObjects;
 using Goat.Grid.Interactions;
-
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
-    public class StockClerk : Worker
+    public class StockClerk : WorkerWithListener<bool, BoolEvent>
     {
-
         [SerializeField] private UnloadLocations entrances;
+        private ExitStore exitStore;
+
+        public override void OnEventRaised(bool value)
+        {
+            if (!value)
+                stateMachine.SetState(exitStore);
+        }
 
         protected override void Setup()
         {
             base.Setup();
-             
+
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
@@ -26,6 +32,7 @@ namespace Goat.AI
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
+            exitStore = new ExitStore(this, navMeshAgent, animator);
 
             // Conditions
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
@@ -61,8 +68,7 @@ namespace Goat.AI
             AT(placeItem, setStorageTarget, SetNextEmptyStorageTarget());
             AT(placeItem, searchForEmptyShelves, NoItemsToTakeOrPlace());
 
-            stateMachine.SetState(searchForEmptyShelves);
+            stateMachine.SetState(enterStore);
         }
     }
 }
-

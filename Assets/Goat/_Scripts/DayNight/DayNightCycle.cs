@@ -12,7 +12,6 @@ public partial class DayNightCycle : MonoBehaviour
     [SerializeField] private TimeOfDay timeOfDay;
 
     //transition timer for lerping the time of day
-    public bool isDay;
     //current hours and day
 
     //which hour of day the sun rises and sets
@@ -70,13 +69,12 @@ public partial class DayNightCycle : MonoBehaviour
     private void SetTimeDay()
     {
         //from nighttime to daytime
-        OnChangeCycle.Raise(isDay);
+        OnChangeCycle.Raise(true);
     }
 
     private void SetTimeNight()
     {
         //from daytime to nighttime
-        isDay = false;
-        OnChangeCycle.Raise(isDay);
+        OnChangeCycle.Raise(false);
     }
 }

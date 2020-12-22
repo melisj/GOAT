@@ -10,9 +10,11 @@ namespace Goat.AI.Parking
     public class NPCShip : MonoBehaviour, IPoolObject
     {
         private ParkingSpots.ParkingSpot parkingSpot;
-        public ParkingSpots.ParkingSpot ParkingSpot { 
-            get { return parkingSpot; } 
-            set { parkingSpot = value; LandShip(); } 
+
+        public ParkingSpots.ParkingSpot ParkingSpot
+        {
+            get { return parkingSpot; }
+            set { parkingSpot = value; LandShip(); }
         }
 
         public Queue<Vector3> flightPath = new Queue<Vector3>();
@@ -20,7 +22,7 @@ namespace Goat.AI.Parking
 
         public NPCSpawner NpcSpawner { get; set; }
         public ShipSpawner Spawner { get; set; }
-
+        public int AmountPassengers { get; set; }
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
@@ -38,13 +40,13 @@ namespace Goat.AI.Parking
             accuracyOnPath.Enqueue(accuracy);
         }
 
-        private void ShipHasLanded()
+        protected virtual void ShipHasLanded()
         {
             // Spawn NPC
-            NpcSpawner.SpawnNPC();
+            NpcSpawner.SpawnNPC(AmountPassengers);
         }
 
-        public void ShipReadyToFly()
+        public virtual void ShipReadyToFly()
         {
             // Customer has arrived
             parkingSpot.ocupied = false;
@@ -99,13 +101,13 @@ namespace Goat.AI.Parking
             callback.Invoke();
         }
 
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
         }
 
-        public void OnReturnObject()
+        public virtual void OnReturnObject()
         {
             gameObject.SetActive(false);
         }

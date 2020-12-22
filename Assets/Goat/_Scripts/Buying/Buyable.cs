@@ -10,19 +10,23 @@ public class Buyable : SerializedScriptableObject
 {
     private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
 
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int id;
+    [SerializeField, FoldoutGroup("Base Buyable data"), ReadOnly] private int id;
+    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left), ReadOnly] private Sprite image;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
-    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
-    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private bool interchangeableMesh;
+    [SerializeField, FoldoutGroup("Base Buyable data"), ShowIf("interchangeableMesh"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
     [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
     [SerializeField, FoldoutGroup("Base Buyable data")] private int starterAmount;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int deliveryTime;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private bool deliverable;
+    [SerializeField, FoldoutGroup("Base Buyable data"), ShowIf("deliverable")] private int deliveryTime;
 
     public int DeliveryTime => deliveryTime;
 
     public event EventHandler<int> AmountChanged;
+
+    public bool Deliverable => deliverable;
 
     public int StarterAmount => starterAmount;
 
@@ -44,7 +48,7 @@ public class Buyable : SerializedScriptableObject
     /// </summary>
     /// <param name="amount"></param>
     /// <param name="price">If not set, you use the default price</param>
-    public void Buy(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
+    public virtual void Buy(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
     {
         price = price < 0 ? Price : price;
         float total = this.money.Amount - (price * amount);

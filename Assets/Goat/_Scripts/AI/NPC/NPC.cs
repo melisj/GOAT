@@ -8,6 +8,7 @@ using Goat.Storage;
 using Goat.AI.States;
 using Sirenix.OdinInspector;
 using Goat.Pooling;
+using Goat.AI.Parking;
 
 namespace Goat.AI
 {
@@ -16,6 +17,7 @@ namespace Goat.AI
         // Check variable visability
         public float npcSize = 1f;
         public float wanderRange = 10f;
+        [HideInInspector] public int carriedItemValue;
         [SerializeField] private int maxInventory;
 
         protected StateMachine stateMachine;
@@ -35,7 +37,7 @@ namespace Goat.AI
 
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
-
+        public NPCShip Ship { get; set; }
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
@@ -58,8 +60,6 @@ namespace Goat.AI
         }
 
         protected virtual void Update() => stateMachine.Tick();
-
-        
 
         public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {

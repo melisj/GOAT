@@ -35,10 +35,12 @@ namespace Goat.Grid.Interactions
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (!gridUIInfo.IsUIActive)
-                            CheckForInteractable();
-                        else
+                        //if (!gridUIInfo.IsUIActive)
+                        CheckForInteractable();
+                        if (gridUIInfo.CurrentUIElement != GridUIElement.Interactable)
+                        {
                             gridUIInfo.CurrentUIElement = GridUIElement.None;
+                        }
                     }
                 }
             }
@@ -46,13 +48,16 @@ namespace Goat.Grid.Interactions
 
         public void CheckForInteractable()
         {
-            if (interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
-            {
-                if (hit.transform != null)
-                {
-                    InteractableClickEvt?.Invoke(hit.transform);
-                }
-            }
+            //if (interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
+            //{
+            //    if (hit.transform != null)
+            //    {
+            //        InteractableClickEvt?.Invoke(hit.transform);
+            //    }
+            //}
+            interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask);
+
+            InteractableClickEvt?.Invoke(hit.transform);
         }
     }
 }

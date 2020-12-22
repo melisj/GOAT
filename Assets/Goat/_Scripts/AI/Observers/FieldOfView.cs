@@ -224,13 +224,13 @@ namespace Goat.AI
 
         private void CheckForStorageTarget(Collider target)
         {
+            //if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
+            //{
             if (target.CompareTag("Storage"))
-            // order list by target distance form customer (and turn into array for faster alocation)
-            visibleTargetsArray = visibleTargets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-            if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 visibleTargets.Add(target.transform);
             }
+            // }
         }
 
         //private void OnDrawGizmos()
