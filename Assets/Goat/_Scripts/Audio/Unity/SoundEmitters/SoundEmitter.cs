@@ -13,6 +13,8 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
 
     public event UnityAction<SoundEmitter> OnSoundFinishedPlaying;
 
+    public event UnityAction<SoundEmitter> OnSoundStopped;
+
     private void Awake()
     {
         _audioSource = this.GetComponent<AudioSource>();

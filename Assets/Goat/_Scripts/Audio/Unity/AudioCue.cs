@@ -26,4 +26,9 @@ public class AudioCue : MonoBehaviour
     {
         _audioCueEventChannel.RaiseEvent(_audioCue, _audioConfiguration, transform.position);
     }
+
+    public void StopAudioCue()
+    {
+        _audioCueEventChannel.RaiseStopEvent(_audioCue);
+    }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
+using System;
 
 namespace Goat.Farming
 {
@@ -28,6 +29,7 @@ namespace Goat.Farming
         [SerializeField] private HashSet<GameObject> tubeEnds = new HashSet<GameObject>();
         [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
+        [SerializeField] private AudioCue cue;
 
         public int GetPath(Vector3 key)
         {
@@ -129,6 +131,7 @@ namespace Goat.Farming
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
             Setup();
+            cue.PlayAudioCue();
             ObjInstance = objectInstance;
             PoolKey = poolKey;
         }
@@ -151,12 +154,14 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
+            cue.StopAudioCue();
             gameObject.SetActive(false);
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position, radius);
+            if (connectedTubes.Count <= debugPathIndex) return;
             if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
             Gizmos.color = Color.yellow;
             for (int i = 0; i < connectedTubes[debugPathIndex].Points.Count; i++)
