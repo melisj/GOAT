@@ -24,7 +24,7 @@ namespace Goat.AI.States
             if(tickTime <= Time.time)
             {
                 tickTime = Time.time + (1 / tickSpeed);
-                List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
+                List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
                 FindStorageAndItems(sortedStorages);
                 sortedStorages.Clear();
             }
@@ -46,6 +46,7 @@ namespace Goat.AI.States
                 if (amountStored > 0)
                 {
                     found = true;
+                    tempStorage.selected = true;
                     stockClerk.targetStorages.Add(tempStorage);                    
                 }
                 storages.RemoveAt(0);
