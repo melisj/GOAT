@@ -18,6 +18,15 @@ namespace Goat.CameraControls
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(key))
+            {
+                Vector3 newPos = player.transform.position;
+                clickToMoveObject.transform.position = new Vector3(newPos.x, clickToMoveObject.transform.position.y, newPos.z);
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode mode)
         {
             if (code == key && mode.HasFlag(KeyMode.Down))

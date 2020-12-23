@@ -30,6 +30,14 @@ namespace Goat.Player
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0) && currentMode.InputMode == InputMode.Select)
+            {
+                MoveTo(Input.mousePosition);
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode keyMode)
         {
             if (code == KeyCode.Mouse0 && keyMode.HasFlag(KeyMode.Down))

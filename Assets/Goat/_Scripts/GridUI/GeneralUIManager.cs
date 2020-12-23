@@ -63,6 +63,14 @@ namespace Goat.Grid.UI
             }
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                gridUIInfo.CurrentUIElement = GridUIElement.Buying;
+            }
+        }
+
         // Disable, and enable a new element
         private void ShowNewUI(GridUIElement UIElement)
         {

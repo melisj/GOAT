@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 1110723869718704107}
   - component: {fileID: -556596974947358034}
   - component: {fileID: 8428477037894498475}
+  - component: {fileID: 8479345339946235243}
   m_Layer: 12
   m_Name: Drill
   m_TagString: Untagged
@@ -213,6 +214,7 @@ MonoBehaviour:
   connectedTubes: []
   onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   resPacks: []
+  cue: {fileID: 8479345339946235243}
 --- !u!114 &-556596974947358034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +260,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
+--- !u!114 &8479345339946235243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: e293cedf4034279448adf64254022fdf, type: 2}
+  _playOnStart: 0
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+    type: 2}
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0
