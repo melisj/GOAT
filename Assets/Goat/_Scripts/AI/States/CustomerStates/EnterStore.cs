@@ -48,7 +48,7 @@ namespace Goat.AI.States
         {
             Debug.Log("Entered store");
             // Set animation
-            navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = false;
             npc.enterTime = Time.time;
             animator.SetFloat("Move", 0);
         }
