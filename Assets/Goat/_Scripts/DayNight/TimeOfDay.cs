@@ -65,7 +65,7 @@ public class TimeOfDay : ScriptableObject
             bool newMonth = (CheckForNewMonth(currentDay));
             currentDay = value;
 
-            date.AddDays(1);
+            date = date.AddDays(1);
 
             if (newMonth)
                 onMonthChanged.Raise(date.Month);
@@ -85,7 +85,7 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            if(Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
             {
                 onTime24Changed.Raise(GetTime24Hour);
                 onTime12Changed.Raise(GetTime12Hour);
