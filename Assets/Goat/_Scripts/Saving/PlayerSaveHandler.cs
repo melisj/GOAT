@@ -3,6 +3,7 @@ using Goat.Storage;
 using Newtonsoft.Json;
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Goat.Player
 {
@@ -10,6 +11,7 @@ namespace Goat.Player
     {
         public PlayerInventory inventory;
         public GridObjectsList objectList;
+        public NavMeshAgent agent;
 
         public void Awake()
         {
@@ -30,7 +32,11 @@ namespace Goat.Player
 
             playerHandler.inventory.Inventory.Load(inventoryString, playerHandler.objectList);
 
-            handler.transform.position = position;
+            playerHandler.transform.position = position;
+
+            playerHandler.agent.isStopped = true;
+            playerHandler.agent.velocity = Vector3.zero;
+            playerHandler.agent.ResetPath();
         }
 
         public override void Save(SaveHandler handler)
@@ -39,7 +45,7 @@ namespace Goat.Player
 
             inventoryString = playerHandler.inventory.Inventory.Save();
 
-            position = handler.transform.position;
+            position = playerHandler.transform.position;
         }
     }
 }
