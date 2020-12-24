@@ -9,6 +9,7 @@ namespace Goat.Saving
         public TimeOfDay time;
         public ChangeLightColorOnCycle changeLightHandler;
         public ChangeIconOnCycle changeIconHandler;
+        public DisableModeSwitchingAtDay disableModeSwitchingAtDayHandler;
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace Goat.Saving
             bool isDay = timeHour > timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
             timeHandler.changeLightHandler.OnEventRaised(isDay);
             timeHandler.changeIconHandler.OnEventRaised(isDay);
+            timeHandler.disableModeSwitchingAtDayHandler.OnEventRaised(isDay);
         }
 
         public override void Save(SaveHandler handler)

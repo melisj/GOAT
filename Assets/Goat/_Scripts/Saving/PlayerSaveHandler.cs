@@ -34,9 +34,12 @@ namespace Goat.Player
 
             playerHandler.transform.position = position;
 
-            playerHandler.agent.isStopped = true;
-            playerHandler.agent.velocity = Vector3.zero;
-            playerHandler.agent.ResetPath();
+            try { 
+                playerHandler.agent.isStopped = true;
+                playerHandler.agent.velocity = Vector3.zero;
+                playerHandler.agent.ResetPath();
+            }
+            catch { }
         }
 
         public override void Save(SaveHandler handler)

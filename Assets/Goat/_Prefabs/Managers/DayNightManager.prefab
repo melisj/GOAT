@@ -63,3 +63,4 @@ MonoBehaviour:
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
   changeLightHandler: {fileID: 0}
   changeIconHandler: {fileID: 0}
+  disableModeSwitchingAtDayHandler: {fileID: 0}

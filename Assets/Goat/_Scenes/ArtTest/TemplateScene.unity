@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -477,6 +477,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4935881246711213964, guid: c8c344efbbfc56d40b936a221b3a1f12,
     type: 3}
   m_PrefabInstance: {fileID: 4935881247838117773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1169389310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5066533614744139624, guid: 4c3ff17cd11fcdb439cb26a958d6eb33,
+    type: 3}
+  m_PrefabInstance: {fileID: 5066533615031717585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1635c09aab79734ba47554e1909dac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &1221998918 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 7797434497063600305, guid: d922195054a33e94ba71fe75affc5d8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7797434497620604623}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1569697440 stripped
 MonoBehaviour:
@@ -1448,6 +1466,11 @@ PrefabInstance:
       propertyPath: changeIconHandler
       value: 
       objectReference: {fileID: 607114374870422904}
+    - target: {fileID: 1664021411155674739, guid: d25e15c1060308a418416d9bed9ad1bd,
+        type: 3}
+      propertyPath: disableModeSwitchingAtDayHandler
+      value: 
+      objectReference: {fileID: 1169389310}
     - target: {fileID: 1700428852444898461, guid: d25e15c1060308a418416d9bed9ad1bd,
         type: 3}
       propertyPath: m_Name
@@ -1712,6 +1735,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1161635132, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1221998918}
     - target: {fileID: 7797434496293806836, guid: d922195054a33e94ba71fe75affc5d8a,
         type: 3}
       propertyPath: m_LocalPosition.x
