@@ -82,6 +82,7 @@ namespace Goat.Farming
 
         private void AddResource()
         {
+            if (resourceTile == null) GetResourceTile();
             if (currentCapacity >= farmStationSettings.StorageCapacity || resourceTile.Amount <= 0)
             {
                 animator.enabled = false;

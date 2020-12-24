@@ -1,6 +1,4 @@
-﻿using Goat.Grid;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Goat.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,7 +12,7 @@ namespace Goat.AI
 
         private void Awake()
         {
-            GridDataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
             surfaceAI.BuildNavMesh();
             surfacePlayer.BuildNavMesh();
             surfaceWorker.BuildNavMesh();
