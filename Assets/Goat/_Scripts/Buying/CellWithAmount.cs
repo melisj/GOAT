@@ -4,14 +4,16 @@ using UnityEngine;
 /// <summary>
 /// Used for grid cells that show amounts linked to a buyable
 /// </summary>
-public class CellWithAmount : MonoBehaviour
+public class CellWithAmount : UICell
 {
     [SerializeField] protected RectTransform imageIcon;
     [SerializeField] protected TextMeshProUGUI amountText;
+    [SerializeField] private float margin;
     private Buyable buyable;
 
-    public virtual void Setup(Buyable buyable)
+    public override void Setup(Buyable buyable)
     {
+        base.Setup(buyable);
         ChangeText(buyable.Amount);
         this.buyable = buyable;
         buyable.AmountChanged += Buyable_AmountChanged;
@@ -29,7 +31,7 @@ public class CellWithAmount : MonoBehaviour
             amountText.text = "∞";
             return;
         }
-        float iconWidth = 11 + (26 / 6 * (change.ToString().Length - 1));
+        float iconWidth = (amountText.fontSize) + ((amountText.fontSize + margin) * (change.ToString().Length));
         imageIcon.sizeDelta = new Vector2(iconWidth, imageIcon.sizeDelta.y);
         amountText.text = change.ToString();
     }

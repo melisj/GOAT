@@ -22,10 +22,18 @@ public class AnimateSideBarOnClick : EventListenerVoid
     [SerializeField] private GameObject selectedObj;
     [SerializeField] private RectTransform selectedRect;
 
-    [Title("Bar buttons")]
-    [SerializeField] private RectTransform[] buttonRects;
-    [SerializeField] private RectTransform[] headerRects;
+    [TitleGroup("Bar buttons")]
+    [SerializeField, HorizontalGroup("Bar buttons/Group", LabelWidth = 50)] private RectTransform[] buttonRects, headerRects;
 
+    [Title("Animation Settings")]
+    [SerializeField] private float barScaleDuration;
+    [SerializeField] private float mainHeaderDuration;
+    [SerializeField] private float buttonsAppearDuration;
+    [SerializeField, Range(2, 5)] private int closingDurationMultiplier;
+    [SerializeField, FoldoutGroup("Bar button scale punch")] private Vector3 scaleIncrease;
+    [SerializeField, FoldoutGroup("Bar button scale punch"), Range(0f, 0.3f)] private float punchScaleDuration;
+    [SerializeField, FoldoutGroup("Bar button scale punch"), Range(10, 30)] private int vibrato;
+    [SerializeField, FoldoutGroup("Bar button scale punch"), Range(0f, 1f)] private float elasticity;
     private bool isOpened;
     private Sequence openSideBar, closeSideBar;
 
@@ -43,25 +51,38 @@ public class AnimateSideBarOnClick : EventListenerVoid
 
     private void Awake()
     {
+        isOpened = false;
         mainButton.onClick.AddListener(OpenSideBar);
     }
 
     private void OpenSideBar()
     {
-        SubcribedEvent.Raise();
-        isOpened = true;
+        if (isOpened)
+        {
+            CloseSideBar();
+            return;
+        }
 
+        //Let all other bars know you want to open
+        SubcribedEvent.Raise();
+
+        isOpened = true;
+        if (closeSideBar.NotNull())
+            closeSideBar.Complete();
         if (openSideBar.NotNull())
             openSideBar.Complete();
         openSideBar = DOTween.Sequence();
         openSideBar.AppendCallback(() => buildButtonIcon.sprite = emptySelected);
         openSideBar.AppendCallback(() => selectedObj.SetActive(true));
-        openSideBar.Append(selectedRect.DOScaleY(1, 1));
-        openSideBar.Join(headerRect.DOScaleY(1, 1));
+        openSideBar.Append(buildButtonIcon.rectTransform.DOPunchScale(scaleIncrease, punchScaleDuration, vibrato, elasticity));
+
+        openSideBar.Join(selectedRect.DOScaleX(1, barScaleDuration));
+        openSideBar.Join(headerRect.DOScaleY(1, mainHeaderDuration));
         for (int i = 0; i < buttonRects.Length; i++)
         {
-            openSideBar.Append(buttonRects[i].DOScale(Vector3.one, 1));
-            openSideBar.Append(headerRects[i].DOScaleY(1, 1));
+            openSideBar.Append(buttonRects[i].DOScale(Vector3.one, buttonsAppearDuration));
+            openSideBar.Append(buttonRects[i].DOPunchScale(scaleIncrease, punchScaleDuration / closingDurationMultiplier, vibrato, elasticity));
+            openSideBar.Append(headerRects[i].DOScaleY(1, buttonsAppearDuration));
         }
     }
 
@@ -69,17 +90,24 @@ public class AnimateSideBarOnClick : EventListenerVoid
     {
         isOpened = false;
 
+        if (openSideBar.NotNull())
+            openSideBar.Complete();
+
         if (closeSideBar.NotNull())
             closeSideBar.Complete();
+
         closeSideBar = DOTween.Sequence();
+        closeSideBar.Join(buildButtonIcon.rectTransform.DOPunchScale(-scaleIncrease, punchScaleDuration, vibrato, elasticity));
+
+        for (int i = buttonRects.Length - 1; i >= 0; i--)
+        {
+            closeSideBar.Join(buttonRects[i].DOScale(Vector3.zero, buttonsAppearDuration / closingDurationMultiplier));
+            closeSideBar.Join(headerRects[i].DOScaleY(0, buttonsAppearDuration / closingDurationMultiplier));
+        }
+
+        closeSideBar.Join(headerRect.DOScaleY(0, mainHeaderDuration / closingDurationMultiplier));
+        closeSideBar.Join(selectedRect.DOScaleX(0, barScaleDuration / closingDurationMultiplier));
         closeSideBar.AppendCallback(() => buildButtonIcon.sprite = empty);
         closeSideBar.AppendCallback(() => selectedObj.SetActive(false));
-        closeSideBar.Append(selectedRect.DOScaleY(0, 1));
-        closeSideBar.Join(headerRect.DOScaleY(0, 1));
-        for (int i = 0; i < buttonRects.Length; i++)
-        {
-            closeSideBar.Append(buttonRects[i].DOScale(Vector3.zero, 1));
-            closeSideBar.Append(headerRects[i].DOScaleY(0, 1));
-        }
     }
 }

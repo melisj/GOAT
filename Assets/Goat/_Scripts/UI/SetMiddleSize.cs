@@ -17,7 +17,7 @@ public class SetMiddleSize : MonoBehaviour
     }
 
     [Button]
-    private void ChangeSize()
+    public void ChangeSize()
     {
         Vector2 newSize = Vector2.zero;
         if (windowTransform && middleUIs != null)

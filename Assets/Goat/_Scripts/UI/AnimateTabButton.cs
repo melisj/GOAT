@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
+using Goat.Events;
+using UnityAtoms;
 
-public class AnimateTabButton : MonoBehaviour
+public class AnimateTabButton : EventListenerVoid
 {
-    [SerializeField, ReadOnly] protected float[] tabPositions;
+    [SerializeField, Sirenix.OdinInspector.ReadOnly] protected float[] tabPositions;
     [SerializeField] private GameObject viewPort;
     [SerializeField] private TextMeshProUGUI header;
     [SerializeField] private VerticalLayoutGroup verticalGroup;
@@ -16,6 +18,12 @@ public class AnimateTabButton : MonoBehaviour
     [SerializeField] private RectTransform selectionBlock;
     [SerializeField] private Sprite emptySelection;
     [SerializeField] private Sprite empty;
+
+    [Title("Animation Settings")]
+    [SerializeField, Range(2, 5)] private int closingDurationMultiplier;
+    [SerializeField] private float selectionBlockScaleDuration;
+    [SerializeField] private float selectionBlockMoveDuration;
+    [SerializeField] private float contentScaleDuration;
 
     private int currentTab;
     private GameObject currentGrid;
@@ -42,7 +50,7 @@ public class AnimateTabButton : MonoBehaviour
             RectTransform tabChild = gameObject.transform.GetChild(i).GetComponent<RectTransform>();
             verticalGroup.enabled = false;
             Canvas.ForceUpdateCanvases();
-            tabPositions[i] = tabChild.anchoredPosition.y;
+            tabPositions[i] = tabChild.transform.position.y;
             RectTransform gridChild = viewPort.transform.GetChild(i).GetComponent<RectTransform>();
             GridLayoutGroup layoutGroup = viewPort.transform.GetChild(i).GetComponent<GridLayoutGroup>();
 
@@ -78,8 +86,7 @@ public class AnimateTabButton : MonoBehaviour
             tabIndex = 0;
         }
 
-        currentTabBorder.sprite = empty;
-        currentGrid.SetActive(false);
+        HideCurrentGrid();
 
         grid.SetActive(true);
         currentGrid = grid;
@@ -87,14 +94,37 @@ public class AnimateTabButton : MonoBehaviour
         currentTab = tabIndex;
         scrollingRect.content = content;
 
+        header.text = currentTabBorder.gameObject.name;
+        //tabSequence.Append(selectionBlock.DOScaleX(0, selectionBlockScaleDuration / closingDurationMultiplier));
+        tabSequence.Append(selectionBlock.DOMoveY(tabPositions[currentTab], selectionBlockMoveDuration));
+        tabSequence.Append(selectionBlock.DOScaleX(1, selectionBlockScaleDuration).OnComplete(() => currentTabBorder.sprite = emptySelection));
+
+        for (int i = 0; i < content.childCount; i++)
+        {
+            tabSequence.Append(content.GetChild(i).DOScale(Vector3.one, contentScaleDuration));
+        }
+    }
+
+    private void HideCurrentGrid()
+    {
+        if (!currentGrid) return;
+
+        currentTabBorder.sprite = empty;
+
         if (tabSequence.NotNull())
             tabSequence.Complete();
 
         tabSequence = DOTween.Sequence();
-        tabSequence.Append(selectionBlock.DOScaleX(0, 0.1f));
-        tabSequence.AppendCallback(() => currentTabBorder.sprite = emptySelection);
-        tabSequence.Append(selectionBlock.DOAnchorPosY(tabPositions[currentTab], 0.1f));
-        tabSequence.Join(selectionBlock.DOScaleX(1, 0.2f));
-        header.text = currentTabBorder.gameObject.name;
+        tabSequence.Append(selectionBlock.DOScaleX(0, selectionBlockScaleDuration / closingDurationMultiplier));
+
+        for (int i = 0; i < currentGrid.transform.childCount; i++)
+        {
+            tabSequence.Append(currentGrid.transform.GetChild(i).DOScale(Vector3.zero, contentScaleDuration / closingDurationMultiplier));
+        }
+    }
+
+    public override void OnEventRaised(Void value)
+    {
+        HideCurrentGrid();
     }
 }
