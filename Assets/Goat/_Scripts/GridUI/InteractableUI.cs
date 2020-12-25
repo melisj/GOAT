@@ -42,7 +42,8 @@ namespace Goat.Grid.UI
         protected virtual void Awake()
         {
             SpawnUIElements();
-            stockingUI = GetComponentInChildren<StockingUI>();
+            if (!stockingUI)
+                stockingUI = GetComponentInChildren<StockingUI>();
         }
 
         private void OnEnable()
@@ -61,7 +62,7 @@ namespace Goat.Grid.UI
 
             if (interactable is StorageInteractable) elementToLoad = ((StorageInteractable)interactable).ElementToLoad;
             else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
-           
+
             SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
         }
 

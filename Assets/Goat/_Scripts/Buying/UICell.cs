@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UICell : MonoBehaviour
 {
-    [SerializeField] private Button imageButton;
+    [SerializeField] protected Button imageButton;
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI nameText;
 

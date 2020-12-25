@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityAtoms.BaseAtoms;
 using UnityAtoms;
+using System;
 
 namespace Goat.UI
 {
