@@ -17,7 +17,8 @@ public class UICell : MonoBehaviour
     public virtual void Setup(Buyable buyable)
     {
         gameObject.name = buyable.name;
-        nameText.text = buyable.name;
+        if (nameText)
+            nameText.text = buyable.name;
         image.sprite = buyable.Image;
     }
 }

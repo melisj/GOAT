@@ -6,15 +6,9 @@ using UnityEngine;
 
 public class SetMiddleSize : MonoBehaviour
 {
-    private const int SPRITE_SIZE = 48;
-
     [SerializeField] private RectTransform windowTransform;
     [SerializeField] private UIMiddleChange[] middleUIs;
-
-    private void OnValidate()
-    {
-        ChangeSize();
-    }
+    [SerializeField] private int spriteSize;
 
     [Button]
     public void ChangeSize()
@@ -25,8 +19,9 @@ public class SetMiddleSize : MonoBehaviour
             for (int i = 0; i < middleUIs.Length; i++)
             {
                 UIMiddleChange midUI = middleUIs[i];
-                newSize.x = midUI.MiddleAxis == MiddleAxis.x || midUI.MiddleAxis == MiddleAxis.xy ? windowTransform.sizeDelta.x - (SPRITE_SIZE * 2) : SPRITE_SIZE;
-                newSize.y = midUI.MiddleAxis == MiddleAxis.y || midUI.MiddleAxis == MiddleAxis.xy ? windowTransform.sizeDelta.y - (SPRITE_SIZE * 2) : SPRITE_SIZE;
+                if (!midUI.Transform) continue;
+                newSize.x = midUI.MiddleAxis == MiddleAxis.x || midUI.MiddleAxis == MiddleAxis.xy ? windowTransform.sizeDelta.x - (spriteSize * 2) : spriteSize;
+                newSize.y = midUI.MiddleAxis == MiddleAxis.y || midUI.MiddleAxis == MiddleAxis.xy ? windowTransform.sizeDelta.y - (spriteSize * 2) : spriteSize;
                 middleUIs[i].Transform.sizeDelta = newSize;
             }
         }
@@ -45,6 +40,7 @@ public class UIMiddleChange
 
 public enum MiddleAxis
 {
+    none,
     x,
     y,
     xy

@@ -84,6 +84,17 @@ namespace Goat.Grid.UI
             }
         }
 
+        private void SetupUIElements(UISlotElement[] slotElements)
+        {
+            for (int i = 0, enumIndex = 1; i < slotElements.Length; i++, enumIndex++)
+            {
+                UISlotElement slotElement = slotElements[i];
+                slotElement.InitUI();
+
+                UIElements.Add((InteractableUIElement)enumIndex, slotElement);
+            }
+        }
+
         // Set the default UI elements to the given params
         public void SetUI(string title,
             string description,
