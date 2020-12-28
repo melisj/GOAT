@@ -27,7 +27,7 @@ namespace Goat.Grid.Interactions
         public InteractableUIElement ElementToLoad => elementToLoad;
 
         [SerializeField] private Resource mainResource;
-        [HideInInspector] public Resource MainResource { get => mainResource; }
+        [HideInInspector] public Resource MainResource { get => mainResource; set => mainResource = value; }
 
         protected override void Awake()
         {

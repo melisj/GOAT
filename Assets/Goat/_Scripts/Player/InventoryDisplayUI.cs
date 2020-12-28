@@ -40,7 +40,7 @@ namespace Goat.Player
 
         private void GridUIInfo_GridUIChangedEvent(UIElement currentUI, UIElement prevUI)
         {
-            stockingUI.StockingUIElement.SetActive(false);
+            //stockingUI.StockingUIElement.SetActive(false);
         }
 
         private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)

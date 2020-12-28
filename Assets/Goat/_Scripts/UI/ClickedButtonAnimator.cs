@@ -4,6 +4,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using Goat.Events;
+using Goat.Grid.UI;
 
 namespace Goat.UI
 {
@@ -12,6 +13,7 @@ namespace Goat.UI
         //Initial sizes
         private const int BORDER_SIZE = 35;
         private const int BORDERCONTROL_SIZE = 100;
+        [SerializeField] private GridUIInfo uiInfo;
         [SerializeField] private RectTransform clickedButton;
         [SerializeField] private RectTransform barButton;
         [SerializeField] private Image barButtonImage;
@@ -120,7 +122,8 @@ namespace Goat.UI
             {
                 borders.gameObject.SetActive(false);
                 borderControl.gameObject.SetActive(false);
-                currentWindow.gameObject.SetActive(true);
+                //currentWindow.gameObject.SetActive(true);
+                uiInfo.CurrentUIElement = currentWindow.GetComponent<BasicGridUIElement>().Type;
                 //TODO: Change to ShowUI from GridInfo
             });
         }
@@ -156,7 +159,6 @@ namespace Goat.UI
             {
                 borders.gameObject.SetActive(!sizeExceeds);
                 borderControl.gameObject.SetActive(sizeExceeds);
-                currentWindow.gameObject.SetActive(false);
             });
 
             if (sizeExceeds)
@@ -182,9 +184,10 @@ namespace Goat.UI
             closeWindow.Append(barButton.DOPunchPosition(scaleIncrease, punchScaleDuration / closingDurationMultiplier, vibrato, elasticity));
             closeWindow.AppendCallback(() =>
             {
-                currentWindow.gameObject.SetActive(false);
                 //TODO: Change to HideUI from GridInfo
                 barButton.gameObject.SetActive(false);
+                uiInfo.CurrentUIElement = UIElement.None;
+                //currentWindow.gameObject.SetActive(false);
             });
         }
 

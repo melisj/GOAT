@@ -27,7 +27,7 @@ namespace Goat.Grid.UI
         public virtual void HideUI()
         {
             if (disableCanvasInstead)
-                canvasToDisable.enabled = true;
+                canvasToDisable.enabled = false;
             else
                 PanelToHide.SetActive(false);
         }
@@ -103,7 +103,7 @@ namespace Goat.Grid.UI
         private void ShowNewUI(UIElement UIElement)
         {
             HideUI();
-            if (UIElement != UIElement.None && UIElement != gridUIInfo.CurrentUIElement)
+            if (UIElement != UIElement.None)// && UIElement != gridUIInfo.CurrentUIElement
             {
                 UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
                 currentUIOpen = element;

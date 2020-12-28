@@ -63,6 +63,13 @@ MonoBehaviour:
   icon: {fileID: 261422753799986913}
   hasBorder: 1
   border: {fileID: 1454477772989596520}
+  onSelectEvent: {fileID: 11400000, guid: 51c650acc6268b44882f6c87311c7d4b, type: 2}
+  borderChangeType: 1
+  multipleSelections: 0
+  selectedColor: {r: 0.68487567, g: 1, b: 0.6745098, a: 1}
+  deselectedColor: {r: 1, g: 0.6745283, b: 0.6745283, a: 1}
+  selectedSprite: {fileID: 0}
+  deselectedSprite: {fileID: 0}
   hasName: 0
   nameText: {fileID: 0}
 --- !u!1 &7382113428032835370

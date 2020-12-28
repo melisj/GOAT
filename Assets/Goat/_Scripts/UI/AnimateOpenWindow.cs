@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.UI
 {
     public class AnimateOpenWindow : MonoBehaviour
     {
+        [SerializeField] private VoidEvent closeSideBarEvent;
         [SerializeField] private Button windowOpener;
         [SerializeField] private Image windowOpenerImage;
         [SerializeField] private RectTransform toOpenWindow;
@@ -30,6 +33,7 @@ namespace Goat.UI
 
         private void OpenWindow()
         {
+            closeSideBarEvent.Raise();
             if (onButtonClick.NotNull())
                 onButtonClick.Complete();
 
@@ -37,6 +41,27 @@ namespace Goat.UI
             onButtonClick.Append(windowOpener.transform.DOPunchScale(scaleIncrease, punchScaleDuration, vibrato, elasticity));
 
             buttonAnimator.Play((RectTransform)windowOpener.transform, windowOpenerImage.sprite, toOpenWindow, toOpenWindowBorderControl, animateWindowElements.Play, animateWindowElements.Close);
+        }
+
+        public void OpenWindow(Action OnOpen, Action OnClose)
+        {
+            if (onButtonClick.NotNull())
+                onButtonClick.Complete();
+
+            onButtonClick = DOTween.Sequence();
+            onButtonClick.Append(windowOpener.transform.DOPunchScale(scaleIncrease, punchScaleDuration, vibrato, elasticity));
+
+            buttonAnimator.Play((RectTransform)windowOpener.transform, windowOpenerImage.sprite, toOpenWindow, toOpenWindowBorderControl,
+                () =>
+                {
+                    animateWindowElements.Play();
+                    OnOpen();
+                },
+                () =>
+                {
+                    animateWindowElements.Close();
+                    OnClose();
+                });
         }
     }
 }

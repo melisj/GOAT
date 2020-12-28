@@ -370,12 +370,12 @@ namespace Goat.Grid
             previewObject = Instantiate(previewPrefab);
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
-
             previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
             for (int i = 0; i < previewObjectMesh.Length; i++)
             {
                 previewObjectMesh[i].GetComponent<MeshRenderer>().material = previewMaterial;
             }
+            previewObject.SetActive(false);
         }
 
         public void EnablePreview(Vector3 position)

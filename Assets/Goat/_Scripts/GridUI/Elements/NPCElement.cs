@@ -1,5 +1,6 @@
 ﻿using Goat.AI;
 using Goat.Storage;
+using Goat.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,8 +11,11 @@ namespace Goat.Grid.Interactions.UI
 {
     public class NPCElement : UISlotElement
     {
+        [SerializeField] private AnimateStorageElement animateElement;
         [SerializeField] private TextMeshProUGUI totalPrice;
         [SerializeField] private TextMeshProUGUI customerName;
+        [SerializeField] private RectTransform customerBorderLeft, customerBorderMiddle;
+        [SerializeField] private float margin;
         [SerializeField] private Button sellButton;
         [SerializeField] private Transform contentParent;
 
@@ -29,6 +33,16 @@ namespace Goat.Grid.Interactions.UI
             {
                 AddStorageIcon();
             }
+        }
+
+        public override void OpenUI()
+        {
+            animateElement.OpenStorage();
+        }
+
+        public override void CloseUI()
+        {
+            animateElement.CloseStorage();
         }
 
         // Create a new storage icon
@@ -101,7 +115,21 @@ namespace Goat.Grid.Interactions.UI
             if (totalPrice)
                 totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
             if (customerName)
-                customerName.text = string.Format("Name: {0}", customer ? customer.name : "-");
+            {
+                customerName.text = string.Format("Name: {0}", customer ? customer.name : "No customer");
+                ChangeIconWidth(customerName.text, customerName, customerBorderMiddle, customerBorderLeft);
+            }
+        }
+
+        protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)
+        {
+            //InitialSize
+            float initialSize = leftBorder.sizeDelta.x * 2;
+            //  float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length));
+            float iconWidth = ((textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length)));
+            iconWidth -= initialSize;
+            iconWidth = Mathf.Max(iconWidth, 1);
+            amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
         }
     }
 }

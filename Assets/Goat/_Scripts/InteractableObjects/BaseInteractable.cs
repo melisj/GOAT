@@ -33,7 +33,7 @@ namespace Goat.Grid.Interactions
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
-
+        private PlaceableInfo placeableInfo;
         protected Collider clickCollider;
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
@@ -43,6 +43,7 @@ namespace Goat.Grid.Interactions
 
         public bool IsClickedOn { get; set; }
         public bool UIOpen => gridUIInfo.IsUIActive;
+        public bool UIActivated { get; set; }
 
         public bool IsPowered
         {
@@ -56,7 +57,7 @@ namespace Goat.Grid.Interactions
         public int PowerProduction => powerProduction;
 
         public string Description => description;
-        public string Name => name;
+        public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
 
@@ -68,6 +69,8 @@ namespace Goat.Grid.Interactions
         protected virtual void Awake()
         {
             clickCollider = GetComponentInChildren<Collider>();
+            placeableInfo = GetComponent<PlaceableInfo>();
+            UIActivated = false;
         }
 
         // Get the event when the object has been clicked
@@ -92,14 +95,17 @@ namespace Goat.Grid.Interactions
         // Open the UI for the this
         public virtual void OpenUI()
         {
-            gridUIInfo.CurrentUIElement = UIElement.Interactable;
+            //gridUIInfo.CurrentUIElement = UIElement.Interactable;
+            Debug.Log("Is this even called?");
             info.CurrentSelected = this;
         }
 
         // Hide this UI
         public virtual void CloseUI()
         {
-            gridUIInfo.CurrentUIElement = UIElement.None;
+            //gridUIInfo.CurrentUIElement = UIElement.None;
+            Debug.Log("Apparently yes, but it's closed now");
+
             IsClickedOn = false;
             info.CurrentSelected = null;
         }

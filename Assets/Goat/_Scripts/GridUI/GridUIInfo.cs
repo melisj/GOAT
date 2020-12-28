@@ -9,6 +9,8 @@ namespace Goat.Grid.UI
     {
         None,
         Tiles,
+        Furniture,
+        Harvester,
         Buying,
         Interactable
     }

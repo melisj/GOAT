@@ -1,6 +1,8 @@
 ﻿using Goat.Grid.UI;
 using Goat.Player;
 using Goat.Storage;
+using Goat.UI;
+using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System;
 using System.Collections;
@@ -20,7 +22,15 @@ namespace Goat.Grid.Interactions.UI
     public class StorageElement : UISlotElement
     {
         [SerializeField] protected GameObject cellPrefab;
+        [SerializeField] protected AnimateStorageElement animateStorageElement;
+        [SerializeField] protected AcceptedResourcesElement acceptedResourcesElement;
+        [Title("Capacity")]
         [SerializeField] protected TextMeshProUGUI itemsText;
+        [SerializeField] private float margin;
+        [SerializeField] private RectTransform capacityMiddle;
+        [SerializeField] private RectTransform capacityLeft;
+        [Title("Spawning")]
+        [SerializeField] private bool showSeperateObject;
         [SerializeField] protected Transform gridParent;
         [SerializeField] protected PlayerInventory playerInventory;
         [SerializeField] protected InteractablesInfo info;
@@ -28,21 +38,31 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] protected InteractableUI interactableUI;
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
-        private List<CellWithInventoryAmount> uiCells = new List<CellWithInventoryAmount>();
+        [SerializeField, ReadOnly] protected List<UICell> uiCells = new List<UICell>();
 
         private int amountOfPrewarmedStorageElements = 10;
-
-        [SerializeField] private bool showSeperateObject;
 
         public override void InitUI()
         {
             base.InitUI();
-            interactableUI = GetComponentInParent<InteractableUI>();
-
+            //interactableUI = GetComponentInParent<InteractableUI>();
+            acceptedResourcesElement.CreateCells();
             for (int i = 0; i < amountOfPrewarmedStorageElements; i++)
             {
                 AddStorageIcon();
             }
+        }
+
+        public override void CloseUI()
+        {
+            if (animateStorageElement)
+                animateStorageElement.CloseStorage();
+        }
+
+        public override void OpenUI()
+        {
+            if (animateStorageElement)
+                animateStorageElement.OpenStorage();
         }
 
         // Create a new storage icon
@@ -51,13 +71,14 @@ namespace Goat.Grid.Interactions.UI
             GameObject instance = Instantiate(cellPrefab, gridParent);
             instance.SetActive(false);
             // itemIcons.Add(instance.GetComponent<InventoryIcon>());
-            uiCells.Add(instance.GetComponent<CellWithInventoryAmount>());
+            uiCells.Add(instance.GetComponent<UICell>());
         }
 
         // Disable a storage icon
         protected void DisableIcon(int iconIndex)
         {
             //  itemIcons[iconIndex].gameObject.SetActive(false);
+            //if (uiCells.Count < iconIndex)
             uiCells[iconIndex].gameObject.SetActive(false);
         }
 
@@ -73,7 +94,11 @@ namespace Goat.Grid.Interactions.UI
             //itemIcons[iconIndex].SetIconData(resource, 0, amount, callback);
 
             uiCells[iconIndex].gameObject.SetActive(true);
-            uiCells[iconIndex].Setup(resource, amount);
+            if (uiCells[iconIndex] is CellWithInventoryAmount cellInv)
+                cellInv.Setup(resource, amount);
+            else
+                uiCells[iconIndex].Setup(resource);
+
             uiCells[iconIndex].OnClick(callback);
         }
 
@@ -88,7 +113,6 @@ namespace Goat.Grid.Interactions.UI
                 return;
 
             SetStorageLimitUI(args[0].ToString());
-
             if (showSeperateObject)
                 SpawnSeperateElements((Inventory)args[1], (StorageInteractable)args[2]);
             else
@@ -107,6 +131,7 @@ namespace Goat.Grid.Interactions.UI
             {
                 DisableIcon(i);
             }
+            acceptedResourcesElement.SetActiveCells(interactable);
 
             for (int i = 0; i < inventory.Items.Count; i++)
             {
@@ -114,6 +139,8 @@ namespace Goat.Grid.Interactions.UI
                 EnableIcon(i, resource.Key, resource.Value, () =>
                 {
                     interactableUI.StockingScript.ChangeResource(resource.Key, interactable.Inventory, playerInventory.Inventory);
+                    interactableUI.StockingScript.StockButtonText.text = "Grab item";
+
                     interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
                 });
             }
@@ -150,6 +177,18 @@ namespace Goat.Grid.Interactions.UI
         protected void SetStorageLimitUI(string text)
         {
             itemsText.text = text;
+            ChangeIconWidth(text, itemsText, capacityMiddle, capacityLeft);
+        }
+
+        protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)
+        {
+            //InitialSize
+            float initialSize = leftBorder.sizeDelta.x * 2;
+            //  float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length));
+            float iconWidth = ((textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length)));
+            iconWidth -= initialSize;
+            iconWidth = Mathf.Max(iconWidth, 1);
+            amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
         }
     }
 }

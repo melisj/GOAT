@@ -23,7 +23,9 @@ namespace Goat.Grid.UI
     public class InteractableUI : BasicGridUIElement
     {
         [SerializeField] private TextMeshProUGUI titleText;
-        [SerializeField] private TextMeshProUGUI descriptionText;
+        [SerializeField] private RectTransform headerBorderMiddle, headerBorderLeft;
+        [SerializeField] private float margin;
+        //[SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private Image interactableIcon;
 
         [SerializeField] private Transform UIElementSlot;
@@ -93,7 +95,7 @@ namespace Goat.Grid.UI
                 slotElement.InitUI();
 
                 UIElements.Add(slotElement.UiElementType, slotElement);
-                slotElement.gameObject.SetActive(false);
+                //slotElement.gameObject.SetActive(false);
             }
         }
 
@@ -106,10 +108,22 @@ namespace Goat.Grid.UI
             if (IsThisActive)
             {
                 titleText.text = title;
-                if (descriptionText)
-                    descriptionText.text = description;
+                ChangeIconWidth(title, titleText, headerBorderMiddle, headerBorderLeft);
+                //if (descriptionText)
+                //    descriptionText.text = description;
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
+        }
+
+        protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)
+        {
+            //InitialSize
+            float initialSize = leftBorder.sizeDelta.x * 2;
+            //  float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length));
+            float iconWidth = ((textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length)));
+            iconWidth -= initialSize;
+            iconWidth = Mathf.Max(iconWidth, 1);
+            amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
         }
 
         // Load a new UI element
@@ -120,7 +134,7 @@ namespace Goat.Grid.UI
 
             if (IsThisActive && elementId != InteractableUIElement.None)
             {
-                StockingScript.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
+                //StockingScript.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
                 loadedType = elementId;
 
                 UIElements.TryGetValue(elementId, out UISlotElement element);
@@ -128,7 +142,8 @@ namespace Goat.Grid.UI
 
                 if (activeElement)
                 {
-                    activeElement.gameObject.SetActive(true);
+                    //activeElement.gameObject.SetActive(true);
+                    activeElement.OpenUI();
                     SetElementValues(args);
                 }
             }
@@ -139,8 +154,9 @@ namespace Goat.Grid.UI
         {
             if (IsThisActive && activeElement)
             {
-                StockingScript.gameObject.SetActive(false);
-                activeElement.gameObject.SetActive(false);
+                //StockingScript.gameObject.SetActive(false);
+                //activeElement.gameObject.SetActive(false);
+                activeElement.CloseUI();
                 loadedType = InteractableUIElement.None;
             }
         }

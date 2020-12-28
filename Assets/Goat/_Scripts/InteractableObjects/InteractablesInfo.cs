@@ -3,11 +3,14 @@
 namespace Goat.Grid.Interactions
 {
     [CreateAssetMenu(fileName = "InteractableInfo", menuName = "ScriptableObjects/RuntimeVariables/InteractableInfo")]
-    public class InteractablesInfo : ScriptableObject {
+    public class InteractablesInfo : ScriptableObject
+    {
         public delegate void InteractableChangeEvent(BaseInteractable interactable);
+
         public event InteractableChangeEvent SelectedInteractableChangeEvt;
 
         public delegate void InteractableUpdateEvent(BaseInteractable interactable);
+
         public event InteractableUpdateEvent InteractableUpdateEvt;
 
         [Header("Prefabs")]
@@ -23,7 +26,7 @@ namespace Goat.Grid.Interactions
 
         [Header("Runtime Variables"), Space(10)]
         [SerializeField] private BaseInteractable currentSelected;
-        
+
         public GameObject StorageIconPrefab => storageIconPrefab;
         public GameObject InventoryIconPrefab => inventoryIconPrefab;
         public string ItemHolderName => itemHolderName;
@@ -35,13 +38,13 @@ namespace Goat.Grid.Interactions
             get => currentSelected;
             set
             {
+                currentSelected = value;
                 SelectedInteractableChangeEvt?.Invoke(value);
 
                 if (value != null)
                 {
                     InteractableUpdateEvt?.Invoke(value);
                 }
-                currentSelected = value;
             }
         }
 

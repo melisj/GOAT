@@ -17,6 +17,7 @@ namespace Goat.Grid.Interactions.UI
         [Header("Resource UI")]
         [SerializeField] private Resource resource;
         [SerializeField] private GameObject stockingUI;
+        [SerializeField] private TextMeshProUGUI stockButtonText;
         [SerializeField] private TextMeshProUGUI resourceName;
         //[SerializeField] private TextMeshProUGUI stock;
         //[SerializeField] private Image resourceImage;
@@ -33,6 +34,7 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] private PlayerInventory playerInventory;
 
         public GameObject StockingUIElement => stockingUI;
+        public TextMeshProUGUI StockButtonText => stockButtonText;
 
         private int currentAmount;
         private Resource previousResource;
@@ -47,6 +49,13 @@ namespace Goat.Grid.Interactions.UI
         {
             Resource = resource;
             OnResourceChanged(from, to);
+        }
+
+        public void ChangeResource(Resource resource, Inventory from, StorageInteractable toInteractable)
+        {
+            Resource = resource;
+            if (toInteractable)
+                OnResourceChanged(from, toInteractable.Inventory);
         }
 
         private void Awake()
@@ -125,7 +134,8 @@ namespace Goat.Grid.Interactions.UI
 
         private void SetupResourceUI()
         {
-            resourceName.text = resource.name.ToString();
+            if (resourceName)
+                resourceName.text = resource.name.ToString();
             resource.AmountChanged += Resource_AmountChanged;
         }
 
@@ -137,8 +147,10 @@ namespace Goat.Grid.Interactions.UI
 
         private void SetButtonUI(Inventory from, Inventory to)
         {
-            minAmountButton.onClick.AddListener(() => MinAmount(from, to));
-            maxAmountButton.onClick.AddListener(() => MaxAmount(from, to));
+            if (minAmountButton)
+                minAmountButton.onClick.AddListener(() => MinAmount(from, to));
+            if (maxAmountButton)
+                maxAmountButton.onClick.AddListener(() => MaxAmount(from, to));
             sellButton.onClick.AddListener(() => ConfirmStocking(from, to));
         }
 
@@ -169,7 +181,7 @@ namespace Goat.Grid.Interactions.UI
             to.Add(resource, currentAmount, out int actualStoredAmount);
             from.Remove(resource, actualStoredAmount, out int removedAmount);
 
-            stockingUI.SetActive(false);
+            //stockingUI.SetActive(false);
         }
 
         private void Resource_AmountChanged(object sender, int amount)
@@ -195,8 +207,8 @@ namespace Goat.Grid.Interactions.UI
             if (previousResource == null) return;
             previousResource.AmountChanged -= Resource_AmountChanged;
             amountInput.onValueChanged.RemoveAllListeners();
-            minAmountButton.onClick.RemoveAllListeners();
-            maxAmountButton.onClick.RemoveAllListeners();
+            //minAmountButton.onClick.RemoveAllListeners();
+            //maxAmountButton.onClick.RemoveAllListeners();
             sellButton.onClick.RemoveAllListeners();
         }
     }

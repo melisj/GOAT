@@ -10,10 +10,9 @@ using UnityAtoms;
 
 public class AnimateTabButton : EventListenerVoid
 {
-    [SerializeField, Sirenix.OdinInspector.ReadOnly] protected float[] tabPositions;
+    [SerializeField, Sirenix.OdinInspector.ReadOnly] protected Transform[] tabPositions;
     [SerializeField] private GameObject viewPort;
     [SerializeField] private TextMeshProUGUI header;
-    [SerializeField] private VerticalLayoutGroup verticalGroup;
     [SerializeField] private ScrollRect scrollingRect;
     [SerializeField] private RectTransform selectionBlock;
     [SerializeField] private Sprite emptySelection;
@@ -33,6 +32,7 @@ public class AnimateTabButton : EventListenerVoid
     private void Awake()
     {
         SetupTabPositions();
+        Setup();
     }
 
     /// <summary>
@@ -41,23 +41,25 @@ public class AnimateTabButton : EventListenerVoid
     /// </summary>
     private void SetupTabPositions()
     {
-        tabPositions = new float[gameObject.transform.childCount];
-        verticalGroup.enabled = true;
-        Canvas.ForceUpdateCanvases();
-
+        tabPositions = new Transform[gameObject.transform.childCount];
         for (int i = 0; i < tabPositions.Length; i++)
         {
             RectTransform tabChild = gameObject.transform.GetChild(i).GetComponent<RectTransform>();
-            verticalGroup.enabled = false;
-            Canvas.ForceUpdateCanvases();
-            tabPositions[i] = tabChild.transform.position.y;
+            tabPositions[i] = tabChild.transform;
+        }
+    }
+
+    private void Setup()
+    {
+        for (int i = 0; i < tabPositions.Length; i++)
+        {
+            RectTransform tabChild = gameObject.transform.GetChild(i).GetComponent<RectTransform>();
             RectTransform gridChild = viewPort.transform.GetChild(i).GetComponent<RectTransform>();
             GridLayoutGroup layoutGroup = viewPort.transform.GetChild(i).GetComponent<GridLayoutGroup>();
 
             SetupPairs(i, tabChild, gridChild, gridChild, layoutGroup);
         }
-        verticalGroup.enabled = true;
-        Canvas.ForceUpdateCanvases();
+
         currentTabBorder = gameObject.transform.GetChild(0).GetComponent<Image>();
         currentGrid = viewPort.transform.GetChild(0).gameObject;
     }
@@ -80,7 +82,7 @@ public class AnimateTabButton : EventListenerVoid
     /// <param name="grid"></param>
     private void SelectTab(int tabIndex, Image tabBorder, GameObject grid, RectTransform content, GridLayoutGroup layoutGroup)
     {
-        float oldPos = tabPositions[currentTab];
+        //float oldPos = tabPositions[currentTab];
         if (tabIndex >= tabPositions.Length)
         {
             tabIndex = 0;
@@ -96,7 +98,7 @@ public class AnimateTabButton : EventListenerVoid
 
         header.text = currentTabBorder.gameObject.name;
         //tabSequence.Append(selectionBlock.DOScaleX(0, selectionBlockScaleDuration / closingDurationMultiplier));
-        tabSequence.Append(selectionBlock.DOMoveY(tabPositions[currentTab], selectionBlockMoveDuration));
+        tabSequence.Append(selectionBlock.transform.DOMoveY(tabPositions[currentTab].position.y, selectionBlockMoveDuration));
         tabSequence.Append(selectionBlock.DOScaleX(1, selectionBlockScaleDuration).OnComplete(() => currentTabBorder.sprite = emptySelection));
 
         for (int i = 0; i < content.childCount; i++)

@@ -87,4 +87,6 @@ namespace Goat.Events
     public abstract class EventListenerHiredEmployee : EventListener<HiredEmployee, HiredEmployeeEvent> { }
 
     public abstract class EventListenerExpenseEvent : EventListener<Expense, ExpenseEvent> { }
+
+    public abstract class EventListenerInteractable : EventListener<BaseInteractable, InteractableEvent> { }
 }

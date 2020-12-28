@@ -35,7 +35,6 @@ public class ChangeMode : EventListenerKeyCodeModeEvent
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                gridUIInfo.CurrentUIElement = UIElement.Tiles;
                 inputMode.InputMode = InputMode.Edit;
             }
             if (Input.GetKeyDown(KeyCode.B))

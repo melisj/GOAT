@@ -887,15 +887,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
-  size: 1
+  size: 0.4
   layerMask:
     serializedVersion: 2
     m_Bits: 512
   onlyNearest: 1
   maxAmountColliders: 0
-  repeatDetectionOverTime: 0
+  repeatDetectionOverTime: 1
   intervalTime: 0.5
-  updateDetectionOnIdleOnly: 1
+  updateDetectionOnIdleOnly: 0
+  interactableEvent: {fileID: 11400000, guid: 5e4abff476d0d6240b65fa84053128c9, type: 2}
 --- !u!65 &8263138005537368909
 BoxCollider:
   m_ObjectHideFlags: 0

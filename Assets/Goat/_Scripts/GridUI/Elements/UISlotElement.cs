@@ -16,6 +16,14 @@ namespace Goat.Grid.Interactions.UI
         {
         }
 
+        public virtual void OpenUI()
+        {
+        }
+
+        public virtual void CloseUI()
+        {
+        }
+
         public virtual void SetUI(object[] args)
         {
         }

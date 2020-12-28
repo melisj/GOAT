@@ -36,7 +36,7 @@ namespace Goat.Grid.Interactions
                     CheckForInteractable();
                     if (gridUIInfo.CurrentUIElement != UIElement.Interactable)
                     {
-                        gridUIInfo.CurrentUIElement = UIElement.None;
+                        //gridUIInfo.CurrentUIElement = UIElement.None;
                     }
                 }
             }
