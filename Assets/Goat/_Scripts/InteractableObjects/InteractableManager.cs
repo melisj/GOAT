@@ -34,9 +34,9 @@ namespace Goat.Grid.Interactions
                 if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
                     CheckForInteractable();
-                    if (gridUIInfo.CurrentUIElement != GridUIElement.Interactable)
+                    if (gridUIInfo.CurrentUIElement != UIElement.Interactable)
                     {
-                        gridUIInfo.CurrentUIElement = GridUIElement.None;
+                        gridUIInfo.CurrentUIElement = UIElement.None;
                     }
                 }
             }
@@ -52,9 +52,9 @@ namespace Goat.Grid.Interactions
                     {
                         //if (!gridUIInfo.IsUIActive)
                         CheckForInteractable();
-                        if (gridUIInfo.CurrentUIElement != GridUIElement.Interactable)
+                        if (gridUIInfo.CurrentUIElement != UIElement.Interactable)
                         {
-                            gridUIInfo.CurrentUIElement = GridUIElement.None;
+                            gridUIInfo.CurrentUIElement = UIElement.None;
                         }
                     }
                 }

@@ -5,10 +5,10 @@ using Sirenix.OdinInspector;
 
 namespace Goat.Grid.UI
 {
-    public enum GridUIElement
+    public enum UIElement
     {
         None,
-        Building,
+        Tiles,
         Buying,
         Interactable
     }
@@ -16,20 +16,21 @@ namespace Goat.Grid.UI
     [CreateAssetMenu(fileName = "GridUIInfo", menuName = "ScriptableObjects/UI/GridUIInfo")]
     public class GridUIInfo : SerializedScriptableObject
     {
-        [SerializeField] private GridUIElement currentUI;
+        [SerializeField] private UIElement currentUI;
 
-        public delegate void GridUIChanged(GridUIElement currentUI, GridUIElement prevUI);
+        public delegate void GridUIChanged(UIElement currentUI, UIElement prevUI);
+
         public event GridUIChanged GridUIChangedEvent;
 
-        public GridUIElement CurrentUIElement
+        public UIElement CurrentUIElement
         {
             get => currentUI;
             set
             {
                 // Reset to none when same is selected
-                GridUIElement newUI = value;
+                UIElement newUI = value;
                 if (currentUI == newUI)
-                    newUI = GridUIElement.None;
+                    newUI = UIElement.None;
 
                 // Invoke new UI change
                 if (currentUI != newUI)
@@ -38,6 +39,6 @@ namespace Goat.Grid.UI
             }
         }
 
-        public bool IsUIActive { get => currentUI != GridUIElement.None; }
+        public bool IsUIActive { get => currentUI != UIElement.None; }
     }
 }

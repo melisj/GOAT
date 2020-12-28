@@ -98,9 +98,10 @@ namespace Goat.Grid.Interactions.UI
             }
 
             // Set the texts
-            totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
-            customerName.text = string.Format("Name: {0}", customer ? customer.name : "-");
-
+            if (totalPrice)
+                totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
+            if (customerName)
+                customerName.text = string.Format("Name: {0}", customer ? customer.name : "-");
         }
     }
 }

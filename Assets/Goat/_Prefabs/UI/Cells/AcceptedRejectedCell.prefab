@@ -60,7 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageButton: {fileID: 5079025429165026388}
-  image: {fileID: 1454477772989596520}
+  icon: {fileID: 261422753799986913}
+  hasBorder: 1
+  border: {fileID: 1454477772989596520}
+  hasName: 0
   nameText: {fileID: 0}
 --- !u!1 &7382113428032835370
 GameObject:

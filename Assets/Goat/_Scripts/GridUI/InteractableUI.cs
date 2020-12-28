@@ -28,7 +28,7 @@ namespace Goat.Grid.UI
 
         [SerializeField] private Transform UIElementSlot;
         [SerializeField] private StockingUI stockingUI;
-
+        [SerializeField] private UISlotElement[] slotElements;
         [SerializeField] private InteractablesInfo interactableInfo;
         [SerializeField] private InteractableUIElements elements;
         // Keeps track of all UI elements available
@@ -41,7 +41,8 @@ namespace Goat.Grid.UI
 
         protected virtual void Awake()
         {
-            SpawnUIElements();
+            //SpawnUIElements();
+            SetupUIElements(slotElements);
             if (!stockingUI)
                 stockingUI = GetComponentInChildren<StockingUI>();
         }
@@ -86,12 +87,13 @@ namespace Goat.Grid.UI
 
         private void SetupUIElements(UISlotElement[] slotElements)
         {
-            for (int i = 0, enumIndex = 1; i < slotElements.Length; i++, enumIndex++)
+            for (int i = 0; i < slotElements.Length; i++)
             {
                 UISlotElement slotElement = slotElements[i];
                 slotElement.InitUI();
 
-                UIElements.Add((InteractableUIElement)enumIndex, slotElement);
+                UIElements.Add(slotElement.UiElementType, slotElement);
+                slotElement.gameObject.SetActive(false);
             }
         }
 
@@ -104,7 +106,8 @@ namespace Goat.Grid.UI
             if (IsThisActive)
             {
                 titleText.text = title;
-                descriptionText.text = description;
+                if (descriptionText)
+                    descriptionText.text = description;
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
         }

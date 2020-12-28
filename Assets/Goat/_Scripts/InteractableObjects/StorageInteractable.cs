@@ -26,7 +26,6 @@ namespace Goat.Grid.Interactions
 
         public InteractableUIElement ElementToLoad => elementToLoad;
 
-
         [SerializeField] private Resource mainResource;
         [HideInInspector] public Resource MainResource { get => mainResource; }
 
@@ -47,9 +46,10 @@ namespace Goat.Grid.Interactions
             InvokeChange();
         }
 
-        public override object[] GetArgumentsForUI() {
+        public override object[] GetArgumentsForUI()
+        {
             return new object[] {
-            string.Format("Storage -=- {0}/{1}", inventory.ItemsInInventory, maxResources),
+            string.Format("{0} / {1}", inventory.ItemsInInventory, maxResources),
             inventory,
             this };
         }

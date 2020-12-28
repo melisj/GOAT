@@ -92,14 +92,14 @@ namespace Goat.Grid.Interactions
         // Open the UI for the this
         public virtual void OpenUI()
         {
-            gridUIInfo.CurrentUIElement = GridUIElement.Interactable;
+            gridUIInfo.CurrentUIElement = UIElement.Interactable;
             info.CurrentSelected = this;
         }
 
         // Hide this UI
         public virtual void CloseUI()
         {
-            gridUIInfo.CurrentUIElement = GridUIElement.None;
+            gridUIInfo.CurrentUIElement = UIElement.None;
             IsClickedOn = false;
             info.CurrentSelected = null;
         }

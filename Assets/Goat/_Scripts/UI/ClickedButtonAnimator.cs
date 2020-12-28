@@ -121,6 +121,7 @@ namespace Goat.UI
                 borders.gameObject.SetActive(false);
                 borderControl.gameObject.SetActive(false);
                 currentWindow.gameObject.SetActive(true);
+                //TODO: Change to ShowUI from GridInfo
             });
         }
 
@@ -182,6 +183,7 @@ namespace Goat.UI
             closeWindow.AppendCallback(() =>
             {
                 currentWindow.gameObject.SetActive(false);
+                //TODO: Change to HideUI from GridInfo
                 barButton.gameObject.SetActive(false);
             });
         }

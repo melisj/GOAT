@@ -19,56 +19,70 @@ namespace Goat.Grid.Interactions.UI
     /// </summary>
     public class StorageElement : UISlotElement
     {
-        [SerializeField] private TextMeshProUGUI itemsText;
-        [SerializeField] private Transform gridParent;
+        [SerializeField] protected GameObject cellPrefab;
+        [SerializeField] protected TextMeshProUGUI itemsText;
+        [SerializeField] protected Transform gridParent;
+        [SerializeField] protected PlayerInventory playerInventory;
+        [SerializeField] protected InteractablesInfo info;
 
-        [SerializeField] private PlayerInventory playerInventory;
-        [SerializeField] private InteractablesInfo info;
-
-        [SerializeField] private InteractableUI interactableUI;
+        [SerializeField] protected InteractableUI interactableUI;
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
+        private List<CellWithInventoryAmount> uiCells = new List<CellWithInventoryAmount>();
 
         private int amountOfPrewarmedStorageElements = 10;
 
         [SerializeField] private bool showSeperateObject;
 
-        public override void InitUI() {
+        public override void InitUI()
+        {
             base.InitUI();
             interactableUI = GetComponentInParent<InteractableUI>();
 
-            for (int i = 0; i < amountOfPrewarmedStorageElements; i++) {
+            for (int i = 0; i < amountOfPrewarmedStorageElements; i++)
+            {
                 AddStorageIcon();
             }
         }
 
         // Create a new storage icon
-        private void AddStorageIcon() {
-            GameObject instance = Instantiate(info.StorageIconPrefab, gridParent);
+        protected void AddStorageIcon()
+        {
+            GameObject instance = Instantiate(cellPrefab, gridParent);
             instance.SetActive(false);
-            itemIcons.Add(instance.GetComponent<InventoryIcon>());
+            // itemIcons.Add(instance.GetComponent<InventoryIcon>());
+            uiCells.Add(instance.GetComponent<CellWithInventoryAmount>());
         }
 
         // Disable a storage icon
-        private void DisableIcon(int iconIndex) {
-            itemIcons[iconIndex].gameObject.SetActive(false);
+        protected void DisableIcon(int iconIndex)
+        {
+            //  itemIcons[iconIndex].gameObject.SetActive(false);
+            uiCells[iconIndex].gameObject.SetActive(false);
         }
 
         // Enable a storage icon with a new sprite
-        private void EnableIcon(int iconIndex, Resource resource, int amount, Action callback) {
+        protected void EnableIcon(int iconIndex, Resource resource, int amount, Action callback)
+        {
             // Reset listeners
-            itemIcons[iconIndex].IconButton.onClick.RemoveAllListeners();
+            //itemIcons[iconIndex].IconButton.onClick.RemoveAllListeners();
+            uiCells[iconIndex].ResetOnClick();
 
             // Set the element active and set the icon
-            itemIcons[iconIndex].gameObject.SetActive(true);
-            itemIcons[iconIndex].SetIconData(resource, 0, amount, callback);
+            // itemIcons[iconIndex].gameObject.SetActive(true);
+            //itemIcons[iconIndex].SetIconData(resource, 0, amount, callback);
+
+            uiCells[iconIndex].gameObject.SetActive(true);
+            uiCells[iconIndex].Setup(resource, amount);
+            uiCells[iconIndex].OnClick(callback);
         }
 
         /// <summary>
         /// Sets the storage UI up with the items given by the arguments
         /// </summary>
         /// <param name="args"> 0 = item text : 1 = inventory : 2 = StorageInteractable </param>
-        public override void SetUI(object[] args) {
+        public override void SetUI(object[] args)
+        {
             base.SetUI(args);
             if (args.Length != 3)
                 return;
@@ -81,15 +95,15 @@ namespace Goat.Grid.Interactions.UI
                 SpawnGroupedElements((Inventory)args[1], (StorageInteractable)args[2]);
         }
 
-        private void SpawnGroupedElements(Inventory inventory, StorageInteractable interactable)
+        protected void SpawnGroupedElements(Inventory inventory, StorageInteractable interactable)
         {
             // Add icons if pool is not enough
-            while (inventory.Items.Count > itemIcons.Count)
+            while (inventory.Items.Count > uiCells.Count)
             {
                 AddStorageIcon();
             }
 
-            for(int i = inventory.Items.Count; i < itemIcons.Count; i++)
+            for (int i = inventory.Items.Count; i < uiCells.Count; i++)
             {
                 DisableIcon(i);
             }
@@ -105,16 +119,15 @@ namespace Goat.Grid.Interactions.UI
             }
         }
 
-        private void SpawnSeperateElements(Inventory inventory, StorageInteractable interactable)
+        protected void SpawnSeperateElements(Inventory inventory, StorageInteractable interactable)
         {
             // Add icons if pool is not enough
-            while (inventory.ItemsInInventory > itemIcons.Count)
+            while (inventory.ItemsInInventory > uiCells.Count)
             {
                 AddStorageIcon();
             }
 
-
-            for (int i = inventory.ItemsInInventory; i < itemIcons.Count; i++)
+            for (int i = inventory.ItemsInInventory; i < uiCells.Count; i++)
             {
                 DisableIcon(i);
             }
@@ -125,7 +138,8 @@ namespace Goat.Grid.Interactions.UI
                 {
                     Resource resource = inventory.Items.ElementAt(i).Key;
 
-                    EnableIcon(total, inventory.Items.ElementAt(i).Key, 0, () => {
+                    EnableIcon(total, inventory.Items.ElementAt(i).Key, 0, () =>
+                    {
                         playerInventory.Inventory.Add(resource, 1, out int amountStored);
                         interactable.Inventory.Remove(resource, amountStored, out int removedAmount);
                     });
@@ -133,7 +147,8 @@ namespace Goat.Grid.Interactions.UI
             }
         }
 
-        private void SetStorageLimitUI(string text) {
+        protected void SetStorageLimitUI(string text)
+        {
             itemsText.text = text;
         }
     }

@@ -9,28 +9,27 @@ public class CellWithPrice : UICell
 {
     private const string MONEY_SIGN = "$";
 
-    [SerializeField] protected RectTransform imageIcon;
-    [SerializeField] protected TextMeshProUGUI amountText;
+    [SerializeField] protected RectTransform priceBackground;
+    [SerializeField] protected TextMeshProUGUI priceText;
     [SerializeField] private float margin = 2;
-    [SerializeField] private Image borderImage;
 
-    public Image BorderImage => borderImage;
+    public Image BorderImage => border;
 
     public override void Setup(Buyable buyable)
     {
         base.Setup(buyable);
-        ChangeText((int)buyable.Price);
+        ChangeText((int)buyable.Price, priceText, priceBackground);
     }
 
-    protected void Buyable_AmountChanged(object sender, int e)
+    protected void ChangeText(int change, TextMeshProUGUI textUI, RectTransform amountHolder)
     {
-        ChangeText(e);
+        ChangeIconWidth(change, textUI, amountHolder);
+        textUI.text = MONEY_SIGN + change.ToString();
     }
 
-    protected void ChangeText(int change)
+    protected void ChangeIconWidth(int change, TextMeshProUGUI textUI, RectTransform amountHolder)
     {
-        float iconWidth = (amountText.fontSize) + ((amountText.fontSize + margin) * (change.ToString().Length));
-        imageIcon.sizeDelta = new Vector2(iconWidth, imageIcon.sizeDelta.y);
-        amountText.text = MONEY_SIGN + change.ToString();
+        float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.ToString().Length));
+        amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
     }
 }

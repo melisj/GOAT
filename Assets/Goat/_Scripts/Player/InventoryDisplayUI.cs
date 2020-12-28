@@ -16,12 +16,12 @@ namespace Goat.Player
     {
         [SerializeField] private TextMeshProUGUI storageText;
         [SerializeField] private Transform iconParent;
-
+        [SerializeField] private GameObject cellPrefab;
         [SerializeField] private InteractablesInfo info;
         [SerializeField] private PlayerInventory playerInventory;
         [SerializeField] private GridUIInfo gridUIInfo;
 
-        [SerializeField] private StockingUI stockingUI; 
+        [SerializeField] private StockingUI stockingUI;
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
 
@@ -38,7 +38,7 @@ namespace Goat.Player
             gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
         }
 
-        private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
+        private void GridUIInfo_GridUIChangedEvent(UIElement currentUI, UIElement prevUI)
         {
             stockingUI.StockingUIElement.SetActive(false);
         }
@@ -51,7 +51,7 @@ namespace Goat.Player
         // Create a new storage icon
         private void AddStorageIcon()
         {
-            GameObject instance = Instantiate(info.StorageIconPrefab, iconParent);
+            GameObject instance = Instantiate(cellPrefab, iconParent);
             instance.SetActive(false);
             itemIcons.Add(instance.GetComponent<InventoryIcon>());
         }
@@ -75,7 +75,7 @@ namespace Goat.Player
 
         public void SetUI()
         {
-            storageText.text = string.Format("Player Inventory -=- {0} / {1}", playerInventory.Inventory.ItemsInInventory, playerInventory.Inventory.Capacity);
+            storageText.text = string.Format("{0} / {1}", playerInventory.Inventory.ItemsInInventory, playerInventory.Inventory.Capacity);
             SpawnGroupedElements(playerInventory.Inventory);
         }
 
@@ -95,7 +95,8 @@ namespace Goat.Player
             for (int i = 0; i < inventory.Items.Count; i++)
             {
                 var resource = inventory.Items.ElementAt(i);
-                EnableIcon(i, resource.Key, resource.Value, () => {
+                EnableIcon(i, resource.Key, resource.Value, () =>
+                {
                     stockingUI.ChangeResource(resource.Key, inventory, ((StorageInteractable)info.CurrentSelected).Inventory);
                     stockingUI.StockingUIElement.SetActive(true);
                 });

@@ -1,13 +1,23 @@
-﻿using System.Collections;
+﻿using Goat.Grid.UI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Goat.Grid.Interactions.UI
 {
+    [System.Serializable]
     public class UISlotElement : MonoBehaviour
     {
-        public virtual void InitUI() { }
+        [SerializeField] private InteractableUIElement uiElementType;
 
-        public virtual void SetUI(object[] args) { }
+        public InteractableUIElement UiElementType => uiElementType;
+
+        public virtual void InitUI()
+        {
+        }
+
+        public virtual void SetUI(object[] args)
+        {
+        }
     }
 }

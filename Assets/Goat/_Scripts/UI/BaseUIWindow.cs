@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Goat.Events;
 using System;
+using Goat.Grid.UI;
 
 namespace Goat.UI
 {
-    public class BaseUIWindow : MonoBehaviour
+    public class BaseUIWindow : BasicGridUIElement
     {
         [SerializeField] protected GameObject cellPrefab;
         [SerializeField] protected UIGridCell[] gridCells;
