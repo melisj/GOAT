@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using Goat.AI.Satisfaction;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityAtoms.BaseAtoms;
 
 public class RepDialogue : MonoBehaviour
 {
@@ -16,13 +18,17 @@ public class RepDialogue : MonoBehaviour
     public Text CusSentEnd;
     public Text AnswerGood;
     public Text AnswerBad;
+           FloatEvent OnReputationChanged;
 
+    float reputationValue;
     public int sequenceRand;
     public bool isAnswered;
+   
     // Start is called before the first frame update
     void Start()
     {
         isAnswered = false;
+        reputationValue = 0;
 
         CusSentStart = GameObject.Find("SentenceOne").GetComponent<Text>();
         CusSentEnd = GameObject.Find("SentenceTwo").GetComponent<Text>();
@@ -66,23 +72,10 @@ public class RepDialogue : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-         * random sentence uit list custsenstart
-         */
-
-
-    }
-
+    // Update is called once per frame  
     public void DialogueStart()
     {
-        /* display Random CustSenStart
-         * 
-         * if isAnswered == true
-         * display CustSenEnd
-         */
+       
         CusSentStart.text = CustSentenceStart[sequenceRand];
         AnswerGood.text = RepPlusAnswers[sequenceRand];
         AnswerBad.text = RepMinAnswers[sequenceRand];
@@ -90,20 +83,13 @@ public class RepDialogue : MonoBehaviour
 
     }
     public void GoodAnswers()
-    {
-        /*
-         * Display good answer (based on CustsenStart) , Display bad answer (based on CutsenStart)
-         * reputation ++ // reputation  --
-         * isAnswerd = true
-         */
-        Debug.Log("Yesh");
-
+    {    
         isAnswered = true;
 
         if (isAnswered == true)
         {
             CusSentEnd.text = CustSentenceGoodEnd[sequenceRand];
-
+            reputationValue++;
         }
 
     }
@@ -113,9 +99,22 @@ public class RepDialogue : MonoBehaviour
         if (isAnswered == true)
         {
             CusSentEnd.text = CustSentenceBadEnd[sequenceRand];
-
+            reputationValue--;
         }
     }
 
+}
+public class DialogueReputation : ReviewFactorWithEventListener<float,FloatEvent>
+{
+    float reputation;
+    public override float GetReviewPoints()
+    {
+        return reputation * reviewWeight.Weight;
+    }
+
+    public override void OnEventRaised(float value)
+    {
+        reputation = value;        
+    }
 }
 
