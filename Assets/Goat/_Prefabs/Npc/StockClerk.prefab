@@ -610,13 +610,14 @@ GameObject:
   - component: {fileID: 2017345027404832932}
   - component: {fileID: 6827547609000740628}
   - component: {fileID: 3836902786193690353}
+  - component: {fileID: 270845328}
   m_Layer: 0
   m_Name: StockClerk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2017345027404832932
 Transform:
   m_ObjectHideFlags: 0
@@ -691,6 +692,19 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   subscribers: 0
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
+--- !u!114 &270845328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7782000946221320678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243ff4e5d5271444a81d7db3df425619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!1 &8620672143192345974
 GameObject:
   m_ObjectHideFlags: 0

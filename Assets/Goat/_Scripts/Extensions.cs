@@ -83,4 +83,10 @@ public static class Extensions
             list.Add(first);
         }
     }
+
+    public static void SetActiveRenderer(this GameObject obj, bool value)
+    {
+        Renderer rend = obj.GetComponentInChildren<Renderer>();
+        rend.enabled = value;
+    }
 }

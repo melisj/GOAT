@@ -1,11 +1,10 @@
-﻿using Goat.Storage;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
-using Goat.Events;
-using UnityAtoms;
+﻿using DG.Tweening;
+using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
+using UnityEngine;
 
 namespace Goat.Farming
 {
@@ -13,7 +12,9 @@ namespace Goat.Farming
     {
         [SerializeField] private HashSet<GameObject> connectedFarms = new HashSet<GameObject>();
         [SerializeField] private TubeDirection tubeConnection;
+        [SerializeField] private VoidEvent onGridChange;
         [SerializeField] private float delay;
+        [SerializeField] private float radius = 0.1f;
         [SerializeField] private LayerMask resourcePackLayer;
         public HashSet<GameObject> ConnectedFarms => connectedFarms;
         [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
@@ -26,16 +27,24 @@ namespace Goat.Farming
             connectedFarms.Clear();
         }
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    createResPackSequence = DOTween.Sequence();
+        //    createResPackSequence.SetLoops(-1);
+        //    createResPackSequence.AppendInterval(delay);
+        //    createResPackSequence.AppendCallback(CreateResPacks);
+        //}
+        private void OnEnable()
         {
             createResPackSequence = DOTween.Sequence();
             createResPackSequence.SetLoops(-1);
-            createResPackSequence.AppendInterval(delay);
             createResPackSequence.AppendCallback(CreateResPacks);
+            createResPackSequence.AppendInterval(delay);
         }
 
         private void CreateResPacks()
         {
+            onGridChange.Raise();
             if (!tubeConnection.HasConnection())
             {
                 Clear();
@@ -43,7 +52,6 @@ namespace Goat.Farming
             }
 
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            pos.y = 0;
             colls = CheckForResPacks(pos);
             RemovePickedResPacks(colls);
             if (colls.Length >= connectedFarms.Count) return;
@@ -80,8 +88,8 @@ namespace Goat.Farming
 
         private void OnDisable()
         {
+            createResPackSequence.Kill();
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            pos.y = 0;
 
             var enumerator = connectedFarms.GetEnumerator();
             while (enumerator.MoveNext())
@@ -99,14 +107,14 @@ namespace Goat.Farming
 
         private Collider[] CheckForResPacks(Vector3 pos)
         {
-            return Physics.OverlapSphere(pos, 0.1f, resourcePackLayer);
+            return Physics.OverlapSphere(pos, radius, resourcePackLayer);
         }
 
         private void OnDrawGizmos()
         {
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
             pos.y = 0;
-            Gizmos.DrawWireSphere(pos, 0.1f);
+            Gizmos.DrawWireSphere(pos, radius);
         }
     }
 }

@@ -17,10 +17,23 @@ namespace Goat.AI.Parking
             int employeeCount = 0;
             while (looper.MoveNext())
             {
-                employeeCount += looper.Current.Amount;
+                employeeCount += looper.Current.AmountPaid;
             }
 
             return employeeCount;
+        }
+
+        public int GetTotalSalary()
+        {
+            var looper = employees.GetEnumerator();
+            int totalSalary = 0;
+
+            while (looper.MoveNext())
+            {
+                totalSalary += (looper.Current.Amount * looper.Current.Salary);
+            }
+
+            return totalSalary;
         }
 
         [Button]

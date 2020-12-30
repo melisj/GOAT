@@ -119,10 +119,12 @@ MonoBehaviour:
       Entry: 8
       Data: 
   tubeConnection: {fileID: 3317845011053807668}
+  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   delay: 2
+  radius: 0.5
   resourcePackLayer:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 16384
   resPacks: []
   pos: {x: 0, y: 0, z: -1.2}
   colls: []

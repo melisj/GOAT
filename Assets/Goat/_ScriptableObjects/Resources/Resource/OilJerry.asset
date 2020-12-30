@@ -22,9 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   id: 33
+  image: {fileID: 21300000, guid: 1f9a2497b5ac7a442b717b35254ea616, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 20
-  image: {fileID: 0}
+  interchangeableMesh: 0
   mesh:
   - {fileID: 1292755854437463149, guid: 8ad5ce3f3e4473144818bcfd0a37efa0, type: 3}
   summary: 'This liquid is very rarely found in asteroids.
@@ -33,6 +34,7 @@ MonoBehaviour:
     over ages, it''s mostly used for research.'
   amount: 2
   starterAmount: 2
+  deliverable: 1
   deliveryTime: 5
   storageEnviroment: 0
   available: 1

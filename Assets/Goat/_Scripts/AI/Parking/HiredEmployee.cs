@@ -10,6 +10,7 @@ namespace Goat.AI.Parking
         [SerializeField, Title("Employee data")] private int salary;
         [SerializeField] private GameObject prefab;
         [SerializeField] private HiredEmployeeEvent hiredEmployeeEvent;
+        [SerializeField] private int amountPaid;
 
         public override void Buy(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
         {
@@ -19,5 +20,6 @@ namespace Goat.AI.Parking
 
         public int Salary { get => salary; set => salary = value; }
         public GameObject Prefab { get => prefab; set => prefab = value; }
+        public int AmountPaid { get => amountPaid; set => amountPaid = value; }
     }
 }

@@ -7,6 +7,7 @@ using Goat.Grid.Interactions;
 using Sirenix.OdinInspector;
 using Goat.Grid;
 using Goat.AI.Parking;
+using Goat.Expenses;
 
 namespace Goat.Events
 {
@@ -84,4 +85,6 @@ namespace Goat.Events
     public abstract class EventListenerDeliveryResource : EventListener<DeliveryResource, DeliveryResourceEvent> { }
 
     public abstract class EventListenerHiredEmployee : EventListener<HiredEmployee, HiredEmployeeEvent> { }
+
+    public abstract class EventListenerExpenseEvent : EventListener<Expense, ExpenseEvent> { }
 }

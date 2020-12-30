@@ -70,6 +70,7 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
+            worker.targetStorage.selected = false;
             worker.targetStorage = null;
             animator.speed = 1;
         }

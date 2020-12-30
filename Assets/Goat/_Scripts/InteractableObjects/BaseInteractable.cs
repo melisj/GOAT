@@ -144,7 +144,8 @@ namespace Goat.Grid.Interactions
                 electricityinfo.AddDevice(this);
 
             if (producesPower && IsPowering)
-                electricityinfo.Capacity += powerProduction;
+                electricityinfo.AddGenerator(this);
+            //electricityinfo.Capacity += powerProduction;
         }
 
         private void OnDisableElectricity()
@@ -153,7 +154,9 @@ namespace Goat.Grid.Interactions
                 electricityinfo.RemoveDevice(this);
 
             if (producesPower && IsPowering)
-                electricityinfo.Capacity -= powerProduction;
+                electricityinfo.RemoveGenerator(this);
+
+            //electricityinfo.Capacity -= powerProduction;
         }
 
         #endregion Electricity
