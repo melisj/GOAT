@@ -246,13 +246,14 @@ GameObject:
   - component: {fileID: 2094399924142381525}
   - component: {fileID: 2094399924142381526}
   - component: {fileID: 2094399924142381524}
+  - component: {fileID: 421086372}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2094399924142381525
 Transform:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -337,6 +338,19 @@ MonoBehaviour:
   enteredStore: 0
   leavingStore: 0
   totalPriceProducts: 0
+--- !u!114 &421086372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094399924142381527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243ff4e5d5271444a81d7db3df425619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!1 &2094399924320339056
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,9 +865,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d95c9121a536dd74fb39cb23702cda2c, type: 3}
---- !u!1 &1283988186045577677 stripped
+--- !u!1 &8087312388345516486 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d95c9121a536dd74fb39cb23702cda2c,
+  m_CorrespondingSourceObject: {fileID: -1356944241255443110, guid: d95c9121a536dd74fb39cb23702cda2c,
     type: 3}
   m_PrefabInstance: {fileID: 2094399923083953308}
   m_PrefabAsset: {fileID: 0}
@@ -863,9 +877,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2094399923083953308}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8087312388345516486 stripped
+--- !u!1 &1283988186045577677 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: -1356944241255443110, guid: d95c9121a536dd74fb39cb23702cda2c,
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d95c9121a536dd74fb39cb23702cda2c,
     type: 3}
   m_PrefabInstance: {fileID: 2094399923083953308}
   m_PrefabAsset: {fileID: 0}

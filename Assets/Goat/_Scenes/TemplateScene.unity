@@ -1329,6 +1329,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2086412444}
     m_Modifications:
+    - target: {fileID: 1641873274, guid: 78deab033787b9f468caae8def901ad0, type: 3}
+      propertyPath: subscribedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd,
+        type: 2}
+    - target: {fileID: 1641873274, guid: 78deab033787b9f468caae8def901ad0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641873274, guid: 78deab033787b9f468caae8def901ad0, type: 3}
+      propertyPath: currentMode
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea,
+        type: 2}
     - target: {fileID: 3144552901779091793, guid: 78deab033787b9f468caae8def901ad0,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -1813,21 +1827,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 517425468862899014, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: updateDetectionOnIdleOnly
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 517425468862899014, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: repeatDetectionOverTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 517425468862899014, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: intervalTime
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7797434496293806836, guid: d922195054a33e94ba71fe75affc5d8a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1906,21 +1905,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7797434496470216267, guid: d922195054a33e94ba71fe75affc5d8a,
         type: 3}
-    - target: {fileID: 9206685137919645392, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: updateDetectionOnIdleOnly
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9206685137919645392, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: repeatDetectionOverTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9206685137919645392, guid: d922195054a33e94ba71fe75affc5d8a,
-        type: 3}
-      propertyPath: intervalTime
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
 --- !u!1001 &7909818698565791582
