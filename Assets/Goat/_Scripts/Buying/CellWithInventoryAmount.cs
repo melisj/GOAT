@@ -6,10 +6,12 @@ public class CellWithInventoryAmount : UICell
     [SerializeField] protected RectTransform amountBackground;
     [SerializeField] protected TextMeshProUGUI amountText;
     [SerializeField] private float margin;
+    public int Amount { get; private set; }
 
     public void Setup(Buyable buyable, int amount)
     {
         base.Setup(buyable);
+        Amount = amount;
         ChangeText(amount);
     }
 

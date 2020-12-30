@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Goat.Events;
 using UnityAtoms;
+using System;
 
 public class AnimateTabButton : EventListenerVoid
 {
@@ -23,6 +24,8 @@ public class AnimateTabButton : EventListenerVoid
     [SerializeField] private float selectionBlockScaleDuration;
     [SerializeField] private float selectionBlockMoveDuration;
     [SerializeField] private float contentScaleDuration;
+
+    public event EventHandler<int> OnTabSwitch;
 
     private int currentTab;
     private GameObject currentGrid;
@@ -105,6 +108,7 @@ public class AnimateTabButton : EventListenerVoid
         {
             tabSequence.Append(content.GetChild(i).DOScale(Vector3.one, contentScaleDuration));
         }
+        OnTabSwitch.Invoke(this, tabIndex);
     }
 
     private void HideCurrentGrid()
@@ -125,7 +129,7 @@ public class AnimateTabButton : EventListenerVoid
         }
     }
 
-    public override void OnEventRaised(Void value)
+    public override void OnEventRaised(UnityAtoms.Void value)
     {
         HideCurrentGrid();
     }

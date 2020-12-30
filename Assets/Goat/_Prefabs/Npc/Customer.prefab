@@ -234,6 +234,7 @@ MonoBehaviour:
   customer: {fileID: 2094399924142381524}
   tileTargetFoundEvent: {fileID: 11400000, guid: 8fce16220060c6b4c9315b34d56305e0,
     type: 2}
+  beautyChecker: {fileID: 6035689405171998871}
   targetsInViewRadius: []
 --- !u!1 &2094399924142381527
 GameObject:
@@ -306,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -530,8 +531,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reviewWeight: {fileID: 11400000, guid: c26835a8c663977408e0ed3270d87fce, type: 2}
-  subscribedEvent: {fileID: 11400000, guid: 15a2ba14e2b82e94ca4d359c416d9a6d, type: 2}
+  subscribedEvent: {fileID: 11400000, guid: 1257795dd64685b459873e8619e72b77, type: 2}
   subscribers: 0
+  tileGiveEvent: {fileID: 11400000, guid: 0762c63595c88ac45873d51cfa9e0513, type: 2}
 --- !u!114 &7639261632784874316
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -66,6 +66,10 @@ namespace Goat.Events
 
     public abstract class EventListenerVector3 : EventListener<Vector3, Vector3Event> { }
 
+    public abstract class EventListenerVector3WithOwner : EventListener<WithOwner<Vector3>, Vector3OwnerEvent> { }
+
+    public abstract class EventListenerVector3HashSetEvent : EventListener<WithOwner<HashSet<Vector3>>, Vector3HashSetEvent> { }
+
     public abstract class EventListenerFloat : EventListener<float, FloatEvent> { }
 
     public abstract class EventListenerBool : EventListener<bool, BoolEvent> { }
@@ -77,8 +81,6 @@ namespace Goat.Events
     public abstract class EventListenerKeyCodeModeEvent : EventListener<KeyCodeMode, KeyCodeModeEvent> { }
 
     public abstract class EventListenerPlaceable : EventListener<Placeable, PlaceableEvent> { }
-
-    public abstract class EventListenerTileData : EventListener<Tile, TileDataEvent> { }
 
     public abstract class EventListenerReview : EventListener<Review, ReviewEvent> { }
 

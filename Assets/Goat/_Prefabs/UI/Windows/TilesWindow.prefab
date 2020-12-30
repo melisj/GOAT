@@ -15,8 +15,10 @@ MonoBehaviour:
   onCloseWindow: {fileID: 11400000, guid: 3d461bdf4aacdbf45aa55c4c923ca5f2, type: 2}
   tabButtonParent: {fileID: 2126494542705232140}
   otherElements:
-  - {fileID: 202296394066836186}
-  - {fileID: 4367928366049854322}
+  - rectTransform: {fileID: 202296394066836186}
+    downScale: {x: 0, y: 0, z: 0}
+  - rectTransform: {fileID: 4367928366049854322}
+    downScale: {x: 0, y: 0, z: 0}
   closingDurationMultiplier: 2
   tabButtonScaleDuration: 0.2
   otherElementsScaleDuration: 0.2

@@ -12,7 +12,10 @@ namespace Goat.Grid.UI
         Furniture,
         Harvester,
         Buying,
-        Interactable
+        Interactable,
+        Employees,
+        Review,
+        Income
     }
 
     [CreateAssetMenu(fileName = "GridUIInfo", menuName = "ScriptableObjects/UI/GridUIInfo")]

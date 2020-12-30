@@ -15,9 +15,11 @@ namespace Goat.UI
         [SerializeField] protected UIGridCell[] gridCells;
         protected GameObject cell;
         protected UICell uiCell;
+        private GameObject defaultPrefab;
 
         protected virtual void Awake()
         {
+            defaultPrefab = cellPrefab;
             SetupGrid();
         }
 
@@ -25,6 +27,11 @@ namespace Goat.UI
         {
             for (int i = 0; i < gridCells.Length; i++)
             {
+                if (gridCells[i].UseDifferentPrefabs)
+                    cellPrefab = gridCells[i].OtherPrefab;
+                else
+                    cellPrefab = defaultPrefab;
+
                 CreateGridCells(gridCells[i].Transform, gridCells[i].ResourcePath);
             }
         }

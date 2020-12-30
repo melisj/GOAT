@@ -25,7 +25,7 @@ namespace Goat.UI
         {
             if (!(value is CheckoutInteractable))
             {
-                if (prevInteractable)
+                if (prevInteractable is CheckoutInteractable && prevInteractable.UIActivated)
                     CloseCheckout(prevInteractable);
                 return;
             }

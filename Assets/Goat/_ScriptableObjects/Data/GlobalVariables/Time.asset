@@ -15,13 +15,12 @@ MonoBehaviour:
   timeOfDayHours: 0
   timeOfDay12Hours: 0
   currentDay: 1
-  timeOfDayMinutes: 18.399683
+  timeOfDayMinutes: 59.112408
   englishTime: AM
   timeOfSunrise: 6
   timeOfSunset: 20
   currentYear: 2569
   currentMonth: 1
-  onTime24Changed: {fileID: 11400000, guid: 7b64d182859a4af47ad34a7ff495cc6a, type: 2}
-  onTime12Changed: {fileID: 11400000, guid: b6860afce0e054341b37a42bbf089753, type: 2}
+  onTimeChanged: {fileID: 11400000, guid: d9c8d9095df55c845a403e4b81df3845, type: 2}
   onDayChanged: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
   onMonthChanged: {fileID: 11400000, guid: 363d82cfd272aee4989abf933169fd6e, type: 2}

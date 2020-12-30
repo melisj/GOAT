@@ -9,6 +9,7 @@ namespace Goat.AI.Satisfaction
     {
         [SerializeField, ReadOnly] private ReviewFactor[] reviewFactors;
         [SerializeField] private ReviewEvent reviewEvent;
+        [SerializeField] private GameObject root;
 
         private void Awake()
         {
@@ -18,15 +19,21 @@ namespace Goat.AI.Satisfaction
         [Button]
         public void WriteReview()
         {
-            Review review = new Review();
-
-            review.ReviewFactors = new int[reviewFactors.Length];
-            review.SatisfactionPoints = 0;
+            Review review = new Review
+            {
+                ReviewFactors = new ReviewLineInfo[reviewFactors.Length],
+                SatisfactionPoints = 0,
+                CustomerName = root.name
+            };
 
             for (int i = 0; i < reviewFactors.Length; i++)
             {
-                review.ReviewFactors[i] = (int)reviewFactors[i].GetReviewPoints();
-                review.SatisfactionPoints += reviewFactors[i].GetReviewPoints();
+                ReviewFactor revFactor = reviewFactors[i];
+                int revPoint = (int)revFactor.GetReviewPoints();
+                string line = revPoint > 0 ? revFactor.ReviewLines.GetPositiveLine : revFactor.ReviewLines.GetNegativeLine;
+
+                review.ReviewFactors[i] = new ReviewLineInfo(line, revPoint, revFactor.FactorType);
+                review.SatisfactionPoints += revPoint;
             }
 
             Debug.Log($"{review.SatisfactionPoints} {reviewFactors.Length} {review.SatisfactionPoints / reviewFactors.Length}");

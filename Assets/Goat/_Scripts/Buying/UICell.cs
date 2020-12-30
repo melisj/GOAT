@@ -55,6 +55,11 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
         imageButton.onClick.AddListener(() => onClick());
     }
 
+    public void InvokeOnClick()
+    {
+        imageButton.onClick.Invoke();
+    }
+
     public void OnSelect()
     {
         if (!multipleSelections)

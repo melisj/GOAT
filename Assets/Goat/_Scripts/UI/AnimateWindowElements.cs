@@ -11,7 +11,7 @@ public class AnimateWindowElements : MonoBehaviour
 {
     [SerializeField] private VoidEvent onCloseWindow;
     [SerializeField] private RectTransform tabButtonParent;
-    [SerializeField] private RectTransform[] otherElements;
+    [SerializeField] private WindowElement[] otherElements;
     [Title("Animation Settings")]
     [SerializeField, Range(2, 5)] private int closingDurationMultiplier;
     [SerializeField] private float tabButtonScaleDuration;
@@ -39,7 +39,7 @@ public class AnimateWindowElements : MonoBehaviour
 
         for (int i = 0; i < otherElements.Length; i++)
         {
-            animateElements.Append(otherElements[i].DOScale(Vector3.one, otherElementsScaleDuration));
+            animateElements.Append(otherElements[i].RectTransform.DOScale(Vector3.one, otherElementsScaleDuration));
         }
     }
 
@@ -55,7 +55,18 @@ public class AnimateWindowElements : MonoBehaviour
 
         for (int i = 0; i < otherElements.Length; i++)
         {
-            animateElements.Append(otherElements[i].DOScale(Vector3.zero, otherElementsScaleDuration / closingDurationMultiplier));
+            WindowElement element = otherElements[i];
+            animateElements.Append(element.RectTransform.DOScale(element.DownScale, otherElementsScaleDuration / closingDurationMultiplier));
         }
     }
+}
+
+[System.Serializable]
+public class WindowElement
+{
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private Vector3 downScale;
+
+    public RectTransform RectTransform => rectTransform;
+    public Vector3 DownScale => downScale;
 }

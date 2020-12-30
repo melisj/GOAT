@@ -87,7 +87,7 @@ namespace Goat.Grid.UI
         {
             if (code == KeyCode.V && keyMode == KeyMode.Down)
             {
-                gridUIInfo.CurrentUIElement = UIElement.Buying;
+                //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Goat.Grid.UI
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
-                gridUIInfo.CurrentUIElement = UIElement.Buying;
+                //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }
 

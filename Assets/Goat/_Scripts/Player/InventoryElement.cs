@@ -44,7 +44,8 @@ namespace Goat.Player
                 var resource = inventory.Items.ElementAt(i);
                 EnableIcon(i, resource.Key, resource.Value, () =>
                 {
-                    interactableUI.StockingScript.ChangeResource(resource.Key, inventory, ((StorageInteractable)info.CurrentSelected).Inventory);
+                    if (info.CurrentSelected != null && info.CurrentSelected is StorageInteractable storage)
+                        interactableUI.StockingScript.ChangeResource(resource.Key, inventory, storage.Inventory);
                     interactableUI.StockingScript.StockButtonText.text = "Stock item";
 
                     interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
