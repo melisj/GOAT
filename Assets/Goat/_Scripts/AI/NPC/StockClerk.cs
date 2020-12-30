@@ -13,7 +13,6 @@ namespace Goat.AI
     {
         [SerializeField] private UnloadLocations entrances;
         private ExitStore exitStore;
-
         public override void OnEventRaised(bool value)
         {
             if (!value && stateMachine != null)
@@ -28,7 +27,7 @@ namespace Goat.AI
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
-            PlaceItem placeItem = new PlaceItem(this, animator);
+            placeItem = new PlaceItem(this, animator);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);

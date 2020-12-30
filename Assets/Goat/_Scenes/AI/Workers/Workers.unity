@@ -413,5 +413,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StockClerk
       objectReference: {fileID: 0}
+    - target: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d66e169eeffaf4b9ac8daa6214928c, type: 3}

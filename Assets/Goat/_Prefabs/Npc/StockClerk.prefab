@@ -611,13 +611,14 @@ GameObject:
   - component: {fileID: 6827547609000740628}
   - component: {fileID: 3836902786193690353}
   - component: {fileID: 270845328}
+  - component: {fileID: 6827547609000740632}
   m_Layer: 0
   m_Name: StockClerk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2017345027404832932
 Transform:
   m_ObjectHideFlags: 0
@@ -676,7 +677,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: placeItem
+      Entry: 6
+      Data: 
   npcSize: 1
   wanderRange: 10
   carriedItemValue: 0
@@ -705,6 +709,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 10
+--- !u!114 &6827547609000740632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7782000946221320678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d33dc72e57654042b90066eabbf5ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: e7b4fb69b59baac4482c3f71d24f69ed, type: 2}
+  _playOnStart: 0
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+    type: 2}
+  worker: {fileID: 3836902786193690353}
 --- !u!1 &8620672143192345974
 GameObject:
   m_ObjectHideFlags: 0

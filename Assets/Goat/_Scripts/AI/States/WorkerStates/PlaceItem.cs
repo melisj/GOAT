@@ -5,6 +5,7 @@ using Goat.AI;
 using Goat.Storage;
 using Goat.Grid.Interactions;
 using System.Linq;
+using System;
 
 namespace Goat.AI.States
 {
@@ -13,6 +14,7 @@ namespace Goat.AI.States
         private Worker worker;
         private Animator animator;
         public bool filled = false;
+        public event EventHandler eventHandler;
 
         // Get this from npc
         private float placingSpeed = 0.5f, nextItemTime = 0;
@@ -44,7 +46,8 @@ namespace Goat.AI.States
             {
                 animator.SetTrigger("Interact");
                 //Delay
-                
+
+                eventHandler.Invoke(this, null);
                 worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
