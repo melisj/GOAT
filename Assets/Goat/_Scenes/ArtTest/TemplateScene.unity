@@ -774,6 +774,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6521626000930365942, guid: 85c098ff4881b9b48bdbdcab0abffd51,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6521626000930365942, guid: 85c098ff4881b9b48bdbdcab0abffd51,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6521626000930365942, guid: 85c098ff4881b9b48bdbdcab0abffd51,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6521626000930365942, guid: 85c098ff4881b9b48bdbdcab0abffd51,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6521626000930365942, guid: 85c098ff4881b9b48bdbdcab0abffd51,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6636518986100501751, guid: 85c098ff4881b9b48bdbdcab0abffd51,
         type: 3}
       propertyPath: serializationData.Prefab
