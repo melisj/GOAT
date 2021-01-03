@@ -108,7 +108,7 @@ public class AnimateTabButton : EventListenerVoid
         {
             tabSequence.Append(content.GetChild(i).DOScale(Vector3.one, contentScaleDuration));
         }
-        OnTabSwitch.Invoke(this, tabIndex);
+        OnTabSwitch?.Invoke(this, tabIndex);
     }
 
     private void HideCurrentGrid()

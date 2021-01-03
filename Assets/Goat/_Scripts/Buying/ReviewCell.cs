@@ -28,7 +28,7 @@ namespace Goat.UI
                 {
                     prevInfo = review.ReviewFactors[i - 1];
 
-                    stringBuilder.Append((prevInfo.Points < 0 ^ revInfo.Points < 0 ? adverbs.GetContrast : adverbs.GetAddition));
+                    stringBuilder.AppendLine((prevInfo.Points <= 0 ^ revInfo.Points <= 0 ? adverbs.GetContrast : adverbs.GetAddition));
                 }
                 stringBuilder.Append(revInfo.Line);
 

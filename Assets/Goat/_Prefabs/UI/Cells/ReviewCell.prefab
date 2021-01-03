@@ -302,7 +302,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ssssssssssssssssssssss
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 8
+  m_fontSizeMin: 10
   m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -382,9 +382,8 @@ GameObject:
   - component: {fileID: 8795299034160425273}
   - component: {fileID: 6950869928488006076}
   - component: {fileID: 2799151778949465597}
-  - component: {fileID: 8165644960099582940}
   m_Layer: 5
-  m_Name: SatisfactionText
+  m_Name: ItemNotFoundText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,34 +504,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8165644960099582940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395605611560674166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4948c1fd1498a489c638355580ac7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: b58887f8b8be262449712a7532dbbca3, type: 2}
-  subscribers: 0
-  satisfactionText: {fileID: 2799151778949465597}
-  icon: {fileID: 6998949264502328626}
-  happyIcon: {fileID: 21300000, guid: 27de3cac2ba7ce8478d2e6f4c6e1fc10, type: 3}
-  unHappyIcon: {fileID: 21300000, guid: a5c89ee61fcb87647bb01a3f153122ae, type: 3}
-  neutralIcon: {fileID: 21300000, guid: 5b342add1dd115940b64fddaa11713f0, type: 3}
 --- !u!1 &1462517509745605725
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +590,7 @@ GameObject:
   - component: {fileID: 2174425487152462180}
   - component: {fileID: 6998949264502328626}
   m_Layer: 5
-  m_Name: SatisfactionIcon
+  m_Name: ItemNotFoundIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -767,7 +738,7 @@ GameObject:
   - component: {fileID: 2902001445532900460}
   - component: {fileID: 9049398691168814265}
   m_Layer: 5
-  m_Name: SatisfactionIcon
+  m_Name: SearchTimeIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1284,9 +1255,8 @@ GameObject:
   - component: {fileID: 2103338674799191536}
   - component: {fileID: 7561956093540630564}
   - component: {fileID: 5838637090784486786}
-  - component: {fileID: 5280991792846306987}
   m_Layer: 5
-  m_Name: SatisfactionText
+  m_Name: BeautyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1407,34 +1377,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5280991792846306987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3795670779062499912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4948c1fd1498a489c638355580ac7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: b58887f8b8be262449712a7532dbbca3, type: 2}
-  subscribers: 0
-  satisfactionText: {fileID: 5838637090784486786}
-  icon: {fileID: 4084265220989751033}
-  happyIcon: {fileID: 21300000, guid: 27de3cac2ba7ce8478d2e6f4c6e1fc10, type: 3}
-  unHappyIcon: {fileID: 21300000, guid: a5c89ee61fcb87647bb01a3f153122ae, type: 3}
-  neutralIcon: {fileID: 21300000, guid: 5b342add1dd115940b64fddaa11713f0, type: 3}
 --- !u!1 &3831329468923614719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,9 +1434,8 @@ GameObject:
   - component: {fileID: 2916238125906655341}
   - component: {fileID: 3420015195641581775}
   - component: {fileID: 6956146746420980728}
-  - component: {fileID: 1075704266582681638}
   m_Layer: 5
-  m_Name: SatisfactionText
+  m_Name: SearchTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1615,34 +1556,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1075704266582681638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3987847981047743598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4948c1fd1498a489c638355580ac7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: b58887f8b8be262449712a7532dbbca3, type: 2}
-  subscribers: 0
-  satisfactionText: {fileID: 6956146746420980728}
-  icon: {fileID: 9049398691168814265}
-  happyIcon: {fileID: 21300000, guid: 27de3cac2ba7ce8478d2e6f4c6e1fc10, type: 3}
-  unHappyIcon: {fileID: 21300000, guid: a5c89ee61fcb87647bb01a3f153122ae, type: 3}
-  neutralIcon: {fileID: 21300000, guid: 5b342add1dd115940b64fddaa11713f0, type: 3}
 --- !u!1 &4055287409752833767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2144,6 +2057,7 @@ GameObject:
   - component: {fileID: 4864140160213339544}
   - component: {fileID: 4864140160213339545}
   - component: {fileID: 4864140160213339546}
+  - component: {fileID: 8669746041152796245}
   m_Layer: 5
   m_Name: ReviewCell
   m_TagString: Untagged
@@ -2225,6 +2139,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8669746041152796245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4864140160213339543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5db5137ac074094f9d5ceea6e7ab5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adverbs: {fileID: 11400000, guid: aac9aafa879080647a947db6effd38e4, type: 2}
+  customerName: {fileID: 5523401635501399774}
+  review: {fileID: 5732813665245505728}
+  beautyPoints: {fileID: 5838637090784486786}
+  itemNotFoundPoints: {fileID: 2799151778949465597}
+  searchTimePoints: {fileID: 6956146746420980728}
 --- !u!1 &4876991250519976453
 GameObject:
   m_ObjectHideFlags: 0
@@ -3842,7 +3774,7 @@ GameObject:
   - component: {fileID: 5458255735837491634}
   - component: {fileID: 4084265220989751033}
   m_Layer: 5
-  m_Name: SatisfactionIcon
+  m_Name: BeautyIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

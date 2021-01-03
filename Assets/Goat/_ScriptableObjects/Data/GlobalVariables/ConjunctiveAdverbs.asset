@@ -19,10 +19,8 @@ MonoBehaviour:
   - 'Furthermore, '
   - 'Moreover, '
   contrasts:
-  - 'If not, '
   - 'However, '
   - 'Nevertheless, '
   - 'Otherwise, '
-  - 'Conversely, '
   - 'But, '
   - 'Rather, '

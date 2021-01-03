@@ -5,12 +5,31 @@ public class CellWithPriceAndAmount : CellWithPrice
 {
     [SerializeField] private RectTransform amountBackground;
     [SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] private bool inventoryAmount;
 
     public override void Setup(Buyable buyable)
     {
+        if (inventoryAmount)
+        {
+            Debug.LogError("You're using the wrong setup");
+            return;
+        }
         base.Setup(buyable);
         buyable.AmountChanged += OnAmountChanged;
         ChangeAmountText(buyable.Amount);
+        ChangeText((int)buyable.Price, priceText, priceBackground);
+    }
+
+    public void Setup(Buyable buyable, int amount)
+    {
+        if (!inventoryAmount)
+        {
+            Debug.LogError("You're using the wrong setup");
+            return;
+        }
+
+        base.Setup(buyable);
+        ChangeAmountText(amount);
         ChangeText((int)buyable.Price, priceText, priceBackground);
     }
 

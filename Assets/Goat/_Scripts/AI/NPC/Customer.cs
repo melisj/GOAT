@@ -11,6 +11,7 @@ using Goat.Pooling;
 using Goat.ScriptableObjects;
 using Goat.AI.Parking;
 using Goat.AI.Feelings;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
@@ -20,7 +21,7 @@ namespace Goat.AI
         [SerializeField] private float maxSearchingTime = 60;
         [SerializeField] private CustomerReview review;
         [SerializeField] private CustomerFeelings feelings;
-
+        [SerializeField] private IntVariable customerCapacity;
         [SerializeField] private UnloadLocations entrances;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
@@ -43,13 +44,13 @@ namespace Goat.AI
 
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
-            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
+            EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, animator, entrances, customerCapacity);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review);
+            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review, customerCapacity);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions

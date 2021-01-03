@@ -17,7 +17,6 @@ namespace Goat.AI.Satisfaction
 
         public void Setup()
         {
-            //tiles.Clear();
         }
 
         public override void OnEventRaised(WithOwner<int> value)
@@ -37,7 +36,7 @@ namespace Goat.AI.Satisfaction
         {
             GetTiles();
 
-            return (totalBP * reviewWeight.Weight);
+            return (totalBP * revData.Weight);
         }
     }
 }

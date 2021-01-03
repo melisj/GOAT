@@ -30,7 +30,7 @@ namespace Goat.AI.Satisfaction
             {
                 ReviewFactor revFactor = reviewFactors[i];
                 int revPoint = (int)revFactor.GetReviewPoints();
-                string line = revPoint > 0 ? revFactor.ReviewLines.GetPositiveLine : revFactor.ReviewLines.GetNegativeLine;
+                string line = revPoint > 0 ? revFactor.ReviewData.GetPositiveLine : revFactor.ReviewData.GetNegativeLine;
 
                 review.ReviewFactors[i] = new ReviewLineInfo(line, revPoint, revFactor.FactorType);
                 review.SatisfactionPoints += revPoint;

@@ -9,7 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51e0f34ecc5e1a44868f377d2285558, type: 3}
-  m_Name: SearchTimeWeight
+  m_Script: {fileID: 11500000, guid: 507ed166f0a1bfb4cb572a39ce101b11, type: 3}
+  m_Name: BeautyPoints
   m_EditorClassIdentifier: 
-  weight: 10
+  weight: 0.1
+  positiveLines:
+  - 'The store looks beautiful. '
+  - 'I liked being there. '
+  negativeLines:
+  - 'This place looks like a dump. '
+  - 'I''d like to stare at the sun now. '
