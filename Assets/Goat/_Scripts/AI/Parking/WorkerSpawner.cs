@@ -7,6 +7,11 @@ namespace Goat.AI.Parking
     {
         [SerializeField] private HiredEmployees hiredEmployees;
 
+        public override void SpawnNPC(int amountPassengers = 1, GameObject prefab = null)
+        {
+            StartCoroutine(SpawnMultipleNPC());
+        }
+
         /// <summary>
         /// Spawns all employees
         /// First looping through the amount hired

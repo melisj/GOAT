@@ -166,7 +166,7 @@ MonoBehaviour:
     newInt: 0
     newTexture: {fileID: 2800000, guid: 1686ebcc3f851114fb302c389696b0ae, type: 3}
   renderer: {fileID: 6581026231907988380}
-  propertyID: 1039
+  propertyID: 382
 --- !u!1 &2094399923763774075
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ccaa708907920824d83258d09a45b49f, type: 2}
+  - {fileID: 2100000, guid: 662ddb646ce4d414194ea160b02e9959, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
     newColorHDR: {r: 0, g: 0, b: 0, a: 0}
     newFloat: 0
     newInt: 0
-    newTexture: {fileID: 2800000, guid: 68f8a5d65812b6942bcf215df5dde372, type: 3}
+    newTexture: {fileID: 2800000, guid: 1f9a2497b5ac7a442b717b35254ea616, type: 3}
   - materialValueToChange: 0
     propertyName: _Scale
     newColor: {r: 0, g: 0, b: 0, a: 0}
@@ -668,7 +668,7 @@ MonoBehaviour:
     newInt: 0
     newTexture: {fileID: 0}
   renderer: {fileID: 2892239498256967882}
-  propertyID: 1054
+  propertyID: 386
 --- !u!1 &6276652226245903062
 GameObject:
   m_ObjectHideFlags: 0

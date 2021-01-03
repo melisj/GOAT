@@ -22,9 +22,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   id: 36
+  image: {fileID: 21300000, guid: 2644b3942b35d6a499761e195906aedd, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 25
-  image: {fileID: 21300000, guid: 2644b3942b35d6a499761e195906aedd, type: 3}
+  interchangeableMesh: 0
   mesh:
   - {fileID: 7341500364445789584, guid: da9029731a85a94429b52113218c3caa, type: 3}
   summary: 'This unnatural ore is largely found in small asteroids.
@@ -33,6 +34,7 @@ MonoBehaviour:
     used to reinforce.'
   amount: 15
   starterAmount: 15
+  deliverable: 1
   deliveryTime: 3
   storageEnviroment: 0
   available: 1

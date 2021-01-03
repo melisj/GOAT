@@ -62,13 +62,13 @@ namespace Goat
             return isHitting;
         }
 
-        private void Update()
-        {
-            if (!inputFieldSelected.Value)
-            {
-                CheckKeys();
-            }
-        }
+        //private void Update()
+        //{
+        //    if (!inputFieldSelected.Value)
+        //    {
+        //        CheckKeys();
+        //    }
+        //}
 
         private void CheckKeys()
         {

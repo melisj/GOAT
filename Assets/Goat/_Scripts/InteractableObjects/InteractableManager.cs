@@ -27,6 +27,21 @@ namespace Goat.Grid.Interactions
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (currentMode.InputMode == InputMode.Select)
+            {
+                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+                {
+                    CheckForInteractable();
+                    if (gridUIInfo.CurrentUIElement != GridUIElement.Interactable)
+                    {
+                        gridUIInfo.CurrentUIElement = GridUIElement.None;
+                    }
+                }
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode keyMode)
         {
             if (currentMode.InputMode == InputMode.Select)

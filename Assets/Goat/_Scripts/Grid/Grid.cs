@@ -130,6 +130,34 @@ namespace Goat.Grid
             }
         }
 
+        private void OnInput()
+        {
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
+            {
+                if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
+                {
+                    if (currentTile != null)
+                    {
+                        checkedTiles.Clear();
+                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
+                            && !(previewPlaceableInfo is Wall))
+                        {
+                            //if (previewPlaceableInfo != previousAutoPlaceable)
+                            SetupNeighborTiles(currentTileIndex);
+                        }
+
+                        previousAutoPlaceable = previewPlaceableInfo;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    // Always has to rotate a 90 degrees
+                    objectRotationAngle = (objectRotationAngle + 90) % 360;
+                    if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+            }
+        }
+
         #endregion Input
 
         private void ChangeMaterialColor(bool canPlace, bool destroyMode)
@@ -142,6 +170,7 @@ namespace Goat.Grid
         private void Update()
         {
             EditTile();
+            OnInput();
         }
 
         private void SetupNeighborTiles(Vector2Int index)

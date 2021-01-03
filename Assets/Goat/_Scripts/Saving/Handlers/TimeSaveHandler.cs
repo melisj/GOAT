@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace Goat.Saving
         public int day;
         public float timeSec;
         public int timeHour;
+        public DateTime time;
 
         public override void Load(SaveHandler handler)
         {
@@ -31,6 +33,7 @@ namespace Goat.Saving
             timeHandler.time.TimeOfDayMinutes = timeSec;
             timeHandler.time.TimeOfDay12Hours = timeHour % 12;
             timeHandler.time.TimeOfDayHours = timeHour;
+            time = timeHandler.time.Date.AddDays(day);
 
             bool isDay = timeHour > timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
             timeHandler.changeLightHandler.OnEventRaised(isDay);
@@ -45,6 +48,8 @@ namespace Goat.Saving
             day = timeHandler.time.CurrentDay;
             timeSec = timeHandler.time.TimeOfDayMinutes;
             timeHour = timeHandler.time.TimeOfDayHours;
+
+            timeHandler.time.Date = time;
         }
     }
 }

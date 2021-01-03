@@ -11,7 +11,7 @@ namespace Goat
 
         public override void OnEventRaised(bool value)
         {
-            if (value)
+            if (value && hiredEmployees.EmployeeList != null)
                 shipSpawner.SpawnShip(hiredEmployees.EmployeeList.Count);
         }
     }

@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6d0ed77df9f41a4282ed9fd5b55075f, type: 3}
   m_Name: Time
   m_EditorClassIdentifier: 
-  timeOfDayHours: 5
-  timeOfDay12Hours: 5
-  currentDay: 0
-  timeOfDayMinutes: 26.380865
-  englishTime: 
+  timeOfDayHours: 3
+  timeOfDay12Hours: 3
+  currentDay: 1
+  timeOfDayMinutes: 55.326046
+  englishTime: AM
   timeOfSunrise: 6
   timeOfSunset: 20
+  currentYear: 2569
+  currentMonth: 1
   onTime24Changed: {fileID: 11400000, guid: 7b64d182859a4af47ad34a7ff495cc6a, type: 2}
   onTime12Changed: {fileID: 11400000, guid: b6860afce0e054341b37a42bbf089753, type: 2}
   onDayChanged: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
+  onMonthChanged: {fileID: 11400000, guid: 363d82cfd272aee4989abf933169fd6e, type: 2}

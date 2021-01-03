@@ -12,6 +12,8 @@ namespace Goat.Storage
 
         public Resource Resource => (Resource)buyable;
 
+        public float Amount { get => amount; set => amount = value; }
+
         public void SetupResPack(Buyable buyable, int amount)
         {
             this.amount = amount;
@@ -45,4 +47,6 @@ namespace Goat.Storage
         public ObjectInstance ObjInstance { get; set; }
         public float Amount { get => amount; set => amount = value; }
     }
+
+    
 }

@@ -18,11 +18,13 @@ namespace Goat.AI.Feelings
         private Vector3 dotScaleBefore = new Vector3(0.25f, 0.25f, 0.25f);
         private bool playerNear;
         private Sequence sequence;
+        private bool alreadyTransitioned;
 
         public void Setup()
         {
             npc.ItemsToGet.InventoryChangedEvent += ItemsToGet_InventoryChangedEvent;
             npc.ItemsToGet.InventoryResetEvent += ItemsToGet_InventoryChangedEvent;
+            alreadyTransitioned = false;
 
             ChangeQuestionMark();
         }
@@ -59,7 +61,7 @@ namespace Goat.AI.Feelings
 
         public void TransitionUI(bool playerNear)
         {
-            if (playerNear)
+            if (playerNear && !alreadyTransitioned)
             {
                 DotToQuestionMark();
             }
@@ -71,17 +73,20 @@ namespace Goat.AI.Feelings
 
         private void DotToQuestionMark()
         {
+            alreadyTransitioned = true;
             if (sequence.NotNull())
                 sequence.Complete();
 
             sequence = DOTween.Sequence();
 
-            sequence.Append(dotObject.transform.DOScale(dotScaleAfter, 1)).OnComplete(() =>
-            {
-                dotObject.SetActive(false);
-                resourceToFind.gameObject.SetActive(true);
-                questionMark.gameObject.SetActive(true);
-            });
+            sequence.Append(dotObject.transform.DOScale(dotScaleAfter, 1).OnComplete(() => ActivateQuestioMark()));
+        }
+
+        private void ActivateQuestioMark()
+        {
+            dotObject.SetActive(false);
+            resourceToFind.gameObject.SetActive(true);
+            questionMark.gameObject.SetActive(true);
         }
 
         private void QuestionMarkToDot()
@@ -94,6 +99,7 @@ namespace Goat.AI.Feelings
 
             sequence = DOTween.Sequence();
             sequence.Append(dotObject.transform.DOScale(dotScaleBefore, 1));
+            alreadyTransitioned = false;
         }
 
         private void Satisfied()
@@ -111,8 +117,6 @@ namespace Goat.AI.Feelings
 
         private void SearchingForResource(Resource res)
         {
-            resourceToFind.gameObject.SetActive(true);
-
             for (int i = 0; i < resourceToFind.MaterialValueToChanges.Count; i++)
             {
                 MaterialValueToChange texture = resourceToFind.MaterialValueToChanges[i];

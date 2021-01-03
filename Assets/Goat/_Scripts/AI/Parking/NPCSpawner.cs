@@ -20,7 +20,7 @@ namespace Goat.AI.Parking
             spawnDelaySeconds = new WaitForSeconds(spawnDelay);
         }
 
-        public void SpawnNPC(int amountPassengers = 1, GameObject prefab = null)
+        public virtual void SpawnNPC(int amountPassengers = 1, GameObject prefab = null)
         {
             currentPrefab = prefab == null ? npcPrefab : prefab;
             if (amountPassengers == 1)

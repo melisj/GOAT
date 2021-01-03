@@ -16,7 +16,7 @@ namespace Goat.AI
 
         public override void OnEventRaised(bool value)
         {
-            if (!value)
+            if (!value && stateMachine != null)
                 stateMachine.SetState(exitStore);
         }
 

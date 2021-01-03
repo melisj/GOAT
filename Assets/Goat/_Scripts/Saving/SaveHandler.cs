@@ -7,6 +7,7 @@ namespace Goat.Saving
     public class SaveHandler : MonoBehaviour
     {
         protected DataContainer data;
+        public int saveOrder;
 
         public virtual void Load(DataContainer data) 
         {

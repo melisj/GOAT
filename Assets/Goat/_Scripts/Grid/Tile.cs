@@ -73,7 +73,7 @@ namespace Goat.Grid
 
         public void ShowFloor(bool show)
         {
-            if (floorObject) floorObject.SetActive(show);
+            if (floorObject) floorObject.SetActiveRenderer(show);
         }
 
         public void ShowTile(bool show, float rotation = -1, Placeable placeable = null)
@@ -91,18 +91,18 @@ namespace Goat.Grid
 
             if (buildingObject)
             {
-                buildingObject.SetActive(show ? show : placeable != null && !(placeable is Building));
+                buildingObject.SetActiveRenderer(show ? show : placeable != null && !(placeable is Building));
             }
 
             if (floorObject)
             {
-                floorObject.SetActive(show ? show : placeable != null && !(placeable is Floor));
+                floorObject.SetActiveRenderer(show ? show : placeable != null && !(placeable is Floor));
             }
         }
 
         public void ShowBuilding(bool show)
         {
-            if (buildingObject) buildingObject.SetActive(show);
+            if (buildingObject) buildingObject.SetActiveRenderer(show);
         }
 
         public void ShowAnyWall(bool show, float rotation, Placeable placeable = null)
@@ -111,14 +111,14 @@ namespace Goat.Grid
             {
                 if (wallObjs[i] == null) continue;
 
-                wallObjs[i].SetActive(true);
+                wallObjs[i].SetActiveRenderer(true);
             }
             int index = 0;
             if (rotation > 0)
             {
                 index = (int)(rotation / 90);
             }
-            if (wallObjs[index]) wallObjs[index].SetActive(show ? show : placeable != null && !(placeable is Wall));
+            if (wallObjs[index]) wallObjs[index].SetActiveRenderer(show ? show : placeable != null && !(placeable is Wall));
         }
 
         public bool CheckForFloor(Placeable placeable, float rotationAngle = 0, bool destroyMode = false, bool isLoading = false)
@@ -302,11 +302,14 @@ namespace Goat.Grid
             if (wallObjs[index] && !destroyMode)
             {
                 tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
-                for (int i = 0; i < tileObjectFilter.Length; i++)
+                for (int j = 0; j < wall.Mesh.Length; j++)
                 {
-                    if (!autoMode && tileObjectFilter[i].sharedMesh == wall.Mesh[i])
+                    for (int i = 0; i < tileObjectFilter.Length; i++)
                     {
-                        return true;
+                        if (!autoMode && tileObjectFilter[i].sharedMesh == wall.Mesh[j])
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -351,6 +354,11 @@ namespace Goat.Grid
                 tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
+                    if (i >= wall.Mesh.Length)
+                    {
+                        tileObjectFilter[i].mesh = null;
+                        continue;
+                    }
                     tileObjectFilter[i].mesh = wall.Mesh[i];
                 }
                 if (!autoMode && !isLoading)
@@ -383,7 +391,7 @@ namespace Goat.Grid
             {
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
-                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall);
+                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
             }
         }
 

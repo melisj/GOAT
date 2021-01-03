@@ -26,4 +26,9 @@ public class Money : ScriptableObject
                 AmountChanged?.Invoke(this, value);
         }
     }
+
+    public bool CanPay(int amountToPay)
+    {
+        return amount > amountToPay;
+    }
 }

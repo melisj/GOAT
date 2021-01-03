@@ -64,6 +64,28 @@ namespace Goat.Grid.Interactions.UI
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (currentMode.InputMode == InputMode.Select &&
+                stockingUI.activeInHierarchy)
+            {
+                if (Input.GetKeyDown(KeyCode.KeypadEnter) | Input.GetKeyDown(KeyCode.Return))
+                {
+                    sellButton.onClick.Invoke();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    maxAmountButton.onClick.Invoke();
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    minAmountButton.onClick.Invoke();
+                }
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode keyMode)
         {
             if (keyMode == KeyMode.Down &&

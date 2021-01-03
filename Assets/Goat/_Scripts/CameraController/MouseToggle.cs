@@ -18,6 +18,14 @@ namespace Goat.CameraControls
             ToggleMouse(code, mode);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(mouseToggleKey))
+            {
+                Cursor.lockState = (Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None);
+            }
+        }
+
         private void ToggleMouse(KeyCode code, KeyMode keyMode)
         {
             if (keyMode == KeyMode.Down)
