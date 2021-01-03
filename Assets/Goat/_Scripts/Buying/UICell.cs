@@ -20,9 +20,10 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     [SerializeField] private Image icon;
     [SerializeField] private bool hasBorder;
     [SerializeField, ShowIf("hasBorder")] protected Image border;
-    [SerializeField, ShowIf("showEvent")] private VoidEvent onSelectEvent;
+    [SerializeField, ShowIf("hasBorder")] private VoidEvent onSelectEvent;
     [SerializeField, ShowIf("hasBorder")] private BorderChange borderChangeType;
     [SerializeField, ShowIf("hasBorder")] private bool multipleSelections;
+    [SerializeField, ShowIf("multipleSelections")] protected SelectedCells selectedCellsHolder;
     [SerializeField, ShowIf("borderChangeType", BorderChange.color), ColorPalette] private Color selectedColor;
     [SerializeField, ShowIf("borderChangeType", BorderChange.color), ColorPalette] private Color deselectedColor;
     [SerializeField, ShowIf("borderChangeType", BorderChange.sprite)] private Sprite selectedSprite;
@@ -31,20 +32,19 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     [SerializeField] private bool hasName;
     [SerializeField, ShowIf("hasName")] protected TextMeshProUGUI nameText;
     private bool selected;
-    private bool showEvent => hasBorder && !multipleSelections;
     public Image Border => border;
 
     public Image Icon => icon;
 
     private void OnEnable()
     {
-        if (hasBorder && !multipleSelections && onSelectEvent)
+        if (hasBorder && onSelectEvent)
             onSelectEvent.RegisterListener(this);
     }
 
     private void OnDisable()
     {
-        if (hasBorder && !multipleSelections && onSelectEvent)
+        if (hasBorder && onSelectEvent)
             onSelectEvent.UnregisterListener(this);
     }
 
@@ -82,6 +82,9 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
                 border.sprite = selectedSprite;
                 break;
         }
+
+        if (selectedCellsHolder != null)
+            selectedCellsHolder.Add(this);
     }
 
     public void OnDeselect()
@@ -97,6 +100,9 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
                 border.sprite = deselectedSprite;
                 break;
         }
+
+        if (selectedCellsHolder != null)
+            selectedCellsHolder.Subtract(this);
     }
 
     public virtual void Setup(Buyable buyable)

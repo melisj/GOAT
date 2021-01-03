@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace Goat.Expenses
 {
-    public abstract class PayExpense : EventListenerInt
+    public abstract class PayExpense<T> : EventListenerInt
     {
         [SerializeField] protected Money money;
         [SerializeField] protected ExpenseEvent expenseEvent;
+        [SerializeField] protected TimeOfDay time;
 
         /// <summary>
         /// Pays the expense
@@ -18,6 +19,6 @@ namespace Goat.Expenses
         /// <summary>
         /// Should be linked with the UI to be able to pay
         /// </summary>
-        public abstract void OnFullPay();
+        public abstract void OnFullPay(T arg);
     }
 }

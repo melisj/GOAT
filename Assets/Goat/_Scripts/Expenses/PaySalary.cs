@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Goat.AI.Parking;
+using System.Collections.Generic;
 
 namespace Goat.Expenses
 {
-    public class PaySalary : PayExpense
+    public class PaySalary : PayExpense<List<EmployeeNotPaid>>
     {
         [SerializeField] private HiredEmployees employees;
+        private readonly List<EmployeeNotPaid> employeesNotPaid = new List<EmployeeNotPaid>();
 
         public override void OnEventRaised(int value)
         {
             Pay();
         }
 
-        public override void OnFullPay()
+        public override void OnFullPay(List<EmployeeNotPaid> employeesNotPaid)
         {
-            var looper = employees.EmployeeList.GetEnumerator();
-            while (looper.MoveNext())
+            for (int i = 0; i < employeesNotPaid.Count; i++)
             {
-                looper.Current.AmountPaid = looper.Current.Amount;
+                HiredEmployee employee = employeesNotPaid[i].HiredEmployee;
+                int amountPaid = employeesNotPaid[i].AmountPaid;
+
+                employee.AmountPaid = Mathf.Min(amountPaid + employee.AmountPaid, employee.Amount);
             }
         }
 
@@ -27,25 +31,34 @@ namespace Goat.Expenses
             var looper = employees.EmployeeList.GetEnumerator();
             int remainingPrice = 0;
 
+            employeesNotPaid.Clear();
+
             while (looper.MoveNext())
             {
-                looper.Current.AmountPaid = 0;
-                for (int i = 0; i < looper.Current.Amount; i++)
+                HiredEmployee employee = looper.Current;
+
+                employee.AmountPaid = 0;
+                for (int i = 0; i < employee.Amount; i++)
                 {
-                    if (money.CanPay(looper.Current.Salary))
+                    if (money.CanPay(employee.Salary))
                     {
-                        looper.Current.AmountPaid++;
-                        money.Amount -= looper.Current.Salary;
+                        employee.AmountPaid++;
+                        money.Amount -= employee.Salary;
                     }
                     else
                     {
                         //Can't pay so make an expense and send it to an expenses holder
-                        remainingPrice += looper.Current.Salary;
+                        remainingPrice += employee.Salary;
                     }
+                }
+
+                if (employee.AmountPaid < employee.Amount)
+                {
+                    employeesNotPaid.Add(new EmployeeNotPaid(employee, employee.Amount - employee.AmountPaid));
                 }
             }
 
-            expenseEvent.Raise(new Expense(remainingPrice, "Salary", OnFullPay));
+            expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
         }
     }
 }
