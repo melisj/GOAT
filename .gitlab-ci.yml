@@ -6,7 +6,7 @@ unit-test:
   stage: test
   script: "C:\\'Program Files'\\Unity\\Hub\\Editor\\2019.4.14f1\\Editor\\Unity.exe \
   -batchmode \
-  -projectPath C:/Gitlab-Runner/builds/ut3yUxB7/0/melisj/gpe-trive \
+  -projectPath C:/GitLab-Runner/builds/mospKkyx/0/gameplay-engineering/game-studio-autumn-2020/gpe-trive \
   -runTests -testPlatform editmode \
   -logFile \
   -testResults ./unit-tests.xml | Out-Default" 
@@ -25,7 +25,7 @@ unity-build:
   stage: build
   script: "C:\\'Program Files'\\Unity\\Hub\\Editor\\2019.4.14f1\\Editor\\Unity.exe \
   -batchmode \
-  -projectPath C:/Gitlab-Runner/builds/ut3yUxB7/0/melisj/gpe-trive \
+  -projectPath C:/GitLab-Runner/builds/mospKkyx/0/gameplay-engineering/game-studio-autumn-2020/gpe-trive \
   -executeMethod BuildScript.PerformBuild \
   -quit" 
   artifacts:
