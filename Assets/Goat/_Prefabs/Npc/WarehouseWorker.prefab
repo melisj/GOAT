@@ -129,13 +129,14 @@ GameObject:
   - component: {fileID: 4126198214987102154}
   - component: {fileID: 8970165054993010810}
   - component: {fileID: 8169269292441408447}
+  - component: {fileID: 757395006}
   m_Layer: 0
   m_Name: WarehouseWorker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4126198214987102154
 Transform:
   m_ObjectHideFlags: 0
@@ -188,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -210,6 +211,19 @@ MonoBehaviour:
   targetStorages: []
   searching: 0
   resourceDetecter: {fileID: 7293569361525259085}
+--- !u!114 &757395006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279071255091420808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243ff4e5d5271444a81d7db3df425619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!95 &9078441483579810345
 Animator:
   serializedVersion: 3

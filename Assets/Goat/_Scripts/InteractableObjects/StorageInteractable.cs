@@ -29,6 +29,7 @@ namespace Goat.Grid.Interactions
 
         [SerializeField] private Resource mainResource;
         [HideInInspector] public Resource MainResource { get => mainResource; }
+        [HideInInspector] public bool selected = false;
 
         protected override void Awake()
         {

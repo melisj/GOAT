@@ -66,7 +66,6 @@ namespace Goat.AI
             AT(takeItem, searchForStorageInWarehouse, FindItemInWarehouse());
             AT(takeItem, setStorageTarget, SetNextEmptyStorageTarget());
             AT(placeItem, setStorageTarget, SetNextEmptyStorageTarget());
-            AT(placeItem, searchForEmptyShelves, NoItemsToTakeOrPlace());
 
             stateMachine.SetState(enterStore);
         }

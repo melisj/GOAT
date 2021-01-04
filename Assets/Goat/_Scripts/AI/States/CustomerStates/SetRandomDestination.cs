@@ -124,39 +124,12 @@ namespace Goat.AI.States
             npc.targetDestination = npc.transform.position;
             wanderDestination = npc.transform.position;
             navMeshAgent.enabled = true;
-            //CalculateDestination();
         }
 
         public void OnExit()
         {
-            navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = false;
         }
-
-        //private StorageInteractable GetTargetInteractable(Collider[] colliders)
-        //{
-        //    StorageInteractable interactable = null;
-
-        //    // For all interactables collided with. Check if any resources is located inside.
-        //    for (int c = 0; c < colliders.Length; c++)
-        //    {
-        //        // Check all resources inside interactable
-        //        StorageInteractable tempInteractable = colliders[c].GetComponent<StorageInteractable>();
-        //        if (tempInteractable != null)
-        //        {
-        //            for (int i = 0; i < tempInteractable.GetItemCount; i++)
-        //            {
-        //                // Check if any resource inside interactable is located inside groceries dictionary
-        //                if (npc.itemsToGet.ContainsKey(tempInteractable.GetItems[i].Resource))
-        //                {
-        //                    // Now takes the first match, might change to match that is located closest to customer
-        //                    return tempInteractable;
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return interactable;
-        //}
     }
 }
 
