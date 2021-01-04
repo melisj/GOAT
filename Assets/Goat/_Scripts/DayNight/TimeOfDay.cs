@@ -38,6 +38,7 @@ public class TimeOfDay : ScriptableObject
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
+    public DateTime Date { get => date; set => date = value; }
     private CultureInfo usInfo;
 
     public string GetDate()

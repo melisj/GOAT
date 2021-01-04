@@ -13,11 +13,7 @@ namespace Goat.Player
         private Inventory inventory;
         public Inventory Inventory
         {
-            get
-            {
-                if (inventory == null) inventory = new Inventory(currentCapacity);
-                return inventory;
-            }
+            get => inventory;
             set => inventory = value;
         }
 
@@ -34,14 +30,15 @@ namespace Goat.Player
             if (gamemodeCreative) currentCapacity = int.MaxValue;
             if (currentCapacity == 0) Debug.LogError("Player inventory has zero capacity!!! Please set the default capacity.");
 
-            inventory = new Inventory(currentCapacity);
+            Inventory = new Inventory(currentCapacity);
             if (gamemodeCreative)
             {
                 for (int i = 0; i < resources.Resources.Length; i++)
                 {
-                    inventory.Add(resources.Resources[i], 666, out int storedAmount);
-                } 
+                    Inventory.Add(resources.Resources[i], 666, out int storedAmount);
+                }
             }
+            Inventory inv = Inventory;
         }
 
         public void TryGetValue(Resource resource, out int amount)

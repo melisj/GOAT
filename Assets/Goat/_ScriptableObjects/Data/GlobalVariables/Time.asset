@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6d0ed77df9f41a4282ed9fd5b55075f, type: 3}
   m_Name: Time
   m_EditorClassIdentifier: 
-  timeOfDayHours: 0
-  timeOfDay12Hours: 0
+  timeOfDayHours: 3
+  timeOfDay12Hours: 3
   currentDay: 1
-  timeOfDayMinutes: 18.399683
+  timeOfDayMinutes: 55.326046
   englishTime: AM
   timeOfSunrise: 6
   timeOfSunset: 20

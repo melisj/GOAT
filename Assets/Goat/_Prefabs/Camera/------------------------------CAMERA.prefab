@@ -831,6 +831,7 @@ GameObject:
   - component: {fileID: 9206685137919645392}
   - component: {fileID: 8263138005537368909}
   - component: {fileID: 1931067460}
+  - component: {fileID: 5998634283979201203}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -923,6 +924,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 10
+--- !u!114 &5998634283979201203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797434497063600306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b2385b2137f7947b7e0bcb4c2fd029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: 0
+  inventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+  agent: {fileID: 7797434497063600305}
 --- !u!1 &7797434497155546702
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ namespace Goat.Grid
         private bool[] wallAuto = new bool[4];
         private int totalBeautyPoints;
         public GameObject FloorObj => floorObject;
+        public GameObject[] WallObjs => wallObjs;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
 
@@ -121,9 +122,9 @@ namespace Goat.Grid
             if (wallObjs[index]) wallObjs[index].SetActiveRenderer(show ? show : placeable != null && !(placeable is Wall));
         }
 
-        public bool CheckForFloor(Placeable placeable, float rotationAngle = 0, bool destroyMode = false)
+        public bool CheckForFloor(Placeable placeable, float rotationAngle = 0, bool destroyMode = false, bool isLoading = false)
         {
-            if (placeable)
+            if (placeable && !isLoading)
             {
                 if (placeable.CanBuy(1) && !destroyMode)
                     return true;
@@ -171,7 +172,7 @@ namespace Goat.Grid
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode, bool isLoading = false)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
-            if (CheckForFloor(placeable, rotationAngle, destroyMode)) { return false; }
+            if (CheckForFloor(placeable, rotationAngle, destroyMode, isLoading)) { return false; }
 
             if (placeable is Wall)
             {
@@ -391,13 +392,13 @@ namespace Goat.Grid
             {
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
-                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall);
+                    EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
             }
         }
 
-        public void SaveStorageData(ref GridObjectsList objectList)
+        public void SaveStorageData()
         {
-            SaveData.SaveStorageData(buildingObject, ref objectList);
+            SaveData.SaveStorageData(buildingObject);
         }
     }
 }
@@ -420,7 +421,7 @@ public class TileInfo
         storage = "";
     }
 
-    public void SaveStorageData(GameObject building, ref GridObjectsList objectList)
+    public void SaveStorageData(GameObject building)
     {
         if (building)
         {
@@ -436,7 +437,7 @@ public class TileInfo
         {
             StorageInteractable interactable = building.GetComponentInChildren<StorageInteractable>();
             if (interactable)
-                interactable.Inventory.Load(storage, ref objectList);
+                interactable.Inventory.Load(storage, objectList);
         }
     }
 
