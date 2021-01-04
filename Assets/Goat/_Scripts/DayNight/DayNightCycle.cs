@@ -70,6 +70,7 @@ public partial class DayNightCycle : MonoBehaviour
     private void SetTimeDay()
     {
         //from nighttime to daytime
+        isDay = true;
         OnChangeCycle.Raise(isDay);
     }
 
