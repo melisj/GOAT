@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 7797434497063600305}
   - component: {fileID: 9206685137919645392}
   - component: {fileID: 8263138005537368909}
+  - component: {fileID: 1931067460}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -887,7 +888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
-  size: 0.4
+  size: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -896,7 +897,6 @@ MonoBehaviour:
   repeatDetectionOverTime: 1
   intervalTime: 0.5
   updateDetectionOnIdleOnly: 0
-  interactableEvent: {fileID: 11400000, guid: 5e4abff476d0d6240b65fa84053128c9, type: 2}
 --- !u!65 &8263138005537368909
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -910,6 +910,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.8, z: 0.6}
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &1931067460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797434497063600306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243ff4e5d5271444a81d7db3df425619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!1 &7797434497155546702
 GameObject:
   m_ObjectHideFlags: 0

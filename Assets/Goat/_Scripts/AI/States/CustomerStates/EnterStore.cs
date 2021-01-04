@@ -30,6 +30,7 @@ namespace Goat.AI.States
                 enteredStore = true;
                 //npc.enteredStore = this.enteredStore;
             }
+            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public virtual void OnEnter()
@@ -45,8 +46,9 @@ namespace Goat.AI.States
         public virtual void OnExit()
         {
             // Set animation
-            navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = false;
             npc.enterTime = Time.time;
+            animator.SetFloat("Move", 0);
         }
     }
 }

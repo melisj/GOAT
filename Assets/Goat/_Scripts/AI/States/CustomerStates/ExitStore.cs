@@ -45,7 +45,7 @@ namespace Goat.AI.States
         {
             Debug.Log("Exited store");
 
-            navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = false;
             animator.SetFloat("Move", 0);
             npc.Ship.ShipReadyToFly();
             PoolManager.Instance.ReturnToPool(npc.gameObject);
