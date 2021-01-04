@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
+  m_Name: WalkingNormal
+  m_EditorClassIdentifier: 
+  looping: 0
+  _audioClipGroups:
+  - sequenceMode: 0
+    audioClips:
+    - {fileID: 8300000, guid: bc9f07e6a8b729c48b21ea6b12403f38, type: 3}
+    - {fileID: 8300000, guid: ce49c36c7836eb34ba5385fb94d60cac, type: 3}
+    - {fileID: 8300000, guid: 700b5385f88da6d4e9f74d0817e5596e, type: 3}
+    - {fileID: 8300000, guid: 1fce2e3d5b7111d4abb59f3f9f0ee003, type: 3}
+    - {fileID: 8300000, guid: 0a4d794f847c1d84fa8c2cf97f8bdcaf, type: 3}
+    - {fileID: 8300000, guid: 08d1f6c380e0a4c4a9c1410bc3e4c883, type: 3}

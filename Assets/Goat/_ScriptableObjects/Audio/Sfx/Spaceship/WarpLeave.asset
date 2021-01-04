@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
-  m_Name: WarpArrival
+  m_Name: WarpLeave
   m_EditorClassIdentifier: 
   looping: 0
   _audioClipGroups:
   - sequenceMode: 1
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: 5d963ff49bffa354f90cdf141ae866c1, type: 3}
+    - {fileID: 8300000, guid: e54de18e9853787449ddfe866f8bb1a4, type: 3}
+    - {fileID: 8300000, guid: 4b71ab8f56196f94e935016f984e52eb, type: 3}
+    - {fileID: 8300000, guid: 9ec5a7d5c2230fe43b2964d764bfd7b3, type: 3}
