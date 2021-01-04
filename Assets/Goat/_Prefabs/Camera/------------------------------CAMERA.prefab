@@ -897,6 +897,7 @@ MonoBehaviour:
   repeatDetectionOverTime: 1
   intervalTime: 0.5
   updateDetectionOnIdleOnly: 0
+  interactableEvent: {fileID: 11400000, guid: 5e4abff476d0d6240b65fa84053128c9, type: 2}
 --- !u!65 &8263138005537368909
 BoxCollider:
   m_ObjectHideFlags: 0

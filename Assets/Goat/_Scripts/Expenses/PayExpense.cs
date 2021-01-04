@@ -1,4 +1,5 @@
 ﻿using Goat.Events;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.Expenses
@@ -8,6 +9,7 @@ namespace Goat.Expenses
         [SerializeField] protected Money money;
         [SerializeField] protected ExpenseEvent expenseEvent;
         [SerializeField] protected TimeOfDay time;
+        [SerializeField] protected IntEvent onExpenseCreated;
 
         /// <summary>
         /// Pays the expense
