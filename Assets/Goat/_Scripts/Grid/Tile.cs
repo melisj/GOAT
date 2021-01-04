@@ -21,6 +21,7 @@ namespace Goat.Grid
         private bool[] wallAuto = new bool[4];
         private int totalBeautyPoints;
         public GameObject FloorObj => floorObject;
+        public GameObject[] WallObjs => wallObjs;
         public Vector3 Position => centerPosition;
         public TileInfo SaveData { get; set; }
 

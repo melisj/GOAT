@@ -1,11 +1,11 @@
-﻿using Goat.Grid;
-using Goat.Player;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.Linq;
+using System.Collections;
 
 namespace Goat.Saving
 {
@@ -15,16 +15,27 @@ namespace Goat.Saving
     [Serializable]
     public class SaveData
     {
-        public HashSet<DataContainer> data = new HashSet<DataContainer>();
+        private HashSet<SaveHandler> handlers = new HashSet<SaveHandler>();
+        public List<DataContainer> data = new List<DataContainer>();
 
-        public void AddData(DataContainer container)
+        public void AddData(SaveHandler container)
         {
-            data.Add(container);
+            handlers.Add(container);
         }
 
-        public void RemoveData(DataContainer container)
+        public void RemoveData(SaveHandler container)
         {
-            data.Remove(container);
+            handlers.Remove(container);
+        }
+
+        public void SetData()
+        {
+            data.Clear();
+            IEnumerator<SaveHandler> enumarator = handlers.OrderBy((x) => x.saveOrder).GetEnumerator();
+            while (enumarator.MoveNext())
+            {
+                data.Add(enumarator.Current.data);
+            }
         }
     }
 
@@ -33,7 +44,7 @@ namespace Goat.Saving
     /// </summary>
     public class DataHandler : MonoBehaviour
     {
-        public delegate void StartLoadLevelEvent(SaveData data);
+        public delegate void StartLoadLevelEvent(DataContainer data);
         public static event StartLoadLevelEvent StartLoadEvent;
 
         public delegate void StartSaveLevelEvent(SaveData data);
@@ -69,6 +80,7 @@ namespace Goat.Saving
             {
                 SaveData data = new SaveData();
                 StartSaveEvent.Invoke(data);
+                data.SetData();
 
                 SaveToFile(JsonConvert.SerializeObject(data, jsonSettings));
                 Debug.LogFormat("Saved: {0} successfully", fileName);
@@ -77,34 +89,41 @@ namespace Goat.Saving
                 Debug.LogError("Editor needs to be playing to allow it to save!");
         }
 
+        [Button("Load", ButtonSizes.Medium)]
+        public void LoadGame()
+        {
+            StartCoroutine(LoadGameCoroutine());
+        }
+
         /// <summary>
         /// Load the game file found in the path given in the inspector
         /// </summary>
-        [Button("Load", ButtonSizes.Medium)]
-        public void LoadGame() {
+        public IEnumerator LoadGameCoroutine() {
             if (Application.isPlaying)
             {
                 SaveData data = JsonConvert.DeserializeObject<SaveData>(LoadFromFile(), jsonSettings);
 
                 if (data != null)
                 {
-                    StartLoadEvent.Invoke(data);
+                    foreach (DataContainer container in data.data)
+                    {
+                        StartLoadEvent.Invoke(container);
+                        yield return null;
+                    }
 
                     LevelLoaded?.Invoke();
+
+                    Debug.LogFormat("Loaded: {0} successfully", fileName);
                 }
                 else
                 {
                     Debug.LogWarning("Save file could not be read! Save might be empty/corrupted by changes in the SaveData class.");
-                    return;
                 }
             }
             else
             {
                 Debug.LogError("Editor needs to be playing to load a file!");
-                return;
             }
-
-            Debug.LogFormat("Loaded: {0} successfully", fileName);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.Saving
@@ -11,6 +12,7 @@ namespace Goat.Saving
     {
         public Grid.Grid grid;
         public GridObjectsList objectList;
+        public VoidEvent onGridChange;
 
         public void Awake()
         {

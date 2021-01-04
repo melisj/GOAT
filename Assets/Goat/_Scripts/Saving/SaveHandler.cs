@@ -6,7 +6,7 @@ namespace Goat.Saving
 {
     public class SaveHandler : MonoBehaviour
     {
-        protected DataContainer data;
+        public DataContainer data;
         public int saveOrder;
 
         public virtual void Load(DataContainer data) 
@@ -39,27 +39,19 @@ namespace Goat.Saving
             AddContainerToSave(data);
         }
 
-        public virtual void LoadEvent(SaveData data)
+        public virtual void LoadEvent(DataContainer data)
         {
-            try
+            if (this.data.className == data.className)
             {
-                Load(data.data.First(x => x.className == this.data.className));
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarningFormat("Handler: {0} has failed to get its corrosponding container, aborting loading! {1}", GetType().Name, e);
-            }
-            finally
-            {
-                Debug.LogFormat("Handler: {0} has checked for its data container.", GetType().Name);
+                Load(data);
+                Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
             }
         }
-
 
         protected virtual void AddContainerToSave(SaveData data)
         {
             Save();
-            data.AddData(this.data);
+            data.AddData(this);
         }
 
         private void OnEnable()

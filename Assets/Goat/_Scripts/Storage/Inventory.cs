@@ -95,10 +95,12 @@ namespace Goat.Storage
             if (objectList == null) { Debug.LogError("Inventory could not be loaded, the GridObjectList was not found."); return; }
 
             Items.Clear();
+            itemsInInventory = 0;
             Dictionary<int, int> jsonItems = JsonConvert.DeserializeObject<Dictionary<int, int>>(storageString);
             foreach (var item in jsonItems)
             {
                 Items.Add((Resource)objectList.GetObject(item.Key), item.Value);
+                itemsInInventory += item.Value;
             }
 
             InventoryResetEvent?.Invoke();

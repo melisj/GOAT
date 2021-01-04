@@ -251,5 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8db317869ac584198e5378b1aafecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: -10
   grid: {fileID: 612029029412865795}
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
