@@ -175,5 +175,11 @@ namespace Goat.Pooling
                 Debug.LogErrorFormat("Object: {0} with key {1} doesn't exist in dictionary", obj.name, poolObject.PoolKey);
             }
         }
+
+        public GameObject ReturnPoolParent(int poolKey)
+        {
+            parentDictionary.TryGetValue(poolKey, out GameObject value);
+            return value;
+        }
     }
 }

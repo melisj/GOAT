@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 1002272259556930067}
   - component: {fileID: 1002272259556930066}
   - component: {fileID: -4290294873852215647}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: Corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,6 +70,7 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   subscribers: 0
   connectedFarm: {fileID: 0}
+  onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
   multiDirection: 0
   path:
     points:
@@ -80,7 +81,7 @@ MonoBehaviour:
   paths: []
   layer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 131072
   offset:
   - {x: 0, y: 0.5, z: 0.5}
   - {x: -0.5, y: 0.5, z: 0}
@@ -169,7 +170,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4e8abc1b937df8546a6cb767f15f864e,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e8abc1b937df8546a6cb767f15f864e, type: 3}

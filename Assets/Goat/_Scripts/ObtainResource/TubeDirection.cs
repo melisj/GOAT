@@ -3,6 +3,7 @@ using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityAtoms;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.Farming
@@ -10,6 +11,7 @@ namespace Goat.Farming
     public class TubeDirection : EventListenerVoid, IPoolObject
     {
         [SerializeField] private FarmStationFunction connectedFarm;
+        [SerializeField] private VoidEvent onTubesConnected;
         [SerializeField] private bool multiDirection;
         [SerializeField, HideIf("multiDirection")] private Path path;
         [SerializeField, ShowIf("multiDirection")] private Path[] paths;
@@ -91,6 +93,8 @@ namespace Goat.Farming
                     connectedFarm = tempConnectedFarm;
                 }
             }
+
+            onTubesConnected.Raise();
         }
 
         private FarmStationFunction CheckForConnectionsMulti(Vector3 offset, int index)

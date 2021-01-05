@@ -209,6 +209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8450352681712963688}
+  - component: {fileID: 4829597460677182945}
   m_Layer: 0
   m_Name: Spawners
   m_TagString: Untagged
@@ -233,3 +234,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4829597460677182945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610056500498790516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d28c01356c58b428b362bdcc5ae300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
+  timeInfo: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
+  spawnTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5.008848
+      inSlope: 0.8950033
+      outSlope: 0.8950033
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.055354994
+    - serializedVersion: 3
+      time: 0.31756285
+      value: 10.0116005
+      inSlope: 0.091194436
+      outSlope: 0.091194436
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.63167363
+      value: 3.8915503
+      inSlope: -13.53587
+      outSlope: -13.53587
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16304669
+    - serializedVersion: 3
+      time: 1
+      value: -0.00029448466
+      inSlope: 0.012593676
+      outSlope: 0.012593676
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  curveDefiation: 1.01
+  spawner: {fileID: 5792046306962520104}

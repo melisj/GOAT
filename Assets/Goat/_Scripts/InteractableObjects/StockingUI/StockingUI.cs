@@ -174,9 +174,8 @@ namespace Goat.Grid.Interactions.UI
 
         private void ConfirmStocking(Inventory from, Inventory to)
         {
-            from.Items.TryGetValue(resource, out int resourceAmount);
-
-            currentAmount = (resourceAmount - currentAmount) <= 0 ? resourceAmount : currentAmount;
+            from.Items.TryGetValue(resource, out int fromResourceAmount);
+            currentAmount = (fromResourceAmount - currentAmount) <= 0 ? fromResourceAmount : currentAmount;
 
             to.Add(resource, currentAmount, out int actualStoredAmount);
             from.Remove(resource, actualStoredAmount, out int removedAmount);

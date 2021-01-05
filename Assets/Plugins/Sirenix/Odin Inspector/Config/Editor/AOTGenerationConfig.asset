@@ -16,7 +16,7 @@ MonoBehaviour:
   deleteDllAfterBuilds: 1
   AutomateForAllAOTPlatforms: 1
   automateForPlatforms: 0900000014000000
-  lastScan: 637437560708567449
+  lastScan: 637453012421414262
   supportSerializedTypes:
   - TypeName: Goat.Grid.UI.BasicGridUIElement, Assembly-CSharp
     IsCustom: 0
@@ -38,10 +38,6 @@ MonoBehaviour:
     Emit: 1
   - TypeName: System.Collections.Generic.Dictionary`2[[UnityEngine.KeyCode, UnityEngine.CoreModule],[Goat.KeyMode,
       Assembly-CSharp]], mscorlib
-    IsCustom: 0
-    Emit: 1
-  - TypeName: System.Collections.Generic.Dictionary`2[[Goat.Storage.Resource, Assembly-CSharp],[System.Int32,
-      mscorlib]], mscorlib
     IsCustom: 0
     Emit: 1
   - TypeName: System.Collections.Generic.EnumEqualityComparer`1[[Goat.Grid.UI.GridUIElement,
@@ -82,10 +78,6 @@ MonoBehaviour:
       UnityEngine.CoreModule]], mscorlib
     IsCustom: 0
     Emit: 1
-  - TypeName: System.Collections.Generic.IEqualityComparer`1[[Goat.Storage.Resource,
-      Assembly-CSharp]], mscorlib
-    IsCustom: 0
-    Emit: 1
   - TypeName: System.Int32, mscorlib
     IsCustom: 0
     Emit: 1
@@ -95,14 +87,7 @@ MonoBehaviour:
   - TypeName: Goat.KeyMode, Assembly-CSharp
     IsCustom: 0
     Emit: 1
-  - TypeName: System.Collections.Generic.List`1[[Review, Assembly-CSharp]], mscorlib
-    IsCustom: 0
-    Emit: 1
   - TypeName: System.Object, mscorlib
-    IsCustom: 0
-    Emit: 1
-  - TypeName: System.Collections.Generic.ObjectEqualityComparer`1[[Goat.Storage.Resource,
-      Assembly-CSharp]], mscorlib
     IsCustom: 0
     Emit: 1
   - TypeName: Goat.Pooling.ObjectInstance, Assembly-CSharp
@@ -114,12 +99,6 @@ MonoBehaviour:
     Emit: 1
   - TypeName: System.Collections.Generic.Queue`1[[Goat.Pooling.ObjectInstance, Assembly-CSharp]],
       System
-    IsCustom: 0
-    Emit: 1
-  - TypeName: Goat.Storage.Resource, Assembly-CSharp
-    IsCustom: 0
-    Emit: 1
-  - TypeName: Review, Assembly-CSharp
     IsCustom: 0
     Emit: 1
   - TypeName: Goat.Grid.Tile[,], Assembly-CSharp
