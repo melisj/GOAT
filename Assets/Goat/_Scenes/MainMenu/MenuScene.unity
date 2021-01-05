@@ -1259,12 +1259,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2397,22 +2397,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
-      propertyPath: lightToChange
-      value: 
-      objectReference: {fileID: 746762903}
-    - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
-    - target: {fileID: 1694938147, guid: ebd908bd185c13646a62725252f09aab, type: 3}
-      propertyPath: m_Layer
-      value: 10
+    - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
+      propertyPath: lightToChange
+      value: 
+      objectReference: {fileID: 746762903}
+    - target: {fileID: 1694938150, guid: ebd908bd185c13646a62725252f09aab, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1155482417491486092, guid: ebd908bd185c13646a62725252f09aab,
+    - target: {fileID: 1155482417491486090, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
-      propertyPath: m_Layer
-      value: 10
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1694374218478024498, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
@@ -2473,11 +2473,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AsteroidMap
-      objectReference: {fileID: 0}
-    - target: {fileID: 2074031819434896776, guid: ebd908bd185c13646a62725252f09aab,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebd908bd185c13646a62725252f09aab, type: 3}
