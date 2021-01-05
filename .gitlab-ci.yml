@@ -10,6 +10,8 @@ unit-test:
   -runTests -testPlatform editmode \
   -logFile \
   -testResults ./unit-tests.xml | Out-Default" 
+  only: 
+    - development
   artifacts:
     when: always
     paths:
@@ -28,6 +30,8 @@ unity-build:
   -projectPath C:/GitLab-Runner/builds/mospKkyx/0/gameplay-engineering/game-studio-autumn-2020/gpe-trive \
   -executeMethod BuildScript.PerformBuild \
   -quit" 
+  only: 
+    - development
   artifacts:
     paths:
       - ./Build
