@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class SpaceshipEngine : AudioCue
 {
+    private void OnEnable()
+    {
+        PlayAudioCue();
+    }
 
+    private void OnDisable()
+    {
+        StopAudioCue();
+    }
 }

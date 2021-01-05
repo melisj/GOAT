@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class WarpDeparture : AudioCue
 {
-
+    private void OnDisable()
+    {
+        PlayAudioCue();
+    }
 }

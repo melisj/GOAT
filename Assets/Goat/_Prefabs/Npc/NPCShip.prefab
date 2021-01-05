@@ -47,9 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: ce76e7c6eda22754984633edcf362313, type: 2}
   _playOnStart: 0
+  parent: {fileID: 7662238008717331643}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
     type: 2}
 --- !u!114 &173415475
 MonoBehaviour:
@@ -65,9 +66,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 99cd847f23294064e923bc54986b55d3, type: 2}
   _playOnStart: 0
+  parent: {fileID: 7662238008717331643}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
     type: 2}
 --- !u!114 &173415474
 MonoBehaviour:
@@ -83,9 +85,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: e724329eb7c700d46a4bae547d3a3893, type: 2}
   _playOnStart: 0
+  parent: {fileID: 7662238008717331643}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
     type: 2}
 --- !u!1 &4012538647828178134
 GameObject:
