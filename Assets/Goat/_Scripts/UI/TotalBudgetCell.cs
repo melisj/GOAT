@@ -12,11 +12,16 @@ public class TotalBudgetCell : MonoBehaviour
 
     public event EventHandler OnTotalChanged;
 
+    private void Awake()
+    {
+        totalTM.text = totalValue.ToString("N0");
+    }
+
     private void OnEnable()
     {
         for (int i = 0; i < budgetCells.Length; i++)
         {
-            budgetCells[i].OnValueChanged += TotalBudgetCell_OnValueChanged; ;
+            budgetCells[i].OnValueChanged += TotalBudgetCell_OnValueChanged;
         }
     }
 
@@ -45,7 +50,7 @@ public class TotalBudgetCell : MonoBehaviour
 
     private void ChangeText()
     {
-        totalTM.text = totalValue.ToString("N");
+        totalTM.text = totalValue.ToString("N0");
         OnTotalChanged.Invoke(this, null);
     }
 }

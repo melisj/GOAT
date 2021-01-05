@@ -403,7 +403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 99989.984, y: 0}
+  m_AnchoredPosition: {x: 101429.984, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7150629098927660853
@@ -1228,6 +1228,8 @@ MonoBehaviour:
   customerName: {fileID: 8692057816435422576}
   customerBorderLeft: {fileID: 5804412805280936624}
   customerBorderMiddle: {fileID: 1784124912487232875}
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  onSale: {fileID: 11400000, guid: e8c6d9b2a461229489c95c77236f570d, type: 2}
   margin: -2
   sellButton: {fileID: 215590072732344502}
   contentParent: {fileID: 4202426600194244469}
@@ -9546,7 +9548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 360, y: 0}
+  m_AnchoredPosition: {x: 1800, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &688185873281710023
@@ -16869,7 +16871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 194400, y: 0}
+  m_AnchoredPosition: {x: 195840, y: 0}
   m_SizeDelta: {x: 0, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2876276993325537561

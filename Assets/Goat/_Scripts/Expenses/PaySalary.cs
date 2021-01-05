@@ -30,7 +30,7 @@ namespace Goat.Expenses
         {
             var looper = employees.EmployeeList.GetEnumerator();
             int remainingPrice = 0;
-
+            int fullPrice = 0;
             employeesNotPaid.Clear();
 
             while (looper.MoveNext())
@@ -40,6 +40,7 @@ namespace Goat.Expenses
                 employee.AmountPaid = 0;
                 for (int i = 0; i < employee.Amount; i++)
                 {
+                    fullPrice += employee.Salary;
                     if (money.CanPay(employee.Salary))
                     {
                         employee.AmountPaid++;
@@ -57,7 +58,7 @@ namespace Goat.Expenses
                     employeesNotPaid.Add(new EmployeeNotPaid(employee, employee.Amount - employee.AmountPaid));
                 }
             }
-
+            onExpenseCreated.Raise(fullPrice);
             expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
         }
     }
