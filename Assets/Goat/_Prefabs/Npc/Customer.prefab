@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reviewFactors: []
   reviewEvent: {fileID: 11400000, guid: 8c7276c304311e64da48e016b8e4c525, type: 2}
+  root: {fileID: 2094399924142381527}
 --- !u!95 &2094399923083953303
 Animator:
   serializedVersion: 3
@@ -232,8 +233,7 @@ MonoBehaviour:
   edgeDstThreshold: 1
   maskCutawayDst: 0.1
   customer: {fileID: 2094399924142381524}
-  tileTargetFoundEvent: {fileID: 11400000, guid: 8fce16220060c6b4c9315b34d56305e0,
-    type: 2}
+  beautyChecker: {fileID: 6035689405171998871}
   targetsInViewRadius: []
 --- !u!1 &2094399924142381527
 GameObject:
@@ -328,6 +328,7 @@ MonoBehaviour:
   maxSearchingTime: 10
   review: {fileID: 1771665820897415727}
   feelings: {fileID: 3148984614122792479}
+  customerCapacity: {fileID: 11400000, guid: a2c0e22995392d749a337729309d1ac1, type: 2}
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
   money: 100
   remainingMoney: 0
@@ -529,7 +530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d939d4fdeaf75a4a9dc637f4fce3195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reviewWeight: {fileID: 11400000, guid: db2e1d61300d2b5489fa88a0a7b09fde, type: 2}
+  revData: {fileID: 11400000, guid: 419c0aedad3b04846a82deff41870aaa, type: 2}
+  factorType: 2
   npc: {fileID: 2094399924142381524}
 --- !u!114 &6035689405171998871
 MonoBehaviour:
@@ -543,9 +545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa694958efcd49a4bb4a5a23d09aba7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reviewWeight: {fileID: 11400000, guid: c26835a8c663977408e0ed3270d87fce, type: 2}
-  subscribedEvent: {fileID: 11400000, guid: 15a2ba14e2b82e94ca4d359c416d9a6d, type: 2}
+  revData: {fileID: 11400000, guid: ba4e43161e7032545b1d1cc20b044082, type: 2}
+  factorType: 0
+  subscribedEvent: {fileID: 11400000, guid: 1257795dd64685b459873e8619e72b77, type: 2}
   subscribers: 0
+  tileGiveEvent: {fileID: 11400000, guid: 0762c63595c88ac45873d51cfa9e0513, type: 2}
 --- !u!114 &7639261632784874316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +562,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411abb9bca6ba694ebc31ce65ff042c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reviewWeight: {fileID: 11400000, guid: ed17fe3bddd7230479af5806b2db88f2, type: 2}
+  revData: {fileID: 11400000, guid: 6bdd4b95d376cd54982c4cfaede093bd, type: 2}
+  factorType: 1
   npc: {fileID: 2094399924142381524}
 --- !u!1 &3001012932469857579
 GameObject:
@@ -733,7 +738,7 @@ MonoBehaviour:
   dotObject: {fileID: 2727340781673910724}
   resourceToFind: {fileID: 8410119710526235942}
   questionMark: {fileID: 4238104300229187955}
-  satisfiedSprite: {fileID: 21300000, guid: 33b3578cc34211f44a2b2ffcea8d0705, type: 3}
+  satisfiedSprite: {fileID: 21300000, guid: 1f5c69c5f924dba46b5bdc5fe2ea9d55, type: 3}
   npc: {fileID: 2094399924142381524}
 --- !u!114 &7928473022107908286
 MonoBehaviour:

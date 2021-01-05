@@ -6,7 +6,8 @@ using UnityEngine;
 [Serializable]
 public class Review
 {
-    [SerializeField] private int[] reviewFactors;
+    [SerializeField] private ReviewLineInfo[] reviewFactors;
+    public string CustomerName { get; set; }
     public float SatisfactionPoints { get; set; }
-    public int[] ReviewFactors { get => reviewFactors; set => reviewFactors = value; }
+    public ReviewLineInfo[] ReviewFactors { get => reviewFactors; set => reviewFactors = value; }
 }

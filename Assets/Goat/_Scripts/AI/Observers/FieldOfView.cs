@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using UnityAtoms.BaseAtoms;
 using DG.Tweening;
 using System;
+using Goat.AI.Satisfaction;
 
 namespace Goat.AI
 {
@@ -43,7 +44,7 @@ namespace Goat.AI
 
         [SerializeField] private Customer customer;
         [Title("Events")]
-        [SerializeField] private Vector3Event tileTargetFoundEvent;
+        [SerializeField] private BeautyChecker beautyChecker;
         //[HideInInspector] StorageInteractable targetStorage, impulseStorage;
         private Sequence findTargetSequence;
         private WaitForSeconds waitDelay;
@@ -149,7 +150,8 @@ namespace Goat.AI
 
                 if (TargetObstructed(currentTarget, dirToTarget)) continue;
 
-                tileTargetFoundEvent.Raise(currentTarget.gameObject.transform.position);
+                beautyChecker.Positions.Add(currentTarget.gameObject.transform.position);
+                //  tileTargetFoundEvent.Raise(currentTarget.gameObject.transform.position);
             }
         }
 

@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.fdmci.hva.nl/gameplay-engineering/game-studio-autumn-2020/gpe-trive/badges/development/pipeline.svg)](https://gitlab.fdmci.hva.nl/gameplay-engineering/game-studio-autumn-2020/gpe-trive/-/commits/development)
+
 # GPE-Trive
 ### This project
 This repository contains the unity project/source code for the space store tycoon game.

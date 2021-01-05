@@ -1,4 +1,5 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Grid.Interactions.UI;
+using Goat.Grid.UI;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Goat.Storage
     {
         [SerializeField] private GameObject sellingUIObject;
         [SerializeField] private GameObject cellPrefab;
-
+        [SerializeField] private StockingUI stockingUI;
         [SerializeField] private GridUIInfo gridUIInfo;
 
         [Serializable] private class SelectedResourceChanged : UnityEvent<Resource> { }
@@ -59,12 +60,16 @@ namespace Goat.Storage
             {
                 FillUIGrid();
             }
+            if (stockingUI)
+            {
+                selectedResourceChangeEvt.AddListener((Resource res) => res = stockingUI.Resource);
+            }
             gridUIInfo.GridUIChangedEvent += GridUIManager_GridUIChangedEvent;
         }
 
-        private void GridUIManager_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
+        private void GridUIManager_GridUIChangedEvent(UIElement currentUI, UIElement prevUI)
         {
-            if (currentUI == GridUIElement.None && prevUI == GridUIElement.Interactable)
+            if (currentUI == UIElement.None && prevUI == UIElement.Interactable)
                 sellingUIObject.SetActive(false);
         }
 

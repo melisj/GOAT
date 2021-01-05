@@ -10,25 +10,53 @@ namespace Goat.Grid.UI
     // Is used to manage showing and hiding the UI
     public class BasicGridUIElement : MonoBehaviour
     {
-        [SerializeField] private GameObject PanelToHide;
+        [SerializeField] private bool disableCanvasInstead;
+        [SerializeField, HideIf("disableCanvasInstead")] private GameObject PanelToHide;
+        [SerializeField, ShowIf("disableCanvasInstead")] private Canvas canvasToDisable;
+        [SerializeField] private UIElement type;
+        public UIElement Type => type;
 
         public virtual void ShowUI()
         {
-            PanelToHide.SetActive(true);
+            if (disableCanvasInstead)
+                canvasToDisable.enabled = true;
+            else
+                PanelToHide.SetActive(true);
         }
 
         public virtual void HideUI()
         {
-            PanelToHide.SetActive(false);
+            if (disableCanvasInstead)
+                canvasToDisable.enabled = false;
+            else
+                PanelToHide.SetActive(false);
         }
     }
 
     // Manages the UI Elements to make certain that only one element is visible at a time
     public class GeneralUIManager : EventListenerKeyCodeModeEvent
     {
-        [SerializeField] private Dictionary<GridUIElement, BasicGridUIElement> UIElements = new Dictionary<GridUIElement, BasicGridUIElement>();
+        [SerializeField] private Dictionary<UIElement, BasicGridUIElement> UIElements = new Dictionary<UIElement, BasicGridUIElement>();
         [SerializeField] private GridUIInfo gridUIInfo;
         private static BasicGridUIElement currentUIOpen;
+
+        [Button]
+        private void SetupDictionary()
+        {
+            UIElements.Clear();
+            BasicGridUIElement[] basicGridUIElements = GetComponentsInChildren<BasicGridUIElement>();
+            for (int i = 0; i < basicGridUIElements.Length; i++)
+            {
+                BasicGridUIElement element = basicGridUIElements[i];
+                if (UIElements.ContainsKey(element.Type))
+                {
+                    Debug.LogError($"Type {element.Type} already added to dictionary, click on me for the object", element.gameObject);
+                    continue;
+                }
+
+                UIElements.Add(element.Type, element);
+            }
+        }
 
         public void Awake()
         {
@@ -40,7 +68,7 @@ namespace Goat.Grid.UI
             gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
         }
 
-        private void GridUIInfo_GridUIChangedEvent(GridUIElement currentUI, GridUIElement prevUI)
+        private void GridUIInfo_GridUIChangedEvent(UIElement currentUI, UIElement prevUI)
         {
             ShowNewUI(currentUI);
         }
@@ -59,7 +87,7 @@ namespace Goat.Grid.UI
         {
             if (code == KeyCode.V && keyMode == KeyMode.Down)
             {
-                gridUIInfo.CurrentUIElement = GridUIElement.Buying;
+                //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }
 
@@ -67,15 +95,15 @@ namespace Goat.Grid.UI
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
-                gridUIInfo.CurrentUIElement = GridUIElement.Buying;
+                //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }
 
         // Disable, and enable a new element
-        private void ShowNewUI(GridUIElement UIElement)
+        private void ShowNewUI(UIElement UIElement)
         {
             HideUI();
-            if (UIElement != GridUIElement.None && UIElement != gridUIInfo.CurrentUIElement)
+            if (UIElement != UIElement.None)// && UIElement != gridUIInfo.CurrentUIElement
             {
                 UIElements.TryGetValue(UIElement, out BasicGridUIElement element);
                 currentUIOpen = element;

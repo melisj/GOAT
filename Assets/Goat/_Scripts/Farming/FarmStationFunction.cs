@@ -31,6 +31,8 @@ namespace Goat.Farming
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
         [SerializeField] private AudioCue cue;
 
+        public FarmStation Settings => farmStationSettings;
+
         public int GetPath(Vector3 key)
         {
             int index = 0;
@@ -68,20 +70,21 @@ namespace Goat.Farming
             AddResource();
         }
 
-        public ResourcePack CreateResourcePack(Vector3 pos, GameObject tubeEnd)
+        public ResourcePack CreateResourcePack(Vector3 pos, GameObject tubeEnd, int amount = 0)
         {
             if (!tubeEnds.Add(tubeEnd))
                 return null;
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, pos, Quaternion.identity, null);
             resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.name.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.SetupResPack(farmStationSettings.ResourceFarm, 0);
+            resPack.SetupResPack(farmStationSettings.ResourceFarm, amount);
             resPacks.Add(resPack);
             return resPack;
         }
 
         private void AddResource()
         {
+            if (resourceTile == null) GetResourceTile();
             if (currentCapacity >= farmStationSettings.StorageCapacity || resourceTile.Amount <= 0)
             {
                 animator.enabled = false;

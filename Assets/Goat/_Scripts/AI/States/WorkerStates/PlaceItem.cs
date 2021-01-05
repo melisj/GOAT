@@ -5,7 +5,6 @@ using Goat.AI;
 using Goat.Storage;
 using Goat.Grid.Interactions;
 using System.Linq;
-using System;
 
 namespace Goat.AI.States
 {
@@ -14,12 +13,11 @@ namespace Goat.AI.States
         private Worker worker;
         private Animator animator;
         public bool filled = false;
-        public event EventHandler eventHandler;
 
         // Get this from npc
         private float placingSpeed = 0.5f, nextItemTime = 0;
 
-        string storage = "Storage", container = "Container";
+        private string storage = "Storage", container = "Container";
 
         public PlaceItem(Worker worker, Animator animator)
         {
@@ -28,26 +26,25 @@ namespace Goat.AI.States
         }
 
         private void PlaceItemInStorage()
-        {  
+        {
             Resource resourceToPlace = null;
 
             if (worker.targetStorage.tag == storage)
                 resourceToPlace = worker.targetStorage.MainResource;
-            else if(worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
+            else if (worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
                 resourceToPlace = worker.Inventory.Items.First().Key;
 
-            if(resourceToPlace == null)
+            if (resourceToPlace == null)
             {
                 filled = true;
                 return;
             }
 
-            if(worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
+            if (worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
             {
                 animator.SetTrigger("Interact");
                 //Delay
 
-                eventHandler?.Invoke(this, null);
                 worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
@@ -79,4 +76,3 @@ namespace Goat.AI.States
         }
     }
 }
-

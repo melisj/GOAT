@@ -24,8 +24,7 @@ public class TimeOfDay : ScriptableObject
     [SerializeField, Range(1, 12)] private int currentMonth;
 
     [Title("Events")]
-    [SerializeField] private StringEvent onTime24Changed;
-    [SerializeField] private StringEvent onTime12Changed;
+    [SerializeField] private VoidEvent onTimeChanged;
     [SerializeField] private IntEvent onDayChanged;
     [SerializeField] private IntEvent onMonthChanged;
     private DateTime date;
@@ -34,10 +33,13 @@ public class TimeOfDay : ScriptableObject
     public string GetTime12Hour => $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {EnglishTime}";
     public string GetTime24Hour => $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
 
+    public DateTime Date { get => date; set => date = value; }
+
     public int TimeOfDayHours { get => timeOfDayHours; set => timeOfDayHours = value; }
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
+    public string TimeTillDay => $"{Mathf.Abs(timeOfDayHours - timeOfSunrise + 1)}:{Mathf.Floor(Mathf.Abs(60 - timeOfDayMinutes))}";
     private CultureInfo usInfo;
 
     public string GetDate()
@@ -87,8 +89,7 @@ public class TimeOfDay : ScriptableObject
         {
             if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
             {
-                onTime24Changed.Raise(GetTime24Hour);
-                onTime12Changed.Raise(GetTime12Hour);
+                onTimeChanged.Raise();
             }
             timeOfDayMinutes = value;
         }

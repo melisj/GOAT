@@ -48,3 +48,4 @@ MonoBehaviour:
   timeOfDay: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
   playerInventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
   satisfactionLevel: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}
+  uiInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}

@@ -23,8 +23,9 @@ public class SatisfactionToText : EventListenerInt
 
     private void ChangeText(int value)
     {
-        satisfactionText.text = value.ToString();
-        icon.color = value > 0 ? Color.green : value == 0 ? Color.white : Color.red;
+        if (satisfactionText)
+            satisfactionText.text = value.ToString();
+        //icon.color = value > 0 ? Color.green : value == 0 ? Color.white : Color.red;
         icon.sprite = value > 0 ? happyIcon : value == 0 ? neutralIcon : unHappyIcon;
     }
 }

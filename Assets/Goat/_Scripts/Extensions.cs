@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityAtoms;
 
 public static class Extensions
 {
@@ -88,5 +89,23 @@ public static class Extensions
     {
         Renderer rend = obj.GetComponentInChildren<Renderer>();
         rend.enabled = value;
+    }
+
+    public static void RegisterSafe<T>(this AtomEvent<T> evt, Action<T> action)
+    {
+        if (evt != null)
+            evt.Register(action);
+    }
+
+    public static void UnregisterSafe<T>(this AtomEvent<T> evt, Action<T> action)
+    {
+        if (evt != null)
+            evt.Unregister(action);
+    }
+
+    public static void UnregisterAllSafe<T>(this AtomEvent<T> evt)
+    {
+        if (evt != null)
+            evt.UnregisterAll();
     }
 }
