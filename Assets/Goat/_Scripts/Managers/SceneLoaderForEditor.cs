@@ -49,9 +49,7 @@ public class SceneLoaderForEditor : MonoBehaviour
     {
         foreach (SceneAsset scene in scencesToLoad)
         {
-            if (Application.isPlaying)
-                SceneManager.LoadScene(AssetDatabase.GetAssetPath(scene), LoadSceneMode.Additive);
-            else
+            if (!Application.isPlaying)
                 EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(scene), OpenSceneMode.Additive);
         }
     }

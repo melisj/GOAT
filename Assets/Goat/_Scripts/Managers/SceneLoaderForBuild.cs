@@ -22,7 +22,7 @@ public class SceneLoaderForBuild : MonoBehaviour
     {
         foreach(string path in scenePaths) 
         {
-            SceneManager.LoadScene(path, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(path, LoadSceneMode.Additive);
         }
     }
 
