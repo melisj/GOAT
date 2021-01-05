@@ -403,7 +403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 101429.984, y: 0}
+  m_AnchoredPosition: {x: 2166120, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7150629098927660853
@@ -2449,7 +2449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1546649869089146644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3212,7 +3212,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 1078727424063976444}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
@@ -5138,7 +5138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7854081479188156729
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5544,7 +5544,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 5531138230732282442}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
@@ -6581,7 +6581,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1520318921891901416}
   - component: {fileID: 961588118125374497}
-  - component: {fileID: 8801129414042758898}
   - component: {fileID: 3649280059168677634}
   - component: {fileID: 2210492818716685063}
   - component: {fileID: 9216859876045248037}
@@ -6625,35 +6624,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2754648332092802153}
   m_CullTransparentMesh: 0
---- !u!114 &8801129414042758898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2754648332092802153}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &3649280059168677634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6876,7 +6846,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 1569918790055686405}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
@@ -7212,7 +7182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2632327055938752273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8197,7 +8167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4192759827206580654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9548,7 +9518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1800, y: 0}
+  m_AnchoredPosition: {x: 772740, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &688185873281710023
@@ -12408,7 +12378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3450455298705809827
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12859,8 +12829,7 @@ MonoBehaviour:
   header: {fileID: 6239226089960139653}
   scrollingRect: {fileID: 7372827318406473434}
   selectionBlock: {fileID: 1894348897279419055}
-  emptySelection: {fileID: 21300000, guid: f3dd277cbbf98b94d86fe7f24d16731a, type: 3}
-  empty: {fileID: 21300000, guid: 098cbde7d63862c48ae7b71f30a19ad1, type: 3}
+  selectionSprites: {fileID: 11400000, guid: 624e00e888eed7d49bf5eed5fc7eeed8, type: 2}
   closingDurationMultiplier: 4
   selectionBlockScaleDuration: 0.05
   selectionBlockMoveDuration: 0.05
@@ -14643,7 +14612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8955865725378029680
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15642,7 +15611,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 1061161682216086843}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
@@ -16871,7 +16840,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 195840, y: 0}
+  m_AnchoredPosition: {x: 2260350, y: 0}
   m_SizeDelta: {x: 0, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2876276993325537561
@@ -17540,7 +17509,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 8188655626125016276}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
@@ -19375,8 +19344,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 72, y: 72}
-  m_Spacing: {x: 24, y: 24}
+  m_CellSize: {x: 48, y: 48}
+  m_Spacing: {x: 30, y: 30}
   m_Constraint: 2
   m_ConstraintCount: 3
 --- !u!114 &7884085972876412993
@@ -20122,7 +20091,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 2625748149472281697}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0

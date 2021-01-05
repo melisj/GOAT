@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 19f566adcca1fc946a86df70654f91a9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 399e709b712c44c4e9e70eb201dec955, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2033,7 +2033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.9850006, y: 6.499939}
+  m_AnchoredPosition: {x: -0.000015258789, y: 6.499939}
   m_SizeDelta: {x: -49, y: 0}
   m_Pivot: {x: 0.5, y: 0.9}
 --- !u!222 &7787180544600707906
@@ -5293,7 +5293,6 @@ GameObject:
   - component: {fileID: 8094963060102461595}
   - component: {fileID: 1645771393277400321}
   - component: {fileID: 388265823662490018}
-  - component: {fileID: 1608596869655881127}
   m_Layer: 5
   m_Name: Income
   m_TagString: Untagged
@@ -5402,22 +5401,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1608596869655881127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2472941477755687990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26dff4a6b90b02e47ae1c0dcbc9da9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  contentRect: {fileID: 1916026757475684214}
-  button: {fileID: 388265823662490018}
-  setActive: 0
-  barAxis: 1
 --- !u!1 &2533953251714888107
 GameObject:
   m_ObjectHideFlags: 0
@@ -7416,8 +7399,7 @@ MonoBehaviour:
   header: {fileID: 3049144065179173417}
   scrollingRect: {fileID: 1916026757475684214}
   selectionBlock: {fileID: 7389429540569516803}
-  emptySelection: {fileID: 21300000, guid: f3dd277cbbf98b94d86fe7f24d16731a, type: 3}
-  empty: {fileID: 21300000, guid: 098cbde7d63862c48ae7b71f30a19ad1, type: 3}
+  selectionSprites: {fileID: 11400000, guid: 624e00e888eed7d49bf5eed5fc7eeed8, type: 2}
   closingDurationMultiplier: 4
   selectionBlockScaleDuration: 0.05
   selectionBlockMoveDuration: 0.05
@@ -10886,7 +10868,6 @@ GameObject:
   - component: {fileID: 2236548850480587155}
   - component: {fileID: 3442180608103289004}
   - component: {fileID: 5830540395421496794}
-  - component: {fileID: 3077389274011865720}
   m_Layer: 5
   m_Name: Bills
   m_TagString: Untagged
@@ -10995,22 +10976,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3077389274011865720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5055078736547193144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26dff4a6b90b02e47ae1c0dcbc9da9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  contentRect: {fileID: 1916026757475684214}
-  button: {fileID: 5830540395421496794}
-  setActive: 1
-  barAxis: 1
 --- !u!1 &5146147307480295593
 GameObject:
   m_ObjectHideFlags: 0
@@ -11704,8 +11669,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -24, y: -24}
-  m_SizeDelta: {x: 48, y: 48}
+  m_AnchoredPosition: {x: -32, y: -24}
+  m_SizeDelta: {x: 64, y: 48}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8993871864050478283
 CanvasRenderer:
@@ -12981,7 +12946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 5601896149593632349}
   m_Horizontal: 0
-  m_Vertical: 0
+  m_Vertical: 1
   m_MovementType: 2
   m_Elasticity: 0
   m_Inertia: 1
@@ -12989,7 +12954,7 @@ MonoBehaviour:
   m_ScrollSensitivity: 50
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 3459925216970666982}
+  m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: 0
@@ -13348,7 +13313,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7629046418140382788}
   - component: {fileID: 8187170294470526349}
-  - component: {fileID: 496935135683282782}
   - component: {fileID: 5648160085457303214}
   - component: {fileID: 980623038376307479}
   m_Layer: 5
@@ -13390,35 +13354,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6556371743572831685}
   m_CullTransparentMesh: 0
---- !u!114 &496935135683282782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6556371743572831685}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &5648160085457303214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17027,7 +16962,7 @@ RectTransform:
   m_GameObject: {fileID: 8503292098952428117}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children:
   - {fileID: 73604652599444766}
   - {fileID: 6596350783754763344}
