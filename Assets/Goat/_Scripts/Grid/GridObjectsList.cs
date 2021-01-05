@@ -18,9 +18,9 @@ public class GridObjectsList : SerializedScriptableObject
             if (!buyables.Contains((Buyable)list[i]))
                 buyables.Add((Buyable)list[i]);
         }
-
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
-
+#endif
         SetID();
     }
 
@@ -30,10 +30,12 @@ public class GridObjectsList : SerializedScriptableObject
         bool changedList = false;
         for (int i = 0; i < buyables.Count; i++)
         {
-            if (buyables[i].ID != i)
+            if (buyables[i] && buyables[i].ID != i)
             {
                 buyables[i].ID = i;
+#if UNITY_EDITOR
                 EditorUtility.SetDirty(buyables[i]);
+#endif
                 changedList = true;
             }
         }
@@ -41,8 +43,10 @@ public class GridObjectsList : SerializedScriptableObject
         // Save changes
         if (changedList)
         {
+#if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+#endif
         }
     }
 

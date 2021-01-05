@@ -1,6 +1,4 @@
-﻿using Goat.Grid;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Goat.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,12 +8,14 @@ namespace Goat.AI
     {
         [SerializeField] private NavMeshSurface surfaceAI;
         [SerializeField] private NavMeshSurface surfacePlayer;
+        [SerializeField] private NavMeshSurface surfaceWorker;
 
         private void Awake()
         {
-            GridDataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
             surfaceAI.BuildNavMesh();
             surfacePlayer.BuildNavMesh();
+            surfaceWorker.BuildNavMesh();
         }
 
         private void GridDataHandler_LevelLoaded()
@@ -27,6 +27,7 @@ namespace Goat.AI
         {
             surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
             surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
+            surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
         }
     }
 }

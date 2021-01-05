@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8431733358490092767}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -46,3 +46,6 @@ MonoBehaviour:
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   electricity: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
   timeOfDay: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
+  playerInventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
+  satisfactionLevel: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}
+  uiInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}

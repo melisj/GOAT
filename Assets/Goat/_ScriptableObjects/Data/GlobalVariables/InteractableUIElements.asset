@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableUIElements:
   - {fileID: 5058131761919709886, guid: f334f25ca7be91c41a8682c638ebc64b, type: 3}
+  - {fileID: 6916933471344207589, guid: 588625e720fe4bf4d956a4aeeef3417a, type: 3}
   - {fileID: 8328775951925562455, guid: ba7c0944f6789724bb4a76969730659a, type: 3}

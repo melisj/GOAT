@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Goat.AI.Parking;
 
 public class ShipCreator : EventListenerDeliveryResource
 {

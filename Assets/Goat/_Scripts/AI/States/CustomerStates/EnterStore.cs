@@ -7,45 +7,48 @@ namespace Goat.AI.States
 {
     public class EnterStore : IState
     {
-        private Customer customer;
-        private NavMeshAgent navMeshAgent;
-        private Animator animator;
+        protected NPC npc;
+        protected NavMeshAgent navMeshAgent;
+        protected Animator animator;
         public bool enteredStore;
-        Vector3 entrance;
-        private float destinationDistance = 3;
+        protected Vector3 entrance;
+        protected UnloadLocations entrances;
+        protected float destinationDistance = 0.2f;
 
-        public EnterStore(Customer customer, NavMeshAgent navMeshAgent, Animator animator)
+        public EnterStore(NPC npc, NavMeshAgent navMeshAgent, Animator animator, UnloadLocations entrances)
         {
-            this.customer = customer;
+            this.npc = npc;
             this.navMeshAgent = navMeshAgent;
             this.animator = animator;
+            this.entrances = entrances;
         }
 
         public void Tick()
         {
-            if (Vector3.Distance(customer.transform.position, entrance) <= destinationDistance)
+            if (Vector3.Distance(npc.transform.position, entrance) <= destinationDistance)
             {
                 enteredStore = true;
-                customer.enteredStore = this.enteredStore;
+                //npc.enteredStore = this.enteredStore;
             }
+            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
-        public void OnEnter()
+        public virtual void OnEnter()
         {
             enteredStore = false;
             navMeshAgent.enabled = true;
             // Set animation
-            entrance = GameObject.Find("Entrance").transform.position;
+            //entrance = GameObject.Find("Entrance").transform.position;
+            entrance = entrances.Locations.GetNearest(npc.transform.position);
             navMeshAgent.SetDestination(entrance);
         }
 
-        public void OnExit()
+        public virtual void OnExit()
         {
-            Debug.Log("Entered store");
             // Set animation
-            navMeshAgent.enabled = false;
-            customer.enterTime = Time.time;
+            //navMeshAgent.enabled = false;
+            npc.enterTime = Time.time;
+            animator.SetFloat("Move", 0);
         }
     }
 }
-

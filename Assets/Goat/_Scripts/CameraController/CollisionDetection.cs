@@ -1,61 +1,88 @@
-﻿using Goat.Grid.Interactions;
-using Sirenix.OdinInspector;
-using System;
+﻿using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class CollisionDetection : MonoBehaviour
+public abstract class CollisionDetection : MonoBehaviour, ICollideDetect
 {
     [Title("OverlapSphere method")]
     [SerializeField] private Vector3 center;
 
-    [SerializeField] private int size;
+    [SerializeField] private float size;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private bool onlyNearest;
+    [SerializeField, HideIf("onlyNearest")] private int maxAmountColliders;
     [SerializeField] private bool repeatDetectionOverTime;
-    [SerializeField, ShowIf("repeatDetectionOverTime")] private int intervalTime;
-    [SerializeField] private bool updateDetectionOnIdleOnly;
+    [SerializeField, ShowIf("repeatDetectionOverTime")] private float intervalTime;
+    [SerializeField, HideIf("repeatDetectionOverTime")] private bool updateDetectionOnIdleOnly;
     private Vector3 oldPos;
     private bool isMoving;
-    private Collider latestCollider, previousCollider;
-
-    private BaseInteractable previousInteractable;
-
+    protected Collider latestCollider, previousCollider;
+    protected Collider[] allColliders, allPreviousColliders;
+    private Sequence detectSequence;
     public bool IsMoving { get => isMoving; }
-
-    //public event EventHandler<Collider> OnColliderEnter;
 
     private void Awake()
     {
         if (repeatDetectionOverTime)
-            InvokeRepeating("DetectNearest", 1, intervalTime);
+        {
+            if (onlyNearest)
+            {
+                detectSequence = DOTween.Sequence();
+                detectSequence.SetLoops(-1);
+                detectSequence.AppendCallback(DetectNearest);
+                detectSequence.AppendInterval(intervalTime);
+            }
+            else
+            {
+                detectSequence = DOTween.Sequence();
+                detectSequence.SetLoops(-1);
+                detectSequence.AppendCallback(DetectAll);
+                detectSequence.AppendInterval(intervalTime);
+            }
+        }
     }
 
     private void Update()
     {
-        isMoving = (transform.position != oldPos);
-        oldPos = transform.position;
+        if (!repeatDetectionOverTime)
+        {
+            if (updateDetectionOnIdleOnly)
+            {
+                isMoving = (transform.position != oldPos);
+                oldPos = transform.position;
 
-        if (!isMoving && updateDetectionOnIdleOnly && !latestCollider)
+                if (!isMoving)
+                {
+                    Detect();
+                }
+            }
+            else
+            {
+                Detect();
+            }
+        }
+    }
+
+    private void Detect()
+    {
+        if (onlyNearest)
         {
             DetectNearest();
         }
-
-        if (isMoving)
+        else
         {
-            ResetUI();
+            DetectAll();
         }
     }
 
-    private void ResetUI()
-    {
-        if (previousInteractable)
-        {
-            previousInteractable.CloseUI();
-            previousInteractable = null;
-            latestCollider = null;
-        }
-    }
+    public abstract void OnExit();
+
+    /// <summary>
+    /// Use latest collider or all Colliders
+    /// </summary>
+    public abstract void OnEnter();
 
     private void DetectNearest()
     {
@@ -63,13 +90,38 @@ public class CollisionDetection : MonoBehaviour
 
         if (latestCollider != null)
         {
-            previousInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
-            if (previousInteractable.IsClickedOn)
+            if (previousCollider != latestCollider)
             {
-                previousInteractable.OpenUIFully();
+                OnExit();
             }
+            OnEnter();
+        }
+        else
+        {
+            OnExit();
         }
         previousCollider = latestCollider;
+    }
+
+    private void DetectAll()
+    {
+        allColliders = DetectOverlapNonAlloc();
+        if (allColliders.Length > 0)
+        {
+            OnExit();
+
+            OnEnter();
+        }
+        else
+        {
+            OnExit();
+        }
+
+        if (allColliders != null)
+        {
+            allPreviousColliders = new Collider[allColliders.Length];
+            allColliders.CopyTo(allPreviousColliders, 0);
+        }
     }
 
     private Collider GetNearest(Collider[] colls)
@@ -88,6 +140,11 @@ public class CollisionDetection : MonoBehaviour
         return nearestCollider;
     }
 
+    private Collider[] DetectOverlapNonAlloc()
+    {
+        return Physics.OverlapSphere(transform.position + center, size, layerMask);
+    }
+
     private Collider[] DetectOverlap()
     {
         return Physics.OverlapSphere(transform.position + center, size, layerMask);
@@ -95,7 +152,7 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = latestCollider == null ? Color.red : Color.green;
+        Gizmos.color = onlyNearest ? (latestCollider == null ? Color.red : Color.green) : allColliders != null && allColliders.Length > 0 ? Color.green : Color.red;
         Gizmos.DrawWireSphere(transform.position + center, size);
     }
 }

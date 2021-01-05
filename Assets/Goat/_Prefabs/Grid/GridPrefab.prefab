@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 612029029412865794}
   - component: {fileID: 612029029412865795}
-  - component: {fileID: 612029029412865800}
   - component: {fileID: 5621511813930087197}
   - component: {fileID: 612029029412865804}
   - component: {fileID: 612029029412865805}
@@ -18,6 +17,9 @@ GameObject:
   - component: {fileID: 612029029412865807}
   - component: {fileID: 4233259508223697211}
   - component: {fileID: 7939294644737218720}
+  - component: {fileID: 6608607777775956720}
+  - component: {fileID: 1836051739}
+  - component: {fileID: 7784319680466284517}
   m_Layer: 8
   m_Name: GridPrefab
   m_TagString: Grid
@@ -66,7 +68,7 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
   subscribers: 0
   defaultWall: {fileID: 11400000, guid: 78b2f91a5bd12af4885388421c4a79b0, type: 2}
-  gridSize: {x: 100, y: 100}
+  gridSize: {x: 50, y: 50}
   tileSize: 1
   gridMask:
     serializedVersion: 2
@@ -77,21 +79,6 @@ MonoBehaviour:
   onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   gridRayCaster: {fileID: 4233259508223697211}
---- !u!114 &612029029412865800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 612029029412865802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c84eb59d3c77f8d4a9fb0be466e9b6f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveFolder: /Goat/SaveData/
-  fileName: BasicTestStore
-  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
 --- !u!114 &5621511813930087197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,4 +214,68 @@ MonoBehaviour:
     SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
   subscribers: 0
+  grid: {fileID: 612029029412865795}
+--- !u!114 &6608607777775956720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa52c3c445cdcf44b0b0bce2059b2fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 0762c63595c88ac45873d51cfa9e0513, type: 2}
+  subscribers: 0
+  beautyPointEvent: {fileID: 11400000, guid: 1257795dd64685b459873e8619e72b77, type: 2}
+  grid: {fileID: 612029029412865795}
+--- !u!114 &1836051739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8db317869ac584198e5378b1aafecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: -10
+  grid: {fileID: 612029029412865795}
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+--- !u!114 &7784319680466284517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06eb24547386f26479e0b151af8423c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: 0
+  tubeEndPrefab: {fileID: 3317845011053807819, guid: e428a2ede109505469f889e5de9bc6ce,
+    type: 3}
+  resourcePackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
+    type: 3}
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
   grid: {fileID: 612029029412865795}

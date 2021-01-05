@@ -1,11 +1,10 @@
-﻿using Goat.Storage;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
-using Goat.Events;
-using UnityAtoms;
+﻿using DG.Tweening;
+using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
+using UnityEngine;
 
 namespace Goat.Farming
 {
@@ -13,7 +12,9 @@ namespace Goat.Farming
     {
         [SerializeField] private HashSet<GameObject> connectedFarms = new HashSet<GameObject>();
         [SerializeField] private TubeDirection tubeConnection;
+        [SerializeField] private VoidEvent onGridChange;
         [SerializeField] private float delay;
+        [SerializeField] private float radius = 0.1f;
         [SerializeField] private LayerMask resourcePackLayer;
         public HashSet<GameObject> ConnectedFarms => connectedFarms;
         [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
@@ -21,12 +22,34 @@ namespace Goat.Farming
         [SerializeField] private Collider[] colls;
         private Sequence createResPackSequence;
 
+        public TubeEndInfo Info
+        {
+            get
+            {
+                float[] amount = new float[resPacks.Count];
+                int[] resource = new int[resPacks.Count];
+                for (int i = 0; i < resPacks.Count; i++)
+                {
+                    amount[i] = resPacks[i].Amount;
+                    resource[i] = resPacks[i].Resource.ID;
+                }
+                return new TubeEndInfo(resource, amount, transform.position, (int)transform.rotation.eulerAngles.y / 90);
+            }
+        }
+
         private void Clear()
         {
             connectedFarms.Clear();
         }
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    createResPackSequence = DOTween.Sequence();
+        //    createResPackSequence.SetLoops(-1);
+        //    createResPackSequence.AppendInterval(delay);
+        //    createResPackSequence.AppendCallback(CreateResPacks);
+        //}
+        private void OnEnable()
         {
             createResPackSequence = DOTween.Sequence();
             createResPackSequence.SetLoops(-1);
@@ -36,6 +59,7 @@ namespace Goat.Farming
 
         private void CreateResPacks()
         {
+            onGridChange.Raise();
             if (!tubeConnection.HasConnection())
             {
                 Clear();
@@ -43,7 +67,6 @@ namespace Goat.Farming
             }
 
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            pos.y = 0;
             colls = CheckForResPacks(pos);
             RemovePickedResPacks(colls);
             if (colls.Length >= connectedFarms.Count) return;
@@ -56,6 +79,27 @@ namespace Goat.Farming
                 if (resPack)
                 {
                     resPacks.Add(resPack);
+                }
+            }
+        }
+
+        public void CreateResPacks(List<Resource> resources, float[] amount)
+        {
+            onGridChange.Raise();
+            pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+
+            var enumerator = connectedFarms.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
+                if (resources.Contains(farmStation.Settings.ResourceFarm))
+                {
+                    int resourceIndex = resources.IndexOf(farmStation.Settings.ResourceFarm);
+                    ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject, (int)amount[resourceIndex]);
+                    if (resPack)
+                    {
+                        resPacks.Add(resPack);
+                    }
                 }
             }
         }
@@ -80,8 +124,8 @@ namespace Goat.Farming
 
         private void OnDisable()
         {
+            createResPackSequence.Kill();
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            pos.y = 0;
 
             var enumerator = connectedFarms.GetEnumerator();
             while (enumerator.MoveNext())
@@ -99,14 +143,31 @@ namespace Goat.Farming
 
         private Collider[] CheckForResPacks(Vector3 pos)
         {
-            return Physics.OverlapSphere(pos, 0.1f, resourcePackLayer);
+            return Physics.OverlapSphere(pos, radius, resourcePackLayer);
         }
 
         private void OnDrawGizmos()
         {
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
             pos.y = 0;
-            Gizmos.DrawWireSphere(pos, 0.1f);
+            Gizmos.DrawWireSphere(pos, radius);
+        }
+    }
+
+    [Serializable]
+    public class TubeEndInfo
+    {
+        public int[] resource;
+        public float[] amount;
+        public Vector3 position;
+        public int rotation;
+
+        public TubeEndInfo(int[] resource, float[] amount, Vector3 position, int rotation)
+        {
+            this.resource = resource;
+            this.amount = amount;
+            this.position = position;
+            this.rotation = rotation;
         }
     }
 }

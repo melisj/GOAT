@@ -14,17 +14,17 @@ namespace Goat.AI.States
         [HideInInspector] public bool calculatedGroceries = false;
         private float percentageWillingToSpend = 0;
         private int availableMoney = 0, calculatedCost = 0;
-        Resource[] resourcesInProject;
-        Dictionary<Resource, int> groceries = new Dictionary<Resource, int>();
+        private Resource[] resourcesInProject;
+        private Dictionary<Resource, int> groceries = new Dictionary<Resource, int>();
 
         public CalculateGroceries(Customer customer, Resource[] resourcesInProject)
         {
             this.customer = customer;
             this.resourcesInProject = resourcesInProject;
         }
+
         public void Tick()
         {
-
         }
 
         private Dictionary<Resource, int> GetGroceries()
@@ -55,6 +55,7 @@ namespace Goat.AI.States
 
         private void AddResourceToGroceries(Resource resource, int amount)
         {
+            Debug.Log($"Adding grocery {resource} x{amount}");
             if (groceries.ContainsKey(resource))
                 groceries[resource] += amount;
             else
@@ -70,12 +71,12 @@ namespace Goat.AI.States
             // Check customer money
             percentageWillingToSpend = Random.Range(0.7f, 1.0f);
             availableMoney = (int)(customer.money * percentageWillingToSpend);
-            customer.itemsToGet = GetGroceries();
+            customer.ItemsToGet.SetInventory(GetGroceries());
         }
+
         public void OnExit()
         {
             customer.remainingMoney = customer.money - calculatedCost;
         }
     }
 }
-

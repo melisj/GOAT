@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Goat.Pooling;
+using System;
 
 namespace Goat.Storage
 {
@@ -9,6 +10,11 @@ namespace Goat.Storage
         [SerializeField] private float amount;
 
         [SerializeField] private MeshFilter filter;
+
+        public Resource Resource => (Resource)buyable;
+        //public ResourcePackInfo PackInfo => new ResourcePackInfo(Resource.ID, Amount, transform.position);
+
+        public float Amount { get => amount; set => amount = value; }
 
         public void SetupResPack(Buyable buyable, int amount)
         {
@@ -41,6 +47,5 @@ namespace Goat.Storage
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
-        public float Amount { get => amount; set => amount = value; }
     }
 }

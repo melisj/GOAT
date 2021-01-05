@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5066533614744139624}
   - component: {fileID: 5066533614744139623}
   - component: {fileID: 5066533614744139622}
+  - component: {fileID: 2809310266965763942}
   m_Layer: 0
   m_Name: OnCycleChange
   m_TagString: Untagged
@@ -108,3 +109,27 @@ MonoBehaviour:
   transitionTime: 1
   nightColor: {r: 0.5695645, g: 0.37833747, b: 0.735849, a: 1}
   dayColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+--- !u!114 &2809310266965763942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066533614744139621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 466f3e8358a2f81408253dd3e8820f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  subscribers: 0
+  shipCreator: {fileID: 0}

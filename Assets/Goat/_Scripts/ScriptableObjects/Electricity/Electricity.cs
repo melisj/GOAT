@@ -6,19 +6,23 @@ using UnityEngine;
 namespace Goat.Storage
 {
     [CreateAssetMenu(fileName = "Electricity", menuName = "ScriptableObjects/GlobalVariables/Electricity")]
-    public class Electricity : ScriptableObject {
+    public class Electricity : ScriptableObject
+    {
         public delegate void ElectricityChanged(int newUsed, int newCapacity);
+
         public event ElectricityChanged ElectricityChangedEvent;
+
         public EventHandler<int> ElectricityOverloaded;
 
         [SerializeField] private List<BaseInteractable> poweredInteractables = new List<BaseInteractable>();
+        [SerializeField] private List<BaseInteractable> generatorInteractables = new List<BaseInteractable>();
 
         [SerializeField] private int capacity;
         [SerializeField] private int usedElectricity;
         [SerializeField] private int needElectricity;
 
         public bool IsOverCapacity => NeedElectricity > Capacity;
-        public int UsedElectricity { get; set; }
+        public int UsedElectricity => usedElectricity;
 
         public int NeedElectricity
         {
@@ -31,9 +35,11 @@ namespace Goat.Storage
             }
         }
 
-        public int Capacity { 
-            get => capacity; 
-            set {
+        public int Capacity
+        {
+            get => capacity;
+            set
+            {
                 capacity = value;
 
                 PowerInteractablesToCapacity();
@@ -41,6 +47,8 @@ namespace Goat.Storage
                 ElectricityChangedEvent?.Invoke(needElectricity, capacity);
             }
         }
+
+        public List<BaseInteractable> GeneratorInteractables => generatorInteractables;
 
         public void AddDevice(BaseInteractable interactable)
         {
@@ -64,25 +72,49 @@ namespace Goat.Storage
             }
         }
 
-        private bool AddElectricityConsumption(BaseInteractable interactable) {
+        public void AddGenerator(BaseInteractable interactable)
+        {
+            generatorInteractables.Add(interactable);
+            EnableGenerator(interactable);
+        }
+
+        public void RemoveGenerator(BaseInteractable interactable)
+        {
+            generatorInteractables.Remove(interactable);
+            DisableGenerator(interactable);
+        }
+
+        public void EnableGenerator(BaseInteractable interactable)
+        {
+            Capacity += interactable.PowerProduction;
+        }
+
+        public void DisableGenerator(BaseInteractable interactable)
+        {
+            Capacity -= interactable.PowerProduction;
+        }
+
+        private bool AddElectricityConsumption(BaseInteractable interactable)
+        {
             if (interactable.IsPowered) return true;
 
             int newUsage = usedElectricity + interactable.PowerCost;
 
             // Check if electricity is overloaded
-            if (newUsage > capacity) {
+            if (newUsage > capacity)
+            {
                 ElectricityOverloaded?.Invoke(this, newUsage - capacity);
                 return false;
             }
 
-            UsedElectricity += interactable.PowerCost;
+            usedElectricity += interactable.PowerCost;
             return true;
         }
 
         private void RemoveElectricityConsumption(BaseInteractable interactable)
         {
             if (interactable.IsPowered)
-                UsedElectricity -= interactable.PowerCost;
+                usedElectricity -= interactable.PowerCost;
             interactable.IsPowered = false;
         }
 
@@ -90,7 +122,7 @@ namespace Goat.Storage
         {
             for (int i = 0; i < poweredInteractables.Count; i++)
             {
-                if (UsedElectricity <= capacity )
+                if (usedElectricity <= capacity)
                     poweredInteractables[i].IsPowered = AddElectricityConsumption(poweredInteractables[i]);
                 else
                     RemoveElectricityConsumption(poweredInteractables[i]);
