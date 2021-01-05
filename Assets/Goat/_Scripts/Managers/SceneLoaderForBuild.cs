@@ -8,11 +8,6 @@ public class SceneLoaderForBuild : MonoBehaviour
 {
     [SerializeField, ReadOnly] private string[] scenePaths;
 
-    public void OnEnable()
-    {
-        LoadAllScenes();
-    }
-
     public void SetPaths(string[] scenePaths)
     {
         this.scenePaths = scenePaths;

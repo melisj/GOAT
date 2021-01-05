@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -23,16 +22,20 @@ public class SceneLoaderForEditor : MonoBehaviour
     {
         if (EditorUtility.DisplayDialog("Load Scenes", "This will load in new scenes listed in the inspector!", "Load all", "Nope!"))
         {
+#if UNITY_EDITOR
             scencesToLoad = Resources.LoadAll<SceneAsset>("SceneLoader");
             LoadAllScenes();
+#endif
         }
     }
 
     [Button("Store paths for build")]
     public void StoreScenesForBuild()
     {
+#if UNITY_EDITOR
         scencesToLoad = Resources.LoadAll<SceneAsset>("SceneLoader");
         StoreScenes();
+#endif
     }
 
     private void StoreScenes()
@@ -47,11 +50,11 @@ public class SceneLoaderForEditor : MonoBehaviour
 
     private void LoadAllScenes()
     {
+#if UNITY_EDITOR
         foreach (SceneAsset scene in scencesToLoad)
         {
-            if (!Application.isPlaying)
-                EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(scene), OpenSceneMode.Additive);
+            EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(scene), OpenSceneMode.Additive);
         }
+#endif
     }
 }
-#endif
