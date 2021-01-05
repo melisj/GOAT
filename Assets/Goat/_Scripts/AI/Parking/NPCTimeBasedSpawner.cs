@@ -8,7 +8,9 @@ namespace Goat.AI.Parking
 {
     public class NPCTimeBasedSpawner : EventListenerBool
     {
-        [SerializeField] private Vector2 spawnTimeRange;
+        [SerializeField] private TimeOfDay timeInfo;
+        [SerializeField] private AnimationCurve spawnTimeCurve;
+        [SerializeField] private float curveDefiation;
         [SerializeField] private ShipSpawner spawner;
 
         private bool day;
@@ -30,7 +32,13 @@ namespace Goat.AI.Parking
 
         public IEnumerator SpawnNpc()
         {
-            float spawnTime = Random.Range(spawnTimeRange.x, spawnTimeRange.y);
+            float timeBetweenDawnAndMorning = timeInfo.TimeOfSunset - timeInfo.TimeOfSunrise;
+            float timeOfDay = timeInfo.TimeOfDayHours - timeInfo.TimeOfSunrise;
+
+            int curveValue = (int)spawnTimeCurve.Evaluate(timeOfDay / (float)timeBetweenDawnAndMorning);
+            float spawnTime = 5;
+            if (curveValue != 0)
+                spawnTime = (60 / curveValue) + Random.Range(-1, 1) * curveDefiation;
             float time = 0;
 
             while (time < spawnTime)
@@ -39,7 +47,8 @@ namespace Goat.AI.Parking
                 yield return null;
             }
 
-            spawner.SpawnShip(1);
+            if(curveValue != 0)
+                spawner.SpawnShip(1);
             spawnRoutine = null;
         }
     }

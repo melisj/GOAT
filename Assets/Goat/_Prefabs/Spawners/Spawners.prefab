@@ -257,5 +257,48 @@ MonoBehaviour:
     SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   subscribers: 0
-  spawnTimeRange: {x: 1, y: 2}
+  timeInfo: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
+  spawnTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5.008848
+      inSlope: 0.8950033
+      outSlope: 0.8950033
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.055354994
+    - serializedVersion: 3
+      time: 0.31756285
+      value: 10.0116005
+      inSlope: 0.091194436
+      outSlope: 0.091194436
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.63167363
+      value: 3.8915503
+      inSlope: -13.53587
+      outSlope: -13.53587
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16304669
+    - serializedVersion: 3
+      time: 1
+      value: -0.00029448466
+      inSlope: 0.012593676
+      outSlope: 0.012593676
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  curveDefiation: 1.01
   spawner: {fileID: 5792046306962520104}
