@@ -1,0 +1,35 @@
+stages:
+  - test
+  - build
+  
+unit-test:
+  stage: test
+  script: "C:\\'Program Files'\\Unity\\Hub\\Editor\\2019.4.14f1\\Editor\\Unity.exe \
+  -batchmode \
+  -projectPath C:/GitLab-Runner/builds/mospKkyx/0/gameplay-engineering/game-studio-autumn-2020/gpe-trive \
+  -runTests -testPlatform editmode \
+  -logFile \
+  -testResults ./unit-tests.xml | Out-Default" 
+  artifacts:
+    when: always
+    paths:
+      - ./unit-tests.xml
+    reports:
+      junit:
+        - ./unit-tests.xml
+  tags: 
+   - unity
+
+
+unity-build:
+  stage: build
+  script: "C:\\'Program Files'\\Unity\\Hub\\Editor\\2019.4.14f1\\Editor\\Unity.exe \
+  -batchmode \
+  -projectPath C:/GitLab-Runner/builds/mospKkyx/0/gameplay-engineering/game-studio-autumn-2020/gpe-trive \
+  -executeMethod BuildScript.PerformBuild \
+  -quit" 
+  artifacts:
+    paths:
+      - ./Build
+  tags:
+    - unity
