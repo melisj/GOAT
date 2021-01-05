@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using Goat.AI;
 
-namespace Goat.AI
-{
-    public class PlaceAudio : AudioCue
+    public class PlaceItemAudio : AudioCue
     {
         [SerializeField] Worker worker;
 
@@ -22,4 +21,3 @@ namespace Goat.AI
             PlayAudioCue();
         }
     }
-}

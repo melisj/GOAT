@@ -559,7 +559,6 @@ MonoBehaviour:
     SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 8c7276c304311e64da48e016b8e4c525, type: 2}
   subscribers: 0
-  reviews: []
   satisfactionLevel: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}
 --- !u!4 &1457055972
 Transform:
@@ -1827,6 +1826,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1777966407, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966407, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: npc
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966408, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: worker
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7797434496293806836, guid: d922195054a33e94ba71fe75affc5d8a,
         type: 3}
       propertyPath: m_LocalPosition.x

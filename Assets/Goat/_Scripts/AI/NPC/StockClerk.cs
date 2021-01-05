@@ -25,7 +25,7 @@ namespace Goat.AI
 
             EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
-            TakeItem takeItem = new TakeItem(this, animator, false);
+            takeItem = new TakeItem(this, animator, false);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             placeItem = new PlaceItem(this, animator);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);

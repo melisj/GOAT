@@ -47,6 +47,8 @@ namespace Goat.AI
         //    //targetDestination = Vector3.one;
         //}
 
+        [HideInInspector] public TakeItem takeItem;
+
         protected virtual void Setup()
         {
             stateMachine = new StateMachine();
