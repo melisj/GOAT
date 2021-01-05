@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioCueEventChannelSO _SFXEventChannel = default;
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play Music")]
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
-    private Dictionary<AudioCueSO, List<SoundEmitter>> audioCuesCreated;
+    private Dictionary<GameObject, List<SoundEmitter>> audioCuesCreated;
     [Header("Audio control")]
     [SerializeField] private AudioMixer audioMixer = default;
     [Range(0f, 1f)]
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         //TODO: Get the initial volume levels from the settings
-        audioCuesCreated = new Dictionary<AudioCueSO, List<SoundEmitter>>();
+        audioCuesCreated = new Dictionary<GameObject, List<SoundEmitter>>();
         _SFXEventChannel.OnAudioCueStopRequested += StopAudioCue;
         _musicEventChannel.OnAudioCueStopRequested += StopAudioCue;
 
@@ -89,14 +89,17 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Plays an AudioCue by requesting the appropriate number of SoundEmitters from the pool.
     /// </summary>
-    public void PlayAudioCue(AudioCueSO audioCue, AudioConfigurationSO settings, Vector3 position = default)
+    public void PlayAudioCue(AudioCue cue, Vector3 position = default, GameObject parent = null)
     {
+        AudioCueSO audioCue = cue.GetAudioCue;
+        AudioConfigurationSO settings = cue.AudioConfiguration;
+
         AudioClip[] clipsToPlay = audioCue.GetClips();
         int nOfClips = clipsToPlay.Length;
         List<SoundEmitter> soundEmitters = new List<SoundEmitter>();
         for (int i = 0; i < nOfClips; i++)
         {
-            SoundEmitter soundEmitter = _factory.Create();
+            SoundEmitter soundEmitter = _factory.Create(position, parent);
             if (soundEmitter != null)
             {
                 soundEmitters.Add(soundEmitter);
@@ -106,12 +109,13 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        audioCuesCreated.Add(audioCue, soundEmitters);
+        if (!audioCuesCreated.ContainsKey(cue.gameObject))
+            audioCuesCreated.Add(cue.gameObject, soundEmitters);
 
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
     }
 
-    public void StopAudioCue(AudioCueSO audioCue)
+    public void StopAudioCue(GameObject audioCue)
     {
         if (!audioCuesCreated.ContainsKey(audioCue)) return;
         audioCuesCreated.TryGetValue(audioCue, out List<SoundEmitter> soundEmitters);

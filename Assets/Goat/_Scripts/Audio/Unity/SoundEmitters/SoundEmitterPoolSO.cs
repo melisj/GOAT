@@ -8,7 +8,7 @@ public class SoundEmitterPoolSO : FactorySO<SoundEmitter>
     [SerializeField]
     private SoundEmitterFactorySO _factory;
 
-    public override SoundEmitter Create()
+    public override SoundEmitter Create(Vector3 pos, GameObject parent)
     {
         throw new System.NotImplementedException();
     }
