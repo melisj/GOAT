@@ -23,6 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   id: 12
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
+  onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
   image: {fileID: 21300000, guid: a8fd83fd0fb6ec94887a9255b5ee6f89, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 45

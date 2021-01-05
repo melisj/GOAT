@@ -13,6 +13,7 @@ public class Buyable : SerializedScriptableObject
 
     [SerializeField, FoldoutGroup("Base Buyable data"), ReadOnly] private int id;
     [SerializeField, FoldoutGroup("Base Buyable data")] private IntEvent onPurchase;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private IntEvent onRefund;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left), ReadOnly] private Sprite image;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
@@ -86,7 +87,10 @@ public class Buyable : SerializedScriptableObject
         if (deliverNow)
             Amount = newTotal;
         if (payNow)
+        {
+            onRefund.Raise((int)(newTotal * price));
             this.money.Amount += newTotal * price;
+        }
     }
 
     public int Amount

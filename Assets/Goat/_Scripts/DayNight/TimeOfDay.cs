@@ -34,6 +34,11 @@ public class TimeOfDay : ScriptableObject
     public string GetTime24Hour => $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
 
     public DateTime Date { get => date; set => date = value; }
+    public bool IsDay { 
+        get { 
+            return timeOfDayHours >= timeOfSunrise && TimeOfDayHours <= timeOfSunset; 
+        } 
+    }
 
     public int TimeOfDayHours { get => timeOfDayHours; set => timeOfDayHours = value; }
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }

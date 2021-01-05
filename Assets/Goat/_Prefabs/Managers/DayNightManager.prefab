@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeOfDay: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
+  isDay: 0
   timeSpeed: 1
   OnChangeCycle: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   timeScale: 1
@@ -60,7 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60fe2a1075c129439b39339f0a39bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: 0
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
   changeLightHandler: {fileID: 0}
-  changeIconHandler: {fileID: 0}
   disableModeSwitchingAtDayHandler: {fileID: 0}

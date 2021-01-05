@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
-  size: 1
+  size: 0.6
   layerMask:
     serializedVersion: 2
     m_Bits: 512

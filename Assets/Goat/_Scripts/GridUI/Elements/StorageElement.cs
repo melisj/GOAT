@@ -158,7 +158,7 @@ namespace Goat.Grid.Interactions.UI
             {
                 DisableIcon(i);
             }
-
+            acceptedResourcesElement.SetActiveCells(interactable);
             for (int i = 0, total = 0; i < inventory.Items.Count; i++)
             {
                 for (int j = 0; j < inventory.Items.ElementAt(i).Value; j++, total++)
