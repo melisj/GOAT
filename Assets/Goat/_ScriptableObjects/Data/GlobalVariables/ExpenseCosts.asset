@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51f8d63912166c46a547ec0c9df19d1, type: 3}
   m_Name: ExpenseCosts
   m_EditorClassIdentifier: 
-  rentPrice: 0
+  rentPrice: 15
   taxPercentage: 0
-  powerCost: 0
+  powerCost: 1

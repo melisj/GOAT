@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using Sirenix.Utilities;
+﻿using Goat.Saving;
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ namespace Goat.Storage
         public delegate void InventoryReset();
         public event InventoryReset InventoryResetEvent;
 
-        public Inventory(int maxCapacity)
+        public Inventory(int maxCapacity, GridObjectsList obj = null)
         {
             itemsInInventory = 0;
             this.capacity = maxCapacity;
@@ -91,16 +90,20 @@ namespace Goat.Storage
             return JsonConvert.SerializeObject(tempStorage);
         }
 
-        public void Load(string storageString, ref GridObjectsList objectList)
+        public void Load(string storageString, GridObjectsList objectList)
         {
+            if (objectList == null) { Debug.LogError("Inventory could not be loaded, the GridObjectList was not found."); return; }
+
+            Items.Clear();
+            itemsInInventory = 0;
             Dictionary<int, int> jsonItems = JsonConvert.DeserializeObject<Dictionary<int, int>>(storageString);
-            Dictionary<Resource, int> items = new Dictionary<Resource, int>();
             foreach (var item in jsonItems)
             {
-                items.Add((Resource)objectList.GetObject(item.Key), item.Value);
+                Items.Add((Resource)objectList.GetObject(item.Key), item.Value);
+                itemsInInventory += item.Value;
             }
 
-            SetInventory(items);
+            InventoryResetEvent?.Invoke();
         }
 
         public void Clear()

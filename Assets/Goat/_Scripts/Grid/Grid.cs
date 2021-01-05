@@ -1,4 +1,5 @@
 ﻿using Goat.Events;
+using Goat.Saving;
 using System.Collections.Generic;
 using System.IO;
 using UnityAtoms.BaseAtoms;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Goat.Grid
 {
-    [RequireComponent(typeof(GridDataHandler))]
+    [RequireComponent(typeof(DataHandler))]
     public class Grid : EventListenerKeyCodeModeEvent
     {
         [Header("Generation")]
@@ -33,7 +34,7 @@ namespace Goat.Grid
         private List<Vector2Int> checkedTiles = new List<Vector2Int>();
         private float objectRotationAngle;                              // Rotation of preview object
 
-        private GridDataHandler dataHandler;
+        private DataHandler dataHandler;
 
         private Tile currentTile;
         private Tile leftTile, rightTile, upTile, downTile;
@@ -51,16 +52,6 @@ namespace Goat.Grid
         {
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();
-
-            try
-            {
-                dataHandler = GetComponent<GridDataHandler>();
-                dataHandler.LoadGrid();
-            }
-            catch (FileNotFoundException e)
-            {
-                print(e);
-            }
 
             //InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             //InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
@@ -370,6 +361,8 @@ namespace Goat.Grid
             previewObject = Instantiate(previewPrefab);
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
+
+            previewObject.SetActive(false);
 
             previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
             for (int i = 0; i < previewObjectMesh.Length; i++)

@@ -20,11 +20,10 @@ public partial class DayNightCycle : MonoBehaviour
     //the regular speed of the day + clock. not to be confused with time manipulation
     [SerializeField] private int timeSpeed = 1;
     [SerializeField] private BoolEvent OnChangeCycle;
-    [SerializeField, ProgressBar(1, 10)] private int timeScale;
+    [SerializeField, Range(1, 100)] private int timeScale;
 
     //Events for OnDayTime and OnNightTime
     //public event EventHandler<bool> OnChangeCycle;
-    private DateTime Date;
 
     private void Start()
     {

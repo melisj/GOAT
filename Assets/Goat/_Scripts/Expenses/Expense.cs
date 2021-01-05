@@ -1,12 +1,14 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Goat.Expenses
 {
+    [System.Serializable]
     public class Expense
     {
-        private int price;
-        private string name;
-        private Action onFullPay;
+        [SerializeField] private int price;
+        [SerializeField] private string name;
+        [SerializeField] private Action onFullPay;
 
         public Expense(int price, string name, Action onFullPay)
         {

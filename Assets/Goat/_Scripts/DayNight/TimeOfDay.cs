@@ -38,6 +38,7 @@ public class TimeOfDay : ScriptableObject
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
+    public DateTime Date { get => date; set => date = value; }
     private CultureInfo usInfo;
 
     public string GetDate()
@@ -65,7 +66,7 @@ public class TimeOfDay : ScriptableObject
             bool newMonth = (CheckForNewMonth(currentDay));
             currentDay = value;
 
-            date.AddDays(1);
+            date = date.AddDays(1);
 
             if (newMonth)
                 onMonthChanged.Raise(date.Month);
@@ -85,7 +86,7 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            if(Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
             {
                 onTime24Changed.Raise(GetTime24Hour);
                 onTime12Changed.Raise(GetTime12Hour);
