@@ -50,6 +50,10 @@ namespace Goat.Player
 
                     interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
                 });
+                if (i == 0)
+                {
+                    uiCells[i].InvokeOnClick();
+                }
             }
         }
 

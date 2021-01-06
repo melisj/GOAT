@@ -893,7 +893,7 @@ MonoBehaviour:
   size: 0.6
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1835520
   onlyNearest: 1
   maxAmountColliders: 0
   repeatDetectionOverTime: 1

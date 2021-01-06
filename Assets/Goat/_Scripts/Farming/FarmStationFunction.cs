@@ -74,12 +74,19 @@ namespace Goat.Farming
         {
             if (!tubeEnds.Add(tubeEnd))
                 return null;
-            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, pos, Quaternion.identity, null);
+            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, GetGroundPositionAt(pos), Quaternion.identity, null);
             resPackObj.name = "ResourcePack-" + farmStationSettings.ResourceFarm.name.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
             resPack.SetupResPack(farmStationSettings.ResourceFarm, amount);
             resPacks.Add(resPack);
             return resPack;
+        }
+
+        private Vector3 GetGroundPositionAt(Vector3 pos)
+        {
+            RaycastHit hit = new RaycastHit();
+            Physics.Raycast(pos, Vector3.down, out hit, floorLayer);
+            return hit.point;
         }
 
         private void AddResource()

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6562094742184137499}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 6562094742628212421}
   - component: {fileID: 6562094742628212427}
   - component: {fileID: 6562094742628212426}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2722855070482406779}
   - component: {fileID: 5999040357800013171}
   - component: {fileID: 4339126204538731059}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: CooledStorageShelf-1
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 6562094743352375191}
   - component: {fileID: 6562094743352375189}
   - component: {fileID: 6562094743352375188}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6562094743433783357}
   - component: {fileID: 6562094743433783298}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 6562094743719080173}
   - component: {fileID: 6562094743719080172}
   - component: {fileID: 9068637438555171963}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}

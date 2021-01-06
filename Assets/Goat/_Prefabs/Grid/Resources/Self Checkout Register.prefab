@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7921306109534318761}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: QueueStartingPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 2105176321139481442}
   - component: {fileID: 8823321982164900525}
   - component: {fileID: 3596553023212253081}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Self Checkout Register
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -79,6 +79,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 0
+  adjustPosition: {fileID: 0}
   description: Self Checkout Register for customers
   costsPower: 0
   powerCost: 0
@@ -114,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2772437290081276289}
   - component: {fileID: 7129086128133044565}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Model Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +166,7 @@ GameObject:
   - component: {fileID: 7541183449215225618}
   - component: {fileID: 5711511202683141080}
   - component: {fileID: 4833795276762177596}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
