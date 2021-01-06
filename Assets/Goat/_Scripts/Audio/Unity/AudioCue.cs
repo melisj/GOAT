@@ -27,6 +27,10 @@ public class AudioCue : MonoBehaviour
 
     public void PlayAudioCue()
     {
+        if (!parent)
+        {
+            parent = transform;
+        }
         _audioCueEventChannel.RaiseEvent(this, parent.position, parent);
     }
 

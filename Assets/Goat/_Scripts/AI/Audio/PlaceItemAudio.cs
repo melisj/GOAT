@@ -7,6 +7,11 @@ public class PlaceItemAudio : AudioCue
 {
     [SerializeField] private StorageInteractable storage;
 
+    private void Awake()
+    {
+        parent = transform.parent;
+    }
+
     private void OnEnable()
     {
         storage.Inventory.InventoryAddedEvent += Inventory_InventoryAddedEvent;

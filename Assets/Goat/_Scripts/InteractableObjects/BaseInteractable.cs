@@ -98,7 +98,7 @@ namespace Goat.Grid.Interactions
         public virtual void OpenUI()
         {
             //gridUIInfo.CurrentUIElement = UIElement.Interactable;
-            Debug.Log("Is this even called?");
+            //Debug.Log("Is this even called?");
             info.CurrentSelected = this;
         }
 
@@ -106,7 +106,7 @@ namespace Goat.Grid.Interactions
         public virtual void CloseUI()
         {
             //gridUIInfo.CurrentUIElement = UIElement.None;
-            Debug.Log("Apparently yes, but it's closed now");
+            //Debug.Log("Apparently yes, but it's closed now");
 
             IsClickedOn = false;
             info.CurrentSelected = null;
@@ -127,7 +127,7 @@ namespace Goat.Grid.Interactions
 
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
-            if(adjustPosition != null)
+            if (adjustPosition != null)
                 adjustPosition.Setup();
             InteractableManager.InteractableClickEvt += IsClicked;
         }

@@ -51,6 +51,7 @@ MonoBehaviour:
   _audioConfiguration: {fileID: 11400000, guid: 903c3ac76b42103478dbdbaa5aa3a436,
     type: 2}
   navAgent: {fileID: 7797434497063600305}
+  delay: 0.25
 --- !u!1 &7797434495778285235
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +946,7 @@ MonoBehaviour:
   size: 0.6
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1835008
   onlyNearest: 1
   maxAmountColliders: 0
   repeatDetectionOverTime: 1

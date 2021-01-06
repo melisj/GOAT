@@ -23,17 +23,17 @@ namespace Goat.AI
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Collider entered" + other.name);
+            //Debug.Log("Collider entered" + other.name);
             ResourcePack resource = other.GetComponent<ResourcePack>();
             if (resource != null)
             {
                 int amountAdded = 0;
                 if (forNPC) npc.Inventory.Add(resource.Resource, (int)resource.Amount, out amountAdded);
-                else if(forPlayer) playerInv.Inventory.Add(resource.Resource, (int)resource.Amount, out amountAdded);
+                else if (forPlayer) playerInv.Inventory.Add(resource.Resource, (int)resource.Amount, out amountAdded);
 
                 resource.Amount -= amountAdded;
 
-                if(amountAdded > 0)
+                if (amountAdded > 0)
                     Debug.LogFormat("picked up {0}", resource.name);
 
                 if (resource.Amount <= 0 && amountAdded != 0)
@@ -42,4 +42,3 @@ namespace Goat.AI
         }
     }
 }
-

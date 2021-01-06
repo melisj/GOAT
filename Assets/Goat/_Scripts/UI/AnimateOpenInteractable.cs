@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 using Goat.Events;
 using Goat.Grid.Interactions;
 using Goat.Grid.UI;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.UI
 {
@@ -12,7 +13,7 @@ namespace Goat.UI
         [Title("Settings")]
         [SerializeField, Range(2, 5)] private int closingMultiplier;
         [SerializeField] private float scalingDuration;
-
+        [SerializeField] private VoidEvent closeButtonEvent;
         [Title("Refs")]
         [SerializeField] private GridUIInfo uiInfo;
         [SerializeField] private AnimateOpenWindow windowOpener;
@@ -37,6 +38,7 @@ namespace Goat.UI
             }
             if (uiInfo.CurrentUIElement != UIElement.Interactable)
             {
+                closeButtonEvent.Raise();
                 windowOpener.OpenWindow(() => OpenInteractable(value), () => CloseInteractable(value));
                 return;
             }
