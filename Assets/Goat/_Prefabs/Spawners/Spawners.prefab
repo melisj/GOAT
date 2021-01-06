@@ -45,7 +45,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parkingHandler: {fileID: 5792046307506646369}
   parkingInfo: {fileID: 11400000, guid: bf23c1689dc53d344880ebd4026503f7, type: 2}
-  arrivalHeight: 15
+  arrivalPath:
+  - RelativePosition: {x: 0, y: 15, z: -5}
+    accuracy: 5
+  - RelativePosition: {x: 0, y: 0, z: 0}
+    accuracy: 0.1
+  departurePath:
+  - RelativePosition: {x: 0, y: 15, z: 10}
+    accuracy: 5
+  - RelativePosition: {x: 0, y: 50, z: 100}
+    accuracy: 15
+  debug: 0
+  lineColor: {r: 1, g: 1, b: 0, a: 1}
+  sphereColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &5792046306962520105
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +103,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parkingHandler: {fileID: 5792046307506646369}
   parkingInfo: {fileID: 11400000, guid: 6ca13f1c83e4ca14a89c758e4d49ca74, type: 2}
-  arrivalHeight: 15
+  arrivalPath:
+  - RelativePosition: {x: 0, y: 15, z: -5}
+    accuracy: 5
+  - RelativePosition: {x: 0, y: 0, z: 0}
+    accuracy: 0.1
+  departurePath:
+  - RelativePosition: {x: 0, y: 15, z: 10}
+    accuracy: 5
+  - RelativePosition: {x: 0, y: 50, z: 100}
+    accuracy: 15
+  debug: 1
+  lineColor: {r: 1, g: 1, b: 0, a: 1}
+  sphereColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &5792046307506646398
 GameObject:
   m_ObjectHideFlags: 0

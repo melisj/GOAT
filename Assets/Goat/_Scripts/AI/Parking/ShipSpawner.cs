@@ -1,20 +1,33 @@
 ﻿using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
-using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.AI.Parking
 {
+    [System.Serializable]
+    public class FlightPath
+    {
+        public Vector3 RelativePosition;
+        public float accuracy;
+    }
+
     public class ShipSpawner : MonoBehaviour
     {
         [SerializeField] private ParkingSpots parkingHandler;
         [SerializeField] private Parking parkingInfo;
 
-        [Header("Settings")]
-        [SerializeField] private float arrivalHeight;
-        public float ArrivalHeight => arrivalHeight;
+        [Header("Paths")]
+        [SerializeField] private FlightPath[] arrivalPath;
+        [SerializeField] private FlightPath[] departurePath;
+
+        public FlightPath[] ArrivalPath => arrivalPath;
+        public FlightPath[] DeparturePath => departurePath;
+
+        [Header("Debug")]
+        [SerializeField] private bool debug;
+        [SerializeField, ShowIf("debug")] private Color lineColor;
+        [SerializeField, ShowIf("debug")] private Color sphereColor;
 
         [Button("Spawn Ship Random", ButtonSizes.Large)]
         public virtual void SpawnShip(int amountPassengers)
@@ -52,9 +65,16 @@ namespace Goat.AI.Parking
         {
             ship.AmountPassengers = amountPassengers;
             ship.Spawner = this;
-            ship.AddFlightPath(parkingSpot.position + new Vector3(0, arrivalHeight, 0), 5);
-            ship.AddFlightPath(parkingSpot.position, 0.1f);
+            SetFlightPath(ship, arrivalPath, parkingSpot);
             ship.ParkingSpot = parkingSpot;
+        }
+
+        public virtual void SetFlightPath(NPCShip ship, FlightPath[] flightPath, ParkingSpots.ParkingSpot parkingSpot)
+        {
+            foreach(FlightPath path in flightPath)
+            {
+                ship.AddFlightPath(path.RelativePosition + parkingSpot.position, path.accuracy);
+            }
         }
 
         protected virtual IEnumerator SpawnSequence(ParkingSpots.ParkingSpot parkingSpot, int amountPassengers)
@@ -76,12 +96,42 @@ namespace Goat.AI.Parking
         public IEnumerator DespawnSequence(NPCShip ship)
         {
             PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, ship.transform.position, ship.transform.rotation);
-
             // Do ship animation
 
             yield return new WaitForSeconds(2);
 
             PoolManager.Instance.ReturnToPool(ship.gameObject);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (debug)
+            {
+                if (parkingHandler.ParkingList != null && parkingHandler.ParkingList.Length != 0)
+                {
+                    Vector3 firstSpot = parkingHandler.ParkingList[0].position;
+                    ShowPath(firstSpot, arrivalPath);
+                    ShowPath(firstSpot, departurePath);
+                }
+            }
+        }
+
+        private void ShowPath(Vector3 fromPosition, FlightPath[] flightPath)
+        {
+            for (int i = 0; i < flightPath.Length; i++)
+            {
+                Gizmos.color = sphereColor;
+                Gizmos.DrawSphere(fromPosition + flightPath[i].RelativePosition, 1f);
+
+                Gizmos.color = lineColor;
+                if (i == 0) 
+                    Gizmos.DrawLine(fromPosition, fromPosition + flightPath[i].RelativePosition);
+                else if(i == flightPath.Length - 2)
+                    Gizmos.DrawLine(fromPosition + flightPath[i].RelativePosition, fromPosition + flightPath[i + 1].RelativePosition);
+
+                Gizmos.color = sphereColor - new Color(0, 0, 0, 0.6f);
+                Gizmos.DrawSphere(fromPosition + flightPath[i].RelativePosition, flightPath[i].accuracy);
+            }
         }
     }
 }
