@@ -21,10 +21,10 @@ MonoBehaviour:
   PanStereo: 0
   ReverbZoneMix: 1
   SpatialBlend: 1
-  RolloffMode: 0
+  RolloffMode: 1
   MinDistance: 0.1
-  MaxDistance: 10
-  Spread: 0
+  MaxDistance: 50
+  Spread: 360
   DopplerLevel: 1
   BypassEffects: 0
   BypassListenerEffects: 0
