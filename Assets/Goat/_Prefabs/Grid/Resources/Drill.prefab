@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5407806778154286816}
   - component: {fileID: 3972930911312797797}
   - component: {fileID: 2227073633200823504}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: FarmMetal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4621817197677462847}
   - component: {fileID: 6047925324368337095}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: FarmMetal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,9 @@ GameObject:
   - component: {fileID: 6257709004261703043}
   - component: {fileID: 1110723869718704107}
   - component: {fileID: -556596974947358034}
-  m_Layer: 12
+  - component: {fileID: 8428477037894498475}
+  - component: {fileID: 8479345339946235243}
+  m_Layer: 17
   m_Name: Drill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,6 +178,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9297d7a092e47a4481b05905d15d3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: tubeEnds
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   farmStationSettings: {fileID: 11400000, guid: 26f712f9b898ce34190c02cf4aa7d3e9,
     type: 2}
   radius: 0.3
@@ -189,6 +213,8 @@ MonoBehaviour:
   debugPathIndex: 0
   connectedTubes: []
   onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  resPacks: []
+  cue: {fileID: 8479345339946235243}
 --- !u!114 &-556596974947358034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,8 +235,11 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+    SerializationNodes:
+    - Name: endTubes
+      Entry: 6
+      Data: 
+  subscribedEvent: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
   subscribers: 0
   farmStation: {fileID: 1110723869718704107}
   collidedTubes: []
@@ -218,7 +247,37 @@ MonoBehaviour:
     points: []
   paths: []
   colors: []
-  nodes: []
+--- !u!114 &8428477037894498475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bdecaa1459c6a49befbe1b71562f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeable: {fileID: 0}
+--- !u!114 &8479345339946235243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: e293cedf4034279448adf64254022fdf, type: 2}
+  _playOnStart: 0
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
+    type: 2}
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +289,7 @@ GameObject:
   - component: {fileID: 6257709004557095268}
   - component: {fileID: 7162852030555837538}
   - component: {fileID: 5711712267664799546}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +351,7 @@ GameObject:
   - component: {fileID: 3391700086595273273}
   - component: {fileID: 7368709901713546992}
   - component: {fileID: 7591882927653900480}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: FarmMetal(Drill)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

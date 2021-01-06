@@ -5,6 +5,9 @@ using UnityAtoms;
 using UnityAtoms.BaseAtoms;
 using Goat.Grid.Interactions;
 using Sirenix.OdinInspector;
+using Goat.Grid;
+using Goat.AI.Parking;
+using Goat.Expenses;
 
 namespace Goat.Events
 {
@@ -63,6 +66,10 @@ namespace Goat.Events
 
     public abstract class EventListenerVector3 : EventListener<Vector3, Vector3Event> { }
 
+    public abstract class EventListenerVector3WithOwner : EventListener<WithOwner<Vector3>, Vector3OwnerEvent> { }
+
+    public abstract class EventListenerVector3HashSetEvent : EventListener<WithOwner<HashSet<Vector3>>, Vector3HashSetEvent> { }
+
     public abstract class EventListenerFloat : EventListener<float, FloatEvent> { }
 
     public abstract class EventListenerBool : EventListener<bool, BoolEvent> { }
@@ -75,5 +82,13 @@ namespace Goat.Events
 
     public abstract class EventListenerPlaceable : EventListener<Placeable, PlaceableEvent> { }
 
+    public abstract class EventListenerReview : EventListener<Review, ReviewEvent> { }
+
     public abstract class EventListenerDeliveryResource : EventListener<DeliveryResource, DeliveryResourceEvent> { }
+
+    public abstract class EventListenerHiredEmployee : EventListener<HiredEmployee, HiredEmployeeEvent> { }
+
+    public abstract class EventListenerExpenseEvent : EventListener<Expense, ExpenseEvent> { }
+
+    public abstract class EventListenerInteractable : EventListener<BaseInteractable, InteractableEvent> { }
 }

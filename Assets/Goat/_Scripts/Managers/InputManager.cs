@@ -62,13 +62,13 @@ namespace Goat
             return isHitting;
         }
 
-        private void Update()
-        {
-            if (!inputFieldSelected.Value)
-            {
-                CheckKeys();
-            }
-        }
+        //private void Update()
+        //{
+        //    if (!inputFieldSelected.Value)
+        //    {
+        //        CheckKeys();
+        //    }
+        //}
 
         private void CheckKeys()
         {
@@ -87,7 +87,7 @@ namespace Goat
                     {
                         currentMode |= KeyMode.Up;
                         // OnInputEvent.Invoke(currentCode, currentMode, InputMode);
-
+                        keyCodeMode.Item2 = currentMode;
                         onNewInput.Raise(keyCodeMode);
                         currentMode &= ~KeyMode.Up;
                     }
@@ -97,6 +97,7 @@ namespace Goat
                     if (Input.GetKeyDown(currentCode))
                     {
                         currentMode |= KeyMode.Down;
+                        keyCodeMode.Item2 = currentMode;
 
                         // OnInputEvent.Invoke(currentCode, currentMode, InputMode);
                         onNewInput.Raise(keyCodeMode);
@@ -109,6 +110,7 @@ namespace Goat
                     if (Input.GetKey(currentCode))
                     {
                         currentMode |= KeyMode.Pressed;
+                        keyCodeMode.Item2 = currentMode;
 
                         //   OnInputEvent.Invoke(currentCode, currentMode, InputMode);
                         onNewInput.Raise(keyCodeMode);

@@ -1,4 +1,5 @@
 ﻿using Goat.Events;
+using Goat.Saving;
 using System.Collections.Generic;
 using System.IO;
 using UnityAtoms.BaseAtoms;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Goat.Grid
 {
-    [RequireComponent(typeof(GridDataHandler))]
+    [RequireComponent(typeof(DataHandler))]
     public class Grid : EventListenerKeyCodeModeEvent
     {
         [Header("Generation")]
@@ -33,12 +34,10 @@ namespace Goat.Grid
         private List<Vector2Int> checkedTiles = new List<Vector2Int>();
         private float objectRotationAngle;                              // Rotation of preview object
 
-        private GridDataHandler dataHandler;
-
         private Tile currentTile;
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
-        private Tile previousAutoTile = null;
+        private Placeable previousAutoPlaceable = null;
 
         private Vector2Int currentTileIndex;
         private bool autoWalls;
@@ -51,16 +50,6 @@ namespace Goat.Grid
         {
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();
-
-            try
-            {
-                dataHandler = GetComponent<GridDataHandler>();
-                dataHandler.LoadGrid();
-            }
-            catch (FileNotFoundException e)
-            {
-                print(e);
-            }
 
             //InputManager.Instance.OnInputEvent += Instance_OnInputEvent;
             //InputManager.Instance.InputModeChanged += Instance_InputModeChanged;
@@ -115,7 +104,7 @@ namespace Goat.Grid
         {
             if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
-                if (keyCode == KeyCode.Mouse0 && keyMode.HasFlag(KeyMode.Pressed))
+                if (keyCode == KeyCode.Mouse0 && (DestroyMode ? keyMode.HasFlag(KeyMode.Down) : keyMode.HasFlag(KeyMode.Pressed)))
                 {
                     if (currentTile != null)
                     {
@@ -123,17 +112,11 @@ namespace Goat.Grid
                         if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
                             && !(previewPlaceableInfo is Wall))
                         {
-                            if (currentTile != previousAutoTile)
-                                SetupNeighborTiles(currentTileIndex);
+                            //if (previewPlaceableInfo != previousAutoPlaceable)
+                            SetupNeighborTiles(currentTileIndex);
                         }
-                        //  if (autoWalls && currentTile != previousAutoTile && CanPayAuto(currentTileIndex))
-                        //    {
-                        //if (!(previewPlaceableInfo is Wall))
-                        //{
-                        //}
-                        //    }
 
-                        previousAutoTile = currentTile;
+                        previousAutoPlaceable = previewPlaceableInfo;
                     }
                 }
                 if (keyCode == KeyCode.R && keyMode.HasFlag(KeyMode.Down))
@@ -142,20 +125,33 @@ namespace Goat.Grid
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                 }
-                if (keyCode == KeyCode.T && keyMode.HasFlag(KeyMode.Down))
+            }
+        }
+
+        private void OnInput()
+        {
+            if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
+            {
+                if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
+                {
+                    if (currentTile != null)
+                    {
+                        checkedTiles.Clear();
+                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
+                            && !(previewPlaceableInfo is Wall))
+                        {
+                            //if (previewPlaceableInfo != previousAutoPlaceable)
+                            SetupNeighborTiles(currentTileIndex);
+                        }
+
+                        previousAutoPlaceable = previewPlaceableInfo;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.R))
                 {
                     // Always has to rotate a 90 degrees
-                    //checkedTiles.Clear();
-                    //autoWalls = !autoWalls;
-                    ////   if (autoWalls && currentTile != previousAutoTile && CanPayAuto(currentTileIndex))
-                    ////     {
-                    //checkedTiles.Clear();
-                    //SetupNeighborTiles(currentTileIndex);
-                    //AutoPayment();
-                    //   }
-
-                    previousAutoTile = currentTile;
-                    Debug.Log("Automode is " + (autoWalls ? "On" : "Off"));
+                    objectRotationAngle = (objectRotationAngle + 90) % 360;
+                    if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                 }
             }
         }
@@ -172,6 +168,7 @@ namespace Goat.Grid
         private void Update()
         {
             EditTile();
+            OnInput();
         }
 
         private void SetupNeighborTiles(Vector2Int index)
@@ -327,7 +324,7 @@ namespace Goat.Grid
         private void HighlightTile(Tile selectedTile)
         {
             // Show al objects on previous tile
-            if (previousTile != null && !DestroyMode)
+            if (previousTile != null)
             {
                 previousTile.ShowTile(true, objectRotationAngle);
             }
@@ -336,7 +333,7 @@ namespace Goat.Grid
             if (selectedTile != null)
             {
                 ChangeMaterialColor(!selectedTile.CheckForFloor(previewPlaceableInfo, objectRotationAngle, DestroyMode), DestroyMode);
-                if (currentMode.InputMode == InputMode.Edit)
+                if (currentMode.InputMode != InputMode.Select)
                 {
                     selectedTile.ShowTile(false, objectRotationAngle, previewPlaceableInfo);
                 }
@@ -362,6 +359,8 @@ namespace Goat.Grid
             previewObject = Instantiate(previewPrefab);
             previewObject.transform.SetParent(transform.parent);
             previewObject.transform.localScale = Vector3.one * tileSize;
+
+            previewObject.SetActive(false);
 
             previewObjectMesh = previewObject.GetComponentsInChildren<MeshFilter>();
             for (int i = 0; i < previewObjectMesh.Length; i++)

@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 293326a40adc7af44a6f36fa2e5f1d9c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - navMeshAgent: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - targetStorage: {instanceID: 0}
+  - review: {instanceID: 0}
+  - feelings: {instanceID: 0}
+  - entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
+  - resourcesInProject: {fileID: 11400000, guid: fccc7482542f53747b198b1207452a9e,
+      type: 2}
+  - fov: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

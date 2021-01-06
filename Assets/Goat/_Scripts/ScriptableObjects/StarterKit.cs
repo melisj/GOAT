@@ -1,4 +1,6 @@
-﻿using Goat.Storage;
+﻿using Goat.Grid.UI;
+using Goat.Player;
+using Goat.Storage;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using static DayNightCycle;
@@ -8,6 +10,9 @@ public class StarterKit : MonoBehaviour
     [SerializeField] private Money money;
     [SerializeField] private Electricity electricity;
     [SerializeField] private TimeOfDay timeOfDay;
+    [SerializeField] private PlayerInventory playerInventory;
+    [SerializeField] private SatisfactionLevel satisfactionLevel;
+    [SerializeField] private GridUIInfo uiInfo;
 
     private void Awake()
     {
@@ -23,7 +28,10 @@ public class StarterKit : MonoBehaviour
             buyables[i].Amount = buyables[i].StarterAmount;
         }
         timeOfDay.Reset();
+        satisfactionLevel.Satisfaction = 0;
         money.Amount = money.StarterAmount;
+        playerInventory.InitInventory();
+        uiInfo.CurrentUIElement = UIElement.None;
     }
 
     private void OnDisable()

@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Goat.AI.Parking;
 using Goat.Events;
 using Goat.Farming;
 using Goat.Pooling;
@@ -23,6 +24,7 @@ namespace Goat.UI
         [SerializeField] private RectTransform deliveryAmountIcon;
         [SerializeField] private TextMeshProUGUI deliveryAmount;
         [SerializeField] private RectTransform stationsGrid;
+        [SerializeField] private RectTransform employeesGrid;
         [Title("Information window")]
         [SerializeField] private TextMeshProUGUI summary;
         [SerializeField] private TextMeshProUGUI price;
@@ -31,9 +33,9 @@ namespace Goat.UI
         [SerializeField] private GameObject informationWindow;
         [Title("Selected")]
         [SerializeField] private Button buyButton;
-        //
-        private RectTransform buyButtonTransform;
 
+        private RectTransform buyButtonTransform;
+        private TextMeshProUGUI buyButtonText;
         private int currentAmount;
         private int currentDeliveryAmount;
 
@@ -49,6 +51,7 @@ namespace Goat.UI
 
             buyButtonInputTransform = buyButton.transform.parent.GetComponent<RectTransform>();
             buyButtonTransform = buyButton.GetComponent<RectTransform>();
+            buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buyButtonInputTransform.localScale = new Vector3(0, 0, 1);
             buyButton.onClick.AddListener(Buy);
         }
@@ -86,7 +89,7 @@ namespace Goat.UI
             //26/6 * (X DIGITS -1)
             bool notEnoughMoney = (currentAmount * currentBuyable.Price) < currentBuyable.Money.Amount;
             if (!AnimateBuyButton(currentAmount > 0 && notEnoughMoney)) return;
-            if (currentBuyable.DeliveryTime > 0)
+            if (currentBuyable.Deliverable)
             {
                 currentBuyable.Buy(currentAmount, -1, true, false);
 
@@ -119,11 +122,13 @@ namespace Goat.UI
             base.SetupCellPositions();
             SetupGrid(resourcesGrid, "Resource");
             SetupGrid(stationsGrid, "Farming");
+            SetupGrid(employeesGrid, "Employees");
         }
 
         protected override void OnCellClick(Buyable buyable, int cellIndex)
         {
             base.OnCellClick(buyable, cellIndex);
+            buyButtonText.text = buyable is HiredEmployee ? "HIRE" : "BUY";
             informationWindow.SetActive(true);
         }
 
@@ -153,14 +158,8 @@ namespace Goat.UI
 
             DeliveryUI delivery = deliveryCell.GetComponent<DeliveryUI>();
             delivery.Setup(buyable, amount);
-            //delivery.Amount.text = "x" + amount.ToString();
-            //delivery.Name.text = deliveryCell.name;
-            //delivery.Image.sprite = buyable.Image;
             delivery.ProgressBar.DOFillAmount(1, buyable.DeliveryTime).OnComplete(() =>
             {
-                //buyable.Amount += amount;
-                // buyable.Buy(amount, -1, false, true);
-                Debug.Log("Delivery");
                 deliveryIncoming.Raise(new DeliveryResource(buyable, amount));
                 currentDeliveryAmount--;
                 if (currentDeliveryAmount == 0)
@@ -210,6 +209,13 @@ namespace Goat.UI
                 {
                     stringBuilder.AppendLine("Production cost: " + station.CostPerSecond + "/s");
                 }
+            }
+
+            if (buyable is HiredEmployee)
+            {
+                HiredEmployee hiredEmployee = (HiredEmployee)buyable;
+
+                stringBuilder.AppendLine($"Salary: {hiredEmployee.Salary}/day");
             }
 
             extraData.text = stringBuilder.ToString();

@@ -6,6 +6,7 @@ using System;
 using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using System.Globalization;
 
 public partial class DayNightCycle : MonoBehaviour
 {

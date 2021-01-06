@@ -1,11 +1,9 @@
 ﻿using Goat.Events;
-using Goat.Grid.UI;
 using Goat.Storage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-using Goat.Events;
+using Goat.Player;
 
 // Original Author: Stanley
 
@@ -19,6 +17,7 @@ namespace Goat.Grid.Interactions.UI
         [Header("Resource UI")]
         [SerializeField] private Resource resource;
         [SerializeField] private GameObject stockingUI;
+        [SerializeField] private TextMeshProUGUI stockButtonText;
         [SerializeField] private TextMeshProUGUI resourceName;
         //[SerializeField] private TextMeshProUGUI stock;
         //[SerializeField] private Image resourceImage;
@@ -32,29 +31,37 @@ namespace Goat.Grid.Interactions.UI
         [Header("References")]
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private InteractablesInfo interactableInfo;
+        [SerializeField] private PlayerInventory playerInventory;
+
+        public GameObject StockingUIElement => stockingUI;
+        public TextMeshProUGUI StockButtonText => stockButtonText;
 
         private int currentAmount;
         private Resource previousResource;
 
-        public StorageInteractable Interactable { get { return (StorageInteractable)interactableInfo.CurrentSelected; } }
-
         public Resource Resource
         {
             get => resource;
-            set
-            {
-                resource = value;
-                if (previousResource != resource)
-                {
-                    OnResourceChanged();
-                }
-            }
+            private set => resource = value;
+        }
+
+        public void ChangeResource(Resource resource, Inventory from, Inventory to)
+        {
+            Resource = resource;
+            OnResourceChanged(from, to);
+        }
+
+        public void ChangeResource(Resource resource, Inventory from, StorageInteractable toInteractable)
+        {
+            Resource = resource;
+            if (toInteractable)
+                OnResourceChanged(from, toInteractable.Inventory);
         }
 
         private void Awake()
         {
             previousResource = resource;
-            SetupUI();
+            SetupUI(null, null);
         }
 
         public override void OnEventRaised(KeyCodeMode value)
@@ -66,6 +73,28 @@ namespace Goat.Grid.Interactions.UI
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (currentMode.InputMode == InputMode.Select &&
+                stockingUI.activeInHierarchy)
+            {
+                if (Input.GetKeyDown(KeyCode.KeypadEnter) | Input.GetKeyDown(KeyCode.Return))
+                {
+                    sellButton.onClick.Invoke();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    maxAmountButton.onClick.Invoke();
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    minAmountButton.onClick.Invoke();
+                }
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode keyMode)
         {
             if (keyMode == KeyMode.Down &&
@@ -74,77 +103,84 @@ namespace Goat.Grid.Interactions.UI
             {
                 if (code == KeyCode.KeypadEnter | code == KeyCode.Return)
                 {
-                    ConfirmStocking();
+                    sellButton.onClick.Invoke();
                 }
 
                 if (code == KeyCode.F)
                 {
-                    MaxAmount();
+                    maxAmountButton.onClick.Invoke();
                 }
 
                 if (code == KeyCode.E)
                 {
-                    MinAmount();
+                    minAmountButton.onClick.Invoke();
                 }
             }
         }
 
-        private void OnResourceChanged()
+        private void OnResourceChanged(Inventory from, Inventory to)
         {
             RemoveListeners();
             previousResource = resource;
-            SetupUI();
+            SetupUI(from, to);
         }
 
-        private void SetupUI()
+        private void SetupUI(Inventory from, Inventory to)
         {
             SetupResourceUI();
-            SetupInputUI();
-            SetButtonUI();
+            SetupInputUI(from, to);
+            SetButtonUI(from, to);
         }
 
         private void SetupResourceUI()
         {
-            resourceName.text = resource.name.ToString();
-            //stock.text = resource.Amount.ToString();
-            //resourceImage.sprite = resource.Image;
+            if (resourceName)
+                resourceName.text = resource.name.ToString();
             resource.AmountChanged += Resource_AmountChanged;
         }
 
-        private void SetupInputUI()
+        private void SetupInputUI(Inventory from, Inventory to)
         {
-            amountInput.onValueChanged.AddListener(OnEndEditAmount);
-            MinAmount();
+            amountInput.onValueChanged.AddListener((s) => OnEndEditAmount(s, from));
+            MinAmount(from, to);
         }
 
-        private void SetButtonUI()
+        private void SetButtonUI(Inventory from, Inventory to)
         {
-            minAmountButton.onClick.AddListener(MinAmount);
-            maxAmountButton.onClick.AddListener(MaxAmount);
-            sellButton.onClick.AddListener(ConfirmStocking);
+            if (minAmountButton)
+                minAmountButton.onClick.AddListener(() => MinAmount(from, to));
+            if (maxAmountButton)
+                maxAmountButton.onClick.AddListener(() => MaxAmount(from, to));
+            sellButton.onClick.AddListener(() => ConfirmStocking(from, to));
         }
 
         #region EventMethods
 
-        private void MaxAmount()
+        private void MaxAmount(Inventory from, Inventory to)
         {
-            amountInput.text = Interactable.SpaceLeft.ToString();
+            from.Items.TryGetValue(resource, out int amount);
+            amountInput.text = Mathf.Min(amount, to.SpaceLeft).ToString();
         }
 
-        private void MinAmount()
+        private void MinAmount(Inventory from, Inventory to)
         {
-            if (Interactable)
-                amountInput.text = Interactable.SpaceLeft > 0 ? 1.ToString() : Interactable.SpaceLeft.ToString();
-        }
-
-        private void ConfirmStocking()
-        {
-            currentAmount = (resource.Amount - currentAmount) <= 0 ? resource.Amount : currentAmount;
-            if (Interactable.AddResource(resource, currentAmount, out int actualStoredAmount))
+            if (from != null)
             {
-                resource.Amount -= actualStoredAmount;
-                stockingUI.SetActive(false);
+                from.Items.TryGetValue(resource, out int amount);
+                int minimalValue = Mathf.Min(amount, to.SpaceLeft);
+                amountInput.text = minimalValue > 0 ? "1" : minimalValue.ToString();
             }
+        }
+
+        private void ConfirmStocking(Inventory from, Inventory to)
+        {
+            from.Items.TryGetValue(resource, out int fromResourceAmount);
+            currentAmount = (fromResourceAmount - currentAmount) <= 0 ? fromResourceAmount : currentAmount;
+
+            to.Add(resource, currentAmount, out int actualStoredAmount);
+            from.Remove(resource, actualStoredAmount, out int removedAmount);
+
+            //stockingUI.SetActive(false);
         }
 
         private void Resource_AmountChanged(object sender, int amount)
@@ -152,12 +188,13 @@ namespace Goat.Grid.Interactions.UI
             // stock.text = resource.Amount.ToString();
         }
 
-        private void OnEndEditAmount(string s)
+        private void OnEndEditAmount(string s, Inventory from)
         {
             currentAmount = int.Parse(s);
-            if (currentAmount > resource.Amount)
+            from.Items.TryGetValue(resource, out int resourceAmount);
+            if (currentAmount > resourceAmount)
             {
-                currentAmount = resource.Amount;
+                currentAmount = resourceAmount;
                 amountInput.text = currentAmount.ToString();
             }
         }
@@ -168,10 +205,10 @@ namespace Goat.Grid.Interactions.UI
         {
             if (previousResource == null) return;
             previousResource.AmountChanged -= Resource_AmountChanged;
-            amountInput.onValueChanged.RemoveListener(OnEndEditAmount);
-            minAmountButton.onClick.RemoveListener(MinAmount);
-            maxAmountButton.onClick.RemoveListener(MaxAmount);
-            sellButton.onClick.RemoveListener(ConfirmStocking);
+            amountInput.onValueChanged.RemoveAllListeners();
+            //minAmountButton.onClick.RemoveAllListeners();
+            //maxAmountButton.onClick.RemoveAllListeners();
+            sellButton.onClick.RemoveAllListeners();
         }
     }
 }

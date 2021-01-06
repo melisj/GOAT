@@ -27,6 +27,21 @@ namespace Goat.Grid.Interactions
             OnInput(code, mode);
         }
 
+        private void Update()
+        {
+            if (currentMode.InputMode == InputMode.Select)
+            {
+                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+                {
+                    CheckForInteractable();
+                    if (gridUIInfo.CurrentUIElement != UIElement.Interactable)
+                    {
+                        //gridUIInfo.CurrentUIElement = UIElement.None;
+                    }
+                }
+            }
+        }
+
         private void OnInput(KeyCode code, KeyMode keyMode)
         {
             if (currentMode.InputMode == InputMode.Select)
@@ -35,10 +50,12 @@ namespace Goat.Grid.Interactions
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (!gridUIInfo.IsUIActive)
-                            CheckForInteractable();
-                        else
-                            gridUIInfo.CurrentUIElement = GridUIElement.None;
+                        //if (!gridUIInfo.IsUIActive)
+                        CheckForInteractable();
+                        if (gridUIInfo.CurrentUIElement != UIElement.Interactable)
+                        {
+                            gridUIInfo.CurrentUIElement = UIElement.None;
+                        }
                     }
                 }
             }
@@ -46,13 +63,16 @@ namespace Goat.Grid.Interactions
 
         public void CheckForInteractable()
         {
-            if (interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
-            {
-                if (hit.transform != null)
-                {
-                    InteractableClickEvt?.Invoke(hit.transform);
-                }
-            }
+            //if (interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask))
+            //{
+            //    if (hit.transform != null)
+            //    {
+            //        InteractableClickEvt?.Invoke(hit.transform);
+            //    }
+            //}
+            interactableRayCaster.DoRaycastFromMouse(out RaycastHit hit, interactableMask);
+
+            InteractableClickEvt?.Invoke(hit.transform);
         }
     }
 }

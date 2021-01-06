@@ -16,7 +16,7 @@ public class ChangeMode : EventListenerKeyCodeModeEvent
     {
         if (code == KeyCode.C && keyMode == KeyMode.Down)
         {
-            gridUIInfo.CurrentUIElement = GridUIElement.Building;
+            gridUIInfo.CurrentUIElement = UIElement.Tiles;
             inputMode.InputMode = InputMode.Edit;
         }
         if (code == KeyCode.B && keyMode == KeyMode.Down)
@@ -26,6 +26,25 @@ public class ChangeMode : EventListenerKeyCodeModeEvent
         if (code == KeyCode.X && keyMode == KeyMode.Down)
         {
             inputMode.InputMode = InputMode.Select;
+        }
+    }
+
+    private void Update()
+    {
+        if (AllowedToChange)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                inputMode.InputMode = InputMode.Edit;
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                inputMode.InputMode = InputMode.Destroy;
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                inputMode.InputMode = InputMode.Select;
+            }
         }
     }
 

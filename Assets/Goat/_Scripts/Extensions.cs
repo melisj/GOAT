@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityAtoms;
 
 public static class Extensions
 {
@@ -27,6 +28,24 @@ public static class Extensions
     public static bool NotNull(this Sequence seq)
     {
         return seq?.IsActive() ?? false;
+    }
+
+    public static Vector3 GetNearest(this List<Vector3> positions, Vector3 myPos)
+    {
+        if (positions.Count <= 0) return Vector3.zero;
+        Vector3 nearestPos = positions[0];
+        float nearestDist = 0;
+
+        for (int i = 0; i < positions.Count; i++)
+        {
+            float currentDist = (myPos - positions[i]).sqrMagnitude;
+            if (currentDist < nearestDist)
+            {
+                nearestDist = currentDist;
+                nearestPos = positions[i];
+            }
+        }
+        return nearestPos;
     }
 
     public static void Rotate<T>(this T[] array, int count)
@@ -64,5 +83,29 @@ public static class Extensions
             list.RemoveAt(0);
             list.Add(first);
         }
+    }
+
+    public static void SetActiveRenderer(this GameObject obj, bool value)
+    {
+        Renderer rend = obj.GetComponentInChildren<Renderer>();
+        rend.enabled = value;
+    }
+
+    public static void RegisterSafe<T>(this AtomEvent<T> evt, Action<T> action)
+    {
+        if (evt != null)
+            evt.Register(action);
+    }
+
+    public static void UnregisterSafe<T>(this AtomEvent<T> evt, Action<T> action)
+    {
+        if (evt != null)
+            evt.Unregister(action);
+    }
+
+    public static void UnregisterAllSafe<T>(this AtomEvent<T> evt)
+    {
+        if (evt != null)
+            evt.UnregisterAll();
     }
 }

@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Goat.Pooling;
 
 namespace Goat.AI.States
 {
     public class ExitStore : IState
     {
-        private NPC npc;
-        private NavMeshAgent navMeshAgent;
-        private Animator animator;
+        protected NPC npc;
+        protected NavMeshAgent navMeshAgent;
+        protected Animator animator;
         public bool exitedStore;
-        Vector3 entrance;
-        private float destinationDistance;
+        protected Vector3 entrance;
+        protected float destinationDistance;
 
         public ExitStore(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
         {
@@ -21,29 +22,33 @@ namespace Goat.AI.States
             this.animator = animator;
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            if (Vector3.Distance(npc.transform.position, entrance) <= destinationDistance)
-                exitedStore = true;
+            if (navMeshAgent.remainingDistance < npc.npcSize / 2)
+            {
+                OnExit();
+            }
             animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
-        public void OnEnter()
+        public virtual void OnEnter()
         {
             exitedStore = false;
-            // Set animation
-            entrance = GameObject.Find("Entrance").transform.position;
+            Debug.Log("Exited store STATE");
+
+            entrance = npc.Ship.NpcSpawner.transform.position;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(entrance);
         }
 
-        public void OnExit()
+        public virtual void OnExit()
         {
             Debug.Log("Exited store");
-            // Set animation
-            navMeshAgent.enabled = false;
+
+            //navMeshAgent.enabled = false;
             animator.SetFloat("Move", 0);
+            npc.Ship.ShipReadyToFly();
+            PoolManager.Instance.ReturnToPool(npc.gameObject);
         }
     }
 }
-

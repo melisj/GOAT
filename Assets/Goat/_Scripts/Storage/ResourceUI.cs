@@ -6,29 +6,17 @@ namespace Goat.Storage
 {
     public class ResourceUI : CellWithAmount
     {
-        [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI hotKeyText;
-        [SerializeField] private Image image;
-        [SerializeField] private Button imageButton;
         private int alpha = 48;
         private int numpad = 256;
         private int index;
 
         public Button ImageButton => imageButton;
 
-        //private void Awake()
-        //{
-        //    image.sprite = resource.Image;
-        //    textMesh.text = resource.ResourceType.ToString() + ": " + resource.Amount.ToString();
-        //    resource.AmountChanged += Resource_AmountChanged;
-        //}
-
         public void SetupUI(Resource res, int index = 0)
         {
-            this.index = index + 1;
             Setup(res);
-            image.sprite = res.Image;
-            nameText.text = res.name;
+            this.index = index + 1;
             hotKeyText.text = this.index.ToString();
             if (index <= 9)
             {

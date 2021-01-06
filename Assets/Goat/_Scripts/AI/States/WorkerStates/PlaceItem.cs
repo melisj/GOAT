@@ -10,49 +10,69 @@ namespace Goat.AI.States
 {
     public class PlaceItem : IState
     {
-
-        private float fillingSpeed = 1, timeToFill = 0;
-        private StockClerk stockClerk;
+        private Worker worker;
         private Animator animator;
-        public bool filledShelve;
+        public bool filled = false;
 
-        public PlaceItem(StockClerk stockClerk, Animator animator)
+        // Get this from npc
+        private float placingSpeed = 0.5f, nextItemTime = 0;
+
+        private string storage = "Storage", container = "Container";
+
+        public PlaceItem(Worker worker, Animator animator)
         {
-            this.stockClerk = stockClerk;
+            this.worker = worker;
             this.animator = animator;
         }
 
-        private void PlaceItemInStorageContainer()
+        private void PlaceItemInStorage()
         {
-            Resource resourceToBePlaced = stockClerk.inventory.Keys.First();
-            int amountToBePlaced = stockClerk.inventory[resourceToBePlaced];
-            stockClerk.targetStorage.AddResource(resourceToBePlaced, amountToBePlaced, out int amountLeft);
-            int amountPlaced = amountToBePlaced - amountLeft;
-            stockClerk.RemoveResourceFromInventory(resourceToBePlaced, amountPlaced);
+            Resource resourceToPlace = null;
+
+            if (worker.targetStorage.tag == storage)
+                resourceToPlace = worker.targetStorage.MainResource;
+            else if (worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
+                resourceToPlace = worker.Inventory.Items.First().Key;
+
+            if (resourceToPlace == null)
+            {
+                filled = true;
+                return;
+            }
+
+            if (worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
+            {
+                animator.SetTrigger("Interact");
+                //Delay
+
+                worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
+                worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
+                Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
+            }
+            else
+                filled = true;
         }
 
         public void Tick()
         {
-            //&& !(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
-            if (timeToFill <= Time.time )
+            if (!filled && nextItemTime <= Time.time)
             {
-                //animated
-                timeToFill = Time.time + (1 / fillingSpeed);
-                PlaceItemInStorageContainer();
+                PlaceItemInStorage();
+                nextItemTime = Time.time + (1 / placingSpeed);
             }
-            //if(stockClerk.targetStorage.GetItemCount == stockClerk.targetStorage.GetMaxSpace)
-            //filledShelve = true;
         }
 
         public void OnEnter()
         {
-            filledShelve = false;
+            filled = false;
+            animator.speed = 2 * placingSpeed;
         }
 
         public void OnExit()
         {
-
+            worker.targetStorage.selected = false;
+            worker.targetStorage = null;
+            animator.speed = 1;
         }
     }
 }
-

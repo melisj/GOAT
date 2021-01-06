@@ -34,6 +34,7 @@ public class DialogueManager : MonoBehaviour
 
 	void Start()
 	{
+		Debug.LogFormat("{0}x{1,-10}{2,-20}", 10, "testitem", 357);
 		// First names
 		firstNames.Clear();
 		firstNames.Add("Grogu");
@@ -69,15 +70,6 @@ public class DialogueManager : MonoBehaviour
 		myDialogueOne.Clear();
 		myDialogueTwo.Clear();
 		myDialogueThree.Clear();
-	}
-	void Update()
-	{
-		nameNumber = Random.Range(0, listNameMax);
-		dialogueNumber = Random.Range(0, listDialogueMax);
-	}
-	public void StartDialogue(Dialogue dialogue)
-	{
-		animator.SetBool("IsOpen", true);
 
 		//check wich list is longest a use that one as max
 		if (sentenceOne.Count > sentenceTwo.Count || sentenceOne.Count > sentenceThree.Count)
@@ -104,6 +96,15 @@ public class DialogueManager : MonoBehaviour
 			listNameMax = firstNames.Count;
 		}
 
+	}
+	void Update()
+	{
+		nameNumber = Random.Range(0, listNameMax);
+		dialogueNumber = Random.Range(0, listDialogueMax);
+	}
+	public void StartDialogue(Dialogue dialogue)
+	{
+		animator.SetBool("IsOpen", true);
 		//display the name
 		for (int i = 0; i < nameNumber; i++)
 		{
@@ -111,53 +112,50 @@ public class DialogueManager : MonoBehaviour
 		}
 
 	}
-	public void DisplayNextSentence()
-	{
-		animator.SetBool("IsOpen", true);
-	}
-
-	void EndDialogue()
+	public void EndDialogue()
 	{
 		animator.SetBool("IsOpen", false);
-
 	}
-
-	public void DialogueOne()
-	{
+	public void AnswerOne()
+	{		
 		senOneDone = true;
+
 		//display the sentences in the porper order and with the right randomness
 		for (int i = 0; i < dialogueNumber; i++)
 		{
 			if (senOneDone == true)
 			{
 				dialogueOneText.text = sentenceOne[i];
+				
 			}
 
 		}
 	}
-
-	public void DialogueTwo()
+	public void AnswerTwo()
 	{
 		senTwoDone = true;
 		for (int i = 0; i < dialogueNumber; i++)
 		{
 			dialogueTwoText.text = sentenceTwo[i] + inventoryList;
 		}
-	}
-
-	private string SomeInventory(NPC customer)
+	}	
+	public void AsnwerThree()
 	{
-
-		string invi = "";
-	
-		return invi ;
-	}
-	public void DialogueThree()
-	{
+		
 		for (int i = 0; i < dialogueNumber; i++)
 		{
 			dialogueThreeText.text = sentenceThree[i];
 			senThreeDone = true;
 		}
+	}
+	private List<string> ShowInventory(NPC customer)
+	{
+		List<string> inventory = new List<string>();
+		foreach (var item in customer.Inventory.Items)
+		{
+			inventory.Add(string.Format("{0}x{1,10}{2,20}",item.Value,item.Key,(item.Key.Price * item.Value)));
+		}
+		
+		return inventory;
 	}
 }
