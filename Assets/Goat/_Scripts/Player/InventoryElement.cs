@@ -18,6 +18,7 @@ namespace Goat.Player
         {
             SetUI();
             playerInventory.Inventory.InventoryChangedEvent += Inventory_InventoryChangedEvent;
+            playerInventory.Inventory.InventoryResetEvent += SetUI;
             gridUIInfo.GridUIChangedEvent += GridUIInfo_GridUIChangedEvent;
         }
 
@@ -67,6 +68,7 @@ namespace Goat.Player
         {
             playerInventory.Inventory.InventoryChangedEvent -= Inventory_InventoryChangedEvent;
             gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
+            playerInventory.Inventory.InventoryResetEvent -= SetUI;
         }
     }
 }
