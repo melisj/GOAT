@@ -219,7 +219,7 @@ MonoBehaviour:
     m_Bits: 1024
   storageMask:
     serializedVersion: 2
-    m_Bits: 524288
+    m_Bits: 262144
   obstacleMask:
     serializedVersion: 2
     m_Bits: 4096

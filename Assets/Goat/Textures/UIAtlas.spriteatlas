@@ -124,7 +124,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 810cc879a0aefce44852edba0e97e0c4, type: 3}
   - {fileID: 21300000, guid: 0aa9a78901f731a4fbcf01e6bdae264b, type: 3}
   - {fileID: 21300000, guid: 9fa86c898461d574486be1f3a5486ed9, type: 3}
-  - {fileID: 21300000, guid: 7e5d1d99c51b80248a80b62ad894f0ce, type: 3}
   - {fileID: 21300000, guid: fd8bc41a716baa940a18976b63f54665, type: 3}
   - {fileID: 21300000, guid: dde5fa1a19805744b8959aafa8924c4a, type: 3}
   - {fileID: 21300000, guid: db98234a7a83bc54aaaa65ea0723ccfc, type: 3}
@@ -250,7 +249,6 @@ SpriteAtlas:
   - Forward_Grey
   - Menu_Right_Top_Border
   - Store_empty
-  - Hydrogen
   - Player Door
   - icons8_squareRound
   - Menu_Left_Bottom_Border
