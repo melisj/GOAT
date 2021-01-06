@@ -26,6 +26,12 @@ public class MenuManager : MonoBehaviour
         MainMenu.SetActive(true);
         OptionsMenu.SetActive(false);
     }
+
+    public void Volume()
+    {
+       //do volume
+    }
+
     public void QuitButton()
     {
          Application.Quit();
