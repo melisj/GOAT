@@ -18,6 +18,8 @@ namespace Goat.Grid.Interactions
         [SerializeField] protected InteractablesInfo info;
         [SerializeField] private GridUIInfo gridUIInfo;
         [SerializeField] private Electricity electricityinfo;
+        [SerializeField] private bool adjustPositionAgainstWall;
+        [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
         [TextArea, Space(10)]
         [SerializeField] protected string description;
@@ -125,7 +127,7 @@ namespace Goat.Grid.Interactions
 
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
-
+            adjustPosition.Setup();
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
@@ -135,7 +137,7 @@ namespace Goat.Grid.Interactions
             gameObject.SetActive(false);
 
             OnDisableElectricity();
-
+            adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
         }
