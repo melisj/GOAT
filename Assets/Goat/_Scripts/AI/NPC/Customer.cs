@@ -23,6 +23,7 @@ namespace Goat.AI
         [SerializeField] private CustomerFeelings feelings;
         [SerializeField] private IntVariable customerCapacity;
         [SerializeField] private UnloadLocations entrances;
+        [SerializeField] private int storeArea;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -45,7 +46,7 @@ namespace Goat.AI
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, animator, entrances, customerCapacity);
-            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
+            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             TakeItem takeItem = new TakeItem(this, animator, false);
