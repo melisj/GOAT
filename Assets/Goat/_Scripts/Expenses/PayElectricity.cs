@@ -30,11 +30,12 @@ namespace Goat.Expenses
         public override void Pay()
         {
             int remainingPrice = 0;
+            int fullPrice = 0;
             disabledIndexes.Clear();
-
             for (int i = 0; i < electricity.GeneratorInteractables.Count; i++)
             {
                 int price = electricity.GeneratorInteractables[i].PowerProduction * expenses.PowerCost;
+                fullPrice += price;
                 if (money.CanPay(price))
                 {
                     money.Amount -= price;
@@ -47,6 +48,7 @@ namespace Goat.Expenses
                     remainingPrice += price;
                 }
             }
+            onExpenseCreated.Raise(fullPrice);
             expenseEvent.Raise(new Expense(remainingPrice, "Electricity", time.GetDate(), () => OnFullPay(disabledIndexes)));
         }
     }

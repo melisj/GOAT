@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Goat/_Scenes/TemplateScene.unity
+    path: Assets/Goat/_Scenes/MainMenu/MenuScene.unity
+    guid: 39b5f589646115a4d8279fcc6365d4ff
+  - enabled: 1
+    path: Assets/Goat/_Scenes/Resources/SceneLoader/TemplateScene.unity
     guid: 9f05815438497cc41abb6c992248ace1
+  - enabled: 1
+    path: Assets/Goat/_Scenes/Resources/SceneLoader/NPCSpawners.unity
+    guid: 6cfdad87ae9441c458ed7b6b89c8428e
+  - enabled: 1
+    path: Assets/Goat/_Scenes/Resources/SceneLoader/UI.unity
+    guid: 312362ddd6ce0a244a925579717812cd
   m_configObjects: {}

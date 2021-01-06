@@ -27,6 +27,11 @@ public class BudgetCell : MonoBehaviour
 
     public event EventHandler OnValueChanged;
 
+    private void Awake()
+    {
+        budgetCellTM.text = GetSelectedBudget().ToString("N0");
+    }
+
     private void OnEnable()
     {
         onDayChange.RegisterSafe((int _) => ResetValue(out dayValue));
@@ -70,7 +75,7 @@ public class BudgetCell : MonoBehaviour
 
     private void ChangeText()
     {
-        budgetCellTM.text = GetSelectedBudget().ToString("N");
+        budgetCellTM.text = GetSelectedBudget().ToString("N0");
         OnValueChanged?.Invoke(this, null);
     }
 }

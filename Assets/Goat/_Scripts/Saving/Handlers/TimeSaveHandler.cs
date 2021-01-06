@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.Saving
 {
     public class TimeSaveHandler : SaveHandler
     {
         public TimeOfDay time;
-        public ChangeLightColorOnCycle changeLightHandler;
-        public DisableModeSwitchingAtDay disableModeSwitchingAtDayHandler;
+        public BoolEvent OnCycleChange;
 
         private void Awake()
         {
@@ -35,8 +35,8 @@ namespace Goat.Saving
             time = timeHandler.time.Date.AddDays(day);
 
             bool isDay = timeHour > timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
-            timeHandler.changeLightHandler.OnEventRaised(isDay);
-            timeHandler.disableModeSwitchingAtDayHandler.OnEventRaised(isDay);
+
+            timeHandler.OnCycleChange.Raise(isDay);
         }
 
         public override void Save(SaveHandler handler)

@@ -16,8 +16,7 @@ public class AnimateTabButton : EventListenerVoid
     [SerializeField] private TextMeshProUGUI header;
     [SerializeField] private ScrollRect scrollingRect;
     [SerializeField] private RectTransform selectionBlock;
-    [SerializeField] private Sprite emptySelection;
-    [SerializeField] private Sprite empty;
+    [SerializeField] private SelectDeselectSprites selectionSprites;
 
     [Title("Animation Settings")]
     [SerializeField, Range(2, 5)] private int closingDurationMultiplier;
@@ -102,7 +101,7 @@ public class AnimateTabButton : EventListenerVoid
         header.text = currentTabBorder.gameObject.name;
         //tabSequence.Append(selectionBlock.DOScaleX(0, selectionBlockScaleDuration / closingDurationMultiplier));
         tabSequence.Append(selectionBlock.transform.DOMoveY(tabPositions[currentTab].position.y, selectionBlockMoveDuration));
-        tabSequence.Append(selectionBlock.DOScaleX(1, selectionBlockScaleDuration).OnComplete(() => currentTabBorder.sprite = emptySelection));
+        tabSequence.Append(selectionBlock.DOScaleX(1, selectionBlockScaleDuration).OnComplete(() => currentTabBorder.sprite = selectionSprites.Selected));
 
         for (int i = 0; i < content.childCount; i++)
         {
@@ -115,7 +114,7 @@ public class AnimateTabButton : EventListenerVoid
     {
         if (!currentGrid) return;
 
-        currentTabBorder.sprite = empty;
+        currentTabBorder.sprite = selectionSprites.Deselected;
 
         if (tabSequence.NotNull())
             tabSequence.Complete();

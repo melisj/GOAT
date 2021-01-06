@@ -13,6 +13,7 @@ public partial class DayNightCycle : MonoBehaviour
     [SerializeField] private TimeOfDay timeOfDay;
 
     //transition timer for lerping the time of day
+    public bool isDay;
     //current hours and day
 
     //which hour of day the sun rises and sets
@@ -20,7 +21,7 @@ public partial class DayNightCycle : MonoBehaviour
     //the regular speed of the day + clock. not to be confused with time manipulation
     [SerializeField] private int timeSpeed = 1;
     [SerializeField] private BoolEvent OnChangeCycle;
-    [SerializeField, Range(1, 100)] private int timeScale;
+    [SerializeField, ProgressBar(1, 10)] private int timeScale;
 
     //Events for OnDayTime and OnNightTime
     //public event EventHandler<bool> OnChangeCycle;
@@ -70,12 +71,14 @@ public partial class DayNightCycle : MonoBehaviour
     private void SetTimeDay()
     {
         //from nighttime to daytime
-        OnChangeCycle.Raise(true);
+        isDay = true;
+        OnChangeCycle.Raise(isDay);
     }
 
     private void SetTimeNight()
     {
         //from daytime to nighttime
-        OnChangeCycle.Raise(false);
+        isDay = false;
+        OnChangeCycle.Raise(isDay);
     }
 }

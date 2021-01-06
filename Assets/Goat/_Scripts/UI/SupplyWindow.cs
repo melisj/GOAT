@@ -146,7 +146,7 @@ namespace Goat.UI
         protected virtual void SetTotalPrice()
         {
             if (selectedBuyable)
-                totalPrice.text = (currentAmount * selectedBuyable.Price).ToString("N");
+                totalPrice.text = (currentAmount * selectedBuyable.Price).ToString("N0");
         }
 
         private void ResetAmount()

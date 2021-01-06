@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7648ff5ef94ae4340bee20043e30d9ab, type: 3}
   m_Name: SelectedDate
   m_EditorClassIdentifier: 
-  onBudgetDateChanged: {fileID: 0}
-  budgetDate: 0
+  onBudgetDateChanged: {fileID: 11400000, guid: aba8225624d4b714abe5c39a3d50d6bb,
+    type: 2}
+  budgetDate: 2

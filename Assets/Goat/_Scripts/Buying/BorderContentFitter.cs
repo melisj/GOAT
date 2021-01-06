@@ -11,7 +11,7 @@ public class BorderContentFitter : MonoBehaviour
     [SerializeField] private float margin;
 
     [Button]
-    protected void ChangeIconWidth()
+    public void ChangeIconWidth()
     {
         //InitialSize
         float initialSize = borderLeft.sizeDelta.x * 2;
