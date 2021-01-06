@@ -424,6 +424,7 @@ GameObject:
   - component: {fileID: 8146007660352522927}
   - component: {fileID: 1471723780998043468}
   - component: {fileID: -8600267933786493760}
+  - component: {fileID: 580404025977797647}
   m_Layer: 9
   m_Name: CooledStorageShelf-2
   m_TagString: Storage
@@ -462,6 +463,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 1
+  adjustPosition: {fileID: 580404025977797647}
   description: 
   costsPower: 1
   powerCost: 2
@@ -501,6 +504,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storages: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+--- !u!114 &580404025977797647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393019459576907963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09bee7f5505f4ce48ab0deae261b6c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: -0.1
 --- !u!1 &1393019459795304601
 GameObject:
   m_ObjectHideFlags: 0

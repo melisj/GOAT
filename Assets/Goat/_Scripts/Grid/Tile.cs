@@ -274,6 +274,8 @@ namespace Goat.Grid
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
+                    if (GetWallObj(InverseRotation((int)rotationAngle)))
+                        AdjustPositionAgainstWall(buildingObject);
                 }
                 totalBeautyPoints += placeable.BeautyPoints;
                 if (!isLoading)
@@ -337,6 +339,8 @@ namespace Goat.Grid
                     wallAuto[index] = false;
                     placeableInfo.Setup(null);
                     SaveData.SetWall(-1, index, false);
+                    if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                        AdjustPositionAgainstWall(buildingObject, true);
                 }
             }
 
@@ -366,11 +370,37 @@ namespace Goat.Grid
                     placeableInfo.Placeable.Buy(1);
 
                 totalBeautyPoints += placeableInfo.Placeable.BeautyPoints;
-
+                if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                    AdjustPositionAgainstWall(buildingObject);
                 SaveData.SetWall(wall.ID, index, autoMode);
             }
             // }
             return true;
+        }
+
+        private void AdjustPositionAgainstWall(GameObject building, bool reset = false)
+        {
+            AdjustPositionAgainstWall adjustPos = building.GetComponent<AdjustPositionAgainstWall>();
+            if (!adjustPos) return;
+            if (!reset)
+                adjustPos.AdjustPosition();
+            else
+                adjustPos.ResetPosition();
+        }
+
+        private GameObject GetWallObj(float rotationAngle)
+        {
+            int index = 0;
+            if (rotationAngle > 0)
+            {
+                index = (int)(rotationAngle / 90);
+            }
+            return WallObjs[index];
+        }
+
+        private int InverseRotation(int rotation)
+        {
+            return (rotation + 180) % 360;
         }
 
         public void LoadInData(TileInfo newData, ref GridObjectsList objectList)
