@@ -11,7 +11,7 @@ public class AudioCue : MonoBehaviour
     [Header("Sound definition")]
     [SerializeField] private AudioCueSO _audioCue = default;
     [SerializeField] private bool _playOnStart = false;
-    [SerializeField] private GameObject parent;
+    [SerializeField] private Transform parent;
     [Header("Configuration")]
     [SerializeField] private AudioCueEventChannelSO _audioCueEventChannel = default;
     [SerializeField] private AudioConfigurationSO _audioConfiguration = default;

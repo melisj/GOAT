@@ -20,7 +20,6 @@ public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
     //which hour of day the sun rises and sets
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    [SerializeField] private int timeSpeed = 1;
     [SerializeField] private BoolEvent OnChangeCycle;
     [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField, ProgressBar(1, 10)] private int timeScale;
@@ -39,7 +38,7 @@ public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
 
     public void OnEventRaised(int changedTimeSpeed)
     {
-        timeSpeed = changedTimeSpeed;
+        timeOfDay.TimeScale = changedTimeSpeed;
     }
 
     private void Start()
@@ -55,7 +54,7 @@ public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
 
     private void UpdateClock()
     {
-        timeOfDay.TimeOfDayMinutes += Time.deltaTime * timeSpeed;
+        timeOfDay.TimeOfDayMinutes += Time.deltaTime * timeOfDay.TimeScale;
 
         if (timeOfDay.TimeOfDayMinutes > 60)
         {

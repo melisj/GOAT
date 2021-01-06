@@ -127,7 +127,8 @@ namespace Goat.Grid.Interactions
 
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
-            adjustPosition.Setup();
+            if(adjustPosition != null)
+                adjustPosition.Setup();
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
@@ -137,7 +138,8 @@ namespace Goat.Grid.Interactions
             gameObject.SetActive(false);
 
             OnDisableElectricity();
-            adjustPosition.ResetPosition();
+            if (adjustPosition != null)
+                adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
         }

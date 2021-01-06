@@ -36,7 +36,7 @@ namespace Goat.AI
                 if(amountAdded > 0)
                     Debug.LogFormat("picked up {0}", resource.name);
 
-                if (resource.Amount <= 0)
+                if (resource.Amount <= 0 && amountAdded != 0)
                     PoolManager.Instance.ReturnToPool(other.gameObject);
             }
         }
