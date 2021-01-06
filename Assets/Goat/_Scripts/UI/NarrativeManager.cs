@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 
 [System.Serializable]
 public class Narrative
@@ -20,22 +21,22 @@ public class Narrative
 public class NarrativeManager : MonoBehaviour
 {
     [SerializeField]
-    Narrative[] narrative;
-    TextMeshProUGUI textMesh;
-    Image portrait;
-    int narrativeIndex = 0;
+    private Narrative[] narrative;
+    [SerializeField] private VoidEvent OnNarrativeFinished;
+    private TextMeshProUGUI textMesh;
+    private Image portrait;
+    private int narrativeIndex = 0;
 
-    void Start()
+    private void Start()
     {
         textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         portrait = gameObject.GetComponentInChildren<Image>();
 
         textMesh.text = narrative[narrativeIndex].Sentence;
         portrait.sprite = narrative[narrativeIndex].Sprite;
-
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
@@ -50,10 +51,11 @@ public class NarrativeManager : MonoBehaviour
             narrativeIndex++;
             textMesh.text = narrative[narrativeIndex].Sentence;
             portrait.sprite = narrative[narrativeIndex].Sprite;
-            portrait.transform.DOPunchScale(Vector3.one /3, 0.3f, 10, 10f);
+            portrait.transform.DOPunchScale(Vector3.one / 3, 0.3f, 10, 10f);
         }
         else
         {
+            OnNarrativeFinished.Raise();
             Destroy(this.gameObject);
         }
     }

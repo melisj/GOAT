@@ -2059,6 +2059,7 @@ GameObject:
   - component: {fileID: 4864140160213339545}
   - component: {fileID: 4864140160213339546}
   - component: {fileID: 8669746041152796245}
+  - component: {fileID: 8908463607616260034}
   m_Layer: 5
   m_Name: ReviewCell
   m_TagString: Untagged
@@ -2162,6 +2163,18 @@ MonoBehaviour:
   beautyPoints: {fileID: 5838637090784486786}
   itemNotFoundPoints: {fileID: 2799151778949465597}
   searchTimePoints: {fileID: 6956146746420980728}
+--- !u!114 &8908463607616260034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4864140160213339543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4876991250519976453
 GameObject:
   m_ObjectHideFlags: 0

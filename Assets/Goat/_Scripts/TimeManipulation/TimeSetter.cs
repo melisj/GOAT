@@ -30,7 +30,8 @@ public class TimeSetter : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     private void Awake()
     {
         timeButton.onClick.AddListener(SetTime);
-        ChangeIcon();
+        if (active)
+            SetTime();
     }
 
     private void OnEnable()

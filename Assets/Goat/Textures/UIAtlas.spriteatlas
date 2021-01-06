@@ -133,6 +133,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2b2a377b800ab2f49a18df623176e80a, type: 3}
   - {fileID: 21300000, guid: 399e709b712c44c4e9e70eb201dec955, type: 3}
   - {fileID: 21300000, guid: 5e72449b075730c489bcc344375b1555, type: 3}
+  - {fileID: 21300000, guid: 626b01ab0a399d142af673dc5b7172e3, type: 3}
   - {fileID: 21300000, guid: 1dfd80fb9cfd07943b0c53ccff01dca2, type: 3}
   - {fileID: 21300000, guid: 1b018ffba60fb0742975b79faf0170c8, type: 3}
   - {fileID: 21300000, guid: ce1cc50ca05c1cd4fae2c88a579ee33d, type: 3}
@@ -258,6 +259,7 @@ SpriteAtlas:
   - Incoming_Message_Left_Border
   - Budget_empty
   - Crooked
+  - Green_Empty
   - Next Day_Grey
   - Tube Cross
   - Double cooled shelf

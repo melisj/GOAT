@@ -386,6 +386,7 @@ MonoBehaviour:
   feelings: {fileID: 3148984614122792479}
   customerCapacity: {fileID: 11400000, guid: a2c0e22995392d749a337729309d1ac1, type: 2}
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
+  onDay: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   storeArea: 3
   money: 100
   remainingMoney: 0
