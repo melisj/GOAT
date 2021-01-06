@@ -16,6 +16,10 @@ namespace Goat.AI.Parking
         [SerializeField] private float arrivalHeight;
         public float ArrivalHeight => arrivalHeight;
 
+
+        [SerializeField] private WarpArrival warpArrival;
+        [SerializeField] private WarpDeparture warpDeparture;
+
         [Button("Spawn Ship Random", ButtonSizes.Large)]
         public virtual void SpawnShip(int amountPassengers)
         {
@@ -62,7 +66,8 @@ namespace Goat.AI.Parking
             Vector3 spawnPosition = CalculateSpawnPosition(parkingSpot);
             Quaternion spawnRotation = CalculateSpawnRotation(parkingSpot, spawnPosition);
 
-            PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, spawnPosition, spawnRotation);
+            GameObject warp = PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, spawnPosition, spawnRotation);
+            warpArrival.PlayAudio(warp);
 
             yield return new WaitForSeconds(2);
 
@@ -75,7 +80,8 @@ namespace Goat.AI.Parking
         // Despawn the ship with a warp effect
         public IEnumerator DespawnSequence(NPCShip ship)
         {
-            PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, ship.transform.position, ship.transform.rotation);
+            GameObject warp = PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, ship.transform.position, ship.transform.rotation);
+            warpDeparture.PlayAudio(warp);
 
             // Do ship animation
 

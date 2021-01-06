@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class WarpArrival : AudioCue
 {
-    void OnEnable()
+    public void PlayAudio(GameObject parent)
     {
+        this.parent = parent;
         PlayAudioCue();
     }
 }

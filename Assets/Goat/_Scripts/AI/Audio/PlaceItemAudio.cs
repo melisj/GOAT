@@ -1,23 +1,24 @@
 ﻿using System;
 using UnityEngine;
-using Goat.AI;
+using Goat.Storage;
+using Goat.Grid.Interactions;
 
-    public class PlaceItemAudio : AudioCue
+public class PlaceItemAudio : AudioCue
+{
+    [SerializeField] private StorageInteractable storage;
+
+    private void OnEnable()
     {
-        [SerializeField] Worker worker;
-
-        private void OnEnable()
-        {
-            worker.placeItem.eventHandler += Worker_onPlaceItem;
-        }
-
-        private void OnDisable()
-        {
-            worker.placeItem.eventHandler -= Worker_onPlaceItem;
-        }
-
-        private void Worker_onPlaceItem(object sender, EventArgs e)
-        {
-            PlayAudioCue();
-        }
+        storage.Inventory.InventoryAddedEvent += Inventory_InventoryAddedEvent;
     }
+
+    private void OnDisable()
+    {
+        storage.Inventory.InventoryAddedEvent -= Inventory_InventoryAddedEvent;
+    }
+
+    private void Inventory_InventoryAddedEvent(object sender, EventArgs e)
+    {
+        PlayAudioCue();
+    }
+}

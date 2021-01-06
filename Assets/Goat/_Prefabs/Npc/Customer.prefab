@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 346648170}
-  - component: {fileID: 346648172}
   - component: {fileID: 346648171}
   m_Layer: 0
   m_Name: AudioHolder
@@ -32,26 +31,6 @@ Transform:
   m_Father: {fileID: 2094399924142381525}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &346648172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 346648169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa8062cd030dd849adff69688b2d77c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: 66b84310389307248bcf55f64819b527, type: 2}
-  _playOnStart: 0
-  parent: {fileID: 2094399924142381527}
-  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
-    type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 462f2113358d2024e958ed5ece9eb4fa,
-    type: 2}
-  npc: {fileID: 2094399924142381524}
 --- !u!114 &346648171
 MonoBehaviour:
   m_ObjectHideFlags: 0

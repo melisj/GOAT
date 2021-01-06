@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173415472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6725edeb62b3a4ca4281bf517cf028, type: 3}
   m_Name: 
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173415472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 571c55a09d3d9e84190145e369913876, type: 3}
   m_Name: 
@@ -88,7 +88,7 @@ MonoBehaviour:
   parent: {fileID: 7662238008717331643}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
+  _audioConfiguration: {fileID: 11400000, guid: 73aa12553a5f63d4eaa24bd60de19a6d,
     type: 2}
 --- !u!1 &4012538647828178134
 GameObject:

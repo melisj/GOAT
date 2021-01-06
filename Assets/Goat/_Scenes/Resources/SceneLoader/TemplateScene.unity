@@ -348,6 +348,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SaveHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 3255775460644688847, guid: 5e29b491785ff2f4f939e31e0c78bb75,
+        type: 3}
+      propertyPath: fileName
+      value: TestWalkingAudio
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255775460644688847, guid: 5e29b491785ff2f4f939e31e0c78bb75,
+        type: 3}
+      propertyPath: relativePath
+      value: /Goat/SaveData/TestWalkingAudio.Json
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e29b491785ff2f4f939e31e0c78bb75, type: 3}
 --- !u!4 &871168437 stripped
@@ -1903,6 +1913,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1777966405, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966405, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966405, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966405, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777966405, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1777966407, guid: d922195054a33e94ba71fe75affc5d8a, type: 3}
       propertyPath: parent
       value: 

@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Goat.AI;
+using Goat.Storage;
+using Goat.Grid.Interactions;
 
 public class TakeItemAudio : AudioCue
 {
-    [SerializeField] private NPC npc;
+    [SerializeField] private StorageInteractable storage;
 
     private void OnEnable()
     {
-        npc.takeItem.eventHandler += TakeItem_eventHandler;
+        storage.Inventory.InventoryRemovedEvent += Inventory_InventoryRemovedEvent;
     }
 
     private void OnDisable()
     {
-        npc.takeItem.eventHandler -= TakeItem_eventHandler;
+        storage.Inventory.InventoryRemovedEvent -= Inventory_InventoryRemovedEvent;
     }
 
-    private void TakeItem_eventHandler(object sender, EventArgs e)
+    private void Inventory_InventoryRemovedEvent(object sender, EventArgs e)
     {
         PlayAudioCue();
     }

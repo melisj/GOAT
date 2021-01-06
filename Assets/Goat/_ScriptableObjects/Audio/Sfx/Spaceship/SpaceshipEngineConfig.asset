@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b357a35b19afa6e4ca9ed9cc1830f6de, type: 3}
-  m_Name: WalkingAudioConfiguration
+  m_Name: SpaceshipEngineConfig
   m_EditorClassIdentifier: 
   OutputAudioMixerGroup: {fileID: -706250057875642703, guid: 548a7f001ca6d3d4cb67c8edf84f62a3,
     type: 2}
   _priorityLevel: 128
   Mute: 0
-  Volume: 1
+  Volume: 0.6
   Pitch: 1
   PanStereo: 0
   ReverbZoneMix: 1
   SpatialBlend: 1
   RolloffMode: 1
   MinDistance: 0.1
-  MaxDistance: 10
+  MaxDistance: 20
   Spread: 0
   DopplerLevel: 1
   BypassEffects: 0
