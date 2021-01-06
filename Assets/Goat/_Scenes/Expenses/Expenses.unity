@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -229,12 +229,12 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: 363d82cfd272aee4989abf933169fd6e, type: 2}
+  subscribedEvent: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
   subscribers: 0
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   expenseEvent: {fileID: 11400000, guid: d1f9b0859cedac148b895b31d1c08517, type: 2}
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
-  onExpenseCreated: {fileID: 0}
+  onExpenseCreated: {fileID: 11400000, guid: c9187c211ec6ab34eb52cb8d428be899, type: 2}
   employees: {fileID: 11400000, guid: 5bedc20e93d511f4b8a0655b347f01a4, type: 2}
 --- !u!114 &1053425223
 MonoBehaviour:
@@ -257,11 +257,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: 363d82cfd272aee4989abf933169fd6e, type: 2}
+  subscribedEvent: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}
   subscribers: 0
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   expenseEvent: {fileID: 11400000, guid: d1f9b0859cedac148b895b31d1c08517, type: 2}
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
-  onExpenseCreated: {fileID: 0}
+  onExpenseCreated: {fileID: 11400000, guid: 9f03a5de0e68ec74d9e6334b73baad4b, type: 2}
   expenses: {fileID: 11400000, guid: 223bd6dbe0724d04aa3eb7afffc8aa24, type: 2}
   electricity: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}

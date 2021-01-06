@@ -12,8 +12,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
     [Title("Bar")]
     [SerializeField] private Button mainButton;
     [Title("BuildButton")]
-    [SerializeField] private Sprite empty;
-    [SerializeField] private Sprite emptySelected;
+    [SerializeField] private SelectDeselectSprites selectionSprites;
     [SerializeField] private GameObject headerObj;
     [SerializeField] private Image buildButtonIcon;
     [SerializeField] private RectTransform headerRect;
@@ -51,6 +50,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
 
     private void Awake()
     {
+        ResetScale();
         isOpened = false;
         mainButton.onClick.AddListener(OpenSideBar);
     }
@@ -72,7 +72,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
         if (openSideBar.NotNull())
             openSideBar.Complete();
         openSideBar = DOTween.Sequence();
-        openSideBar.AppendCallback(() => buildButtonIcon.sprite = emptySelected);
+        openSideBar.AppendCallback(() => buildButtonIcon.sprite = selectionSprites.Selected);
         openSideBar.AppendCallback(() => selectedObj.SetActive(true));
         openSideBar.Append(buildButtonIcon.rectTransform.DOPunchScale(scaleIncrease, punchScaleDuration, vibrato, elasticity));
 
@@ -107,7 +107,21 @@ public class AnimateSideBarOnClick : EventListenerVoid
 
         closeSideBar.Join(headerRect.DOScaleY(0, mainHeaderDuration / closingDurationMultiplier));
         closeSideBar.Join(selectedRect.DOScaleX(0, barScaleDuration / closingDurationMultiplier));
-        closeSideBar.AppendCallback(() => buildButtonIcon.sprite = empty);
+        closeSideBar.AppendCallback(() => buildButtonIcon.sprite = selectionSprites.Deselected);
         closeSideBar.AppendCallback(() => selectedObj.SetActive(false));
+    }
+
+    private void ResetScale()
+    {
+        for (int i = buttonRects.Length - 1; i >= 0; i--)
+        {
+            buttonRects[i].localScale = Vector3.zero;
+            headerRects[i].localScale = Vector3.right;
+        }
+
+        headerRect.localScale = Vector3.right;
+        selectedRect.localScale = Vector3.up;
+        buildButtonIcon.sprite = selectionSprites.Deselected;
+        selectedObj.SetActive(false);
     }
 }

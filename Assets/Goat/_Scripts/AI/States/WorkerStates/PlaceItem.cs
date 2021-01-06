@@ -5,6 +5,7 @@ using Goat.AI;
 using Goat.Storage;
 using Goat.Grid.Interactions;
 using System.Linq;
+using System;
 
 namespace Goat.AI.States
 {
@@ -18,6 +19,8 @@ namespace Goat.AI.States
         private float placingSpeed = 0.5f, nextItemTime = 0;
 
         private string storage = "Storage", container = "Container";
+
+        public EventHandler eventHandler;
 
         public PlaceItem(Worker worker, Animator animator)
         {
@@ -44,7 +47,8 @@ namespace Goat.AI.States
             {
                 animator.SetTrigger("Interact");
                 //Delay
-
+                eventHandler.Invoke(this, null);
+                    
                 worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);

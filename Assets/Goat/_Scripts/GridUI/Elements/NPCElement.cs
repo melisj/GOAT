@@ -4,6 +4,7 @@ using Goat.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] private TextMeshProUGUI totalPrice;
         [SerializeField] private TextMeshProUGUI customerName;
         [SerializeField] private RectTransform customerBorderLeft, customerBorderMiddle;
+        [SerializeField] private Money money;
+        [SerializeField] private IntEvent onSale;
         [SerializeField] private float margin;
         [SerializeField] private Button sellButton;
         [SerializeField] private Transform contentParent;
@@ -103,7 +106,7 @@ namespace Goat.Grid.Interactions.UI
                 }
 
                 // Set button actions (leave store)
-                sellButton.onClick.AddListener(checkout.RemoveCustomerFromQueue);
+                sellButton.onClick.AddListener(() => Sell(customer, checkout));
             }
 
             // Disable the items that are not being used
@@ -120,6 +123,13 @@ namespace Goat.Grid.Interactions.UI
                 customerName.text = string.Format("Name: {0}", customer ? customer.name : "No customer");
                 ChangeIconWidth(customerName.text, customerName, customerBorderMiddle, customerBorderLeft);
             }
+        }
+
+        private void Sell(Customer customer, CheckoutInteractable checkout)
+        {
+            checkout.RemoveCustomerFromQueue();
+            money.Amount += customer.totalPriceProducts;
+            onSale.Raise((int)customer.totalPriceProducts);
         }
 
         protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)

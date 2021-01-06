@@ -11,7 +11,10 @@ namespace Goat.UI
     {
         [SerializeField] private ConjunctiveAdverbs adverbs;
         [SerializeField] private TextMeshProUGUI customerName;
+        [SerializeField] private Image customerIcon;
+        [SerializeField] private SatisfactionSprites satisfactionSprites;
         [SerializeField] private TextMeshProUGUI review;
+        [SerializeField] private BorderContentFitter headerFitter;
         [Title("Factors")]
         [SerializeField] private TextMeshProUGUI beautyPoints;
         [SerializeField] private TextMeshProUGUI itemNotFoundPoints;
@@ -37,6 +40,13 @@ namespace Goat.UI
             this.review.text = stringBuilder.ToString();
             customerName.text = review.CustomerName;
             stringBuilder.Clear();
+            ChangeIcon((int)review.SatisfactionPoints);
+            headerFitter.ChangeIconWidth();
+        }
+
+        private void ChangeIcon(int value)
+        {
+            customerIcon.sprite = value > 0 ? satisfactionSprites.Happy : value == 0 ? satisfactionSprites.Neutral : satisfactionSprites.UnHappy;
         }
 
         private void SetFactors(ReviewLineInfo revInfo)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1694938148}
   - component: {fileID: 1694938150}
   - component: {fileID: 1694938149}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Asteroid Storm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4774,7 +4774,7 @@ GameObject:
   - component: {fileID: 1155482417491486091}
   - component: {fileID: 1155482417491486090}
   - component: {fileID: 1155482417491486093}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Vehicle Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9634,7 +9634,7 @@ GameObject:
   - component: {fileID: 1155482415872544964}
   - component: {fileID: 1155482415872544967}
   - component: {fileID: 421137666}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AsteroidMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14492,4 +14492,4 @@ MonoBehaviour:
   nightSkyboxColor: {r: 1, g: 0.1842245, b: 0, a: 1}
   daySkyboxColor: {r: 1, g: 1, b: 1, a: 0}
   daytimeParticle: {fileID: 1155482417491486090}
-  nighttimeParticle: {fileID: 1155482415872544964}
+  nighttimeParticle: {fileID: 1694938150}

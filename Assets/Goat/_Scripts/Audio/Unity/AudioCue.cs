@@ -11,7 +11,7 @@ public class AudioCue : MonoBehaviour
     [Header("Sound definition")]
     [SerializeField] private AudioCueSO _audioCue = default;
     [SerializeField] private bool _playOnStart = false;
-    [SerializeField] private GameObject parent;
+    [SerializeField] protected GameObject parent;
     [Header("Configuration")]
     [SerializeField] private AudioCueEventChannelSO _audioCueEventChannel = default;
     [SerializeField] private AudioConfigurationSO _audioConfiguration = default;
@@ -27,7 +27,7 @@ public class AudioCue : MonoBehaviour
 
     public void PlayAudioCue()
     {
-        _audioCueEventChannel.RaiseEvent(this, transform.position, parent);
+        _audioCueEventChannel.RaiseEvent(this, parent.transform.position, parent);
     }
 
     public void StopAudioCue()

@@ -8,6 +8,11 @@ public class ProfitCell : MonoBehaviour
     [SerializeField] private TotalBudgetCell totalExpenses;
     [SerializeField] private TextMeshProUGUI profitTM;
 
+    private void Awake()
+    {
+        ChangeText();
+    }
+
     private void OnEnable()
     {
         totalExpenses.OnTotalChanged += TotalChanged;
@@ -32,6 +37,6 @@ public class ProfitCell : MonoBehaviour
 
     private void ChangeText()
     {
-        profitTM.text = (totalIncome.TotalValue - totalExpenses.TotalValue).ToString("N");
+        profitTM.text = (totalIncome.TotalValue - totalExpenses.TotalValue).ToString("N0");
     }
 }

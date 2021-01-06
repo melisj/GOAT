@@ -263,6 +263,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 2094399924142381527, guid: c03b105514831234c9e5d1b187780afb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c03b105514831234c9e5d1b187780afb, type: 3}
 --- !u!1001 &6036161686306710102
@@ -331,6 +336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WarehouseWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279071255091420808, guid: e1e7bbac2f5b0e145bdac42d3ffd6bd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8169269292441408447, guid: e1e7bbac2f5b0e145bdac42d3ffd6bd3,
         type: 3}
@@ -412,6 +422,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StockClerk
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d66e169eeffaf4b9ac8daa6214928c, type: 3}
