@@ -319,29 +319,29 @@ namespace Goat.Grid
 
             if (wallObjs[index])
             {
-                if ((!wallAuto[index] || autoMode))
-                {
-                    //MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
-                    //for (int i = 0; i < tileObjectFilter.Length; i++)
-                    //{
-                    //    if (!autoMode && tileObjectFilter[i].sharedMesh != wall.Mesh[i])
-                    //    {
-                    //        tileObjectFilter[i].mesh = null;
-                    //    }
-                    //}
-                    PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
-                    if (!autoMode && !isLoading)
-                        placeableInfo.Placeable.Sell(1);
+                //if ((autoMode))
+                //{
+                //MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                //for (int i = 0; i < tileObjectFilter.Length; i++)
+                //{
+                //    if (!autoMode && tileObjectFilter[i].sharedMesh != wall.Mesh[i])
+                //    {
+                //        tileObjectFilter[i].mesh = null;
+                //    }
+                //}
+                PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
+                if (!autoMode && !isLoading)
+                    placeableInfo.Placeable.Sell(1);
 
-                    totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
-                    PoolManager.Instance.ReturnToPool(wallObjs[index]);
-                    wallObjs[index] = null;
-                    wallAuto[index] = false;
-                    placeableInfo.Setup(null);
-                    SaveData.SetWall(-1, index, false);
-                    if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
-                        AdjustPositionAgainstWall(buildingObject, true);
-                }
+                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+                PoolManager.Instance.ReturnToPool(wallObjs[index]);
+                wallObjs[index] = null;
+                wallAuto[index] = autoMode || wallAuto[index];
+                placeableInfo.Setup(null);
+                SaveData.SetWall(-1, index, false);
+                if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                    AdjustPositionAgainstWall(buildingObject, true);
+                //  }
             }
 
             if (wall != null && !destroyMode)
