@@ -27,7 +27,8 @@ public class InteractableOnClick : CollisionDetection
         if (previousInteractable)
         {
             previousInteractable.IsClickedOn = false;
-            interactableEvent.Raise(previousInteractable);
+            if (previousInteractable.UIActivated)
+                interactableEvent.Raise(previousInteractable);
             previousInteractable = null;
             previousCollider = null;
         }
