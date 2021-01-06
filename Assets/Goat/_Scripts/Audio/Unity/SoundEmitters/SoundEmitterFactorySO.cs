@@ -7,9 +7,9 @@ public class SoundEmitterFactorySO : FactorySO<SoundEmitter>
 {
     [SerializeField] private GameObject prefab = default;
 
-    public override SoundEmitter Create(Vector3 pos, GameObject parent)
+    public override SoundEmitter Create(Vector3 pos, Transform parent = default)
     {
-        GameObject obj = PoolManager.Instance.GetFromPool(prefab.gameObject, pos, Quaternion.identity, parent.transform);
+        GameObject obj = PoolManager.Instance.GetFromPool(prefab.gameObject, pos, Quaternion.identity, parent);
         SoundEmitter emitter = obj.GetComponent<SoundEmitter>();
         return emitter;
     }

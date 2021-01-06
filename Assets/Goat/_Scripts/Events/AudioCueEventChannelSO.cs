@@ -8,7 +8,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Events/AudioCue Event Channel")]
 public class AudioCueEventChannelSO : ScriptableObject
 {
-    public UnityAction<AudioCue, Vector3, GameObject> OnAudioCueRequested;
+    public UnityAction<AudioCue, Vector3, Transform> OnAudioCueRequested;
     public UnityAction<GameObject> OnAudioCueStopRequested;
 
     public void RaiseStopEvent(GameObject audioCue)
@@ -25,7 +25,7 @@ public class AudioCueEventChannelSO : ScriptableObject
         }
     }
 
-    public void RaiseEvent(AudioCue audioCue, Vector3 positionInSpace, GameObject parent)
+    public void RaiseEvent(AudioCue audioCue, Vector3 positionInSpace, Transform parent)
     {
         if (OnAudioCueRequested != null)
         {

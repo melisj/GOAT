@@ -89,7 +89,7 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Plays an AudioCue by requesting the appropriate number of SoundEmitters from the pool.
     /// </summary>
-    public void PlayAudioCue(AudioCue cue, Vector3 position = default, GameObject parent = null)
+    public void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
     {
         AudioCueSO audioCue = cue.GetAudioCue;
         AudioConfigurationSO settings = cue.AudioConfiguration;
