@@ -48,7 +48,7 @@ namespace Goat.AI
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
-            TakeItem takeItem = new TakeItem(this, animator, false);
+            takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
             exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review, customerCapacity);
             DoNothing doNothing = new DoNothing(this);
