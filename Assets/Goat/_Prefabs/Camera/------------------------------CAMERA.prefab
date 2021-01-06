@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1777966404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777966405}
+  - component: {fileID: 1777966406}
+  m_Layer: 0
+  m_Name: AudioHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777966405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777966404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7797434497063600207}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1777966406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777966404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5d29c856a94a54da85237a5aa81dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: b4daac6c7a30ae04c9f6f46793688f25, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 7797434497063600207}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 903c3ac76b42103478dbdbaa5aa3a436,
+    type: 2}
+  navAgent: {fileID: 7797434497063600305}
 --- !u!1 &7797434495778285235
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,11 +898,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7797434497063600306}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.44, y: 0, z: 4.28}
+  m_LocalPosition: {x: 29.9, y: 0, z: 4.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7797434496412216863}
-  - {fileID: 4478435423767417976}
+  - {fileID: 1777966405}
+  - {fileID: 2828957443588062463}
   m_Father: {fileID: 7797434496293806836}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -893,7 +945,7 @@ MonoBehaviour:
   size: 0.6
   layerMask:
     serializedVersion: 2
-    m_Bits: 1835008
+    m_Bits: 512
   onlyNearest: 1
   maxAmountColliders: 0
   repeatDetectionOverTime: 1
@@ -1282,7 +1334,7 @@ Transform:
   m_Father: {fileID: 7797434496516817794}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &636607234471558692
+--- !u!1001 &1274886395738150563
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1291,13 +1343,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3959569668178455122, guid: d0734a10345016548963584eab6d169a,
         type: 3}
-      propertyPath: forPlayer
-      value: 1
+      propertyPath: forNPC
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3959569668178455122, guid: d0734a10345016548963584eab6d169a,
         type: 3}
-      propertyPath: forNPC
-      value: 0
+      propertyPath: forPlayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3959569668178455122, guid: d0734a10345016548963584eab6d169a,
         type: 3}
@@ -1343,7 +1395,7 @@ PrefabInstance:
     - target: {fileID: 3959569668178455132, guid: d0734a10345016548963584eab6d169a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3959569668178455132, guid: d0734a10345016548963584eab6d169a,
         type: 3}
@@ -1368,9 +1420,9 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3959569668178455133, guid: d0734a10345016548963584eab6d169a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d0734a10345016548963584eab6d169a, type: 3}
---- !u!4 &4478435423767417976 stripped
+--- !u!4 &2828957443588062463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3959569668178455132, guid: d0734a10345016548963584eab6d169a,
     type: 3}
-  m_PrefabInstance: {fileID: 636607234471558692}
+  m_PrefabInstance: {fileID: 1274886395738150563}
   m_PrefabAsset: {fileID: 0}

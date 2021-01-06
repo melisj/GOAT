@@ -1,6 +1,8 @@
 ﻿using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.AI.Parking
@@ -17,6 +19,9 @@ namespace Goat.AI.Parking
         [SerializeField] private ParkingSpots parkingHandler;
         [SerializeField] private Parking parkingInfo;
 
+        [SerializeField] private WarpArrival warpArrival;
+        [SerializeField] private WarpDeparture warpDeparture;
+        
         [Header("Paths")]
         [SerializeField] private FlightPath[] arrivalPath;
         [SerializeField] private FlightPath[] departurePath;
@@ -27,7 +32,7 @@ namespace Goat.AI.Parking
         [Header("Debug")]
         [SerializeField] private bool debug;
         [SerializeField, ShowIf("debug")] private Color lineColor;
-        [SerializeField, ShowIf("debug")] private Color sphereColor;
+        [SerializeField, ShowIf("debug")] private Color sphereColor;        
 
         [Button("Spawn Ship Random", ButtonSizes.Large)]
         public virtual void SpawnShip(int amountPassengers)
@@ -82,7 +87,8 @@ namespace Goat.AI.Parking
             Vector3 spawnPosition = CalculateSpawnPosition(parkingSpot);
             Quaternion spawnRotation = CalculateSpawnRotation(parkingSpot, spawnPosition);
 
-            PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, spawnPosition, spawnRotation);
+            GameObject warp = PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, spawnPosition, spawnRotation);
+            warpArrival.PlayAudio(warp.transform);
 
             yield return new WaitForSeconds(2);
 
@@ -95,7 +101,9 @@ namespace Goat.AI.Parking
         // Despawn the ship with a warp effect
         public IEnumerator DespawnSequence(NPCShip ship)
         {
-            PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, ship.transform.position, ship.transform.rotation);
+            GameObject warp = PoolManager.Instance.GetFromPool(parkingInfo.warpEffectPrefab, ship.transform.position, ship.transform.rotation);
+            warpDeparture.PlayAudio(warp.transform);
+
             // Do ship animation
 
             yield return new WaitForSeconds(2);

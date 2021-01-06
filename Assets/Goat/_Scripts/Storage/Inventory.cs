@@ -23,6 +23,8 @@ namespace Goat.Storage
         public delegate void InventoryReset();
         public event InventoryReset InventoryResetEvent;
 
+        [HideInInspector] public event EventHandler InventoryAddedEvent, InventoryRemovedEvent;
+
         public Inventory(int maxCapacity, GridObjectsList obj = null)
         {
             itemsInInventory = 0;
@@ -44,6 +46,7 @@ namespace Goat.Storage
             else
                 Items.Add(resource, amountStored);
 
+            OnInventoryChanged(amount);
             InventoryChangedEvent?.Invoke(resource, amountStored, false);
         }
 
@@ -62,6 +65,7 @@ namespace Goat.Storage
             else
                 amountRemoved = 0;
 
+            OnInventoryChanged(-amount);
             InventoryChangedEvent?.Invoke(resource, amountRemoved, true);
         }
 
@@ -112,6 +116,16 @@ namespace Goat.Storage
             itemsInInventory = 0;
 
             InventoryResetEvent?.Invoke();
+        }
+
+        public void OnInventoryChanged(int changedAmount)
+        {
+            if (changedAmount == 0)
+                return;
+            else if (changedAmount < 0)
+                InventoryRemovedEvent?.Invoke(this, null);
+            else if (changedAmount > 0)
+                InventoryAddedEvent?.Invoke(this, null);
         }
     }
 }

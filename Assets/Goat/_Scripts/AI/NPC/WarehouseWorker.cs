@@ -20,7 +20,7 @@ namespace Goat.AI
 
             MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             //TakeItem takeItem = new TakeItem(this, animator, false);
-            PlaceItem placeItem = new PlaceItem(this, animator);
+            placeItem = new PlaceItem(this, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
             DoNothing doNothing = new DoNothing(this);

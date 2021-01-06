@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parkingHandler: {fileID: 5792046307506646369}
   parkingInfo: {fileID: 11400000, guid: bf23c1689dc53d344880ebd4026503f7, type: 2}
+  warpArrival: {fileID: 0}
+  warpDeparture: {fileID: 0}
   arrivalPath:
   - RelativePosition: {x: 0, y: 15, z: -5}
     accuracy: 5
@@ -68,6 +70,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5792046306962520111}
   - component: {fileID: 5792046306962520104}
+  - component: {fileID: 392355362451687416}
+  - component: {fileID: 2158243259248277816}
   m_Layer: 0
   m_Name: NPCShipSpawner
   m_TagString: Untagged
@@ -103,6 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parkingHandler: {fileID: 5792046307506646369}
   parkingInfo: {fileID: 11400000, guid: 6ca13f1c83e4ca14a89c758e4d49ca74, type: 2}
+  warpArrival: {fileID: 392355362451687416}
+  warpDeparture: {fileID: 2158243259248277816}
   arrivalPath:
   - RelativePosition: {x: 0, y: 15, z: -5}
     accuracy: 5
@@ -116,6 +122,44 @@ MonoBehaviour:
   debug: 1
   lineColor: {r: 1, g: 1, b: 0, a: 1}
   sphereColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &392355362451687416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792046306962520105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f6725edeb62b3a4ca4281bf517cf028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: ce76e7c6eda22754984633edcf362313, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 5792046306962520111}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
+    type: 2}
+--- !u!114 &2158243259248277816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792046306962520105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571c55a09d3d9e84190145e369913876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 99cd847f23294064e923bc54986b55d3, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 5792046306962520111}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
+    type: 2}
 --- !u!1 &5792046307506646398
 GameObject:
   m_ObjectHideFlags: 0
