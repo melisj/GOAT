@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scenePaths:
+  - Assets/Goat/_Scenes/Resources/SceneLoader/Narrative.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/NPCSpawners.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/TemplateScene.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/UI.unity
@@ -61,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scencesToLoad:
+  - {fileID: 102900000, guid: e4f53cef77dbf324dba70b394a7b491b, type: 3}
   - {fileID: 102900000, guid: 6cfdad87ae9441c458ed7b6b89c8428e, type: 3}
   - {fileID: 102900000, guid: 9f05815438497cc41abb6c992248ace1, type: 3}
   - {fileID: 102900000, guid: 312362ddd6ce0a244a925579717812cd, type: 3}
