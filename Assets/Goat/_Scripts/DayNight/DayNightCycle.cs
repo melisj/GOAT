@@ -7,8 +7,9 @@ using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System.Globalization;
+using UnityAtoms;
 
-public partial class DayNightCycle : MonoBehaviour
+public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
 {
     [SerializeField] private TimeOfDay timeOfDay;
 
@@ -21,10 +22,25 @@ public partial class DayNightCycle : MonoBehaviour
     //the regular speed of the day + clock. not to be confused with time manipulation
     [SerializeField] private int timeSpeed = 1;
     [SerializeField] private BoolEvent OnChangeCycle;
+    [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField, ProgressBar(1, 10)] private int timeScale;
 
     //Events for OnDayTime and OnNightTime
     //public event EventHandler<bool> OnChangeCycle;
+    private void OnEnable()
+    {
+        onTimeSpeedChanged.RegisterSafe(this);
+    }
+
+    private void OnDisable()
+    {
+        onTimeSpeedChanged.UnregisterSafe(this);
+    }
+
+    public void OnEventRaised(int changedTimeSpeed)
+    {
+        timeSpeed = changedTimeSpeed;
+    }
 
     private void Start()
     {
