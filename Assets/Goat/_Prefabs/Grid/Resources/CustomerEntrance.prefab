@@ -45,7 +45,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.25}
+  m_Size: {x: 2, y: 1, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1918427389
 MonoBehaviour:
@@ -63,6 +63,7 @@ MonoBehaviour:
   ring: 1
   doorRing: {fileID: 1918427388}
   doorOpenClose: {fileID: 1918427390}
+  agentsInCollider: 0
 --- !u!114 &1918427388
 MonoBehaviour:
   m_ObjectHideFlags: 0

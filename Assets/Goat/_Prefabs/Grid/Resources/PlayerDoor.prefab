@@ -263,10 +263,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dc7d8707a7033429af46bfe42edab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorAnimator: {fileID: 0}
+  doorAnimator: {fileID: 3893627826084406595}
   ring: 0
   doorRing: {fileID: 2317567081394439328}
   doorOpenClose: {fileID: 4064513815115682866}
+  agentsInCollider: 0
 --- !u!114 &2317567081394439328
 MonoBehaviour:
   m_ObjectHideFlags: 0

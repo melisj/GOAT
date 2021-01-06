@@ -5,10 +5,10 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 8042153348184688654
-    second: DoorOutside(Door1)Open
+    second: CustomerEntranceOpen
   - first:
       74: -912222197727355398
-    second: DoorOutside(Door1)Close
+    second: CustomerEntranceClose
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -43,7 +43,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DoorOutside(Door1)Open
+      name: CustomerEntranceOpen
       takeName: DoorOutside(Door1)Action.001
       internalID: 0
       firstFrame: 0
@@ -72,7 +72,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DoorOutside(Door1)Close
+      name: CustomerEntranceClose
       takeName: DoorOutside(Door1)Action.001
       internalID: 0
       firstFrame: 9

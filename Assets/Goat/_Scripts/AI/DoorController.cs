@@ -20,16 +20,16 @@ public class DoorController : MonoBehaviour
         }
 
         agentsInCollider++;
-        //doorAnimator.SetInteger("AgentsInCollider", agentsInCollider);
+        doorAnimator.SetInteger("AgentsInCollider", agentsInCollider);
     }
     private void OnTriggerExit(Collider other)
     {
         agentsInCollider--;
-        //doorAnimator.SetInteger("AgentsInCollider", agentsInCollider);
+        doorAnimator.SetInteger("AgentsInCollider", agentsInCollider);
 
         if (agentsInCollider == 0)
         {
-            doorRing.PlayAudio();
+            //doorRing.PlayAudio();
             doorOpenClose.PlayAudio();
         }
     }

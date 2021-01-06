@@ -187,7 +187,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.25}
+  m_Size: {x: 2, y: 1, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5305414605200120049
 MonoBehaviour:
@@ -201,10 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dc7d8707a7033429af46bfe42edab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorAnimator: {fileID: 0}
-  ring: 0
+  doorAnimator: {fileID: 7570787542598609547}
+  ring: 1
   doorRing: {fileID: 4438550568883956489}
   doorOpenClose: {fileID: 1941531767092719524}
+  agentsInCollider: 0
 --- !u!114 &4438550568883956489
 MonoBehaviour:
   m_ObjectHideFlags: 0
