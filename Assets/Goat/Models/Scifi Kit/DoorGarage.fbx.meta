@@ -5,7 +5,10 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 8042153348184688654
-    second: DoorOutside(Door1)Action.001
+    second: DoorOutside(Door1)Open
+  - first:
+      74: -912222197727355398
+    second: DoorOutside(Door1)Close
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -40,10 +43,39 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DoorOutside(Door1)Action.001
+      name: DoorOutside(Door1)Open
       takeName: DoorOutside(Door1)Action.001
       internalID: 0
       firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: DoorOutside(Door1)Close
+      takeName: DoorOutside(Door1)Action.001
+      internalID: 0
+      firstFrame: 9
       lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
@@ -118,7 +150,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.01
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
