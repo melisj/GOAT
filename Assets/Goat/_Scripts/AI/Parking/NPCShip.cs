@@ -49,8 +49,7 @@ namespace Goat.AI.Parking
         {
             // Customer has arrived
             parkingSpot.ocupied = false;
-            AddFlightPath(transform.position + new Vector3(0, Spawner.ArrivalHeight, 0), 1);
-            AddFlightPath(transform.position + transform.forward * 100, 20);
+            Spawner.SetFlightPath(this, Spawner.DeparturePath, ParkingSpot);
             StartCoroutine(FollowFlightPath(() => ShipHasDeparted()));
         }
 
@@ -79,6 +78,10 @@ namespace Goat.AI.Parking
                 // Lerp ship closer to its destination with the speed curve in mind
                 currentTime += Time.deltaTime * speedCurve.Evaluate(1 - (currentDistance / totalDistance));
                 transform.position = Vector3.Lerp(startingPos, flightPath.Peek(), currentTime);
+
+                Vector3 direction = flightPath.Peek() - startingPos;
+                direction.y = 0;
+                transform.rotation = Quaternion.Slerp(Quaternion.LookRotation(direction, Vector3.up), transform.rotation, Time.deltaTime);
 
                 currentDistance = Vector3.Distance(transform.position, flightPath.Peek());
 

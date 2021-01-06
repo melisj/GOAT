@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d518fa3bedd817f458947856fe486f10, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  currentCapacity: 2147483647
+  currentCapacity: 10
   defaultCapacity: 10
-  gamemodeCreative: 1
+  gamemodeCreative: 0
   resources: {fileID: 11400000, guid: fccc7482542f53747b198b1207452a9e, type: 2}
