@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.59
+      value: 31.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
@@ -141,7 +141,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.91
+      value: -9.189999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
@@ -315,23 +315,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
-      propertyPath: lightToChange
-      value: 
-      objectReference: {fileID: 746762903}
-    - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
-    - target: {fileID: 1694938147, guid: ebd908bd185c13646a62725252f09aab, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155482417491486092, guid: ebd908bd185c13646a62725252f09aab,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
+    - target: {fileID: 421137666, guid: ebd908bd185c13646a62725252f09aab, type: 3}
+      propertyPath: lightToChange
+      value: 
+      objectReference: {fileID: 746762903}
     - target: {fileID: 1694374218478024498, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -345,7 +336,7 @@ PrefabInstance:
     - target: {fileID: 1694374218478024498, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.8
+      value: 38.52
       objectReference: {fileID: 0}
     - target: {fileID: 1694374218478024498, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
@@ -391,11 +382,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AsteroidMap
-      objectReference: {fileID: 0}
-    - target: {fileID: 2074031819434896776, guid: ebd908bd185c13646a62725252f09aab,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebd908bd185c13646a62725252f09aab, type: 3}

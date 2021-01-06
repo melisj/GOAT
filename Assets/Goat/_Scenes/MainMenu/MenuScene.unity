@@ -199,7 +199,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54840983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 20.44, y: 7.76, z: -30.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -861,7 +861,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.59
+      value: 31.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
@@ -871,7 +871,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.91
+      value: -9.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c15ccb2c116ccc94a9a1731a5e138baa,
         type: 3}
@@ -2387,15 +2387,6 @@ PrefabInstance:
       propertyPath: lightToChange
       value: 
       objectReference: {fileID: 746762903}
-    - target: {fileID: 1694938150, guid: ebd908bd185c13646a62725252f09aab, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155482417491486090, guid: ebd908bd185c13646a62725252f09aab,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1694374218478024498, guid: ebd908bd185c13646a62725252f09aab,
         type: 3}
       propertyPath: m_LocalPosition.x
