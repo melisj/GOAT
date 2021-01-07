@@ -48,6 +48,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 0
+  adjustPosition: {fileID: 0}
   description: Produces power in daylight
   costsPower: 0
   powerCost: 0
@@ -81,7 +83,7 @@ GameObject:
   - component: {fileID: 6863194912996408247}
   - component: {fileID: 8708272971065315197}
   - component: {fileID: 1418390824212046882}
-  - component: {fileID: 3448568709584535161}
+  - component: {fileID: 3403287113964472609}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -163,19 +165,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.55367744, y: 0.75963277, z: 0.3511086}
   m_Center: {x: -0.000025376678, y: 0.37922207, z: 0.030912511}
---- !u!114 &3448568709584535161
-MonoBehaviour:
+--- !u!208 &3403287113964472609
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7195340778457296552}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.277, y: 0.38000003, z: 0.17600001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.379, z: 0.031000001}
+  m_TimeToStationary: 0.5
