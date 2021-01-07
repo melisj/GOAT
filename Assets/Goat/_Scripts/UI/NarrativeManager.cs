@@ -27,6 +27,9 @@ public class NarrativeManager : MonoBehaviour
     private Image portrait;
     private int narrativeIndex = 0;
 
+    private Vector3 narrativePortraitScale;
+    private Tween currentTweening;
+
     private void Start()
     {
         textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
@@ -34,6 +37,8 @@ public class NarrativeManager : MonoBehaviour
 
         textMesh.text = narrative[narrativeIndex].Sentence;
         portrait.sprite = narrative[narrativeIndex].Sprite;
+
+        narrativePortraitScale = portrait.transform.localScale;
     }
 
     private void Update()
@@ -51,7 +56,11 @@ public class NarrativeManager : MonoBehaviour
             narrativeIndex++;
             textMesh.text = narrative[narrativeIndex].Sentence;
             portrait.sprite = narrative[narrativeIndex].Sprite;
-            portrait.transform.DOPunchScale(Vector3.one / 3, 0.3f, 10, 10f);
+
+            // Stop and start tweeing process
+            if (currentTweening != null) currentTweening.Kill();
+            portrait.transform.localScale = narrativePortraitScale;
+            currentTweening = portrait.transform.DOPunchScale(Vector3.one / 3, 0.3f, 10, 10f);
         }
         else
         {
