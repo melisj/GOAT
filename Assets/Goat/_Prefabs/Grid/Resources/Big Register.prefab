@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &158799897636468756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3251657045178798057}
+  - component: {fileID: 3893105453393092277}
+  m_Layer: 20
+  m_Name: AudioHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3251657045178798057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158799897636468756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2759241847008840393}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3893105453393092277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158799897636468756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f811402b23e4e5946975cf95e34650ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 78ab33f42b5c58c449077bf1870532eb, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 3251657045178798057}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 8dccd29dcab1d4d46b964f4b0c536476,
+    type: 2}
 --- !u!1 &1607680376080751248
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,6 +112,7 @@ Transform:
   m_Children:
   - {fileID: 2090919703317348394}
   - {fileID: 8045296633671819280}
+  - {fileID: 3251657045178798057}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -94,6 +145,7 @@ MonoBehaviour:
   queueStartingPosition: {fileID: 8045296633671819280}
   overrideQueueDirection: 1
   queueStartingRotation: 90
+  chaChing: {fileID: 3893105453393092277}
 --- !u!114 &7547262478382381498
 MonoBehaviour:
   m_ObjectHideFlags: 0

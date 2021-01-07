@@ -12,6 +12,7 @@ namespace Goat.Grid
     {
         [Header("Generation")]
         [SerializeField] private Wall defaultWall;
+        [SerializeField] private GameObject gridPlane;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
@@ -41,7 +42,7 @@ namespace Goat.Grid
 
         private Vector2Int currentTileIndex;
         private bool autoWalls;
-
+        private bool fill;
         public bool DestroyMode { get; set; }
         public float GetTileSize { get { return tileSize; } }
         public Vector2Int GetGridSize { get { return gridSize; } }
@@ -134,12 +135,20 @@ namespace Goat.Grid
             {
                 if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
                 {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                    if (fill)
+                    {
+                        FillGrid();
+                        return;
+                    }
+#endif
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
                         if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
-                            && !(previewPlaceableInfo is Wall))
+                           )
                         {
+                            if (!previewPlaceableInfo.CreatesWallsAround) return;
                             //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
                         }
@@ -152,6 +161,37 @@ namespace Goat.Grid
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    fill = !fill;
+                    Debug.LogWarning($"FILL MODE = {fill}");
+                }
+#endif
+            }
+        }
+
+        private void FillGrid()
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                for (int y = 0; y < gridSize.y; y++)
+                {
+                    int random = Random.Range(0, 4);
+                    int setTileRandom = Random.Range(0, 101);
+                    int chanceToSet = 30;
+                    int rotation = 90 * random;
+                    if (!DestroyMode)
+                    {
+                        if (setTileRandom > chanceToSet) continue;
+                        if (tiles[x, y].FloorObj) continue;
+                    }
+                    if (tiles[x, y].EditAny(previewPlaceableInfo, rotation, DestroyMode))
+                    {
+                        if (!previewPlaceableInfo.CreatesWallsAround) continue;
+                        SetupNeighborTiles(new Vector2Int(x, y));
+                    }
                 }
             }
         }
@@ -298,9 +338,9 @@ namespace Goat.Grid
         {
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
-            Material material = GetComponent<Renderer>().material;
+            Material material = gridPlane.GetComponent<Renderer>().material;
             material.mainTextureScale = gridSize;
-            startingPosition = transform.parent.position;
+            startingPosition = gridPlane.transform.position;
 
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -313,8 +353,8 @@ namespace Goat.Grid
                 }
             }
 
-            transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
-            transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
+            gridPlane.transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
+            gridPlane.transform.localPosition = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize / 2;
         }
 
         /// <summary>

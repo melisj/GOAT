@@ -145,7 +145,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a1426aac7e0c8ed4ea481d3cd4de3bb5, type: 3}
   - {fileID: 21300000, guid: 27de3cac2ba7ce8478d2e6f4c6e1fc10, type: 3}
   - {fileID: 21300000, guid: b583f1cc3db1b664f9977da2f0057670, type: 3}
-  - {fileID: 21300000, guid: 1686ebcc3f851114fb302c389696b0ae, type: 3}
   - {fileID: 21300000, guid: b37fc7dc28f08434fa28e6f02d2654e4, type: 3}
   - {fileID: 21300000, guid: 09e5abdce2664fa4295c0e10b02d3c3d, type: 3}
   - {fileID: 21300000, guid: 3ca40edcdd5b40c40933320e961b2e08, type: 3}
@@ -271,7 +270,6 @@ SpriteAtlas:
   - Incoming_Message_Left_Top_Border
   - Customers
   - Menu_Empty
-  - icons8_ask_questionfEELINGS_64
   - Pause
   - Border_DarkPurple_Right
   - Border_red_bottom
