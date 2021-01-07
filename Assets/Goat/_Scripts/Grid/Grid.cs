@@ -46,7 +46,7 @@ namespace Goat.Grid
         public float GetTileSize { get { return tileSize; } }
         public Vector2Int GetGridSize { get { return gridSize; } }
 
-        private void Start()
+        private void Awake()
         {
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();

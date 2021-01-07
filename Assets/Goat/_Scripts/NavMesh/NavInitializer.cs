@@ -10,7 +10,7 @@ namespace Goat.AI
         [SerializeField] private NavMeshSurface surfacePlayer;
         [SerializeField] private NavMeshSurface surfaceWorker;
 
-        private void Awake()
+        private void Start()
         {
             DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
             surfaceAI.BuildNavMesh();
