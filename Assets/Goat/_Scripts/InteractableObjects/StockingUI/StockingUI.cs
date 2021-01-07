@@ -82,16 +82,6 @@ namespace Goat.Grid.Interactions.UI
                 {
                     sellButton.onClick.Invoke();
                 }
-
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    maxAmountButton.onClick.Invoke();
-                }
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    minAmountButton.onClick.Invoke();
-                }
             }
         }
 

@@ -42,7 +42,7 @@ namespace Goat.Grid
 
         private Vector2Int currentTileIndex;
         private bool autoWalls;
-
+        private bool fill;
         public bool DestroyMode { get; set; }
         public float GetTileSize { get { return tileSize; } }
         public Vector2Int GetGridSize { get { return gridSize; } }
@@ -135,6 +135,13 @@ namespace Goat.Grid
             {
                 if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
                 {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                    if (fill)
+                    {
+                        FillGrid();
+                        return;
+                    }
+#endif
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
@@ -154,6 +161,37 @@ namespace Goat.Grid
                     // Always has to rotate a 90 degrees
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
+                }
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    fill = !fill;
+                    Debug.LogWarning($"FILL MODE = {fill}");
+                }
+#endif
+            }
+        }
+
+        private void FillGrid()
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                for (int y = 0; y < gridSize.y; y++)
+                {
+                    int random = Random.Range(0, 4);
+                    int setTileRandom = Random.Range(0, 101);
+                    int chanceToSet = 30;
+                    int rotation = 90 * random;
+                    if (!DestroyMode)
+                    {
+                        if (setTileRandom > chanceToSet) continue;
+                        if (tiles[x, y].FloorObj) continue;
+                    }
+                    if (tiles[x, y].EditAny(previewPlaceableInfo, rotation, DestroyMode))
+                    {
+                        if (!previewPlaceableInfo.CreatesWallsAround) continue;
+                        SetupNeighborTiles(new Vector2Int(x, y));
+                    }
                 }
             }
         }
