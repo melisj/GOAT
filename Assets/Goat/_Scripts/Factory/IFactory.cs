@@ -8,6 +8,6 @@ namespace Goat.Factory
     /// <typeparam name="T">Specifies the type to create.</typeparam>
     public interface IFactory<T>
     {
-        T Create(Vector3 pos, GameObject parent);
+        T Create(Vector3 pos, Transform parent);
     }
 }

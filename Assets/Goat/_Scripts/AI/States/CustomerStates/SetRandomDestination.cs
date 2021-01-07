@@ -9,18 +9,20 @@ namespace Goat.AI.States
 {
     public class SetRandomDestination : IState
     {
-        NPC npc;
-        NavMeshAgent navMeshAgent;
-        LayerMask layerMask;
+        private NPC npc;
+        private NavMeshAgent navMeshAgent;
+        private LayerMask layerMask;
         private StorageInteractable prevStorage;
         private Vector3 wanderDestination;
         private NavMeshPath navPath = new NavMeshPath();
+        private int areaMask;
 
-        public SetRandomDestination(NPC npc, NavMeshAgent navMeshAgent)
+        public SetRandomDestination(NPC npc, NavMeshAgent navMeshAgent, int areaMask)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
             layerMask = LayerMask.GetMask("Interactable");
+            this.areaMask = areaMask;
         }
 
         public void Tick()
@@ -91,7 +93,6 @@ namespace Goat.AI.States
                 return false;
         }
 
-
         /// <summary>
         /// Get random position on NavMesh
         /// </summary>
@@ -101,15 +102,18 @@ namespace Goat.AI.States
         /// <returns></returns>
         private bool RandomWanderTarget(Vector3 center, float range, out Vector3 result)
         {
-
-            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+            Vector3 randomPoint = center + (Random.insideUnitSphere * range);
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            NavMeshQueryFilter filter = new NavMeshQueryFilter
+            {
+                areaMask = (1 << areaMask)
+            };
+
+            if (NavMesh.SamplePosition(randomPoint, out hit, 100, filter))
             {
                 result = hit.position;
-                //Debug.LogFormat("Hit NavMesh on: {0}", result);
+                Debug.LogFormat("Hit NavMesh on: {0}", result);
                 return true;
-
             }
 
             //Debug.LogWarning("No hit on NavMesh!");
@@ -132,4 +136,3 @@ namespace Goat.AI.States
         }
     }
 }
-

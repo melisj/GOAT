@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1694938148}
   - component: {fileID: 1694938150}
   - component: {fileID: 1694938149}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Asteroid Storm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4774,7 +4774,7 @@ GameObject:
   - component: {fileID: 1155482417491486091}
   - component: {fileID: 1155482417491486090}
   - component: {fileID: 1155482417491486093}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Vehicle Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4811,7 +4811,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9634,7 +9634,7 @@ GameObject:
   - component: {fileID: 1155482415872544964}
   - component: {fileID: 1155482415872544967}
   - component: {fileID: 421137666}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: AsteroidMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

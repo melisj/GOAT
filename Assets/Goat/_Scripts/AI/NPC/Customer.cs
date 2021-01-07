@@ -12,10 +12,11 @@ using Goat.ScriptableObjects;
 using Goat.AI.Parking;
 using Goat.AI.Feelings;
 using UnityAtoms.BaseAtoms;
+using UnityAtoms;
 
 namespace Goat.AI
 {
-    public class Customer : NPC
+    public class Customer : NPC, IAtomListener<bool>
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
         [SerializeField] private float maxSearchingTime = 60;
@@ -23,6 +24,8 @@ namespace Goat.AI
         [SerializeField] private CustomerFeelings feelings;
         [SerializeField] private IntVariable customerCapacity;
         [SerializeField] private UnloadLocations entrances;
+        [SerializeField] private BoolEvent onDay;
+        [SerializeField] private int storeArea;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -45,7 +48,7 @@ namespace Goat.AI
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, animator, entrances, customerCapacity);
-            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent);
+            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             takeItem = new TakeItem(this, animator, false);
@@ -114,17 +117,26 @@ namespace Goat.AI
             leavingStore = false;
             money = UnityEngine.Random.Range(1, 3) * 100;
             base.OnGetObject(objectInstance, poolKey);
+            onDay.RegisterSafe(this);
         }
 
         public override void OnReturnObject()
         {
             feelings.OnReturn();
+            onDay.UnregisterSafe(this);
+
             base.OnReturnObject();
         }
 
         public void LeaveStore()
         {
             stateMachine.SetState(exitStore);
+        }
+
+        public void OnEventRaised(bool isDay)
+        {
+            if (!isDay)
+                LeaveStore();
         }
     }
 }

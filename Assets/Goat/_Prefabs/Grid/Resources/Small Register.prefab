@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6811335577567325641}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: QueueStartingPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 742260747052954882}
   - component: {fileID: 3290439722876158408}
   - component: {fileID: 2275575663732072113}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941307877682752401}
   - component: {fileID: 1471545901908805}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Model Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 9213721514872725874}
   - component: {fileID: -3357384152587337995}
   - component: {fileID: -5281333529883370972}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Small Register
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -220,6 +220,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 0
+  adjustPosition: {fileID: 0}
   description: Register for customers
   costsPower: 0
   powerCost: 0

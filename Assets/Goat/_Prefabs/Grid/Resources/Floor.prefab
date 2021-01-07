@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 759506433919531080}
   - component: {fileID: 1035292966078176343}
   - component: {fileID: -1540092166371992034}
+  - component: {fileID: 5500576901256056679}
   m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
@@ -151,6 +152,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
+--- !u!114 &5500576901256056679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5071828486381597130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 3
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &8153464355970788662
 GameObject:
   m_ObjectHideFlags: 0

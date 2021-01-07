@@ -45,12 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: b4daac6c7a30ae04c9f6f46793688f25, type: 2}
   _playOnStart: 0
-  parent: {fileID: 2094399924142381527}
+  parent: {fileID: 2094399924142381525}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
   _audioConfiguration: {fileID: 11400000, guid: 903c3ac76b42103478dbdbaa5aa3a436,
     type: 2}
   navAgent: {fileID: 2094399924142381526}
+  delay: 0.25
 --- !u!1 &400273302592665238
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ MonoBehaviour:
     m_Bits: 1024
   storageMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 262144
   obstacleMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -385,6 +386,8 @@ MonoBehaviour:
   feelings: {fileID: 3148984614122792479}
   customerCapacity: {fileID: 11400000, guid: a2c0e22995392d749a337729309d1ac1, type: 2}
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
+  onDay: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  storeArea: 3
   money: 100
   remainingMoney: 0
   resourcesInProject: {fileID: 11400000, guid: fccc7482542f53747b198b1207452a9e, type: 2}

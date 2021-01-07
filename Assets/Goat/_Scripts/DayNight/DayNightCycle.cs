@@ -7,8 +7,9 @@ using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System.Globalization;
+using UnityAtoms;
 
-public partial class DayNightCycle : MonoBehaviour
+public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
 {
     [SerializeField] private TimeOfDay timeOfDay;
 
@@ -19,12 +20,26 @@ public partial class DayNightCycle : MonoBehaviour
     //which hour of day the sun rises and sets
 
     //the regular speed of the day + clock. not to be confused with time manipulation
-    [SerializeField] private int timeSpeed = 1;
     [SerializeField] private BoolEvent OnChangeCycle;
+    [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField, ProgressBar(1, 10)] private int timeScale;
 
     //Events for OnDayTime and OnNightTime
     //public event EventHandler<bool> OnChangeCycle;
+    private void OnEnable()
+    {
+        onTimeSpeedChanged.RegisterSafe(this);
+    }
+
+    private void OnDisable()
+    {
+        onTimeSpeedChanged.UnregisterSafe(this);
+    }
+
+    public void OnEventRaised(int changedTimeSpeed)
+    {
+        timeOfDay.TimeScale = changedTimeSpeed;
+    }
 
     private void Start()
     {
@@ -39,7 +54,7 @@ public partial class DayNightCycle : MonoBehaviour
 
     private void UpdateClock()
     {
-        timeOfDay.TimeOfDayMinutes += Time.deltaTime * timeSpeed;
+        timeOfDay.TimeOfDayMinutes += Time.deltaTime * timeOfDay.TimeScale;
 
         if (timeOfDay.TimeOfDayMinutes > 60)
         {

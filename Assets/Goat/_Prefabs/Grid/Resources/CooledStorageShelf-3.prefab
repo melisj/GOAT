@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 6956316965367340537}
   - component: {fileID: 6956316965367340539}
   - component: {fileID: 6956316965367340538}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 6956316966077680264}
   - component: {fileID: 6956316966077680263}
   - component: {fileID: 251986376396133669}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 6956316966464071599}
   - component: {fileID: 6956316966464071569}
   - component: {fileID: 6956316966464071568}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 6956316966470814094}
   - component: {fileID: 6956316966470814192}
   - component: {fileID: 6956316966470814095}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +411,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6956316966585008971}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,8 @@ GameObject:
   - component: {fileID: 6560597354742808785}
   - component: {fileID: 4709982844820687041}
   - component: {fileID: -3743692163934894903}
-  m_Layer: 9
+  - component: {fileID: -2525174489482260842}
+  m_Layer: 18
   m_Name: CooledStorageShelf-3
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -489,6 +490,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 1
+  adjustPosition: {fileID: -2525174489482260842}
   description: 
   costsPower: 1
   powerCost: 3
@@ -528,6 +531,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storages: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+--- !u!114 &-2525174489482260842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956316966619564201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09bee7f5505f4ce48ab0deae261b6c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: -0.1
 --- !u!1 &6956316966730789224
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6956316966730789225}
   - component: {fileID: 6956316966730789226}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -587,7 +603,7 @@ GameObject:
   - component: {fileID: 6956316966942044256}
   - component: {fileID: 6956316966942044258}
   - component: {fileID: 6956316966942044257}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +682,7 @@ GameObject:
   - component: {fileID: 6956316967159773613}
   - component: {fileID: 6956316967159773615}
   - component: {fileID: 6956316967159773614}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +761,7 @@ GameObject:
   - component: {fileID: 6956316967462399193}
   - component: {fileID: 6956316967462399195}
   - component: {fileID: 6956316967462399194}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

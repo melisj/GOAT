@@ -23,6 +23,8 @@ public class TimeOfDay : ScriptableObject
     [SerializeField] private int currentYear;
     [SerializeField, Range(1, 12)] private int currentMonth;
 
+    public int TimeScale { get; set; }
+
     [Title("Events")]
     [SerializeField] private VoidEvent onTimeChanged;
     [SerializeField] private IntEvent onDayChanged;

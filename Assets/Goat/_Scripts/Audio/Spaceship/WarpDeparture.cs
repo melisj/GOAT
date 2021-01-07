@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WarpDeparture : AudioCue
 {
-    public void PlayAudio(GameObject parent)
+    public void PlayAudio(Transform parent)
     {
         this.parent = parent;
         PlayAudioCue();

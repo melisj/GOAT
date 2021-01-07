@@ -18,6 +18,8 @@ namespace Goat.Grid.Interactions
         [SerializeField] protected InteractablesInfo info;
         [SerializeField] private GridUIInfo gridUIInfo;
         [SerializeField] private Electricity electricityinfo;
+        [SerializeField] private bool adjustPositionAgainstWall;
+        [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
         [TextArea, Space(10)]
         [SerializeField] protected string description;
@@ -96,7 +98,7 @@ namespace Goat.Grid.Interactions
         public virtual void OpenUI()
         {
             //gridUIInfo.CurrentUIElement = UIElement.Interactable;
-            Debug.Log("Is this even called?");
+            //Debug.Log("Is this even called?");
             info.CurrentSelected = this;
         }
 
@@ -104,7 +106,7 @@ namespace Goat.Grid.Interactions
         public virtual void CloseUI()
         {
             //gridUIInfo.CurrentUIElement = UIElement.None;
-            Debug.Log("Apparently yes, but it's closed now");
+            //Debug.Log("Apparently yes, but it's closed now");
 
             IsClickedOn = false;
             info.CurrentSelected = null;
@@ -125,7 +127,8 @@ namespace Goat.Grid.Interactions
 
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
-
+            if (adjustPosition != null)
+                adjustPosition.Setup();
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
@@ -135,7 +138,8 @@ namespace Goat.Grid.Interactions
             gameObject.SetActive(false);
 
             OnDisableElectricity();
-
+            if (adjustPosition != null)
+                adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
         }

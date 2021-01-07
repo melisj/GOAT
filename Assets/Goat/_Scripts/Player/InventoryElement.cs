@@ -18,6 +18,7 @@ namespace Goat.Player
         {
             SetUI();
             playerInventory.Inventory.InventoryChangedEvent += Inventory_InventoryChangedEvent;
+            playerInventory.Inventory.InventoryResetEvent += SetUI;
             gridUIInfo.GridUIChangedEvent += GridUIInfo_GridUIChangedEvent;
         }
 
@@ -50,6 +51,10 @@ namespace Goat.Player
 
                     interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
                 });
+                if (i == 0)
+                {
+                    uiCells[i].InvokeOnClick();
+                }
             }
         }
 
@@ -67,6 +72,7 @@ namespace Goat.Player
         {
             playerInventory.Inventory.InventoryChangedEvent -= Inventory_InventoryChangedEvent;
             gridUIInfo.GridUIChangedEvent -= GridUIInfo_GridUIChangedEvent;
+            playerInventory.Inventory.InventoryResetEvent -= SetUI;
         }
     }
 }

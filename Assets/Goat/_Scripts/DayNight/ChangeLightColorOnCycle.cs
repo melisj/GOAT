@@ -16,7 +16,8 @@ public class ChangeLightColorOnCycle : EventListenerBool
 
     public override void OnEventRaised(bool isday)
     {
-        lightToChange.DOColor(isday ? dayColor : nightColor, transitionTime);
+        if (lightToChange)
+            lightToChange.DOColor(isday ? dayColor : nightColor, transitionTime);
         RenderSettings.skybox.DOColor(isday ? daySkyboxColor : nightSkyboxColor, "_Tint", transitionTime);
         if (isday)
         {
@@ -28,6 +29,5 @@ public class ChangeLightColorOnCycle : EventListenerBool
             daytimeParticle.Stop();
             nighttimeParticle.Play();
         }
-            
     }
 }

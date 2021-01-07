@@ -43,7 +43,7 @@ namespace Goat.AI.Parking
 
             while (time < spawnTime)
             {
-                time += Time.deltaTime;
+                time += Time.deltaTime * timeInfo.TimeScale;
                 yield return null;
             }
 

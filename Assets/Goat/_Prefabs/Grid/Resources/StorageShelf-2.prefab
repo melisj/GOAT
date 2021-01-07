@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3696224895932140130}
   - component: {fileID: 7418064978709568046}
   - component: {fileID: 5088376830902446063}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,8 @@ GameObject:
   - component: {fileID: 6378611930022995155}
   - component: {fileID: 1706500133508893392}
   - component: {fileID: 2229217871351285504}
-  m_Layer: 9
+  - component: {fileID: -4876240970032375841}
+  m_Layer: 18
   m_Name: StorageShelf-2
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -111,7 +112,6 @@ Transform:
   m_Children:
   - {fileID: 4011765634819120933}
   - {fileID: 6629873435161106652}
-  - {fileID: 979908769170328559}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -130,6 +130,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 1
+  adjustPosition: {fileID: -4876240970032375841}
   description: 
   costsPower: 0
   powerCost: 0
@@ -169,78 +171,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storages: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
---- !u!1 &2801167466911405105
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 979908769170328559}
-  - component: {fileID: 3009340507950762282}
-  - component: {fileID: 4028906449134688112}
-  m_Layer: 9
-  m_Name: AudioHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &979908769170328559
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2801167466911405105}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 928335420977124806}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3009340507950762282
+--- !u!114 &-4876240970032375841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2801167466911405105}
+  m_GameObject: {fileID: 1867895141637739850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d33dc72e57654042b90066eabbf5ab4, type: 3}
+  m_Script: {fileID: 11500000, guid: 09bee7f5505f4ce48ab0deae261b6c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: d5f2230a1ca014a4d9643b015c1423ea, type: 2}
-  _playOnStart: 0
-  parent: {fileID: 1867895141637739850}
-  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
-    type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 462f2113358d2024e958ed5ece9eb4fa,
-    type: 2}
-  storage: {fileID: 6378611930022995155}
---- !u!114 &4028906449134688112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2801167466911405105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa8062cd030dd849adff69688b2d77c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: 66b84310389307248bcf55f64819b527, type: 2}
-  _playOnStart: 0
-  parent: {fileID: 1867895141637739850}
-  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
-    type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 462f2113358d2024e958ed5ece9eb4fa,
-    type: 2}
-  storage: {fileID: 6378611930022995155}
+  offset: -0.1
 --- !u!1 &3396132031578619643
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +195,7 @@ GameObject:
   - component: {fileID: 6677110533129671418}
   - component: {fileID: 672050673421945649}
   - component: {fileID: 5638006448547349121}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4011765634819120933}
   - component: {fileID: 8303107878476904433}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +322,7 @@ GameObject:
   - component: {fileID: 2716784748956498344}
   - component: {fileID: 2421550047002060113}
   - component: {fileID: 3404760857400857292}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -456,7 +399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6629873435161106652}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +436,7 @@ GameObject:
   - component: {fileID: 8751233996443304374}
   - component: {fileID: 6815731558591477116}
   - component: {fileID: 259851091082278258}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -585,7 +528,7 @@ GameObject:
   - component: {fileID: 254825979690647349}
   - component: {fileID: 1062764885249087513}
   - component: {fileID: 22691222161568611}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
   m_Name: WalkingNormal
   m_EditorClassIdentifier: 
-  looping: 1
+  looping: 0
   _audioClipGroups:
-  - sequenceMode: 0
+  - sequenceMode: 1
     audioClips:
     - {fileID: 8300000, guid: bc9f07e6a8b729c48b21ea6b12403f38, type: 3}
     - {fileID: 8300000, guid: ce49c36c7836eb34ba5385fb94d60cac, type: 3}

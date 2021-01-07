@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,17 @@ public class SceneLoaderForBuild : MonoBehaviour
         this.scenePaths = scenePaths;
     }
 
-    public void LoadAllScenes()
+    public IEnumerator LoadAllScenes(Action callback)
     {
-        foreach(string path in scenePaths) 
+        foreach (string path in scenePaths)
         {
-            SceneManager.LoadSceneAsync(path, LoadSceneMode.Additive);
+            if (!SceneManager.GetSceneByPath(path).IsValid())
+            {
+                AsyncOperation operation = SceneManager.LoadSceneAsync(path, LoadSceneMode.Additive);
+                yield return new WaitUntil(() => operation.isDone);
+            }
         }
+        callback.Invoke();
     }
 
     [Button("Empty list")]
