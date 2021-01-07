@@ -28,9 +28,9 @@ TagManager:
   - Customer
   - ResourceDetection
   - Pipe
-  - Shelf
-  - Storage
-  - Checkout
+  - DoorCustomer
+  - DoorPlayer
+  - DoorWorker
   - 
   - 
   - 
