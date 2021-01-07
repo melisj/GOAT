@@ -35,7 +35,7 @@ namespace Goat.UI
             }
         }
 
-        protected void CreateGridCells(RectTransform grid, string resourcesPath)
+        protected virtual void CreateGridCells(RectTransform grid, string resourcesPath)
         {
             GridLayoutGroup gridGroup = grid.GetComponent<GridLayoutGroup>();
             Buyable[] buyableCells = Resources.LoadAll<Buyable>(resourcesPath);

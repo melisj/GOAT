@@ -10,6 +10,8 @@ namespace Goat.UI
 {
     public class BuildWindow : BaseUIWindow
     {
+        private const string devPath = "ResourceTiles";
+
         [SerializeField] private PlaceableEvent onPlaceableChosen;
         [SerializeField] private InputModeVariable inputMode;
         private Sequence clickSequence;
@@ -23,6 +25,14 @@ namespace Goat.UI
         {
             base.ShowUI();
             inputMode.InputMode = InputMode.Select;
+        }
+
+        protected override void CreateGridCells(RectTransform grid, string resourcesPath)
+        {
+#if DEVELOPMENT_BUILD || !UNITY_EDITOR
+            if(resourcesPath == devPath) return;
+#endif
+            base.CreateGridCells(grid, resourcesPath);
         }
 
         private void OnCellClick(Buyable buyable, UICell uiCell)

@@ -1838,6 +1838,10 @@ MonoBehaviour:
     resourcePath: Walls
     useDifferentPrefabs: 0
     otherPrefab: {fileID: 0}
+  - transform: {fileID: 580691001173958102}
+    resourcePath: ResourceTiles
+    useDifferentPrefabs: 0
+    otherPrefab: {fileID: 0}
   onPlaceableChosen: {fileID: 11400000, guid: 96c1596972885b248891851bed3115d3, type: 2}
   inputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
 --- !u!114 &851358525755852069
