@@ -34,8 +34,8 @@ MonoBehaviour:
 
     It is often
     used to reinforce.'
-  amount: 15
-  starterAmount: 15
+  amount: 0
+  starterAmount: 0
   deliverable: 1
   deliveryTime: 3
   storageEnviroment: 0

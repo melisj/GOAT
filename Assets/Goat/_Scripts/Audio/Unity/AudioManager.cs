@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play Music")]
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
     private Dictionary<GameObject, List<SoundEmitter>> audioCuesCreated;
+    private List<SoundEmitter> musicEmitters = new List<SoundEmitter>();
     [Header("Audio control")]
     [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField] private AudioMixer audioMixer = default;
@@ -121,8 +122,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null)
     {
-        if (audioCuesCreated.ContainsKey(cue.gameObject))
-            StopAudioCue(cue.gameObject);
+        StopMusic();
         PlayAudioCue(cue, pos, parent);
     }
 
@@ -138,6 +138,15 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         }
 
         audioCuesCreated.Remove(audioCue);
+    }
+
+    private void StopMusic()
+    {
+        for (int i = 0; i < musicEmitters.Count; i++)
+        {
+            musicEmitters[i].Stop();
+        }
+        musicEmitters.Clear();
     }
 
     private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter)
