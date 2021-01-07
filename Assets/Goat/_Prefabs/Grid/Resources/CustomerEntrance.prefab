@@ -129,7 +129,7 @@ MonoBehaviour:
   m_OverrideArea: 1
   m_Area: 1
   m_IgnoreFromBuild: 1
-  m_AffectedAgents: 00000000a98c17ec
+  m_AffectedAgents: 00000000a98c17ecf2652fae
 --- !u!95 &4224341978915338503
 Animator:
   serializedVersion: 3
