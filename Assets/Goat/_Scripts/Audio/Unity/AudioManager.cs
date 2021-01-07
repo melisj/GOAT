@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         audioMixer.GetFloat("SFXPitch", out currentPitchSFX);
         onTimeSpeedChanged.RegisterSafe(this);
         _SFXEventChannel.OnAudioCueRequested += PlayAudioCue;
-        _musicEventChannel.OnAudioCueRequested += PlayAudioCue; //TODO: Treat music requests differently?
+        _musicEventChannel.OnAudioCueRequested += PlayMusicCue; //TODO: Treat music requests differently?
     }
 
     /// <summary>
@@ -117,6 +117,13 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
             audioCuesCreated.Add(cue.gameObject, soundEmitters);
 
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
+    }
+
+    public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null)
+    {
+        if (audioCuesCreated.ContainsKey(cue.gameObject))
+            StopAudioCue(cue.gameObject);
+        PlayAudioCue(cue, pos, parent);
     }
 
     public void StopAudioCue(GameObject audioCue)
