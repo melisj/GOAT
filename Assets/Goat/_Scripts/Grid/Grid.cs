@@ -12,6 +12,7 @@ namespace Goat.Grid
     {
         [Header("Generation")]
         [SerializeField] private Wall defaultWall;
+        [SerializeField] private GameObject gridPlane;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
@@ -138,8 +139,9 @@ namespace Goat.Grid
                     {
                         checkedTiles.Clear();
                         if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
-                            && !(previewPlaceableInfo is Wall))
+                           )
                         {
+                            if (!previewPlaceableInfo.CreatesWallsAround) return;
                             //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
                         }
@@ -298,9 +300,9 @@ namespace Goat.Grid
         {
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
-            Material material = GetComponent<Renderer>().material;
+            Material material = gridPlane.GetComponent<Renderer>().material;
             material.mainTextureScale = gridSize;
-            startingPosition = transform.parent.position;
+            startingPosition = gridPlane.transform.position;
 
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -313,8 +315,8 @@ namespace Goat.Grid
                 }
             }
 
-            transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
-            transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
+            gridPlane.transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
+            gridPlane.transform.localPosition = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize / 2;
         }
 
         /// <summary>

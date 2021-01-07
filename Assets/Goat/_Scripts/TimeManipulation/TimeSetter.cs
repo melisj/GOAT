@@ -24,14 +24,16 @@ public class TimeSetter : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     private void ChangeIcon()
     {
         timeIcon.sprite = active ? activatedSprite : deactivatedSprite;
-        active = !active && active;
+        active = false;
     }
 
     private void Awake()
     {
         timeButton.onClick.AddListener(SetTime);
         if (active)
+        {
             SetTime();
+        }
     }
 
     private void OnEnable()
@@ -46,10 +48,9 @@ public class TimeSetter : MonoBehaviour, IAtomListener<UnityAtoms.Void>
 
     private void SetTime()
     {
+        active = true;
         onTimeButtonClicked.Raise();
         Time.timeScale = timeScaleSet;
         onTimeSpeedChanged.Raise(timeSpeedSet);
-        active = true;
-        ChangeIcon();
     }
 }
