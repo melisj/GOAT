@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 4194858835784710976}
   - component: {fileID: 2149297477915496330}
   - component: {fileID: 4674362743136751492}
+  - component: {fileID: 5272659961459352164}
   m_Layer: 19
   m_Name: Shelf
   m_TagString: Storage
@@ -251,6 +252,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.7720692, z: 0.39626595}
   m_Center: {x: 0, y: 0.3860346, z: 0.298481}
+--- !u!208 &5272659961459352164
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491783904825732703}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.46100003, y: 0.28800002, z: 0.22700001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.28800002, z: 0.289}
+  m_TimeToStationary: 0.5
 --- !u!1 &579195876025819209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1848,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8424306909641385427}
-  - component: {fileID: 3494531117075434759}
   m_Layer: 19
   m_Name: Model
   m_TagString: Untagged
@@ -1854,22 +1870,6 @@ Transform:
   m_Father: {fileID: 5739729094527512368}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3494531117075434759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9197184060143402857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &9198084242821064390
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,7 +62,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7797434495778285134}
   - component: {fileID: 7797434495778285135}
-  - component: {fileID: 7797434495778285232}
   - component: {fileID: 7797434495778285233}
   - component: {fileID: 7797434495778285234}
   m_Layer: 0
@@ -129,14 +128,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7797434495778285232
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7797434495778285235}
-  m_Enabled: 1
 --- !u!114 &7797434495778285233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +875,7 @@ GameObject:
   - component: {fileID: 8263138005537368909}
   - component: {fileID: 1931067460}
   - component: {fileID: 5998634283979201203}
+  - component: {fileID: 4637933150323045104}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -997,6 +989,14 @@ MonoBehaviour:
   inventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
   agent: {fileID: 7797434497063600305}
+--- !u!81 &4637933150323045104
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797434497063600306}
+  m_Enabled: 1
 --- !u!1 &7797434497155546702
 GameObject:
   m_ObjectHideFlags: 0

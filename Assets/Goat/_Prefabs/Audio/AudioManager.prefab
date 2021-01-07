@@ -49,5 +49,5 @@ MonoBehaviour:
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   audioMixer: {fileID: 24100000, guid: 548a7f001ca6d3d4cb67c8edf84f62a3, type: 2}
   _masterVolume: 1
-  _musicVolume: 0.4
+  _musicVolume: 0.7
   _sfxVolume: 1
