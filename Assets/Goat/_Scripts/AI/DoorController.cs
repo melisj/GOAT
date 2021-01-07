@@ -15,7 +15,8 @@ public class DoorController : MonoBehaviour
     {
         if(agentsInCollider == 0)
         {
-            doorRing.PlayAudio();
+            if(ring)
+                doorRing.PlayAudio();
             doorOpenClose.PlayAudio();
         }
 
