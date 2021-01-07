@@ -92,13 +92,17 @@ namespace Goat.Farming
             while (enumerator.MoveNext())
             {
                 FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
-                if (resources.Contains(farmStation.Settings.ResourceFarm))
+                for (int i = 0; i < farmStation.Settings.ResourceFarms.Length; i++)
                 {
-                    int resourceIndex = resources.IndexOf(farmStation.Settings.ResourceFarm);
-                    ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject, (int)amount[resourceIndex]);
-                    if (resPack)
+                    Resource res = farmStation.Settings.ResourceFarms[i];
+                    if (resources.Contains(res))
                     {
-                        resPacks.Add(resPack);
+                        int resourceIndex = resources.IndexOf(res);
+                        ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject, (int)amount[resourceIndex]);
+                        if (resPack)
+                        {
+                            resPacks.Add(resPack);
+                        }
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Goat.Grid;
+using Sirenix.OdinInspector;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -22,10 +23,14 @@ public class MeshToImage : MonoBehaviour
     //        CreateImage();
     //    }
     //}
+    private void InitializeResTile(ResourceTileData resData)
+    {
+        ResourceTile resTile = mesh[0].transform.root.gameObject.GetComponent<ResourceTile>();
+        resTile.Setup(resData);
+    }
 
     private void CreateMesh(Buyable place)
     {
-        //     mesh = Instantiate(meshPrefab, Vector3.zero, Quaternion.identity, transform);
         for (int i = 0; i < mesh.Length; i++)
         {
             mesh[i].transform.localScale = Vector3.one;
@@ -35,6 +40,10 @@ public class MeshToImage : MonoBehaviour
                 continue;
             }
             mesh[i].mesh = place.Mesh[i];
+            if (place is ResourceTileData tileData)
+            {
+                InitializeResTile(tileData);
+            }
         }
     }
 

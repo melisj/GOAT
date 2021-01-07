@@ -159,8 +159,11 @@ namespace Goat.Grid
                 Resource resOnTile = resourceTile.Data.Resource;
 
                 FarmStation station = (FarmStation)placeable;
-
-                return !(station.ResourceFarm == resOnTile);
+                for (int i = 0; i < station.ResourceFarms.Length; i++)
+                {
+                    if (station.ResourceFarms[i] == resOnTile)
+                        return false;
+                }
             }
             return true;
             //if Placeable is FarmStation -> Check for resource
@@ -268,6 +271,7 @@ namespace Goat.Grid
                 {
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
+                    SetupResourceTile(floorObject, placeable);
                     tempTile = floorObject;
                 }
                 else if (placeable is Building)
@@ -423,6 +427,16 @@ namespace Goat.Grid
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
                     EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
+            }
+        }
+
+        private void SetupResourceTile(GameObject obj, Placeable placeable)
+        {
+            if (placeable is ResourceTileData resFloor)
+            {
+                ResourceTile resTile = obj.GetComponent<ResourceTile>();
+                if (!resTile) return;
+                resTile.Setup(resFloor);
             }
         }
 

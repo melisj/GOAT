@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a07b149f621bd984ab387cbd7a783a87, type: 3}
-  m_Name: Metal
+  m_Script: {fileID: 11500000, guid: 7016eec9741034545a1db0b34f23480b, type: 3}
+  m_Name: SteelTile
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,25 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 35
+  id: 0
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
   onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
-  image: {fileID: 21300000, guid: 28cc838e8b47fb442a3d9336baa7692e, type: 3}
+  image: {fileID: 21300000, guid: bfe20576e4e12fd46af9100347f75e8a, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  interchangeableMesh: 0
+  interchangeableMesh: 1
   mesh:
   - {fileID: -6026691920816988174, guid: 7119b9008f8189641b9da7e15c176f52, type: 3}
   summary: 
-  amount: 100
-  starterAmount: 100
+  amount: 3000
+  starterAmount: 3000
   deliverable: 0
   deliveryTime: 0
   prefab: {fileID: 5071828486381597130, guid: f1affb90c24845c47bbf09fe2b341aa9, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0
   createsWallsAround: 0
+  resource: {fileID: 11400000, guid: 7f17de7d642febc4ca82f3c00298078c, type: 2}
+  initialColor: {r: 0.82745105, g: 0.43137258, b: 0.7803922, a: 1}
+  hueShift: 149.65654
+  chanceToSpawn: 27

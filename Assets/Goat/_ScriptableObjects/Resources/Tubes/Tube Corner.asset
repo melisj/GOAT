@@ -31,10 +31,11 @@ MonoBehaviour:
   mesh:
   - {fileID: 8306177922387618597, guid: 4e8abc1b937df8546a6cb767f15f864e, type: 3}
   summary: 
-  amount: 100
+  amount: 102
   starterAmount: 100
   deliverable: 0
   deliveryTime: 0
   prefab: {fileID: 1002272259556930077, guid: e2e43a3e7fc75e04eae6a5f7ced7ed8f, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: -5
+  createsWallsAround: 0

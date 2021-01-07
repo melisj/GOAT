@@ -1,5 +1,7 @@
-﻿using Goat.Pooling;
+﻿using Goat.Helper;
+using Goat.Pooling;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Goat.Grid
 {
@@ -8,7 +10,7 @@ namespace Goat.Grid
         [SerializeField] private ResourceTileData data;
         [SerializeField] private int amount;
         [SerializeField] private MeshFilter filter;
-
+        [SerializeField] private MaterialPropertySetter propSetter;
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
         public ResourceTileData Data => data;
@@ -30,23 +32,24 @@ namespace Goat.Grid
             }
         }
 
-        private void Setup()
+        public void Setup(ResourceTileData data)
         {
-            filter.mesh = Data.ResourceTile;
+            this.data = data;
             amount = Data.StarterAmount;
+            propSetter.MaterialValueToChanges[0].NewFloat = data.HueShift;
+            propSetter.ModifyValues();
         }
 
         private void OnResourceDepleted()
         {
             if (amount <= 0)
             {
-                filter.mesh = Data.DefaultTile;
+                filter.mesh = null;
             }
         }
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
-            Setup();
             ObjInstance = objectInstance;
             PoolKey = poolKey;
         }

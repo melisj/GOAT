@@ -1216,6 +1216,16 @@ PrefabInstance:
       propertyPath: gridPlane
       value: 
       objectReference: {fileID: 1113228155}
+    - target: {fileID: 612029029412865795, guid: f085dd01997956740898e55b0d831490,
+        type: 3}
+      propertyPath: gridSize.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 612029029412865795, guid: f085dd01997956740898e55b0d831490,
+        type: 3}
+      propertyPath: gridSize.y
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 612029029412865802, guid: f085dd01997956740898e55b0d831490,
         type: 3}
       propertyPath: m_Name

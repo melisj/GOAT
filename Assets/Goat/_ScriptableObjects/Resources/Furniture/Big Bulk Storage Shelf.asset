@@ -38,3 +38,4 @@ MonoBehaviour:
   prefab: {fileID: 2159719696188646359, guid: 5813f501cf98f1e4b81260e14a552a85, type: 3}
   totalBeautyPoints: {fileID: 0}
   beautyPoints: 1
+  createsWallsAround: 0

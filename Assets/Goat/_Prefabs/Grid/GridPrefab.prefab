@@ -66,7 +66,8 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
   subscribers: 0
   defaultWall: {fileID: 11400000, guid: 78b2f91a5bd12af4885388421c4a79b0, type: 2}
-  gridSize: {x: 50, y: 50}
+  gridPlane: {fileID: 0}
+  gridSize: {x: 100, y: 100}
   tileSize: 1
   gridMask:
     serializedVersion: 2

@@ -29,9 +29,14 @@ namespace Goat.UI
 
         protected override void CreateGridCells(RectTransform grid, string resourcesPath)
         {
-#if DEVELOPMENT_BUILD || !UNITY_EDITOR
-            if (resourcesPath == devPath) return;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (resourcesPath == devPath)
+            {
+                base.CreateGridCells(grid, resourcesPath);
+                return;
+            }
 #endif
+            if (resourcesPath == devPath) return;
             base.CreateGridCells(grid, resourcesPath);
         }
 
