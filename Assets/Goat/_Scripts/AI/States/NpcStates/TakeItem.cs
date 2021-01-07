@@ -43,7 +43,7 @@ namespace Goat.AI.States
                     npc.targetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
 
                     animator.SetTrigger("Interact");
-                    eventHandler.Invoke(this, null);
+                    eventHandler?.Invoke(this, null);
 
                     nothingFound = false;
 
