@@ -608,7 +608,6 @@ GameObject:
   - component: {fileID: 7797434496544316088}
   - component: {fileID: 7797434496544316084}
   - component: {fileID: 7797434496544316085}
-  - component: {fileID: 7797434496544316087}
   m_Layer: 0
   m_Name: JobManager
   m_TagString: Untagged
@@ -694,20 +693,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7797434496544316089}
-  m_Mesh: {fileID: 5082695407070622103, guid: 9a5ca374dddd0ea49b8240d2f8416b39, type: 3}
---- !u!64 &7797434496544316087
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7797434496544316089}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 5082695407070622103, guid: 9a5ca374dddd0ea49b8240d2f8416b39, type: 3}
 --- !u!1 &7797434496596542648
 GameObject:

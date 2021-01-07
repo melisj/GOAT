@@ -28,6 +28,7 @@ namespace Goat.Grid.Interactions
         // Direction data for the queue
         List<Vector2Int> directionArray = new List<Vector2Int> { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right };
 
+        [SerializeField] private CheckoutChaChing chaChing;
 
         public override object[] GetArgumentsForUI()
         {
@@ -56,6 +57,8 @@ namespace Goat.Grid.Interactions
 
             if (customerQueue.Count > 0)
             {
+                chaChing.PlayAudio();
+
                 customerQueue.First().LeaveStore();
                 customerQueue.RemoveAt(0);
 

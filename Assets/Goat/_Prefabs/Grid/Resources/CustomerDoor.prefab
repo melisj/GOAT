@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: edf8115571752fe4d86882df70b78582, type: 2}
   _playOnStart: 0
-  parent: {fileID: 5779111262766437408}
+  parent: {fileID: 6789392928961755364}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
   _audioConfiguration: {fileID: 11400000, guid: d91af443dfa08e641ac48f77eb26efc5,
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 935505d119565c247bda143966ba4795, type: 2}
   _playOnStart: 0
-  parent: {fileID: 5779111262766437408}
+  parent: {fileID: 6789392928961755364}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
   _audioConfiguration: {fileID: 11400000, guid: 90716cb901913644cbc458db5a57205d,
