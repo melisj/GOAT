@@ -10,6 +10,7 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
 
     public int PoolKey { get; set; }
     public ObjectInstance ObjInstance { get; set; }
+    public AudioSource AudioSource => _audioSource;
 
     public event UnityAction<SoundEmitter> OnSoundFinishedPlaying;
 
