@@ -5,12 +5,13 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Goat.Pooling;
 using DG.Tweening;
+using UnityAtoms;
+using UnityAtoms.BaseAtoms;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IAtomListener<int>
 {
     [Header("SoundEmitters pool")]
     [SerializeField] private SoundEmitterFactorySO _factory = default;
-
     [Header("Listening on channels")]
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play SFXs")]
     [SerializeField] private AudioCueEventChannelSO _SFXEventChannel = default;
@@ -18,6 +19,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
     private Dictionary<GameObject, List<SoundEmitter>> audioCuesCreated;
     [Header("Audio control")]
+    [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField] private AudioMixer audioMixer = default;
     [Range(0f, 1f)]
     [SerializeField] private float _masterVolume = 1f;
@@ -25,6 +27,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float _musicVolume = 1f;
     [Range(0f, 1f)]
     [SerializeField] private float _sfxVolume = 1f;
+    private float currentPitchSFX;
 
     private void Awake()
     {
@@ -32,7 +35,8 @@ public class AudioManager : MonoBehaviour
         audioCuesCreated = new Dictionary<GameObject, List<SoundEmitter>>();
         _SFXEventChannel.OnAudioCueStopRequested += StopAudioCue;
         _musicEventChannel.OnAudioCueStopRequested += StopAudioCue;
-
+        audioMixer.GetFloat("SFXPitch", out currentPitchSFX);
+        onTimeSpeedChanged.RegisterSafe(this);
         _SFXEventChannel.OnAudioCueRequested += PlayAudioCue;
         _musicEventChannel.OnAudioCueRequested += PlayAudioCue; //TODO: Treat music requests differently?
     }
@@ -138,6 +142,11 @@ public class AudioManager : MonoBehaviour
 
     private void CrossFade(AudioClip currentClip, AudioClip nextClip)
     {
+    }
+
+    public void OnEventRaised(int timeSpeed)
+    {
+        audioMixer.SetFloat("SFXPitch", currentPitchSFX * Time.timeScale);
     }
 
     //TODO: Add methods to play and cross-fade music, or to play individual sounds?

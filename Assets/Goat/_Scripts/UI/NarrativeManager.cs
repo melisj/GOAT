@@ -26,6 +26,7 @@ public class NarrativeManager : MonoBehaviour
     private TextMeshProUGUI textMesh;
     private Image portrait;
     private int narrativeIndex = 0;
+    private Sequence punchScaleSequence;
 
     private void Start()
     {
@@ -51,7 +52,10 @@ public class NarrativeManager : MonoBehaviour
             narrativeIndex++;
             textMesh.text = narrative[narrativeIndex].Sentence;
             portrait.sprite = narrative[narrativeIndex].Sprite;
-            portrait.transform.DOPunchScale(Vector3.one / 3, 0.3f, 10, 10f);
+            if (punchScaleSequence.NotNull())
+                punchScaleSequence.Complete();
+            punchScaleSequence = DOTween.Sequence();
+            punchScaleSequence.Append(portrait.transform.DOPunchScale(Vector3.one / 3, 0.3f, 10, 10f));
         }
         else
         {
