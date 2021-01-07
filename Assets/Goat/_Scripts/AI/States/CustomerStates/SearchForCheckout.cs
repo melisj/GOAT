@@ -21,8 +21,10 @@ namespace Goat.AI.States
         private Vector3 FindCheckout()
         {   
             // Cleaner with scriptableobject that tracks checkouts?
-            if(checkoutArray == null)
-                checkoutArray = Object.FindObjectsOfType<CheckoutInteractable>().Where(x => x.QueueAvailable).OrderBy(x => x.QueueLength).ToArray();
+            checkoutArray = Object.FindObjectsOfType<CheckoutInteractable>().Where(x => x.QueueAvailable).OrderBy(x => x.QueueLength).ToArray();
+            if (checkoutArray.Length == 0)
+                return Vector3.zero;
+            
             CheckoutInteractable tempCheckout = checkoutArray.First();
 
             if (tempCheckout != null)
@@ -51,7 +53,10 @@ namespace Goat.AI.States
             else if (checks == 1)
                 Debug.Log("Searching for shortest queue");
             checks++;
-            customer.targetDestination = FindCheckout();
+            Vector3 checkoutPosition = FindCheckout();
+            if (checkoutPosition == Vector3.zero) checks = 0;
+            customer.targetDestination = checkoutPosition;
+            customer.leavingStore = true;
         }
 
         public void OnExit()

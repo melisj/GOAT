@@ -51,6 +51,7 @@ MonoBehaviour:
   _audioConfiguration: {fileID: 11400000, guid: 903c3ac76b42103478dbdbaa5aa3a436,
     type: 2}
   navAgent: {fileID: 8970165054993010810}
+  delay: 0.25
 --- !u!1 &1270496670837554757
 GameObject:
   m_ObjectHideFlags: 0

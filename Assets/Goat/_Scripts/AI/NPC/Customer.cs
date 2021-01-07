@@ -34,6 +34,7 @@ namespace Goat.AI
         public float customerSatisfaction = 100;
         [HideInInspector] public float customerSelfConstraint = 0;
         [SerializeField] private FieldOfView fov;
+        public FieldOfView Fov => fov;
         [HideInInspector] public bool enteredStore;
         [HideInInspector] public bool leavingStore;
 
@@ -61,14 +62,15 @@ namespace Goat.AI
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
             // Movement
-            Func<bool> HasStorageTarget() => () => targetStorage != null;
-            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null;
+            Func<bool> HasStorageTarget() => () => targetStorage != null  && !leavingStore;
+            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue;
+            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping
             Func<bool> StorageDepleted() => () => takeItem.depleted;
-            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore)) && Inventory.ItemsInInventory > 0 && searchForCheckout.checks < 1;
+            Func<bool> CheckoutFull() => () => leavingStore && targetDestination == Vector3.zero;
+            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore)) && Inventory.ItemsInInventory > 0 && searchForCheckout.checks < 1 && navMeshAgent.remainingDistance < 1;
             Func<bool> LeaveStore() => () => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
             Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
@@ -97,6 +99,7 @@ namespace Goat.AI
             AT(moveToDestination, exitStore, LeaveStore());
 
             AT(moveToDestination, doNothing, WaitingInQueue());
+            AT(searchForCheckout, SetRandomDestination, CheckoutFull());
 
             stateMachine.SetState(calculateGroceries);
 

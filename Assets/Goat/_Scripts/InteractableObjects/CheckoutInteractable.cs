@@ -21,6 +21,7 @@ namespace Goat.Grid.Interactions
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
         // Properties
+        public int PositionAmount => queuePositions.Count;
         public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
@@ -36,10 +37,11 @@ namespace Goat.Grid.Interactions
 
         public void AddCustomerToQueue(Customer customer)
         {
-            if (customer != null && !customerQueue.Contains(customer))
+            if (customer != null && !customerQueue.Contains(customer) && QueueAvailable)
+            {
                 customerQueue.Add(customer);
-
-            InvokeChange();
+                InvokeChange();
+            }
         }
 
         [Button("Remove customer")]

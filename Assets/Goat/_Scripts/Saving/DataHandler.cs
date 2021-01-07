@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine;
 using System.Linq;
 using System.Collections;
+using UnityEditor;
 
 namespace Goat.Saving
 {
@@ -160,12 +161,18 @@ namespace Goat.Saving
         /// <param name="json"></param>
         [Button("Clear File", ButtonSizes.Medium)]
         private void ClearData() {
+#if UNITY_EDITOR
             if (File.Exists(completePath)) {
-                File.WriteAllText(completePath, "");
-                Debug.LogFormat("Cleared: {0} successfully", fileName);
-            } else {
+                if (EditorUtility.DisplayDialog("Delete save file?", string.Format("You will delete save file: {0}", completePath), "OK", "Cancel"))
+                {
+                    File.WriteAllText(completePath, "");
+                    Debug.LogFormat("Cleared: {0} successfully", fileName);
+                }
+            }
+            else {
                 Debug.LogWarningFormat("Clearing could not be completed, path invalid: {0}", completePath);
             }
+#endif
         }
     }
 }

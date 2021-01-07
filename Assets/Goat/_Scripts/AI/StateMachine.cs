@@ -13,6 +13,8 @@ namespace Goat.AI
         private List<Transition> anyTransitions = new List<Transition>();
         private static List<Transition> EmptyTransitions = new List<Transition>(capacity:0);
 
+        public IState CurrentState => currentState;
+
         public void Tick()
         {
             var transition = GetTransition();

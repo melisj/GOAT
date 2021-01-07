@@ -34,7 +34,7 @@ namespace Goat.Saving
             timeHandler.time.TimeOfDayHours = timeHour;
             time = timeHandler.time.Date.AddDays(day);
 
-            bool isDay = timeHour > timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
+            bool isDay = timeHour >= timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
 
             timeHandler.OnCycleChange.Raise(isDay);
         }
