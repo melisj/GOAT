@@ -60,13 +60,24 @@ namespace Goat.AI.States
             Debug.Log("StockClerk started searching for empty shelves");
             foundEmptyShelves = false;
             tickTime = Time.time + (1/ tickSpeed);
-            stockClerk.targetStorage = null;
-            stockClerk.targetStorages = new List<StorageInteractable>();
+            ClearCurrentShelves();
 
             List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
             FindStorageAndItems(sortedStorages);
             sortedStorages.Clear();
 
+        }
+
+        private void ClearCurrentShelves()
+        {
+            if(stockClerk.targetStorage != null)
+                stockClerk.targetStorage.selected = false;
+            for (int i = 0; i < stockClerk.targetStorages.Count; i++)
+                stockClerk.targetStorages[i].selected = false;
+
+
+            stockClerk.targetStorage = null;
+            stockClerk.targetStorages = new List<StorageInteractable>();
         }
 
         public void OnExit()

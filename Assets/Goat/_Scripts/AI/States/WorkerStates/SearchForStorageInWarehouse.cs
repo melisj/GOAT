@@ -30,7 +30,10 @@ namespace Goat.AI.States
                 
                 //Debug.LogError("No item or storages were found when calling Method: SetStorageTarget !");
                 if(worker is StockClerk)
+                {
                     worker.ItemsToGet.Clear();
+                }
+                    
 
                 nothingFound = true;
                 return null;
