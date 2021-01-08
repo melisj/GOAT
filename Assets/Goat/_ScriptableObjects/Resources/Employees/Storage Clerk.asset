@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0a387e9b67b46a4f949b7950d67842f, type: 3}
-  m_Name: Storage clerk
+  m_Name: Storage Clerk
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2

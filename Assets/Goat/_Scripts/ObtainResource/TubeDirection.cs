@@ -8,9 +8,10 @@ using UnityEngine;
 
 namespace Goat.Farming
 {
-    public class TubeDirection : EventListenerVoid, IPoolObject
+    public class TubeDirection : MonoBehaviour, IAtomListener<GameObject>, IPoolObject
     {
         [SerializeField] private FarmStationFunction connectedFarm;
+        [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private VoidEvent onTubesConnected;
         [SerializeField] private bool multiDirection;
         [SerializeField, HideIf("multiDirection")] private Path path;
@@ -68,12 +69,17 @@ namespace Goat.Farming
         public bool HasConnection()
         {
             int connections = 0;
+            bool connectedToFarm = false;
             for (int i = 0; i < connectedTubes.Length; i++)
             {
                 if (connectedTubes[i] != null)
+                {
                     connections++;
+                    if (connectedTubes[i].ConnectedFarm)
+                        connectedToFarm = true;
+                }
             }
-            return (connections > 0);
+            return (connections > 0 && connectedToFarm);
         }
 
         public int NewRotation(int index)
@@ -172,7 +178,7 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
-            SubcribedEvent.Raise();
+            onGridChange.Raise();
             gameObject.SetActive(false);
         }
 
@@ -220,20 +226,22 @@ namespace Goat.Farming
             }
         }
 
-        protected override void InitOnEnable()
+        protected void OnEnable()
         {
-            base.InitOnEnable();
-            SubcribedEvent.Raise();
+            onGridChange.RegisterSafe(this);
+            onGridChange.Raise();
         }
 
-        protected override void InitOnDisable()
+        protected void OnDisable()
         {
-            base.InitOnDisable();
-            SubcribedEvent.Raise();
+            onGridChange.UnregisterSafe(this);
+            onGridChange.Raise();
         }
 
-        public override void OnEventRaised(Void value)
+        public void OnEventRaised(GameObject value)
         {
+            if (value == gameObject)
+                return;
             OnGridChange();
         }
     }

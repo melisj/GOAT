@@ -212,7 +212,7 @@ MonoBehaviour:
   animator: {fileID: 6047925324368337095}
   debugPathIndex: 0
   connectedTubes: []
-  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   resPacks: []
   cue: {fileID: 8479345339946235243}
 --- !u!114 &-556596974947358034

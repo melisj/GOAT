@@ -21,7 +21,7 @@ namespace Goat.Farming
         [SerializeField] private Animator animator;
         [SerializeField] private int debugPathIndex;
         [SerializeField] private List<Path> connectedTubes = new List<Path>();
-        [SerializeField] private VoidEvent onGridChange;
+        [SerializeField] private GameObjectEvent onGridChange;
         private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
         private float timer;
         private bool isConnected;
@@ -57,12 +57,12 @@ namespace Goat.Farming
 
         private void OnEnable()
         {
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
         }
 
         private void OnDisable()
         {
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
         }
 
         private void Update()
@@ -75,6 +75,7 @@ namespace Goat.Farming
             if (!tubeEnds.Add(tubeEnd))
                 return null;
             GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, GetGroundPositionAt(pos), Quaternion.identity, null);
+            GetResourceTile();
             resPackObj.name = "ResourcePack-" + resourceTile.Data.Resource.name.ToString();
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
             resPack.SetupResPack(resourceTile.Data.Resource, amount);
@@ -149,7 +150,7 @@ namespace Goat.Farming
         private void Setup()
         {
             GetResourceTile();
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
         }
 
         private void GetResourceTile()
