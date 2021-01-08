@@ -1,8 +1,11 @@
-﻿using Goat.Grid.Interactions;
+﻿using Goat.Events;
+using Goat.Grid.Interactions;
+using UnityEngine;
 
 public class InteractableOnClick : CollisionDetection
 {
     private BaseInteractable currentInteractable, previousInteractable;
+    [SerializeField] private InteractableEvent interactableEvent;
 
     public override void OnEnter()
     {
@@ -10,9 +13,9 @@ public class InteractableOnClick : CollisionDetection
         {
             currentInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
 
-            if (currentInteractable.IsClickedOn && !currentInteractable.UIOpen)
+            if (currentInteractable.IsClickedOn && !currentInteractable.UIActivated)
             {
-                currentInteractable.OpenUIFully();
+                interactableEvent.Raise(currentInteractable);
             }
         }
     }
@@ -24,7 +27,8 @@ public class InteractableOnClick : CollisionDetection
         if (previousInteractable)
         {
             previousInteractable.IsClickedOn = false;
-            previousInteractable.CloseUI();
+            if (previousInteractable.UIActivated)
+                interactableEvent.Raise(previousInteractable);
             previousInteractable = null;
             previousCollider = null;
         }

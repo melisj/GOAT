@@ -7,9 +7,7 @@ public class SatisfactionToText : EventListenerInt
 {
     [SerializeField] private TextMeshProUGUI satisfactionText;
     [SerializeField] private Image icon;
-    [SerializeField] private Sprite happyIcon;
-    [SerializeField] private Sprite unHappyIcon;
-    [SerializeField] private Sprite neutralIcon;
+    [SerializeField] private SatisfactionSprites satisfactionSprites;
 
     private void Awake()
     {
@@ -23,8 +21,8 @@ public class SatisfactionToText : EventListenerInt
 
     private void ChangeText(int value)
     {
-        satisfactionText.text = value.ToString();
-        icon.color = value > 0 ? Color.green : value == 0 ? Color.white : Color.red;
-        icon.sprite = value > 0 ? happyIcon : value == 0 ? neutralIcon : unHappyIcon;
+        if (satisfactionText)
+            satisfactionText.text = value.ToString();
+        icon.sprite = value > 0 ? satisfactionSprites.Happy : value == 0 ? satisfactionSprites.Neutral : satisfactionSprites.UnHappy;
     }
 }

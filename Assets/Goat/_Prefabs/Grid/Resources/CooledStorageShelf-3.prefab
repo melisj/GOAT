@@ -1,5 +1,77 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4009031597174906207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3540169923260899166}
+  - component: {fileID: 4646006889894007891}
+  - component: {fileID: 2346856870185076864}
+  m_Layer: 9
+  m_Name: AudioHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3540169923260899166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009031597174906207}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6956316966619564203}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4646006889894007891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009031597174906207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d33dc72e57654042b90066eabbf5ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: d5f2230a1ca014a4d9643b015c1423ea, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 6956316966619564201}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 462f2113358d2024e958ed5ece9eb4fa,
+    type: 2}
+  storage: {fileID: 6560597354742808785}
+--- !u!114 &2346856870185076864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009031597174906207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa8062cd030dd849adff69688b2d77c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 66b84310389307248bcf55f64819b527, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 6956316966619564201}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 462f2113358d2024e958ed5ece9eb4fa,
+    type: 2}
+  storage: {fileID: 6560597354742808785}
 --- !u!1 &6956316965367340536
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +83,7 @@ GameObject:
   - component: {fileID: 6956316965367340537}
   - component: {fileID: 6956316965367340539}
   - component: {fileID: 6956316965367340538}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +163,8 @@ GameObject:
   - component: {fileID: 6956316966077680264}
   - component: {fileID: 6956316966077680263}
   - component: {fileID: 251986376396133669}
-  m_Layer: 9
+  - component: {fileID: 4326341012102710449}
+  m_Layer: 18
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -172,6 +245,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0526032, z: 0.42585725}
   m_Center: {x: 0, y: 0.5263016, z: 0.28368536}
+--- !u!208 &4326341012102710449
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956316966077680260}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.467, y: 0.526, z: 0.21300001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.526, z: 0.284}
+  m_TimeToStationary: 0.5
 --- !u!1 &6956316966464071598
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +272,7 @@ GameObject:
   - component: {fileID: 6956316966464071599}
   - component: {fileID: 6956316966464071569}
   - component: {fileID: 6956316966464071568}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +351,7 @@ GameObject:
   - component: {fileID: 6956316966470814094}
   - component: {fileID: 6956316966470814192}
   - component: {fileID: 6956316966470814095}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6956316966585008971}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +467,8 @@ GameObject:
   - component: {fileID: 6560597354742808785}
   - component: {fileID: 4709982844820687041}
   - component: {fileID: -3743692163934894903}
-  m_Layer: 9
+  - component: {fileID: -2525174489482260842}
+  m_Layer: 18
   m_Name: CooledStorageShelf-3
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -398,6 +488,7 @@ Transform:
   m_Children:
   - {fileID: 6956316966730789225}
   - {fileID: 6956316966585008971}
+  - {fileID: 3540169923260899166}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -416,6 +507,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 1
+  adjustPosition: {fileID: -2525174489482260842}
   description: 
   costsPower: 1
   powerCost: 3
@@ -455,6 +548,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storages: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+--- !u!114 &-2525174489482260842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956316966619564201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09bee7f5505f4ce48ab0deae261b6c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: -0.1
 --- !u!1 &6956316966730789224
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,8 +570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6956316966730789225}
-  - component: {fileID: 6956316966730789226}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,22 +592,6 @@ Transform:
   m_Father: {fileID: 6956316966619564203}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6956316966730789226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6956316966730789224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &6956316966942044287
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +603,7 @@ GameObject:
   - component: {fileID: 6956316966942044256}
   - component: {fileID: 6956316966942044258}
   - component: {fileID: 6956316966942044257}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +682,7 @@ GameObject:
   - component: {fileID: 6956316967159773613}
   - component: {fileID: 6956316967159773615}
   - component: {fileID: 6956316967159773614}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +761,7 @@ GameObject:
   - component: {fileID: 6956316967462399193}
   - component: {fileID: 6956316967462399195}
   - component: {fileID: 6956316967462399194}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

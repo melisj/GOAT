@@ -22,16 +22,21 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   id: 17
+  onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
+  onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
+  image: {fileID: 21300000, guid: 61b022a497d63a742b262b4c1081b71e, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 3
-  image: {fileID: 21300000, guid: 61b022a497d63a742b262b4c1081b71e, type: 3}
+  interchangeableMesh: 0
   mesh:
   - {fileID: -6953336878234041434, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
   - {fileID: 2296636097042174134, guid: cb77a43d18c20184f90944a49e076b80, type: 3}
   summary: 
   amount: 100
   starterAmount: 100
+  deliverable: 0
   deliveryTime: 0
   prefab: {fileID: 4224341978920616237, guid: 870bc37edeba2e14aaa700174d386880, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 4
+  createsWallsAround: 0

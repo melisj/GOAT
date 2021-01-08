@@ -17,6 +17,7 @@ namespace Goat.AI.States
         // Get this from npc
         private float takingSpeed = 0.5f, nextItemTime = 0;
 
+        public event EventHandler eventHandler;
         public TakeItem(NPC npc, Animator animator, bool returnToStock)
         {
             this.npc = npc;
@@ -42,6 +43,7 @@ namespace Goat.AI.States
                     npc.targetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
 
                     animator.SetTrigger("Interact");
+                    eventHandler?.Invoke(this, null);
 
                     nothingFound = false;
 

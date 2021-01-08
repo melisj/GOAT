@@ -46,7 +46,7 @@ namespace Goat.UI
                 if (buyable)
                 {
                     onPlaceableChosen.Raise((Placeable)buyable);
-                    gridUIInfo.CurrentUIElement = GridUIElement.None;
+                    gridUIInfo.CurrentUIElement = UIElement.None;
                 }
                 //gameObject.SetActive(false);
             }

@@ -24,7 +24,7 @@ namespace Goat.AI.States
 
         public virtual void Tick()
         {
-            if (navMeshAgent.remainingDistance < npc.npcSize / 2)
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < npc.npcSize / 2)
             {
                 OnExit();
             }
@@ -34,7 +34,6 @@ namespace Goat.AI.States
         public virtual void OnEnter()
         {
             exitedStore = false;
-            Debug.Log("Exited store STATE");
 
             entrance = npc.Ship.NpcSpawner.transform.position;
             navMeshAgent.enabled = true;
@@ -43,9 +42,6 @@ namespace Goat.AI.States
 
         public virtual void OnExit()
         {
-            Debug.Log("Exited store");
-
-            //navMeshAgent.enabled = false;
             animator.SetFloat("Move", 0);
             npc.Ship.ShipReadyToFly();
             PoolManager.Instance.ReturnToPool(npc.gameObject);

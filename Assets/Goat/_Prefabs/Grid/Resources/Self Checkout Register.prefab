@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7921306109534318761}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: QueueStartingPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 2105176321139481442}
   - component: {fileID: 8823321982164900525}
   - component: {fileID: 3596553023212253081}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Self Checkout Register
   m_TagString: Checkout
   m_Icon: {fileID: 0}
@@ -61,6 +61,7 @@ Transform:
   m_Children:
   - {fileID: 2772437290081276289}
   - {fileID: 7921306109534318761}
+  - {fileID: 6699056844914440948}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,6 +80,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 0
+  adjustPosition: {fileID: 0}
   description: Self Checkout Register for customers
   costsPower: 0
   powerCost: 0
@@ -91,6 +94,7 @@ MonoBehaviour:
   queueStartingPosition: {fileID: 7921306109534318761}
   overrideQueueDirection: 1
   queueStartingRotation: -90
+  chaChing: {fileID: 2757264863918180443}
 --- !u!114 &3596553023212253081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,8 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2772437290081276289}
-  - component: {fileID: 7129086128133044565}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Model Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,22 +139,6 @@ Transform:
   m_Father: {fileID: 2105176321139481442}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7129086128133044565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3256803650309655355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &6071874146520275469
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +151,8 @@ GameObject:
   - component: {fileID: 7541183449215225618}
   - component: {fileID: 5711511202683141080}
   - component: {fileID: 4833795276762177596}
-  m_Layer: 9
+  - component: {fileID: 5540886145039140548}
+  m_Layer: 20
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,3 +233,69 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.40008408, y: 0.6418864, z: 0.3919832}
   m_Center: {x: -0.2488563, y: 0.31301644, z: -0.00080203265}
+--- !u!208 &5540886145039140548
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071874146520275469}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.2, y: 0.321, z: 0.19600001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.24900001, y: 0.31300002, z: -0.001}
+  m_TimeToStationary: 0.5
+--- !u!1 &6132782951513248712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6699056844914440948}
+  - component: {fileID: 2757264863918180443}
+  m_Layer: 20
+  m_Name: AudioHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6699056844914440948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6132782951513248712}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2105176321139481442}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2757264863918180443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6132782951513248712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f811402b23e4e5946975cf95e34650ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 78ab33f42b5c58c449077bf1870532eb, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 6699056844914440948}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 8dccd29dcab1d4d46b964f4b0c536476,
+    type: 2}

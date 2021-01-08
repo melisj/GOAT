@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
+using UnityAtoms.BaseAtoms;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -11,6 +12,8 @@ public class Buyable : SerializedScriptableObject
     private const string folderPath = "/Goat/Textures/UI/MeshImages/Resources/";
 
     [SerializeField, FoldoutGroup("Base Buyable data"), ReadOnly] private int id;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private IntEvent onPurchase;
+    [SerializeField, FoldoutGroup("Base Buyable data")] private IntEvent onRefund;
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left), ReadOnly] private Sprite image;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
@@ -55,7 +58,10 @@ public class Buyable : SerializedScriptableObject
         float newMoney = total < 0 ? this.money.Amount / price : total;
 
         if (payNow)
+        {
             this.money.Amount = newMoney;
+            onPurchase.Raise((int)price);
+        }
         if (deliverNow)
             Amount += amount;
     }
@@ -81,7 +87,10 @@ public class Buyable : SerializedScriptableObject
         if (deliverNow)
             Amount = newTotal;
         if (payNow)
+        {
+            onRefund.Raise((int)(newTotal * price));
             this.money.Amount += newTotal * price;
+        }
     }
 
     public int Amount

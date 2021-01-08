@@ -9,8 +9,6 @@ namespace Goat.UI
 {
     public class DeliveryUI : CellWithAmount, IPoolObject
     {
-        [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private Image image;
         [SerializeField] private Image progressBar;
 
         public int PoolKey { get; set; }
@@ -19,10 +17,9 @@ namespace Goat.UI
 
         public void Setup(Buyable buyable, int amount)
         {
-            nameText.text = buyable.name;
-            image.sprite = buyable.Image;
+            base.Setup(buyable);
             ChangeText(amount);
-        }
+        }//
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {

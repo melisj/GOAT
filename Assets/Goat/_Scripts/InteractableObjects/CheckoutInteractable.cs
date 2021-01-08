@@ -21,6 +21,7 @@ namespace Goat.Grid.Interactions
         [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
         // Properties
+        public int PositionAmount => queuePositions.Count;
         public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count];  } }
@@ -28,6 +29,7 @@ namespace Goat.Grid.Interactions
         // Direction data for the queue
         List<Vector2Int> directionArray = new List<Vector2Int> { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right };
 
+        [SerializeField] private CheckoutChaChing chaChing;
 
         public override object[] GetArgumentsForUI()
         {
@@ -36,10 +38,11 @@ namespace Goat.Grid.Interactions
 
         public void AddCustomerToQueue(Customer customer)
         {
-            if (customer != null && !customerQueue.Contains(customer))
+            if (customer != null && !customerQueue.Contains(customer) && QueueAvailable)
+            {
                 customerQueue.Add(customer);
-
-            InvokeChange();
+                InvokeChange();
+            }
         }
 
         [Button("Remove customer")]
@@ -56,6 +59,8 @@ namespace Goat.Grid.Interactions
 
             if (customerQueue.Count > 0)
             {
+                chaChing.PlayAudio();
+
                 customerQueue.First().LeaveStore();
                 customerQueue.RemoveAt(0);
 

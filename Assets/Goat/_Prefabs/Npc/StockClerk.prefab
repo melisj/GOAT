@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &451409690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 451409691}
+  - component: {fileID: 451409692}
+  m_Layer: 0
+  m_Name: AudioHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &451409691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451409690}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2017345027404832932}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &451409692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451409690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5d29c856a94a54da85237a5aa81dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 354f3fca31cc7854a8fa20417c0618e1, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 2017345027404832932}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 903c3ac76b42103478dbdbaa5aa3a436,
+    type: 2}
+  navAgent: {fileID: 6827547609000740628}
+  delay: 0.25
 --- !u!1 &692037915297321869
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +573,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4401533013901445098}
   - component: {fileID: 6760908536570752574}
+  - component: {fileID: 8024662172909082901}
+  - component: {fileID: 583779347327433942}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -599,6 +653,36 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0013563633, y: 1.4192574, z: -0.07515252}
     m_Extent: {x: 1.5078962, y: 1.9198554, z: 1.2484722}
   m_DirtyAABB: 0
+--- !u!136 &8024662172909082901
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525760607650200454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 0.8051084
+  m_Direction: 1
+  m_Center: {x: 0.00027127622, y: 0.36618716, z: 0.007515206}
+--- !u!54 &583779347327433942
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7525760607650200454}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7782000946221320678
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2017345027404832932
 Transform:
   m_ObjectHideFlags: 0
@@ -631,6 +715,7 @@ Transform:
   m_Children:
   - {fileID: 7006126987707097885}
   - {fileID: 7923832177336180679}
+  - {fileID: 451409691}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -676,7 +761,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: takeItem
+      Entry: 6
+      Data: 
+    - Name: placeItem
+      Entry: 6
+      Data: 
   npcSize: 1
   wanderRange: 10
   carriedItemValue: 0

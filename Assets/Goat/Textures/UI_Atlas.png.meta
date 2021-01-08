@@ -1,0 +1,2069 @@
+fileFormatVersion: 2
+guid: 042155689a49a704782b7594990bdc70
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -750194539750465804
+    second: Border_DarkPurple_Left
+  - first:
+      213: -5845315906766726515
+    second: Border_DarkPurple_Middle
+  - first:
+      213: 5800459559749071103
+    second: Border_DarkPurple_Right
+  - first:
+      213: 6858158435506103805
+    second: Border_Green_Left
+  - first:
+      213: 3395397091620555552
+    second: Border_Green_Middle
+  - first:
+      213: -5563789419674101662
+    second: Border_Green_Right
+  - first:
+      213: 5793663242442792
+    second: Border_Purple_Left
+  - first:
+      213: -7189683306000259954
+    second: Border_Purple_Middle
+  - first:
+      213: -1465611044447044254
+    second: Border_Purple_Right
+  - first:
+      213: 4027645587446301810
+    second: Border_Red_Bottom
+  - first:
+      213: 4437256989893582125
+    second: Border_Red_Left
+  - first:
+      213: 299115546424207586
+    second: Border_Red_Middle
+  - first:
+      213: 4290547683742790120
+    second: Border_Red_Middle_Rotated
+  - first:
+      213: -7060481812418552581
+    second: Border_Red_Right
+  - first:
+      213: -6243224525156698878
+    second: Border_Red_Top
+  - first:
+      213: -6490550855412872408
+    second: Incoming_Message_Left_Border
+  - first:
+      213: -4127694890615597204
+    second: Incoming_Message_Left_Bottom_Border
+  - first:
+      213: 8542297590854090658
+    second: Incoming_Message_Left_Top_Border
+  - first:
+      213: 1122868549833881917
+    second: Incoming_Message_Middle_Fill
+  - first:
+      213: 962013878771750358
+    second: Incoming_Message_Middle_Border
+  - first:
+      213: -7983566486811674519
+    second: Incoming_Message_Top_Border
+  - first:
+      213: -6134853392148087580
+    second: Incoming_Message_Right_Border
+  - first:
+      213: 5364748311923579242
+    second: Incoming_Message_Right_Bottom_Border
+  - first:
+      213: 203579014207062741
+    second: Incoming_Message_Right_Top_Border
+  - first:
+      213: -6835259101878514110
+    second: Menu_Empty
+  - first:
+      213: -3264692459445431426
+    second: Menu_Left_Bottom_Border
+  - first:
+      213: 3444200430817556715
+    second: Menu_Left_Top_Border
+  - first:
+      213: -1256615084345675452
+    second: Menu_Middle_Bottom_Border
+  - first:
+      213: 693437320983617006
+    second: Menu_Middle_Left_Border
+  - first:
+      213: 3822371387675307627
+    second: Menu_Middle_Right_Border
+  - first:
+      213: -5332674536901899167
+    second: Menu_Middle_Top_Border
+  - first:
+      213: -258710459659180182
+    second: Menu_Right_Bottom_Border
+  - first:
+      213: -5795301618104391889
+    second: Menu_Right_Top_Border
+  - first:
+      213: -2181811769295030920
+    second: Budget
+  - first:
+      213: 6723317518387999186
+    second: Build
+  - first:
+      213: 3821872303914122078
+    second: Build_empty
+  - first:
+      213: -1809221061994120304
+    second: Craft
+  - first:
+      213: -3185341395734360614
+    second: Craft_empty
+  - first:
+      213: 7683598484628720577
+    second: Customer_happy_empty
+  - first:
+      213: 446734639398739421
+    second: uiAtlast_39
+  - first:
+      213: 1533977316675777864
+    second: uiAtlast_40
+  - first:
+      213: -1735230261411910466
+    second: uiAtlast_41
+  - first:
+      213: 1393143542690670829
+    second: uiAtlast_42
+  - first:
+      213: -8800326738610037325
+    second: uiAtlast_43
+  - first:
+      213: 3518646746115651827
+    second: uiAtlast_44
+  - first:
+      213: 1588058759847481546
+    second: uiAtlast_45
+  - first:
+      213: -8454497295777542487
+    second: uiAtlast_46
+  - first:
+      213: -1071403946688492360
+    second: uiAtlast_47
+  - first:
+      213: -6384416498994201367
+    second: uiAtlast_48
+  - first:
+      213: -9209591942758690621
+    second: uiAtlast_49
+  - first:
+      213: -7687988629249235193
+    second: uiAtlast_50
+  - first:
+      213: 2600919637564204247
+    second: uiAtlast_51
+  - first:
+      213: -5872400765582126740
+    second: uiAtlast_52
+  - first:
+      213: -3338928465182242177
+    second: uiAtlast_53
+  - first:
+      213: -1908108535599249281
+    second: uiAtlast_54
+  - first:
+      213: 4303846124518913954
+    second: uiAtlast_55
+  - first:
+      213: 6778024542054284521
+    second: uiAtlast_56
+  - first:
+      213: 6947652753392549186
+    second: uiAtlast_57
+  - first:
+      213: 2407476925881035195
+    second: uiAtlast_58
+  - first:
+      213: -1020510523439867522
+    second: uiAtlast_59
+  - first:
+      213: 8241136619221951769
+    second: uiAtlast_60
+  - first:
+      213: -7474600084492554964
+    second: uiAtlast_61
+  - first:
+      213: 4927773390281284821
+    second: uiAtlast_62
+  - first:
+      213: 8330722203911094112
+    second: uiAtlast_63
+  - first:
+      213: 6385206231071569145
+    second: uiAtlast_64
+  - first:
+      213: 3038937482028921783
+    second: uiAtlast_65
+  - first:
+      213: -7337870611043862507
+    second: uiAtlast_66
+  - first:
+      213: -8018346949595612915
+    second: uiAtlast_67
+  - first:
+      213: -6606831372373232119
+    second: uiAtlast_68
+  - first:
+      213: 276768983193883010
+    second: uiAtlast_69
+  - first:
+      213: -7790520689299684435
+    second: uiAtlast_70
+  - first:
+      213: -3384767560727537399
+    second: uiAtlast_71
+  - first:
+      213: -1578389023647840075
+    second: uiAtlast_72
+  - first:
+      213: -750194539750465804
+    second: uiAtlast_0
+  - first:
+      213: -5845315906766726515
+    second: uiAtlast_1
+  - first:
+      213: 5800459559749071103
+    second: uiAtlast_2
+  - first:
+      213: 6858158435506103805
+    second: uiAtlast_3
+  - first:
+      213: 3395397091620555552
+    second: uiAtlast_4
+  - first:
+      213: -5563789419674101662
+    second: uiAtlast_5
+  - first:
+      213: 3128154925496436101
+    second: uiAtlast_6
+  - first:
+      213: 1057751131707145421
+    second: uiAtlast_7
+  - first:
+      213: -7964408995929025752
+    second: uiAtlast_8
+  - first:
+      213: -6722010634635353501
+    second: uiAtlast_9
+  - first:
+      213: -3743656062193980884
+    second: uiAtlast_10
+  - first:
+      213: -4747914170692405414
+    second: uiAtlast_11
+  - first:
+      213: -3701096427898952372
+    second: uiAtlast_12
+  - first:
+      213: 5583910506528760602
+    second: uiAtlast_13
+  - first:
+      213: -3168873401022255838
+    second: uiAtlast_14
+  - first:
+      213: -551230340683979059
+    second: uiAtlast_15
+  - first:
+      213: 8066186244903511729
+    second: uiAtlast_16
+  - first:
+      213: -5498092606764242059
+    second: uiAtlast_17
+  - first:
+      213: 4742592930499539486
+    second: uiAtlast_18
+  - first:
+      213: -5383138192643327276
+    second: uiAtlast_19
+  - first:
+      213: -7001372125491298830
+    second: uiAtlast_20
+  - first:
+      213: 748347972611599461
+    second: uiAtlast_21
+  - first:
+      213: 7288784207740381911
+    second: uiAtlast_22
+  - first:
+      213: -8294127619189116682
+    second: uiAtlast_23
+  - first:
+      213: -1595160041204127873
+    second: uiAtlast_24
+  - first:
+      213: -576413917233597039
+    second: uiAtlast_25
+  - first:
+      213: -1275193547508005908
+    second: uiAtlast_26
+  - first:
+      213: -3564357925297264828
+    second: uiAtlast_27
+  - first:
+      213: 8794818483323181842
+    second: uiAtlast_28
+  - first:
+      213: -5007140864808260976
+    second: uiAtlast_29
+  - first:
+      213: -1227330044777450995
+    second: uiAtlast_30
+  - first:
+      213: 6583616699723960489
+    second: uiAtlast_31
+  - first:
+      213: -1546136364280335658
+    second: uiAtlast_32
+  - first:
+      213: -6989598120319505177
+    second: uiAtlast_33
+  - first:
+      213: -9017612533066889770
+    second: uiAtlast_34
+  - first:
+      213: 6309604537865365602
+    second: uiAtlast_35
+  - first:
+      213: 8416408177736511760
+    second: uiAtlast_36
+  - first:
+      213: 1796524229506738183
+    second: uiAtlast_37
+  - first:
+      213: 573676833152899028
+    second: uiAtlast_38
+  - first:
+      213: -7831812752154955828
+    second: uiAtlast_39
+  - first:
+      213: 971287261369044678
+    second: uiAtlast_40
+  - first:
+      213: 1252434613459723218
+    second: uiAtlast_41
+  - first:
+      213: 2865641531189237321
+    second: uiAtlast_42
+  - first:
+      213: 3893644615995374411
+    second: uiAtlast_43
+  - first:
+      213: -2765507242942165886
+    second: uiAtlast_44
+  - first:
+      213: 5088339581834433687
+    second: uiAtlast_45
+  - first:
+      213: -2009610408646244910
+    second: uiAtlast_46
+  - first:
+      213: 6952421452190008971
+    second: uiAtlast_47
+  - first:
+      213: 4024042885684112790
+    second: uiAtlast_48
+  - first:
+      213: 1703135698805905987
+    second: uiAtlast_49
+  - first:
+      213: -598846299249369234
+    second: uiAtlast_50
+  - first:
+      213: 602182112068602521
+    second: uiAtlast_51
+  - first:
+      213: -1468890952532284016
+    second: uiAtlast_52
+  - first:
+      213: -6438333188037823100
+    second: uiAtlast_53
+  - first:
+      213: 3885501679481461671
+    second: uiAtlast_54
+  - first:
+      213: 1845983261541538997
+    second: uiAtlast_55
+  - first:
+      213: 7674767310224948550
+    second: uiAtlast_56
+  - first:
+      213: -5071576095461021729
+    second: uiAtlast_57
+  - first:
+      213: 350908060028012411
+    second: uiAtlast_58
+  - first:
+      213: 7897815927477855859
+    second: uiAtlast_59
+  - first:
+      213: 1841365820019058056
+    second: uiAtlast_60
+  - first:
+      213: -2604675709984579086
+    second: uiAtlast_61
+  - first:
+      213: 4402809111981712922
+    second: uiAtlast_62
+  - first:
+      213: 253287483647731747
+    second: uiAtlast_63
+  - first:
+      213: 7288485557806819644
+    second: uiAtlast_64
+  - first:
+      213: -2554205540200516194
+    second: uiAtlast_65
+  - first:
+      213: -870636278974665849
+    second: uiAtlast_66
+  - first:
+      213: -2681685042253434481
+    second: uiAtlast_67
+  - first:
+      213: -3797737836190617358
+    second: uiAtlast_68
+  - first:
+      213: -6745424204771846368
+    second: uiAtlast_69
+  - first:
+      213: -1882133395377524886
+    second: uiAtlast_70
+  - first:
+      213: -2915482525820386343
+    second: uiAtlast_71
+  - first:
+      213: -4444824122433089268
+    second: uiAtlast_73
+  - first:
+      213: -7562194589839215078
+    second: uiAtlast_74
+  - first:
+      213: -3202509771992810404
+    second: uiAtlast_75
+  - first:
+      213: -1026960757306944433
+    second: uiAtlast_76
+  - first:
+      213: 752750356892750035
+    second: uiAtlast_77
+  - first:
+      213: -7289031329598340876
+    second: uiAtlast_78
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: uiAtlast_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fe5cb17a06c695f0800000000000000
+      internalID: -750194539750465804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8a9a31172441eea0800000000000000
+      internalID: -5845315906766726515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff0bcd8cc3f5f7050800000000000000
+      internalID: 5800459559749071103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df5a0b1d2c21d2f50800000000000000
+      internalID: 6858158435506103805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02b007d4aafde1f20800000000000000
+      internalID: 3395397091620555552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 528
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2689f33400379c2b0800000000000000
+      internalID: -5563789419674101662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5858a90c450796b20800000000000000
+      internalID: 3128154925496436101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_7
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dccfb22dc03edae00800000000000000
+      internalID: 1057751131707145421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_8
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82399b7273cb87190800000000000000
+      internalID: -7964408995929025752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_9
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 362692a41fe96b2a0800000000000000
+      internalID: -6722010634635353501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_10
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2aa0bb65acdb0cc0800000000000000
+      internalID: -3743656062193980884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_11
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 480
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a57f5df97350c1eb0800000000000000
+      internalID: -4747914170692405414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c45ad97786013acc0800000000000000
+      internalID: -3701096427898952372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_13
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a13e73755090e7d40800000000000000
+      internalID: 5583910506528760602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_14
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22d62e16e66e504d0800000000000000
+      internalID: -3168873401022255838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_15
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc62d1afce2a958f0800000000000000
+      internalID: -551230340683979059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_16
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b6ad9b37a9d0ff60800000000000000
+      internalID: 8066186244903511729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_17
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 432
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57bad9f77e9d2b3b0800000000000000
+      internalID: -5498092606764242059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1234b8942311d140800000000000000
+      internalID: 4742592930499539486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4daf7aab5504b45b0800000000000000
+      internalID: -5383138192643327276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_20
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fdf4cf852126de90800000000000000
+      internalID: -7001372125491298830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_21
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56ce5e3248aa26a00800000000000000
+      internalID: 748347972611599461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7daa7da8e96f62560800000000000000
+      internalID: 7288784207740381911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_23
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f0f970efd655ec80800000000000000
+      internalID: -8294127619189116682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f776120e46adcd9e0800000000000000
+      internalID: -1595160041204127873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_25
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19533b3a89a2008f0800000000000000
+      internalID: -576413917233597039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_26
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce34aec893a9d4ee0800000000000000
+      internalID: -1275193547508005908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_27
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 447ee4a0a5bd88ec0800000000000000
+      internalID: -3564357925297264828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_28
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21b948a40d87d0a70800000000000000
+      internalID: 8794818483323181842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_29
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 336
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09ae2c499ef038ab0800000000000000
+      internalID: -5007140864808260976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0230e2b3d5a7fee0800000000000000
+      internalID: -1227330044777450995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_31
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a05064c184bd5b50800000000000000
+      internalID: 6583616699723960489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_32
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d2b1c02b250b8ae0800000000000000
+      internalID: -1546136364280335658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_33
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ec2e93ca85fffe90800000000000000
+      internalID: -6989598120319505177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_34
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d50074bd210bd280800000000000000
+      internalID: -9017612533066889770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_35
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 288
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26868a0c5e7309750800000000000000
+      internalID: 6309604537865365602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0117da645a61dc470800000000000000
+      internalID: 8416408177736511760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_37
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 708a122b4498ee810800000000000000
+      internalID: 1796524229506738183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_38
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d713ff4a0c16f700800000000000000
+      internalID: 573676833152899028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_39
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccfed60fbcfcf4390800000000000000
+      internalID: -7831812752154955828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_40
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ce83cc3e94ba7d00800000000000000
+      internalID: 971287261369044678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_41
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 240
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d3abaf25aa816110800000000000000
+      internalID: 1252434613459723218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94614203acdc4c720800000000000000
+      internalID: 2865641531189237321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_43
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4b340a1621090630800000000000000
+      internalID: 3893644615995374411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_44
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28c89a890d1fe99d0800000000000000
+      internalID: -2765507242942165886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_45
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7941dc7f3e96d9640800000000000000
+      internalID: 5088339581834433687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_46
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d586bf0bfd6c14e0800000000000000
+      internalID: -2009610408646244910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_47
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 192
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b86479aa976fb7060800000000000000
+      internalID: 6952421452190008971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69da32a2fa548d730800000000000000
+      internalID: 4024042885684112790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_49
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34adc9bf4e0c2a710800000000000000
+      internalID: 1703135698805905987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_50
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6f1f22b67870b7f0800000000000000
+      internalID: -598846299249369234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_51
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99a81ffb0716b5800800000000000000
+      internalID: 602182112068602521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_52
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09d278016737d9be0800000000000000
+      internalID: -1468890952532284016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_53
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 485b565c31276a6a0800000000000000
+      internalID: -6438333188037823100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ab1da3f0331ce530800000000000000
+      internalID: 3885501679481461671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_55
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bc1085feff3e9910800000000000000
+      internalID: 1845983261541538997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_56
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64dfcbbb430428a60800000000000000
+      internalID: 7674767310224948550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_57
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd7eeaa59642e99b0800000000000000
+      internalID: -5071576095461021729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_58
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b778aca750daed400800000000000000
+      internalID: 350908060028012411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_59
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3766dbaddbdaa9d60800000000000000
+      internalID: 7897815927477855859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88528c31578dd8910800000000000000
+      internalID: 1841365820019058056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_61
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f1e74fed355adbd0800000000000000
+      internalID: -2604675709984579086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_62
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a16e58d6f8be91d30800000000000000
+      internalID: 4402809111981712922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_63
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32820e8df9bd38300800000000000000
+      internalID: 253287483647731747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_64
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39e3afaff6e52560800000000000000
+      internalID: 7288485557806819644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_65
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e95730d0893ad8cd0800000000000000
+      internalID: -2554205540200516194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_66
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78ba527cae0eae3f0800000000000000
+      internalID: -870636278974665849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_67
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f81710989adb8cad0800000000000000
+      internalID: -2681685042253434481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_68
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f03ccb2f89bb4bc0800000000000000
+      internalID: -3797737836190617358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_69
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 027904fac607362a0800000000000000
+      internalID: -6745424204771846368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_70
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6f6f9c16a151e5e0800000000000000
+      internalID: -1882133395377524886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: uiAtlast_71
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d30e93f6102a87d0800000000000000
+      internalID: -2915482525820386343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

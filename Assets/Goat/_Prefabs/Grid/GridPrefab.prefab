@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 612029029412865795}
   - component: {fileID: 5621511813930087197}
   - component: {fileID: 612029029412865804}
-  - component: {fileID: 612029029412865805}
-  - component: {fileID: 612029029412865801}
   - component: {fileID: 612029029412865807}
   - component: {fileID: 4233259508223697211}
   - component: {fileID: 7939294644737218720}
   - component: {fileID: 6608607777775956720}
   - component: {fileID: 1836051739}
+  - component: {fileID: 7784319680466284517}
   m_Layer: 8
   m_Name: GridPrefab
   m_TagString: Grid
@@ -67,7 +66,8 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
   subscribers: 0
   defaultWall: {fileID: 11400000, guid: 78b2f91a5bd12af4885388421c4a79b0, type: 2}
-  gridSize: {x: 50, y: 50}
+  gridPlane: {fileID: 0}
+  gridSize: {x: 100, y: 100}
   tileSize: 1
   gridMask:
     serializedVersion: 2
@@ -115,53 +115,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &612029029412865805
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 612029029412865802}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &612029029412865801
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 612029029412865802}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b26cfbf986747174a91820306f8511f2, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!114 &612029029412865807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,9 +188,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: 8fce16220060c6b4c9315b34d56305e0, type: 2}
+  subscribedEvent: {fileID: 11400000, guid: 0762c63595c88ac45873d51cfa9e0513, type: 2}
   subscribers: 0
-  tileDataEvent: {fileID: 11400000, guid: 15a2ba14e2b82e94ca4d359c416d9a6d, type: 2}
+  beautyPointEvent: {fileID: 11400000, guid: 1257795dd64685b459873e8619e72b77, type: 2}
   grid: {fileID: 612029029412865795}
 --- !u!114 &1836051739
 MonoBehaviour:
@@ -256,3 +209,25 @@ MonoBehaviour:
   saveOrder: -10
   grid: {fileID: 612029029412865795}
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+--- !u!114 &7784319680466284517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612029029412865802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06eb24547386f26479e0b151af8423c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    className: DataContainer
+  saveOrder: 0
+  tubeEndPrefab: {fileID: 3317845011053807819, guid: e428a2ede109505469f889e5de9bc6ce,
+    type: 3}
+  resourcePackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
+    type: 3}
+  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
+  grid: {fileID: 612029029412865795}

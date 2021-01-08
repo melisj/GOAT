@@ -18,6 +18,7 @@ namespace Goat.Grid.Interactions
 
         // Get or create a item holder object
         private Transform ItemHolderParent;
+
         private Transform GetItemHolderParent
         {
             get
@@ -35,7 +36,7 @@ namespace Goat.Grid.Interactions
         public override object[] GetArgumentsForUI()
         {
             return new object[] {
-            string.Format("Storage -=- {0}/{1}", Inventory.ItemsInInventory, maxResources),
+            string.Format("{0} / {1}", Inventory.ItemsInInventory, maxResources),
             Inventory,
             this };
         }
@@ -119,7 +120,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        #endregion
+        #endregion Item Holders
 
         #region Physical Storage
 
@@ -169,7 +170,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        #endregion
+        #endregion Physical Storage
 
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {

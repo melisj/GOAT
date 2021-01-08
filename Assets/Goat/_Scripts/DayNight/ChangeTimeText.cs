@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using TMPro;
 using Goat.Events;
-using System.Collections;
+using UnityAtoms;
 
-public class ChangeTimeText : EventListenerString
+public class ChangeTimeText : EventListenerVoid
 {
     [SerializeField] private TextMeshProUGUI timeText;
-    [SerializeField] private string tuie;
+    [SerializeField] private TimeOfDay time;
 
-    public override void OnEventRaised(string value)
+    private void Awake()
     {
-        timeText.text = value;
+        timeText.text = time.GetTime12Hour;
+    }
+
+    public override void OnEventRaised(Void value)
+    {
+        timeText.text = time.GetTime12Hour;
     }
 }

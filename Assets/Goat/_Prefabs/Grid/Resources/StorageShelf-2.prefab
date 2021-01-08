@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3696224895932140130}
   - component: {fileID: 7418064978709568046}
   - component: {fileID: 5088376830902446063}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,8 @@ GameObject:
   - component: {fileID: 6378611930022995155}
   - component: {fileID: 1706500133508893392}
   - component: {fileID: 2229217871351285504}
-  m_Layer: 9
+  - component: {fileID: -4876240970032375841}
+  m_Layer: 18
   m_Name: StorageShelf-2
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -129,6 +130,8 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  adjustPositionAgainstWall: 1
+  adjustPosition: {fileID: -4876240970032375841}
   description: 
   costsPower: 0
   powerCost: 0
@@ -168,6 +171,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storages: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+--- !u!114 &-4876240970032375841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867895141637739850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09bee7f5505f4ce48ab0deae261b6c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: -0.1
 --- !u!1 &3396132031578619643
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +195,7 @@ GameObject:
   - component: {fileID: 6677110533129671418}
   - component: {fileID: 672050673421945649}
   - component: {fileID: 5638006448547349121}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,8 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4011765634819120933}
-  - component: {fileID: 8303107878476904433}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,22 +294,6 @@ Transform:
   m_Father: {fileID: 928335420977124806}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8303107878476904433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4388607454686152095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &4797711624523077421
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +305,7 @@ GameObject:
   - component: {fileID: 2716784748956498344}
   - component: {fileID: 2421550047002060113}
   - component: {fileID: 3404760857400857292}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6629873435161106652}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +419,8 @@ GameObject:
   - component: {fileID: 8751233996443304374}
   - component: {fileID: 6815731558591477116}
   - component: {fileID: 259851091082278258}
-  m_Layer: 9
+  - component: {fileID: 3585528966114124897}
+  m_Layer: 18
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -501,6 +501,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.7720692, z: 0.39626595}
   m_Center: {x: 0, y: 0.3860346, z: 0.298481}
+--- !u!208 &3585528966114124897
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014384136189383849}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.467, y: 0.386, z: 0.19800001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.386, z: 0.298}
+  m_TimeToStationary: 0.5
 --- !u!1 &6422443011985186243
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +528,7 @@ GameObject:
   - component: {fileID: 254825979690647349}
   - component: {fileID: 1062764885249087513}
   - component: {fileID: 22691222161568611}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

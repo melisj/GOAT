@@ -20,7 +20,7 @@ public class MoneyToText : MonoBehaviour
 
     private void ChangeText(float value)
     {
-        moneyText.text = ((int)value).ToString();
+        moneyText.text = ((int)value).ToString("N0");
     }
 
     private void Money_AmountChanged(object sender, float e)

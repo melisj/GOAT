@@ -8,7 +8,7 @@ namespace Goat.AI.Satisfaction
 
         public override float GetReviewPoints()
         {
-            return -(npc.ItemsToGet.ItemsInInventory * reviewWeight.Weight);
+            return -(npc.ItemsToGet.ItemsInInventory * revData.Weight);
         }
     }
 }

@@ -26,10 +26,9 @@ namespace Goat.Grid.Interactions
 
         public InteractableUIElement ElementToLoad => elementToLoad;
 
-
         [SerializeField] private Resource mainResource;
-        [HideInInspector] public Resource MainResource { get => mainResource; }
-        [HideInInspector] public bool selected = false;
+        [HideInInspector] public Resource MainResource { get => mainResource; set => mainResource = value; }
+        public bool selected { get; set; }
 
         protected override void Awake()
         {
@@ -48,9 +47,10 @@ namespace Goat.Grid.Interactions
             InvokeChange();
         }
 
-        public override object[] GetArgumentsForUI() {
+        public override object[] GetArgumentsForUI()
+        {
             return new object[] {
-            string.Format("Storage -=- {0}/{1}", inventory.ItemsInInventory, maxResources),
+            string.Format("{0} / {1}", inventory.ItemsInInventory, maxResources),
             inventory,
             this };
         }

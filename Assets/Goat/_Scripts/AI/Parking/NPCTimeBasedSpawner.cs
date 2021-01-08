@@ -43,11 +43,11 @@ namespace Goat.AI.Parking
 
             while (time < spawnTime)
             {
-                time += Time.deltaTime;
+                time += Time.deltaTime * timeInfo.TimeScale;
                 yield return null;
             }
 
-            if(curveValue != 0)
+            if(curveValue != 0 && timeInfo.IsDay)
                 spawner.SpawnShip(1);
             spawnRoutine = null;
         }

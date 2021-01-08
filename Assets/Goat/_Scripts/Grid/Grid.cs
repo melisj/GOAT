@@ -12,6 +12,7 @@ namespace Goat.Grid
     {
         [Header("Generation")]
         [SerializeField] private Wall defaultWall;
+        [SerializeField] private GameObject gridPlane;
         [SerializeField] private Vector2Int gridSize = new Vector2Int(10, 10);
         [SerializeField] private float tileSize = 1.0f;
         private Vector3 startingPosition;
@@ -34,8 +35,6 @@ namespace Goat.Grid
         private List<Vector2Int> checkedTiles = new List<Vector2Int>();
         private float objectRotationAngle;                              // Rotation of preview object
 
-        private DataHandler dataHandler;
-
         private Tile currentTile;
         private Tile leftTile, rightTile, upTile, downTile;
         private Tile previousTile = null;
@@ -43,12 +42,12 @@ namespace Goat.Grid
 
         private Vector2Int currentTileIndex;
         private bool autoWalls;
-
+        private bool fill;
         public bool DestroyMode { get; set; }
         public float GetTileSize { get { return tileSize; } }
         public Vector2Int GetGridSize { get { return gridSize; } }
 
-        private void Start()
+        private void Awake()
         {
             InitializeTiles(gridSize, tileSize);
             InitializePreviewObject();
@@ -134,14 +133,25 @@ namespace Goat.Grid
         {
             if (currentMode.InputMode == InputMode.Edit | currentMode.InputMode == InputMode.Destroy)
             {
+                //#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                //                if (Input.GetMouseButtonDown(0))
+                //                {
+                //                    if (fill)
+                //                    {
+                //                        FillGrid();
+                //                        return;
+                //                    }
+                //                }
+                //#endif
+
                 if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
                 {
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
-                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode)
-                            && !(previewPlaceableInfo is Wall))
+                        if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode))
                         {
+                            if (!previewPlaceableInfo.CreatesWallsAround) return;
                             //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
                         }
@@ -155,7 +165,59 @@ namespace Goat.Grid
                     objectRotationAngle = (objectRotationAngle + 90) % 360;
                     if (previewObject) previewObject.transform.rotation = Quaternion.Euler(0, objectRotationAngle, 0);
                 }
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    //fill = !fill;
+                    FillGrid();
+                    Debug.LogWarning($"FILL MODE = {fill}");
+                }
+#endif
             }
+        }
+
+        private void FillGrid()
+        {
+            ResourceTileData[] datas = Resources.LoadAll<ResourceTileData>("ResourceTiles");
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                for (int y = 0; y < gridSize.y; y++)
+                {
+                    int random = Random.Range(0, 4);
+                    int setTileRandom = Random.Range(0, 101);
+                    int chanceToSet = Random.Range(0, 101);
+                    int chanceToSpawn = 30;
+                    int rotation = 90 * random;
+                    if (!DestroyMode)
+                    {
+                        if (chanceToSet > chanceToSpawn) continue;
+                        if (tiles[x, y].FloorObj) continue;
+                    }
+                    ResourceTileData data = GetNearestData(datas, setTileRandom);
+                    if (tiles[x, y].EditAny(data, rotation, DestroyMode))
+                    {
+                        if (!data.CreatesWallsAround) continue;
+                        SetupNeighborTiles(new Vector2Int(x, y));
+                    }
+                }
+            }
+        }
+
+        private ResourceTileData GetNearestData(ResourceTileData[] data, int value)
+        {
+            int currentNearest = 0;
+            float currentDiff = Mathf.Abs(data[0].ChanceToSpawn - value);
+            for (int i = 0; i < data.Length; i++)
+            {
+                float diff = Mathf.Abs(data[i].ChanceToSpawn - value);
+                if (diff < currentDiff)
+                {
+                    currentDiff = diff;
+                    currentNearest = i;
+                }
+            }
+
+            return data[currentNearest];
         }
 
         #endregion Input
@@ -300,9 +362,9 @@ namespace Goat.Grid
         {
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
-            Material material = GetComponent<Renderer>().material;
+            Material material = gridPlane.GetComponent<Renderer>().material;
             material.mainTextureScale = gridSize;
-            startingPosition = transform.parent.position;
+            startingPosition = gridPlane.transform.position;
 
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -315,8 +377,8 @@ namespace Goat.Grid
                 }
             }
 
-            transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
-            transform.localPosition = new Vector3(gridSize.x, 0, gridSize.y) * tileSize / 2;
+            gridPlane.transform.localScale = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize;
+            gridPlane.transform.localPosition = new Vector3(gridSize.x, 0.1f, gridSize.y) * tileSize / 2;
         }
 
         /// <summary>

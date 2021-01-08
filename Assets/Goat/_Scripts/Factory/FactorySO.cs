@@ -8,6 +8,6 @@ namespace Goat.Factory
     /// <typeparam name="T">Specifies the non-abstract type to create.</typeparam>
     public abstract class FactorySO<T> : ScriptableObject, IFactory<T>
     {
-        public abstract T Create();
+        public abstract T Create(Vector3 pos, Transform parent);
     }
 }

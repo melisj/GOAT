@@ -6,6 +6,6 @@ using UnityEngine;
 
 [EditorIcon("atom-icon-cherry")]
 [CreateAssetMenu(menuName = "Unity Atoms/Events/TileDataEvent", fileName = "TileDataEvent")]
-public class TileDataEvent : AtomEvent<Tile>
+public class TileDataEvent : AtomEvent<WithOwner<List<Tile>>>
 {
 }

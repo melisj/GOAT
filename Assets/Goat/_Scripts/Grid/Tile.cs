@@ -159,8 +159,11 @@ namespace Goat.Grid
                 Resource resOnTile = resourceTile.Data.Resource;
 
                 FarmStation station = (FarmStation)placeable;
-
-                return !(station.ResourceFarm == resOnTile);
+                for (int i = 0; i < station.ResourceFarms.Length; i++)
+                {
+                    if (station.ResourceFarms[i] == resOnTile)
+                        return false;
+                }
             }
             return true;
             //if Placeable is FarmStation -> Check for resource
@@ -268,12 +271,15 @@ namespace Goat.Grid
                 {
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
                     floorObject = tileObject;
+                    SetupResourceTile(floorObject, placeable);
                     tempTile = floorObject;
                 }
                 else if (placeable is Building)
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
+                    if (GetWallObj(InverseRotation((int)rotationAngle)))
+                        AdjustPositionAgainstWall(buildingObject);
                 }
                 totalBeautyPoints += placeable.BeautyPoints;
                 if (!isLoading)
@@ -317,27 +323,29 @@ namespace Goat.Grid
 
             if (wallObjs[index])
             {
-                if ((!wallAuto[index] || autoMode))
-                {
-                    //MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
-                    //for (int i = 0; i < tileObjectFilter.Length; i++)
-                    //{
-                    //    if (!autoMode && tileObjectFilter[i].sharedMesh != wall.Mesh[i])
-                    //    {
-                    //        tileObjectFilter[i].mesh = null;
-                    //    }
-                    //}
-                    PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
-                    if (!autoMode && !isLoading)
-                        placeableInfo.Placeable.Sell(1);
+                //if ((autoMode))
+                //{
+                //MeshFilter[] tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
+                //for (int i = 0; i < tileObjectFilter.Length; i++)
+                //{
+                //    if (!autoMode && tileObjectFilter[i].sharedMesh != wall.Mesh[i])
+                //    {
+                //        tileObjectFilter[i].mesh = null;
+                //    }
+                //}
+                PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
+                if (!autoMode && !isLoading)
+                    placeableInfo.Placeable.Sell(1);
 
-                    totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
-                    PoolManager.Instance.ReturnToPool(wallObjs[index]);
-                    wallObjs[index] = null;
-                    wallAuto[index] = false;
-                    placeableInfo.Setup(null);
-                    SaveData.SetWall(-1, index, false);
-                }
+                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+                PoolManager.Instance.ReturnToPool(wallObjs[index]);
+                wallObjs[index] = null;
+                wallAuto[index] = autoMode || wallAuto[index];
+                placeableInfo.Setup(null);
+                SaveData.SetWall(-1, index, false);
+                if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                    AdjustPositionAgainstWall(buildingObject, true);
+                //  }
             }
 
             if (wall != null && !destroyMode)
@@ -366,11 +374,37 @@ namespace Goat.Grid
                     placeableInfo.Placeable.Buy(1);
 
                 totalBeautyPoints += placeableInfo.Placeable.BeautyPoints;
-
+                if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                    AdjustPositionAgainstWall(buildingObject);
                 SaveData.SetWall(wall.ID, index, autoMode);
             }
             // }
             return true;
+        }
+
+        private void AdjustPositionAgainstWall(GameObject building, bool reset = false)
+        {
+            AdjustPositionAgainstWall adjustPos = building.GetComponent<AdjustPositionAgainstWall>();
+            if (!adjustPos) return;
+            if (!reset)
+                adjustPos.AdjustPosition();
+            else
+                adjustPos.ResetPosition();
+        }
+
+        private GameObject GetWallObj(float rotationAngle)
+        {
+            int index = 0;
+            if (rotationAngle > 0)
+            {
+                index = (int)(rotationAngle / 90);
+            }
+            return WallObjs[index];
+        }
+
+        private int InverseRotation(int rotation)
+        {
+            return (rotation + 180) % 360;
         }
 
         public void LoadInData(TileInfo newData, ref GridObjectsList objectList)
@@ -393,6 +427,16 @@ namespace Goat.Grid
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
                     EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
+            }
+        }
+
+        private void SetupResourceTile(GameObject obj, Placeable placeable)
+        {
+            if (placeable is ResourceTileData resFloor)
+            {
+                ResourceTile resTile = obj.GetComponent<ResourceTile>();
+                if (!resTile) return;
+                resTile.Setup(resFloor);
             }
         }
 

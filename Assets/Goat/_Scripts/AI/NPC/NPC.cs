@@ -35,6 +35,8 @@ namespace Goat.AI
         private Inventory inventory;
         public Inventory Inventory => inventory;
 
+        [SerializeField] private string stateName;
+
         [HideInInspector] public float enterTime;
         public float searchingTime = 0;
         public NPCShip Ship { get; set; }
@@ -46,6 +48,8 @@ namespace Goat.AI
         //    //awakeTime = Time.time;
         //    //targetDestination = Vector3.one;
         //}
+
+        [HideInInspector] public TakeItem takeItem;
 
         protected virtual void Setup()
         {
@@ -60,6 +64,11 @@ namespace Goat.AI
         }
 
         protected virtual void Update() => stateMachine.Tick();
+
+        private void LateUpdate()
+        {
+            stateName = stateMachine?.CurrentState.ToString();
+        }
 
         public virtual void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {

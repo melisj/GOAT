@@ -23,12 +23,14 @@ namespace Goat.Grid.UI
     public class InteractableUI : BasicGridUIElement
     {
         [SerializeField] private TextMeshProUGUI titleText;
-        [SerializeField] private TextMeshProUGUI descriptionText;
+        [SerializeField] private RectTransform headerBorderMiddle, headerBorderLeft;
+        [SerializeField] private float margin;
+        //[SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private Image interactableIcon;
 
         [SerializeField] private Transform UIElementSlot;
         [SerializeField] private StockingUI stockingUI;
-
+        [SerializeField] private UISlotElement[] slotElements;
         [SerializeField] private InteractablesInfo interactableInfo;
         [SerializeField] private InteractableUIElements elements;
         // Keeps track of all UI elements available
@@ -41,8 +43,10 @@ namespace Goat.Grid.UI
 
         protected virtual void Awake()
         {
-            SpawnUIElements();
-            stockingUI = GetComponentInChildren<StockingUI>();
+            //SpawnUIElements();
+            SetupUIElements(slotElements);
+            if (!stockingUI)
+                stockingUI = GetComponentInChildren<StockingUI>();
         }
 
         private void OnEnable()
@@ -61,7 +65,7 @@ namespace Goat.Grid.UI
 
             if (interactable is StorageInteractable) elementToLoad = ((StorageInteractable)interactable).ElementToLoad;
             else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
-           
+
             SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
         }
 
@@ -83,6 +87,18 @@ namespace Goat.Grid.UI
             }
         }
 
+        private void SetupUIElements(UISlotElement[] slotElements)
+        {
+            for (int i = 0; i < slotElements.Length; i++)
+            {
+                UISlotElement slotElement = slotElements[i];
+                slotElement.InitUI();
+
+                UIElements.Add(slotElement.UiElementType, slotElement);
+                //slotElement.gameObject.SetActive(false);
+            }
+        }
+
         // Set the default UI elements to the given params
         public void SetUI(string title,
             string description,
@@ -92,9 +108,22 @@ namespace Goat.Grid.UI
             if (IsThisActive)
             {
                 titleText.text = title;
-                descriptionText.text = description;
+                ChangeIconWidth(title, titleText, headerBorderMiddle, headerBorderLeft);
+                //if (descriptionText)
+                //    descriptionText.text = description;
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
+        }
+
+        protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)
+        {
+            //InitialSize
+            float initialSize = leftBorder.sizeDelta.x * 2;
+            //  float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length));
+            float iconWidth = ((textUI.fontSize) + ((textUI.fontSize + margin) * (change.Length)));
+            iconWidth -= initialSize;
+            iconWidth = Mathf.Max(iconWidth, 1);
+            amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
         }
 
         // Load a new UI element
@@ -105,7 +134,7 @@ namespace Goat.Grid.UI
 
             if (IsThisActive && elementId != InteractableUIElement.None)
             {
-                StockingScript.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
+                //StockingScript.gameObject.SetActive(elementId == InteractableUIElement.ShelfStorage || elementId == InteractableUIElement.CrateStorage);
                 loadedType = elementId;
 
                 UIElements.TryGetValue(elementId, out UISlotElement element);
@@ -113,7 +142,8 @@ namespace Goat.Grid.UI
 
                 if (activeElement)
                 {
-                    activeElement.gameObject.SetActive(true);
+                    //activeElement.gameObject.SetActive(true);
+                    activeElement.OpenUI();
                     SetElementValues(args);
                 }
             }
@@ -124,8 +154,9 @@ namespace Goat.Grid.UI
         {
             if (IsThisActive && activeElement)
             {
-                StockingScript.gameObject.SetActive(false);
-                activeElement.gameObject.SetActive(false);
+                //StockingScript.gameObject.SetActive(false);
+                //activeElement.gameObject.SetActive(false);
+                activeElement.CloseUI();
                 loadedType = InteractableUIElement.None;
             }
         }

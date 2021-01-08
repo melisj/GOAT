@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5066533614744139623}
   - component: {fileID: 5066533614744139622}
   - component: {fileID: 2809310266965763942}
+  - component: {fileID: 6015707839168422404}
   m_Layer: 0
   m_Name: OnCycleChange
   m_TagString: Untagged
@@ -109,6 +110,10 @@ MonoBehaviour:
   transitionTime: 1
   nightColor: {r: 0.5695645, g: 0.37833747, b: 0.735849, a: 1}
   dayColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  nightSkyboxColor: {r: 0, g: 0, b: 0, a: 0}
+  daySkyboxColor: {r: 0, g: 0, b: 0, a: 0}
+  daytimeParticle: {fileID: 0}
+  nighttimeParticle: {fileID: 0}
 --- !u!114 &2809310266965763942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +138,24 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   subscribers: 0
   shipCreator: {fileID: 0}
+--- !u!114 &6015707839168422404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066533614744139621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29ee9303854292458d80798b251f04c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: f9ea7de730da3fe47adc66ff5ea20045, type: 2}
+  _playOnStart: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: f55baf75bec443c47b014c77e223fa94,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 2d24767a935d0b2499ceda70fdddef08,
+    type: 2}
+  onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  atDay: 1

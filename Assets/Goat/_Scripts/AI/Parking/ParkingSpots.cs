@@ -16,6 +16,8 @@ namespace Goat.AI.Parking
 
         private ParkingSpot[] parkingList;
 
+        public ParkingSpot[] ParkingList => parkingList;
+
         private Bounds bounds;
 
         private void Awake()

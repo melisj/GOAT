@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3255775460644688847}
   - component: {fileID: 3255775460644688845}
   - component: {fileID: 3255775460644688842}
-  - component: {fileID: 1368502462}
   m_Layer: 0
   m_Name: SaveHandler
   m_TagString: Untagged
@@ -81,24 +80,3 @@ MonoBehaviour:
     className: DataContainer
   saveOrder: 0
   satisfaction: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}
---- !u!114 &1368502462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3255775460644688846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06eb24547386f26479e0b151af8423c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    className: DataContainer
-  saveOrder: 0
-  tubeEndPrefab: {fileID: 3317845011053807819, guid: e428a2ede109505469f889e5de9bc6ce,
-    type: 3}
-  resourcePackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
-    type: 3}
-  objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
-  grid: {fileID: 0}

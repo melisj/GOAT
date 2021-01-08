@@ -22,7 +22,8 @@ namespace Goat.Farming
     [CreateAssetMenu(fileName = "FarmStation", menuName = "ScriptableObjects/Buyable/FarmStation")]
     public class FarmStation : Building
     {
-        [SerializeField, Space(10)] private Resource resourceFarm;
+        //[SerializeField, Space(10)] private Resource resourceFarm;
+        [SerializeField, Space(10)] private Resource[] resourceFarms;
         [SerializeField, EnumToggleButtons()] private FarmType farmType;
         [SerializeField] private float storageCapacity = 1;
         [SerializeField] private int amountPerSecond = 2;
@@ -31,11 +32,11 @@ namespace Goat.Farming
         [SerializeField] private ResourceCost[] resourceCost;
         [SerializeField, EnumToggleButtons()] private FarmDeliverType farmDeliverType;
 
-        public string Name => resourceFarm.name.ToString() + " Farm";
-
         public ResourceCost[] ResourceCost => resourceCost;
 
-        public Resource ResourceFarm => resourceFarm;
+        //public Resource ResourceFarm => resourceFarm;
+        public Resource[] ResourceFarms => resourceFarms;
+
         public int AmountPerSecond => amountPerSecond;
         public int CostPerSecond => costPerSecond;
         public FarmType FarmType => farmType;

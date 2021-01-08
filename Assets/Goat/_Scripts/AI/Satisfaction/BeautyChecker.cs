@@ -3,36 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using Goat.Events;
 using Goat.Grid;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI.Satisfaction
 {
-    public class BeautyChecker : ReviewFactorWithEventListener<Tile, TileDataEvent>
+    public class BeautyChecker : ReviewFactorWithEventListener<WithOwner<int>, IntEventWithOwner>
     {
-        [SerializeField] private HashSet<Tile> tiles = new HashSet<Tile>();
+        [SerializeField] private HashSet<Vector3> positions = new HashSet<Vector3>();
+        [SerializeField] private List<Tile> tiles = new List<Tile>();
+        [SerializeField] private Vector3HashSetEvent tileGiveEvent;
+        private int totalBP;
+        public HashSet<Vector3> Positions => positions;
 
         public void Setup()
         {
-            tiles.Clear();
         }
 
-        public override void OnEventRaised(Tile value)
+        public override void OnEventRaised(WithOwner<int> value)
         {
-            tiles.Add(value);
+            if (value.Owner == gameObject)
+            {
+                totalBP = value.Gtype;
+            }
+        }
+
+        private void GetTiles()
+        {
+            tileGiveEvent.Raise(new WithOwner<HashSet<Vector3>>(positions, gameObject));
         }
 
         public override float GetReviewPoints()
         {
-            int totalBP = 0;
+            GetTiles();
 
-            var looper = tiles.GetEnumerator();
-
-            while (looper.MoveNext())
-            {
-                if (looper.Current != null)
-                    totalBP += looper.Current.TotalBeautyPoints;
-            }
-
-            return (totalBP * reviewWeight.Weight);
+            return (totalBP * revData.Weight);
         }
     }
 }

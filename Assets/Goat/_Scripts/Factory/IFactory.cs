@@ -1,4 +1,6 @@
-﻿namespace Goat.Factory
+﻿using UnityEngine;
+
+namespace Goat.Factory
 {
     /// <summary>
     /// Represents a factory.
@@ -6,6 +8,6 @@
     /// <typeparam name="T">Specifies the type to create.</typeparam>
     public interface IFactory<T>
     {
-        T Create();
+        T Create(Vector3 pos, Transform parent);
     }
 }
