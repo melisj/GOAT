@@ -12,10 +12,19 @@ namespace Goat.AI
 
         private void Start()
         {
-            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
             surfaceAI.BuildNavMesh();
             surfacePlayer.BuildNavMesh();
             surfaceWorker.BuildNavMesh();
+        }
+
+        private void OnEnable()
+        {
+            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+        }
+
+        private void OnDisable ()
+        {
+            DataHandler.LevelLoaded -= GridDataHandler_LevelLoaded;
         }
 
         private void GridDataHandler_LevelLoaded()
