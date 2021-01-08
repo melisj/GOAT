@@ -25,6 +25,16 @@ namespace Goat.Pooling
 
         public GameObject GameObject { get => gameObject; private set => gameObject = value; }
 
+        public string GetName
+        {
+            get
+            {
+                string idName = gameObject.name;
+                int index = idName.IndexOf("(");
+                return idName.Substring(0, index);
+            }
+        }
+
         public void GetObject(Vector3 pos, Quaternion rot, int poolKey)
         {
             if (!gameObject.activeInHierarchy)

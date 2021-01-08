@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play Music")]
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
     private Dictionary<GameObject, List<SoundEmitter>> audioCuesCreated;
-    private List<SoundEmitter> musicEmitters = new List<SoundEmitter>();
+    [SerializeField] private MusicPlayed musicPlayed;
     [Header("Audio control")]
     [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField] private AudioMixer audioMixer = default;
@@ -91,10 +91,15 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         return (normalizedValue - 1f) * 80f;
     }
 
+    private void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
+    {
+        GetAudioCue(cue, position, parent);
+    }
+
     /// <summary>
     /// Plays an AudioCue by requesting the appropriate number of SoundEmitters from the pool.
     /// </summary>
-    public void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
+    public List<SoundEmitter> GetAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
     {
         AudioCueSO audioCue = cue.GetAudioCue;
         AudioConfigurationSO settings = cue.AudioConfiguration;
@@ -116,14 +121,14 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
         if (!audioCuesCreated.ContainsKey(cue.gameObject))
             audioCuesCreated.Add(cue.gameObject, soundEmitters);
-
+        return soundEmitters;
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
     }
 
     public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null)
     {
         StopMusic();
-        PlayAudioCue(cue, pos, parent);
+        musicPlayed.MusicEmitters = new List<SoundEmitter>(GetAudioCue(cue, pos, parent));
     }
 
     public void StopAudioCue(GameObject audioCue)
@@ -142,11 +147,11 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     private void StopMusic()
     {
-        for (int i = 0; i < musicEmitters.Count; i++)
+        for (int i = 0; i < musicPlayed.MusicEmitters.Count; i++)
         {
-            musicEmitters[i].Stop();
+            musicPlayed.MusicEmitters[i].Stop();
         }
-        musicEmitters.Clear();
+        musicPlayed.MusicEmitters.Clear();
     }
 
     private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter)
@@ -163,6 +168,11 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     public void OnEventRaised(int timeSpeed)
     {
         audioMixer.SetFloat("SFXPitch", currentPitchSFX * Time.timeScale);
+    }
+
+    private void OnDestroy()
+    {
+        musicPlayed.MusicEmitters.Clear();
     }
 
     //TODO: Add methods to play and cross-fade music, or to play individual sounds?

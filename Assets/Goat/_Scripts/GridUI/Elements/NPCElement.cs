@@ -120,7 +120,7 @@ namespace Goat.Grid.Interactions.UI
                 totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
             if (customerName)
             {
-                customerName.text = string.Format("Name: {0}", customer ? customer.name : "No customer");
+                customerName.text = string.Format("Name: {0}", customer ? customer.ObjInstance.GetName : "No customer");
                 ChangeIconWidth(customerName.text, customerName, customerBorderMiddle, customerBorderLeft);
             }
         }

@@ -67,6 +67,7 @@ namespace Goat.Farming
             if (!tubeConnection.HasConnection())
             {
                 Clear();
+                onGridChange.Raise(null);
                 return;
             }
 

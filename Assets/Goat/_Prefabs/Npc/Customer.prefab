@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 2094399924142381526}
   - component: {fileID: 2094399924142381524}
   - component: {fileID: 421086372}
+  - component: {fileID: 5946075658486635280}
   m_Layer: 15
   m_Name: Customer
   m_TagString: Untagged
@@ -379,6 +380,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   targetStorage: {fileID: 0}
+  stateName: 
   enterTime: 0
   searchingTime: 0
   maxSearchingTime: 10
@@ -410,6 +412,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 10
+--- !u!114 &5946075658486635280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094399924142381527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bd9dacf68a4fc4ba994793e325c749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customer: {fileID: 0}
 --- !u!1 &2094399924320339056
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +878,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be43deeb6ac308d4bb384173ee9a22a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshes: {fileID: 11400000, guid: bda50f8b9f1562a418ee57d58714581f, type: 2}
+  characters: {fileID: 11400000, guid: bda50f8b9f1562a418ee57d58714581f, type: 2}
+  root: {fileID: 2094399924142381527}
 --- !u!1001 &2094399923083953308
 PrefabInstance:
   m_ObjectHideFlags: 0

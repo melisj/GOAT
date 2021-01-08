@@ -178,7 +178,7 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
             gameObject.SetActive(false);
         }
 
@@ -229,13 +229,13 @@ namespace Goat.Farming
         protected void OnEnable()
         {
             onGridChange.RegisterSafe(this);
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
         }
 
         protected void OnDisable()
         {
             onGridChange.UnregisterSafe(this);
-            onGridChange.Raise();
+            onGridChange.Raise(gameObject);
         }
 
         public void OnEventRaised(GameObject value)
@@ -243,6 +243,7 @@ namespace Goat.Farming
             if (value == gameObject)
                 return;
             OnGridChange();
+            Debug.Log("", gameObject);
         }
     }
 }
