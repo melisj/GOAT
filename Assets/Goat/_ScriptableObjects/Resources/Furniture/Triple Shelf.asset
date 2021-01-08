@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Triple shelf
+  m_Name: Triple Shelf
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -39,3 +39,4 @@ MonoBehaviour:
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 30
   createsWallsAround: 0
+  placeableWithoutFloor: 0

@@ -25,9 +25,11 @@ namespace Goat.UI
         [SerializeField] private float transitionDurationPerElement;
         private Sequence transitionSequence;
         private bool prepared;
+        private bool transitioned;
 
         private void OnEnable()
         {
+            transitioned = false;
             onNarrativeFinished.RegisterSafe(this);
         }
 
@@ -69,7 +71,7 @@ namespace Goat.UI
                 TransitionElement element = transitionElements[i];
 
                 if (element.TransType.HasFlag(TransitionType.Move))
-                    element.Transform.position -= element.MoveAmount;
+                    element.Transform.position += element.MoveAmount;
                 if (element.TransType.HasFlag(TransitionType.Scale))
                     element.Transform.localScale = element.BeforeScale;
             }
@@ -88,7 +90,7 @@ namespace Goat.UI
                 TransitionElement element = transitionElements[i];
 
                 if (element.TransType.HasFlag(TransitionType.Move))
-                    element.Transform.position += element.MoveAmount;
+                    element.Transform.position -= element.MoveAmount;
                 if (element.TransType.HasFlag(TransitionType.Scale))
                     element.Transform.localScale = Vector3.one;
             }
@@ -96,6 +98,8 @@ namespace Goat.UI
 
         public void OnEventRaised(Void onNarrativeFinished)
         {
+            if (transitioned) return;
+            transitioned = true;
             Transition();
         }
     }
