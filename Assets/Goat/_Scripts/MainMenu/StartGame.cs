@@ -40,7 +40,6 @@ public class StartGame : MonoBehaviour
     private void LoadComplete(string saveFile)
     {
         // Unload the first build scene
-        print(SceneManager.GetSceneByBuildIndex(0).name);
         if (SceneManager.GetSceneByBuildIndex(0).IsValid())
         {
             SceneManager.UnloadSceneAsync(0);
