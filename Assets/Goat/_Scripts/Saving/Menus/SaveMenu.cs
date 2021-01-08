@@ -33,7 +33,7 @@ namespace Goat.Saving
             else
             {
                 ShowInfoAboutSave("Save name should be at least three characters long!");
-                Debug.LogError("File could not be saved, save requires a valid name!");
+                Debug.LogWarning("File could not be saved, save requires a valid name!");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Goat.Pooling;
+﻿using DG.Tweening;
+using Goat.Pooling;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,8 @@ namespace Goat.Saving
 
         [SerializeField] private Button loadGameTrigger;
         [SerializeField] private TextMeshProUGUI selectedSaveText;
+
+        [SerializeField] private TextMeshProUGUI infoObjectText;
 
         private string selectedSave;
         public string SelectedSave => selectedSave;
@@ -68,12 +71,26 @@ namespace Goat.Saving
         {
             if (selectedSave != null && selectedSave != "")
             {
+                DataHandler.LevelLoaded += DataHandler_LevelLoaded;
                 gameStarter.LoadGame(selectedSave);
             }
             else
             {
                 Debug.Log("No save selected");
+                ShowInfoAboutSave("No save selected!");
             }
+        }
+
+        private void DataHandler_LevelLoaded()
+        {
+            ShowInfoAboutSave("Save game loaded!");
+        }
+
+        private void ShowInfoAboutSave(string message)
+        {
+            infoObjectText.text = message;
+            infoObjectText.DOColor(Color.white, 0);
+            infoObjectText.DOColor(Color.clear, 5);
         }
     } 
 }
