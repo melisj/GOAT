@@ -32,6 +32,8 @@ namespace Goat.AI
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
             exitStore = new ExitStore(this, navMeshAgent, animator);
+            findRestingPlace = new FindRestingPlace(this);
+            waitingState = new WaitingState(this, 5);
 
             // Conditions
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
@@ -43,28 +45,38 @@ namespace Goat.AI
             Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0;
             Func<bool> TakenAllItemsFromWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> NoItemsFoundInWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory == 0;
-            Func<bool> FoundEmptyShelves() => () => searchForEmptyShelves.foundEmptyShelves;
+            Func<bool> EmptyShelvesFound() => () => searchForEmptyShelves.foundEmptyShelves;
+            Func<bool> NoEmptyShelvesFound() => () => !searchForEmptyShelves.foundEmptyShelves;
             Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 || takeItem.depleted;
             Func<bool> TakeItems() => () => ItemsToGet.ItemsInInventory > 0 && ReachedTarget().Invoke();
             Func<bool> PlaceItems() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory > 0 && ReachedTarget().Invoke();
+
+            Func<bool> DoneWaiting() => () => !waitingState.Waiting;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
 
             AT(enterStore, searchForEmptyShelves, EnteredStore());
             AT(placeItem, searchForEmptyShelves, NoItemsToTakeOrPlace());
-            AT(searchForEmptyShelves, searchForStorageInWarehouse, FoundEmptyShelves());
+            AT(searchForEmptyShelves, searchForStorageInWarehouse, EmptyShelvesFound());
+
             AT(searchForStorageInWarehouse, setStorageTarget, TakenAllItemsFromWarehouse());
 
             AT(searchForStorageInWarehouse, moveToTarget, HasTarget());
             AT(setStorageTarget, moveToTarget, HasTarget());
             AT(moveToTarget, takeItem, TakeItems());
             AT(moveToTarget, placeItem, PlaceItems());
-            AT(searchForStorageInWarehouse, searchForEmptyShelves, NoItemsFoundInWarehouse());
+            //AT(searchForStorageInWarehouse, searchForEmptyShelves, NoItemsFoundInWarehouse());
 
             AT(takeItem, searchForStorageInWarehouse, FindItemInWarehouse());
             AT(takeItem, setStorageTarget, SetNextEmptyStorageTarget());
             AT(placeItem, setStorageTarget, SetNextEmptyStorageTarget());
+
+            //Nothing to fill found or no items found for filling.
+            AT(searchForEmptyShelves, waitingState, NoEmptyShelvesFound());
+            AT(waitingState, searchForEmptyShelves, DoneWaiting());
+            AT(searchForStorageInWarehouse, waitingState, NoItemsFoundInWarehouse());
+
 
             stateMachine.SetState(enterStore);
         }
