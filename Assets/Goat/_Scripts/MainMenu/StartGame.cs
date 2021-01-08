@@ -9,12 +9,14 @@ using Goat.Saving;
 public class StartGame : MonoBehaviour
 {
     [SerializeField] private Button startButton;
-    [SerializeField] private SceneLoaderForBuild sceneLoader;
     [SerializeField] private RectTransform[] menuButtons;
+
+    private SceneLoaderForBuild sceneLoader;
     private Sequence hideMenu;
 
-    private void Awake()
+    private void Start()
     {
+        sceneLoader = FindObjectOfType<SceneLoaderForBuild>();
         startButton.onClick.AddListener(() => LoadGame());
     }
 
@@ -38,7 +40,13 @@ public class StartGame : MonoBehaviour
     private void LoadComplete(string saveFile)
     {
         // Unload the first build scene
-        SceneManager.UnloadSceneAsync(0);
+        print(SceneManager.GetSceneByBuildIndex(0).name);
+        if (SceneManager.GetSceneByBuildIndex(0).IsValid())
+        {
+            SceneManager.UnloadSceneAsync(0);
+        }
+
+        // Load the selected save file
         if (saveFile != "")
         {
             DataHandler dataHandler = FindObjectOfType<DataHandler>();

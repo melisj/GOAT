@@ -10,14 +10,14 @@ namespace Goat.Saving
     {
         [SerializeField] private TextMeshProUGUI fileNameText;
         [SerializeField] private Button button;
-        private SaveMenu saveMenu;
+        private LoadMenu saveMenu;
 
         private void Awake()
         {
             button.onClick.AddListener(SelectThis);
         }
 
-        public void SetName(SaveMenu saveMenu, string fileName)
+        public void SetName(LoadMenu saveMenu, string fileName)
         {
             this.saveMenu = saveMenu;
             fileNameText.text = fileName;

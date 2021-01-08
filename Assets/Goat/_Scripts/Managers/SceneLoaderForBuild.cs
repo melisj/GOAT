@@ -9,6 +9,11 @@ public class SceneLoaderForBuild : MonoBehaviour
 {
     [SerializeField, ReadOnly] private string[] scenePaths;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void SetPaths(string[] scenePaths)
     {
         this.scenePaths = scenePaths;
