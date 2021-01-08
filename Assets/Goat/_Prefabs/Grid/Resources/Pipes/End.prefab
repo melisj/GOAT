@@ -162,14 +162,14 @@ MonoBehaviour:
   multiDirection: 0
   path:
     points:
-    - {x: 0, y: 0.5, z: -0.1}
-    - {x: 0, y: 0.5, z: -1.2}
+    - {x: 0, y: 0.5, z: -0.7}
+    - {x: 0, y: 0.5, z: 0.17}
   paths: []
   layer:
     serializedVersion: 2
     m_Bits: 131072
   offset:
-  - {x: 0, y: 0.5, z: -0.6}
+  - {x: 0, y: 0.5, z: -0.65}
   radius: 0.2
   connectedTubes: []
 --- !u!114 &1267717291007311182
@@ -214,7 +214,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   resPacks: []
-  pos: {x: 0, y: 0, z: -1.2}
+  pos: {x: 0, y: 0, z: 0.17}
   colls: []
 --- !u!114 &-5263532696533251496
 MonoBehaviour:

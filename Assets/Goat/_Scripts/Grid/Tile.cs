@@ -139,7 +139,7 @@ namespace Goat.Grid
                     index = (int)(rotationAngle / 90);
                 }
 
-                if (wallAuto[index] && destroyMode) return true;
+                if (wallObjs[index] && wallAuto[index] && destroyMode) return true;
             }
 
             if (placeable is FarmStation)
@@ -182,12 +182,21 @@ namespace Goat.Grid
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode, bool isLoading = false)
         {
             //Stop editing immediately if you want to place anything (excl. a new floor) on a floor that doesn't exist
+
             if (CheckForFloor(placeable, rotationAngle, destroyMode, isLoading)) { return false; }
 
             if (placeable is Wall)
             {
                 EditAnyWall(placeable, rotationAngle, destroyMode, isLoading);
                 return true;
+            }
+
+            if (destroyMode)
+            {
+                if (buildingObject)
+                    Destroy(ref buildingObject, isLoading);
+                else if (floorObject)
+                    Destroy(ref floorObject, isLoading);
             }
 
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
@@ -201,49 +210,13 @@ namespace Goat.Grid
 
                 tileObject.transform.rotation = rotation;
             }
-
             if ((tileObject && this.placeable == placeable) && !destroyMode)
             {
                 //No need to destroy if you want to edit the same tile with the same type
                 return false;
             }
 
-            if (buildingObject && (!(placeable is Floor) | destroyMode))
-            {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
-                //this.placeable.Amount++;
-
-                PlaceableInfo placeableInfo = buildingObject.GetComponent<PlaceableInfo>();
-                SaveData.SetBuilding(-1, 0);
-                PoolManager.Instance.ReturnToPool(buildingObject);
-                if (buildingObject == tileObject)
-                {
-                    tileObject = null;
-                }
-                buildingObject = null;
-
-                if (!isLoading)
-                    placeableInfo.Placeable.Sell(1);
-                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
-                placeableInfo.Setup(null);
-            }
-            else if (floorObject && (!(placeable is Building) | destroyMode))
-            {
-                //So we deleted the building most likely, now it's time to delete the floor
-                //this.placeable.Amount++;
-                PlaceableInfo placeableInfo = floorObject.GetComponent<PlaceableInfo>();
-
-                SaveData.SetFloor(-1, 0);
-                PoolManager.Instance.ReturnToPool(floorObject);
-                if (floorObject == tileObject)
-                {
-                    tileObject = null;
-                }
-                floorObject = null;
-                if (!isLoading)
-                    placeableInfo.Placeable.Sell(1);
-                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
-                placeableInfo.Setup(null);
-            }
+            DestroyTile(placeable, isLoading);
             if (placeable != null && !destroyMode)
             {
                 GameObject newObject = placeable.Prefab;
@@ -297,6 +270,37 @@ namespace Goat.Grid
             return tempTile != null | destroyMode;
         }
 
+        private void DestroyTile(Placeable placeable, bool isLoading)
+        {
+            if (buildingObject && (!(placeable is Floor)))
+            {   //Normally anything that is on the tile, e.g: if floor has nothing on it -> floor, if building is on it -> building
+                Destroy(ref buildingObject, isLoading);
+            }
+            else if (floorObject && (!(placeable is Building)))
+            {
+                //So we deleted the building most likely, now it's time to delete the floor
+                //this.placeable.Amount++;
+                Destroy(ref floorObject, isLoading);
+            }
+        }
+
+        private void Destroy(ref GameObject objectToDestroy, bool isLoading)
+        {
+            PlaceableInfo placeableInfo = objectToDestroy.GetComponent<PlaceableInfo>();
+            SaveData.SetBuilding(-1, 0);
+            PoolManager.Instance.ReturnToPool(objectToDestroy);
+            if (objectToDestroy == tileObject)
+            {
+                tileObject = null;
+            }
+            objectToDestroy = null;
+
+            if (!isLoading)
+                placeableInfo.Placeable.Sell(1);
+            totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+            placeableInfo.Setup(null);
+        }
+
         //Detect tile has neighbouring tiles
         //if no neighbouring tiles, add wall in that direction
         //if neighbouring tiles, delete wall there
@@ -340,18 +344,7 @@ namespace Goat.Grid
                 //        tileObjectFilter[i].mesh = null;
                 //    }
                 //}
-                PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
-                if (!autoMode && !isLoading)
-                    placeableInfo.Placeable.Sell(1);
-
-                totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
-                PoolManager.Instance.ReturnToPool(wallObjs[index]);
-                wallObjs[index] = null;
-                wallAuto[index] = autoMode || wallAuto[index];
-                placeableInfo.Setup(null);
-                SaveData.SetWall(-1, index, false);
-                if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
-                    AdjustPositionAgainstWall(buildingObject, true);
+                DestroyWall(rotationAngle, autoMode, isLoading);
                 //  }
             }
 
@@ -387,6 +380,34 @@ namespace Goat.Grid
             }
             // }
             return true;
+        }
+
+        private void DestroyWall(float rotationAngle, bool autoMode, bool isLoading)
+        {
+            int index = GetWallIndex(rotationAngle);
+
+            PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
+            if (!autoMode && !isLoading)
+                placeableInfo.Placeable.Sell(1);
+
+            totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
+            PoolManager.Instance.ReturnToPool(wallObjs[index]);
+            wallObjs[index] = null;
+            wallAuto[index] = autoMode || wallAuto[index];
+            placeableInfo.Setup(null);
+            SaveData.SetWall(-1, index, false);
+            if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))
+                AdjustPositionAgainstWall(buildingObject, true);
+        }
+
+        private int GetWallIndex(float rotationAngle)
+        {
+            int index = 0;
+            if (rotationAngle > 0)
+            {
+                index = (int)(rotationAngle / 90);
+            }
+            return index;
         }
 
         private void AdjustPositionAgainstWall(GameObject building, bool reset = false)

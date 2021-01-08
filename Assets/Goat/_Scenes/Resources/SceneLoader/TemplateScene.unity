@@ -1210,7 +1210,8 @@ PrefabInstance:
         type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 612029029412865795, guid: f085dd01997956740898e55b0d831490,
+        type: 3}
     - target: {fileID: 612029029412865795, guid: f085dd01997956740898e55b0d831490,
         type: 3}
       propertyPath: gridPlane
@@ -1226,6 +1227,12 @@ PrefabInstance:
       propertyPath: gridSize.y
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 612029029412865795, guid: f085dd01997956740898e55b0d831490,
+        type: 3}
+      propertyPath: defaultPlaceable
+      value: 
+      objectReference: {fileID: 11400000, guid: 610521c179b798549a18bd5fbb2d4db4,
+        type: 2}
     - target: {fileID: 612029029412865802, guid: f085dd01997956740898e55b0d831490,
         type: 3}
       propertyPath: m_Name

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters:
   - mesh: {fileID: 3292768027925426004, guid: 2d2cb00fcb268f74e97be183c5bfbb0a, type: 3}
-    characterNames: {fileID: 0}
+    characterNames: {fileID: 11400000, guid: 52e003c4917b13440a07110c069f0cb1, type: 2}
   - mesh: {fileID: -5486997144478992621, guid: a3974b838a20dbe4b944c06ac114bd25, type: 3}
-    characterNames: {fileID: 0}
+    characterNames: {fileID: 11400000, guid: 5a208bc287fc4494fac8c4003ccf5828, type: 2}
   - mesh: {fileID: 2954174028648583554, guid: 18a1ff8df9e0cf54a99cdcd3ac54db6d, type: 3}
-    characterNames: {fileID: 0}
+    characterNames: {fileID: 11400000, guid: 63ce33d26f99fbc4f8fd9ef1128bce24, type: 2}
   - mesh: {fileID: 6622264641530768373, guid: d95c9121a536dd74fb39cb23702cda2c, type: 3}
-    characterNames: {fileID: 0}
+    characterNames: {fileID: 11400000, guid: cf36d4be8e26e2b40b788f1e127f8cea, type: 2}

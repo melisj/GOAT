@@ -23,10 +23,10 @@ namespace Goat.Grid
 
         // Variables used for highlighting and placing object on grid when in edit mode
         [Space(10), Header("Preview Object")]
+        [SerializeField] private Placeable defaultPlaceable;
         [SerializeField] private Material previewMaterial;
         [SerializeField] private GameObject previewPrefab;
         [Header("Event")]
-        [SerializeField] private VoidEvent onGridChange;
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private GridRayCaster gridRayCaster;
         private GameObject previewObject;              // Preview object shown on grid
@@ -151,11 +151,11 @@ namespace Goat.Grid
                         checkedTiles.Clear();
                         if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode))
                         {
-                            if (!previewPlaceableInfo.CreatesWallsAround) return;
+                            if (!previewPlaceableInfo.CreatesWallsAround & !DestroyMode) return;
+                            if (previewPlaceableInfo is Wall) return;
                             //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
                         }
-
                         previousAutoPlaceable = previewPlaceableInfo;
                     }
                 }
