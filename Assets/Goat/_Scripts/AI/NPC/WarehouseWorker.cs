@@ -24,6 +24,8 @@ namespace Goat.AI
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
             DoNothing doNothing = new DoNothing(this);
+            findRestingPlace = new FindRestingPlace(this);
+            waitingState = new WaitingState(this, 5);
 
             // Conditions
             Func<bool> HasDestination() => () => resourceDetecter.detected = true && Vector3.Distance(transform.position, targetDestination) > navMeshAgent.radius;

@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 173415473}
-  - component: {fileID: 173415476}
-  - component: {fileID: 173415475}
   - component: {fileID: 173415474}
   m_Layer: 0
   m_Name: AudioHolder
@@ -33,44 +31,6 @@ Transform:
   m_Father: {fileID: 7662238008717331642}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &173415476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173415472}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6725edeb62b3a4ca4281bf517cf028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: ce76e7c6eda22754984633edcf362313, type: 2}
-  _playOnStart: 0
-  parent: {fileID: 7662238008717331642}
-  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
-    type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
-    type: 2}
---- !u!114 &173415475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173415472}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 571c55a09d3d9e84190145e369913876, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: 99cd847f23294064e923bc54986b55d3, type: 2}
-  _playOnStart: 0
-  parent: {fileID: 7662238008717331642}
-  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
-    type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 6ebcd14796a70a24b983e809cc174ff5,
-    type: 2}
 --- !u!114 &173415474
 MonoBehaviour:
   m_ObjectHideFlags: 0

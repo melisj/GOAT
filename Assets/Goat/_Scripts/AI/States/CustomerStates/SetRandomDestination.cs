@@ -123,7 +123,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            //Debug.Log("Searching for target");
+            Debug.Log("Searching for target");
             npc.targetStorage = null;
             npc.targetDestination = npc.transform.position;
             wanderDestination = npc.transform.position;
