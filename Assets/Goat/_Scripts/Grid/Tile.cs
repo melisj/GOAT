@@ -146,6 +146,13 @@ namespace Goat.Grid
             {
                 return CheckForResourceTile(placeable);
             }
+
+            if (placeable is Building building)
+            {
+                if (building.PlaceableWithoutFloor)
+                    return false;
+            }
+
             return ((!floorObject && !(placeable is Floor)));
         }
 

@@ -39,3 +39,4 @@ MonoBehaviour:
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 5
   createsWallsAround: 0
+  placeableWithoutFloor: 0

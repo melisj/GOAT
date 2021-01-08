@@ -12,7 +12,7 @@ namespace Goat.Farming
     {
         [SerializeField] private HashSet<GameObject> connectedFarms = new HashSet<GameObject>();
         [SerializeField] private TubeDirection tubeConnection;
-        [SerializeField] private VoidEvent onGridChange;
+        [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private float delay;
         [SerializeField] private float radius = 0.1f;
         [SerializeField] private LayerMask resourcePackLayer;
@@ -21,6 +21,7 @@ namespace Goat.Farming
         [SerializeField] private Vector3 pos;
         [SerializeField] private Collider[] colls;
         private Sequence createResPackSequence;
+        private int calls;
 
         public TubeEndInfo Info
         {
@@ -51,6 +52,7 @@ namespace Goat.Farming
         //}
         private void OnEnable()
         {
+            calls = 0;
             createResPackSequence = DOTween.Sequence();
             createResPackSequence.SetLoops(-1);
             createResPackSequence.AppendInterval(delay);
@@ -59,7 +61,9 @@ namespace Goat.Farming
 
         private void CreateResPacks()
         {
-            onGridChange.Raise();
+            if (calls <= 0)
+                onGridChange.Raise(null);
+            calls++;
             if (!tubeConnection.HasConnection())
             {
                 Clear();
@@ -85,7 +89,6 @@ namespace Goat.Farming
 
         public void CreateResPacks(List<Resource> resources, float[] amount)
         {
-            onGridChange.Raise();
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
 
             var enumerator = connectedFarms.GetEnumerator();

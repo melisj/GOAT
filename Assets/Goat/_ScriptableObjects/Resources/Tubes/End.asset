@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0840fec23d63f543933021b84f286ed, type: 3}
+  m_Name: End
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  id: 48
+  onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
+  onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
+  image: {fileID: 21300000, guid: 030393e49468d504d836cba759810201, type: 3}
+  money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
+  price: 5
+  interchangeableMesh: 0
+  mesh:
+  - {fileID: 6547754614857381868, guid: a79ff98818326034ea95c279838e48ec, type: 3}
+  summary: 
+  amount: 100
+  starterAmount: 100
+  deliverable: 0
+  deliveryTime: 0
+  prefab: {fileID: 3317845011053807819, guid: e428a2ede109505469f889e5de9bc6ce, type: 3}
+  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
+  beautyPoints: -5
+  createsWallsAround: 0
