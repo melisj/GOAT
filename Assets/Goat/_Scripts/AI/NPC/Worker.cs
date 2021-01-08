@@ -13,6 +13,7 @@ namespace Goat.AI
 {
     public class Worker : NPC
     {
+        [HideInInspector] public bool chillin;
         public StorageList storageLocations;
         [HideInInspector] public PlaceItem placeItem;
         [HideInInspector] protected FindRestingPlace findRestingPlace;
