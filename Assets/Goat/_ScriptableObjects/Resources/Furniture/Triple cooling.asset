@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Small register
+  m_Name: Triple cooling
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,21 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 11
+  id: 12
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
   onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
-  image: {fileID: 21300000, guid: c2f738b6bc833b8469d83a1a48c1d82c, type: 3}
+  image: {fileID: 21300000, guid: a8fd83fd0fb6ec94887a9255b5ee6f89, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 5
+  price: 45
   interchangeableMesh: 0
   mesh:
-  - {fileID: -3852115640172982253, guid: 82aeee5de291e814bbd5fdf4dbf3b67d, type: 3}
+  - {fileID: 6512999931161676140, guid: a0534e8ab0e3e904cae65bcfb9605976, type: 3}
   summary: 
   amount: 100
   starterAmount: 100
   deliverable: 0
   deliveryTime: 0
-  prefab: {fileID: 7697692447918465534, guid: 8f04efe390ab7e84cbd3db44ba6815e8, type: 3}
+  prefab: {fileID: 6956316966619564201, guid: 63d2df79a04614347830674de90b6b2d, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
-  beautyPoints: 5
+  beautyPoints: 30
   createsWallsAround: 0

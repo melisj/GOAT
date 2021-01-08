@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Small register
+  m_Script: {fileID: 11500000, guid: 7016eec9741034545a1db0b34f23480b, type: 3}
+  m_Name: Oxygen
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,25 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 11
+  id: 63
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
   onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
-  image: {fileID: 21300000, guid: c2f738b6bc833b8469d83a1a48c1d82c, type: 3}
+  image: {fileID: 21300000, guid: d257585dd3e158040ba98993c7b833d1, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 5
-  interchangeableMesh: 0
+  price: 0
+  interchangeableMesh: 1
   mesh:
-  - {fileID: -3852115640172982253, guid: 82aeee5de291e814bbd5fdf4dbf3b67d, type: 3}
+  - {fileID: -2384067733600373924, guid: b1d5db57a1db47d41b5935ee7c27d776, type: 3}
   summary: 
-  amount: 100
-  starterAmount: 100
+  amount: 3000
+  starterAmount: 3000
   deliverable: 0
   deliveryTime: 0
-  prefab: {fileID: 7697692447918465534, guid: 8f04efe390ab7e84cbd3db44ba6815e8, type: 3}
+  prefab: {fileID: 5071828486381597130, guid: f1affb90c24845c47bbf09fe2b341aa9, type: 3}
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
-  beautyPoints: 5
+  beautyPoints: 0
   createsWallsAround: 0
+  resource: {fileID: 11400000, guid: 8bf43f888f7c72e4ca636ca188b25889, type: 2}
+  initialColor: {r: 0.5568628, g: 0.53333336, b: 0.6745098, a: 1}
+  hueShift: 246.72351
+  chanceToSpawn: 32

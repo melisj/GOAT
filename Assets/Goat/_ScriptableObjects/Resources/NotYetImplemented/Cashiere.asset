@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f593e23581061c4c929bbbf45933e10, type: 3}
-  m_Name: Small register
+  m_Script: {fileID: 11500000, guid: d0a387e9b67b46a4f949b7950d67842f, type: 3}
+  m_Name: Cashiere
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 11
+  id: 54
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
   onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
-  image: {fileID: 21300000, guid: c2f738b6bc833b8469d83a1a48c1d82c, type: 3}
+  image: {fileID: 21300000, guid: 19f566adcca1fc946a86df70654f91a9, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
-  price: 5
+  price: 150
   interchangeableMesh: 0
-  mesh:
-  - {fileID: -3852115640172982253, guid: 82aeee5de291e814bbd5fdf4dbf3b67d, type: 3}
+  mesh: []
   summary: 
-  amount: 100
-  starterAmount: 100
+  amount: 0
+  starterAmount: 0
   deliverable: 0
   deliveryTime: 0
-  prefab: {fileID: 7697692447918465534, guid: 8f04efe390ab7e84cbd3db44ba6815e8, type: 3}
-  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
-  beautyPoints: 5
-  createsWallsAround: 0
+  salary: 30
+  prefab: {fileID: 7782000946221320678, guid: a1d66e169eeffaf4b9ac8daa6214928c, type: 3}
+  hiredEmployeeEvent: {fileID: 11400000, guid: 251047beea19f6241ad7adcf46fdddc6, type: 2}
+  amountPaid: 0

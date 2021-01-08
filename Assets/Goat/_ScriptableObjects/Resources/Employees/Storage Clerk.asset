@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0a387e9b67b46a4f949b7950d67842f, type: 3}
-  m_Name: Storage Clerk
+  m_Name: Storage clerk
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  id: 53
+  id: 55
   onPurchase: {fileID: 11400000, guid: 1d3fd6c624cfd9c4cbdaba2f5565a3fc, type: 2}
   onRefund: {fileID: 11400000, guid: 723b94aeba57137419495aaad6bca23d, type: 2}
   image: {fileID: 21300000, guid: 8a74e8d6e64cafd4292b49f7a3a8a635, type: 3}
