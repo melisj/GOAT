@@ -63,7 +63,7 @@ namespace Goat.UI
 
         private void Fire()
         {
-            if (!AnimateBuyButton(currentAmount > 0 && selectedBuyable.Amount - currentAmount > 0)) return;
+            if (!AnimateBuyButton(currentAmount > 0 && selectedBuyable.Amount - currentAmount >= 0)) return;
             selectedBuyable.Sell(currentAmount);
         }
     }

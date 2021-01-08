@@ -77,7 +77,7 @@ public class Buyable : SerializedScriptableObject
     {
         price = price < 0 ? Price * 0.75f : price;
         int total = Amount - amount;
-        int newTotal = total <= 0 ? Amount : amount;
+        int newTotal = total < 0 ? Amount : total;
 
         if (deliverNow)
             Amount = newTotal;
