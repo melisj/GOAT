@@ -7,13 +7,7 @@ namespace Goat.AI
 {
     public class UpdateNavOnInput : MonoBehaviour
     {
-        [SerializeField] private NavMeshSurface[] surfaces;
-
-        [Button]
-        private void FillSurfacesArray()
-        {
-            surfaces = GetComponentsInChildren<NavMeshSurface>();
-        }
+        [SerializeField] private NavInitializer navInitializer;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 
@@ -21,10 +15,7 @@ namespace Goat.AI
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                for (int i = 0; i < surfaces.Length; i++)
-                {
-                    surfaces[i]?.UpdateNavMesh(surfaces[i]?.navMeshData);
-                }
+                navInitializer.RebakeMesh();
             }
         }
     }

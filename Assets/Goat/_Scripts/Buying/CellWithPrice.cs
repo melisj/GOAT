@@ -30,6 +30,7 @@ public class CellWithPrice : UICell
     protected void ChangeIconWidth(int change, TextMeshProUGUI textUI, RectTransform amountHolder)
     {
         float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.ToString().Length));
-        amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
+        if(amountHolder != null)
+            amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
     }
 }

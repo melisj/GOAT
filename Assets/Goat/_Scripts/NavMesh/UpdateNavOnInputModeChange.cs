@@ -7,22 +7,13 @@ namespace Goat.AI
 {
     public class UpdateNavOnInputModeChange : EventListenerInputMode
     {
-        [SerializeField] private NavMeshSurface[] surfaces;
-
-        [Button]
-        private void FillSurfaceArray()
-        {
-            surfaces = GetComponentsInChildren<NavMeshSurface>();
-        }
+        [SerializeField] private NavInitializer navInitializer;
 
         public override void OnEventRaised(InputMode value)
         {
             if (value != InputMode.Edit)
             {
-                for (int i = 0; i < surfaces.Length; i++)
-                {
-                    surfaces[i]?.UpdateNavMesh(surfaces[i]?.navMeshData);
-                }
+                navInitializer.RebakeMesh();
             }
         }
     }

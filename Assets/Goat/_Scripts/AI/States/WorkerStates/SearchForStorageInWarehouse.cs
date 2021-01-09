@@ -12,6 +12,7 @@ namespace Goat.AI.States
     public class SearchForStorageInWarehouse : IState
     {
         Worker worker;
+        public bool nothingFound;
         public SearchForStorageInWarehouse(Worker worker)
         {
             this.worker = worker;
@@ -26,9 +27,15 @@ namespace Goat.AI.States
         {
             if (storages.Length == 0 || storages == null || items == null || items.Count == 0)
             {
+                
                 //Debug.LogError("No item or storages were found when calling Method: SetStorageTarget !");
                 if(worker is StockClerk)
+                {
                     worker.ItemsToGet.Clear();
+                }
+                    
+
+                nothingFound = true;
                 return null;
             }
 
@@ -65,6 +72,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
+            nothingFound = false;
             worker.targetStorage = null;
             Debug.Log("Started searching for containers in warehouse");
             if(worker is StockClerk)

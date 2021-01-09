@@ -17,12 +17,20 @@ namespace Goat.AI
 
         private void Start()
         {
-            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
-
             for (int i = 0; i < surfaces.Length; i++)
             {
                 surfaces[i].BuildNavMesh();
             }
+        }
+
+        private void OnEnable()
+        {
+            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+        }
+
+        private void OnDisable()
+        {
+            DataHandler.LevelLoaded -= GridDataHandler_LevelLoaded;
         }
 
         private void GridDataHandler_LevelLoaded()
@@ -30,11 +38,12 @@ namespace Goat.AI
             RebakeMesh();
         }
 
-        private void RebakeMesh()
+        public void RebakeMesh()
         {
             for (int i = 0; i < surfaces.Length; i++)
             {
-                surfaces[i]?.UpdateNavMesh(surfaces[i]?.navMeshData);
+                if (surfaces[i].navMeshData)
+                    surfaces[i].UpdateNavMesh(surfaces[i].navMeshData);
             }
         }
     }

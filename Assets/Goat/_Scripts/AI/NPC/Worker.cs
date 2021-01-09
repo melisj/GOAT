@@ -13,8 +13,11 @@ namespace Goat.AI
 {
     public class Worker : NPC
     {
+        [HideInInspector] public bool chillin;
         public StorageList storageLocations;
         [HideInInspector] public PlaceItem placeItem;
+        [HideInInspector] protected FindRestingPlace findRestingPlace;
+        [HideInInspector] protected WaitingState waitingState;
 
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
     }

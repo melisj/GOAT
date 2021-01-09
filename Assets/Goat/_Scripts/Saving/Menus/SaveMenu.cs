@@ -1,62 +1,53 @@
-﻿using Goat.Pooling;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Goat.Saving 
+namespace Goat.Saving
 {
     public class SaveMenu : MonoBehaviour
     {
-        [SerializeField] private GameObject savePrefab;
-        [SerializeField] private Transform saveParent;
-        [SerializeField] private StartGame gameStarter;
+        [SerializeField] private TextMeshProUGUI fileNameText;
+        [SerializeField] private Button saveButton;
 
-        [SerializeField] private Button loadGameTrigger;
-        [SerializeField] private TextMeshProUGUI selectedSaveText;
+        [SerializeField] private TextMeshProUGUI infoObjectText;
 
-        private string selectedSave;
-        public string SelectedSave => selectedSave;
+        private char[] charsToTrim = { ' ', '.' };
 
         private void Awake()
         {
-            loadGameTrigger.onClick.AddListener(StartGameWithSave);
-            ShowAllSaves();
+            saveButton.onClick.AddListener(TrySaveGame);
         }
 
-        private void ShowAllSaves()
+        public void TrySaveGame()
         {
-            string[] saves = DataHandler.GetAllSaves();
 
-            foreach(string save in saves)
+            string fileName = fileNameText.text.Trim(charsToTrim);
+            if (fileName.Length > 3)
             {
-                int firstIndex = save.LastIndexOf("/") + 1;
-                int secondIndex = save.LastIndexOf(".");
-
-                string saveName = save.Substring(firstIndex, secondIndex - firstIndex);
-
-                GameObject saveObject = Instantiate(savePrefab, Vector3.zero, Quaternion.identity, saveParent); //PoolManager.Instance.GetFromPool(savePrefab, Vector3.zero, Quaternion.identity, transform);
-                saveObject.GetComponent<SaveUIObject>().SetName(this, saveName);
-            }
-        }
-
-        public void ChangeSelectedSave(string selectedSave)
-        {
-            this.selectedSave = selectedSave;
-            selectedSaveText.text = selectedSave;
-        }
-
-        public void StartGameWithSave()
-        {
-            if (selectedSave != null && selectedSave != "")
-            {
-                gameStarter.LoadGame(selectedSave);
+                SaveGame(fileName);
+                ShowInfoAboutSave("Saved successfully!");
             }
             else
             {
-                Debug.Log("No save selected");
+                ShowInfoAboutSave("Save name should be at least three characters long!");
+                Debug.LogWarning("File could not be saved, save requires a valid name!");
             }
         }
-    } 
+
+        private void SaveGame(string saveFile)
+        {
+            DataHandler dataHandler = FindObjectOfType<DataHandler>();
+            dataHandler.SaveGame(saveFile);
+        }
+
+        private void ShowInfoAboutSave(string message)
+        {
+            infoObjectText.text = message;
+            infoObjectText.DOColor(Color.white, 0);
+            infoObjectText.DOColor(Color.clear, 5);
+        }
+    }
 }

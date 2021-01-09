@@ -157,13 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fc4e69c7143d247aec6fe118169fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaces:
-  - {fileID: 8488590339882127615}
-  - {fileID: 6670704684393548830}
-  - {fileID: 8488590340979480729}
-  - {fileID: 172137160400470531}
-  - {fileID: 679318863}
-  - {fileID: 5189948619547956919}
+  navInitializer: {fileID: 7854265997893453777}
 --- !u!114 &6436866685360654899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,13 +181,7 @@ MonoBehaviour:
     SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
   subscribers: 0
-  surfaces:
-  - {fileID: 8488590339882127615}
-  - {fileID: 6670704684393548830}
-  - {fileID: 8488590340979480729}
-  - {fileID: 172137160400470531}
-  - {fileID: 679318863}
-  - {fileID: 5189948619547956919}
+  navInitializer: {fileID: 7854265997893453777}
 --- !u!1 &8488590339882127602
 GameObject:
   m_ObjectHideFlags: 0

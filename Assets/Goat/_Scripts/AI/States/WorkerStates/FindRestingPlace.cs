@@ -17,15 +17,24 @@ namespace Goat.AI.States
         {
         }
 
-        public void OnEnter()
+        private Vector3 ChillLocation()
         {
+            Vector3 location = Vector3.zero;
+
             GameObject chillSpot = null;
             chillSpot = GameObject.Find("ChillTile");
             if (chillSpot != null)
             {
-                worker.targetDestination = chillSpot.transform.position;
+                location = chillSpot.transform.position;
                 spotToChillFound = true;
             }
+
+            return location;
+        }
+
+        public void OnEnter()
+        {
+            worker.targetDestination = ChillLocation();
         }
 
         public void OnExit()
