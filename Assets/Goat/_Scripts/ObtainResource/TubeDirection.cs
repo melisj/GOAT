@@ -64,6 +64,7 @@ namespace Goat.Farming
             connectedFarm = null;
             ObjInstance = objectInstance;
             PoolKey = poolKey;
+            onGridChange.Raise(gameObject);
         }
 
         public bool HasConnection()
@@ -229,13 +230,13 @@ namespace Goat.Farming
         protected void OnEnable()
         {
             onGridChange.RegisterSafe(this);
-            onGridChange.Raise(gameObject);
+            Debug.Log("activate");
         }
 
         protected void OnDisable()
         {
             onGridChange.UnregisterSafe(this);
-            onGridChange.Raise(gameObject);
+            Debug.Log("DEactivate");
         }
 
         public void OnEventRaised(GameObject value)
@@ -243,7 +244,6 @@ namespace Goat.Farming
             if (value == gameObject)
                 return;
             OnGridChange();
-            Debug.Log("", gameObject);
         }
     }
 }

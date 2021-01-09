@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 679318862}
   - component: {fileID: 679318863}
+  - component: {fileID: 5189948619547956919}
   m_Layer: 0
   m_Name: NavMeshWorkers
   m_TagString: Untagged
@@ -49,9 +50,38 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 5888
+    m_Bits: 2102016
   m_UseGeometry: 0
   m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.033333335
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!114 &5189948619547956919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679318861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -334000983
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_UseGeometry: 0
+  m_DefaultArea: 3
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -108,9 +138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9eedd252b3b2cf4d9c783f3602d3513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceAI: {fileID: 8488590339882127615}
-  surfacePlayer: {fileID: 8488590340979480729}
-  surfaceWorker: {fileID: 679318863}
+  surfaces:
+  - {fileID: 8488590339882127615}
+  - {fileID: 6670704684393548830}
+  - {fileID: 8488590340979480729}
+  - {fileID: 172137160400470531}
+  - {fileID: 679318863}
+  - {fileID: 5189948619547956919}
 --- !u!114 &1527252795599047950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,20 +157,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fc4e69c7143d247aec6fe118169fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
-  subscribers: 0
-  surfaceAI: {fileID: 8488590339882127615}
-  surfacePlayer: {fileID: 8488590340979480729}
-  surfaceWorker: {fileID: 679318863}
+  surfaces:
+  - {fileID: 8488590339882127615}
+  - {fileID: 6670704684393548830}
+  - {fileID: 8488590340979480729}
+  - {fileID: 172137160400470531}
+  - {fileID: 679318863}
+  - {fileID: 5189948619547956919}
 --- !u!114 &6436866685360654899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,9 +187,13 @@ MonoBehaviour:
     SerializationNodes: []
   subscribedEvent: {fileID: 11400000, guid: 726d2b93cb9780f41ace36f894f8180f, type: 2}
   subscribers: 0
-  surfaceAI: {fileID: 8488590339882127615}
-  surfacePlayer: {fileID: 8488590340979480729}
-  surfaceWorker: {fileID: 679318863}
+  surfaces:
+  - {fileID: 8488590339882127615}
+  - {fileID: 6670704684393548830}
+  - {fileID: 8488590340979480729}
+  - {fileID: 172137160400470531}
+  - {fileID: 679318863}
+  - {fileID: 5189948619547956919}
 --- !u!1 &8488590339882127602
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8488590339882127613}
   - component: {fileID: 8488590339882127615}
+  - component: {fileID: 6670704684393548830}
   m_Layer: 0
   m_Name: NavMeshAI
   m_TagString: Untagged
@@ -212,15 +244,44 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 5888
+    m_Bits: 2102016
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.022
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.033333335
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!114 &6670704684393548830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488590339882127602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_UseGeometry: 0
+  m_DefaultArea: 3
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.033333335
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &8488590340979480735
@@ -233,6 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8488590340979480734}
   - component: {fileID: 8488590340979480729}
+  - component: {fileID: 172137160400470531}
   m_Layer: 0
   m_Name: NavMeshPlayer
   m_TagString: Untagged
@@ -272,9 +334,38 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 5888
+    m_Bits: 2102016
   m_UseGeometry: 0
   m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.033333335
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!114 &172137160400470531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488590340979480735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1372625422
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_UseGeometry: 0
+  m_DefaultArea: 3
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0

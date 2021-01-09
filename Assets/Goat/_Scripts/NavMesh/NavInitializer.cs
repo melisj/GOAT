@@ -1,21 +1,28 @@
 ﻿using Goat.Saving;
 using UnityEngine;
 using UnityEngine.AI;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
     public class NavInitializer : MonoBehaviour
     {
-        [SerializeField] private NavMeshSurface surfaceAI;
-        [SerializeField] private NavMeshSurface surfacePlayer;
-        [SerializeField] private NavMeshSurface surfaceWorker;
+        [SerializeField] private NavMeshSurface[] surfaces;
+
+        [Button]
+        private void FillSurfacesArray()
+        {
+            surfaces = GetComponentsInChildren<NavMeshSurface>();
+        }
 
         private void Start()
         {
             DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
-            surfaceAI.BuildNavMesh();
-            surfacePlayer.BuildNavMesh();
-            surfaceWorker.BuildNavMesh();
+
+            for (int i = 0; i < surfaces.Length; i++)
+            {
+                surfaces[i].BuildNavMesh();
+            }
         }
 
         private void GridDataHandler_LevelLoaded()
@@ -25,9 +32,10 @@ namespace Goat.AI
 
         private void RebakeMesh()
         {
-            surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
-            surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
-            surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
+            for (int i = 0; i < surfaces.Length; i++)
+            {
+                surfaces[i]?.UpdateNavMesh(surfaces[i]?.navMeshData);
+            }
         }
     }
 }

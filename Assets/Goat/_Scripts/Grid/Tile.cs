@@ -187,8 +187,7 @@ namespace Goat.Grid
 
             if (placeable is Wall)
             {
-                EditAnyWall(placeable, rotationAngle, destroyMode, isLoading);
-                return true;
+                return EditAnyWall(placeable, rotationAngle, destroyMode, isLoading);
             }
 
             if (destroyMode)
@@ -326,7 +325,7 @@ namespace Goat.Grid
                     {
                         if (!autoMode && tileObjectFilter[i].sharedMesh == wall.Mesh[j])
                         {
-                            return true;
+                            return false;
                         }
                     }
                 }
@@ -359,7 +358,9 @@ namespace Goat.Grid
                 PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(wall);
                 wallObjs[index].transform.localScale = size;
-                wallAuto[index] = wallAuto[index] ? wallAuto[index] : autoMode;
+                if (autoMode)
+                    wallAuto[index] = true;
+
                 tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
                 for (int i = 0; i < tileObjectFilter.Length; i++)
                 {
@@ -393,7 +394,7 @@ namespace Goat.Grid
             totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
             PoolManager.Instance.ReturnToPool(wallObjs[index]);
             wallObjs[index] = null;
-            wallAuto[index] = autoMode || wallAuto[index];
+            wallAuto[index] = autoMode ? false : wallAuto[index];
             placeableInfo.Setup(null);
             SaveData.SetWall(-1, index, false);
             if (buildingObject && (int)buildingObject.transform.eulerAngles.y == InverseRotation((int)rotationAngle))

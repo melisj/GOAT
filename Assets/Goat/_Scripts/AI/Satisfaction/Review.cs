@@ -9,5 +9,6 @@ public class Review
     [SerializeField] private ReviewLineInfo[] reviewFactors;
     public string CustomerName { get; set; }
     public float SatisfactionPoints { get; set; }
+    public Character Character { get; set; }
     public ReviewLineInfo[] ReviewFactors { get => reviewFactors; set => reviewFactors = value; }
 }

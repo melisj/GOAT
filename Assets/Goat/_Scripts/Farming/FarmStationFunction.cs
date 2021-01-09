@@ -57,12 +57,12 @@ namespace Goat.Farming
 
         private void OnEnable()
         {
-            onGridChange.Raise(gameObject);
+            onGridChange.Raise(null);
         }
 
         private void OnDisable()
         {
-            onGridChange.Raise(gameObject);
+            onGridChange.Raise(null);
         }
 
         private void Update()
@@ -121,7 +121,11 @@ namespace Goat.Farming
 
         private void FillResourcePacks()
         {
-            if (resPacks.Count <= 0) return;
+            if (resPacks.Count <= 0)
+            {
+                onGridChange.Raise(null);
+                return;
+            }
             float increment = (float)farmStationSettings.AmountPerSecond / (float)resPacks.Count;
 
             for (int i = 0; i < resPacks.Count; i++)

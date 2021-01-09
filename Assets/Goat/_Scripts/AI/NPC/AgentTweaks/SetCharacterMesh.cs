@@ -9,15 +9,17 @@ namespace Goat.AI
         [SerializeField] private Characters characters;
         [SerializeField] private GameObject root;
 
+        public Character Character { get; private set; }
+
         private void Awake()
         {
             SkinnedMeshRenderer skinnedMesh = GetComponent<SkinnedMeshRenderer>();
             if (characters != null)
             {
                 //print(randex);
-                Character character = characters.GetCharacter;
-                skinnedMesh.sharedMesh = character.Mesh;
-                root.name = character.CharacterNames.GetName;
+                Character = characters.GetCharacter;
+                skinnedMesh.sharedMesh = Character.Mesh;
+                root.name = Character.CharacterNames.GetName;
             }
         }
     }

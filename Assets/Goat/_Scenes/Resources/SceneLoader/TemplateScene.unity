@@ -2318,6 +2318,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 650058302}
     m_Modifications:
+    - target: {fileID: 679318863, guid: fb060bdea1eb8534e9e19419c46b6965, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: b97a1a2159c06f14d9bdafdde453609a,
+        type: 2}
     - target: {fileID: 265703103934769764, guid: fb060bdea1eb8534e9e19419c46b6965,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2373,6 +2378,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1116319975707978642, guid: fb060bdea1eb8534e9e19419c46b6965,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 76af3b96440605145b2a3c7ae6c72ccb,
+        type: 2}
     - target: {fileID: 1527252795599047950, guid: fb060bdea1eb8534e9e19419c46b6965,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -2390,6 +2401,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6436866685360654899, guid: fb060bdea1eb8534e9e19419c46b6965,
         type: 3}
+    - target: {fileID: 8059598630541471135, guid: fb060bdea1eb8534e9e19419c46b6965,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 677cedabcc5d26f42b99cb956814f951,
+        type: 2}
+    - target: {fileID: 8402914144540186678, guid: fb060bdea1eb8534e9e19419c46b6965,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 4a935cb50ba01c74bbf0332b0367989b,
+        type: 2}
+    - target: {fileID: 8488590339882127615, guid: fb060bdea1eb8534e9e19419c46b6965,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 48bc4d7695a21904693f71e2a7e0d472,
+        type: 2}
+    - target: {fileID: 8488590340979480729, guid: fb060bdea1eb8534e9e19419c46b6965,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 01c26dee5c36f3a46ade7710037516bc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb060bdea1eb8534e9e19419c46b6965, type: 3}
 --- !u!4 &8488590340207936310 stripped

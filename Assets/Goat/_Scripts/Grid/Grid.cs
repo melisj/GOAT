@@ -321,7 +321,19 @@ namespace Goat.Grid
 
         private int InverseRotation(int rotation)
         {
+            Debug.Log($"{rotation} <> {(rotation + 180) % 360}");
+            Debug.Log($"{GetWallIndex(rotation)} <> {GetWallIndex((rotation + 180) % 360)}");
             return (rotation + 180) % 360;
+        }
+
+        private int GetWallIndex(float rotationAngle)
+        {
+            int index = 0;
+            if (rotationAngle > 0)
+            {
+                index = (int)(rotationAngle / 90);
+            }
+            return index;
         }
 
         private void CheckTileWithoutEditing(Tile tile, ref int rotation, Vector2Int index2D, Vector2Int offset)

@@ -40,7 +40,7 @@ namespace Goat.UI
             this.review.text = stringBuilder.ToString();
             customerName.text = review.CustomerName;
             stringBuilder.Clear();
-            ChangeIcon((int)review.SatisfactionPoints);
+            customerIcon.sprite = review.Character.HeadShot;
             headerFitter.ChangeIconWidth();
         }
 
