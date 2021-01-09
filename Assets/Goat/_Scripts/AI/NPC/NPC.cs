@@ -17,17 +17,17 @@ namespace Goat.AI
         // Check variable visability
         public float npcSize = 1f;
         public float wanderRange = 10f;
-        [HideInInspector] public int carriedItemValue;
+        [ReadOnly] public int carriedItemValue;
         [SerializeField] private int maxInventory;
 
         protected StateMachine stateMachine;
         protected MoveToDestination moveToDestination;
-        [HideInInspector] public Vector3 targetDestination;
+        [ReadOnly] public Vector3 targetDestination;
 
-        [HideInInspector] public NavMeshAgent navMeshAgent;
-        [HideInInspector] public Animator animator;
+        [ReadOnly] public NavMeshAgent navMeshAgent;
+        [ReadOnly] public Animator animator;
 
-        [HideInInspector] public StorageInteractable targetStorage;
+        [ReadOnly] public StorageInteractable targetStorage;
 
         private Inventory itemsToGet;
         public Inventory ItemsToGet => itemsToGet;
@@ -37,7 +37,7 @@ namespace Goat.AI
 
         [SerializeField] private string stateName;
 
-        [HideInInspector] public float enterTime;
+        [ReadOnly] public float enterTime;
         public float searchingTime = 0;
         public NPCShip Ship { get; set; }
         public int PoolKey { get; set; }

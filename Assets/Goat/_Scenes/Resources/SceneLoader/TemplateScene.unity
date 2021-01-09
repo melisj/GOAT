@@ -353,7 +353,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1113228156
 Transform:
@@ -754,6 +754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GridPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 612029029412865802, guid: f085dd01997956740898e55b0d831490,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5621511813930087197, guid: f085dd01997956740898e55b0d831490,
         type: 3}

@@ -29,7 +29,7 @@ MonoBehaviour:
   price: 0
   interchangeableMesh: 1
   mesh:
-  - {fileID: -2384067733600373924, guid: b1d5db57a1db47d41b5935ee7c27d776, type: 3}
+  - {fileID: -2384067733600373924, guid: 617bbbc2444976c49a81f10dda1af3ff, type: 3}
   summary: 
   amount: 3000
   starterAmount: 3000

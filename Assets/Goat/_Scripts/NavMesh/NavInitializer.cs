@@ -23,6 +23,15 @@ namespace Goat.AI
             }
         }
 
+        public void BakeNavMesh()
+        {
+            for (int i = 0; i < surfaces.Length; i++)
+            {
+                surfaces[i].RemoveData();
+                surfaces[i].BuildNavMesh();
+            }
+        }
+
         private void OnEnable()
         {
             DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;

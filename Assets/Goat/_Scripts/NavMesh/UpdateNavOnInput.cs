@@ -17,6 +17,10 @@ namespace Goat.AI
             {
                 navInitializer.RebakeMesh();
             }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                navInitializer.BakeNavMesh();
+            }
         }
 
 #endif
