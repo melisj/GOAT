@@ -50,16 +50,20 @@ namespace Goat.AI.States
 
             if (hitDestination)
             {
-                if (navMeshAgent.CalculatePath(wanderDestination, navPath) && navPath.status != NavMeshPathStatus.PathComplete)
-                {
-                    Debug.LogWarning("Invalid path calculated");
-                    //continue;
-                }
-                else
-                {
-                    npc.targetDestination = wanderDestination;
-                    //Debug.Log("Found an new destination!");
-                }
+                //NavMeshQueryFilter filter = new NavMeshQueryFilter
+                //{
+                //    areaMask = (1 << areaMask)
+                //};
+                //if (NavMesh.CalculatePath(navMeshAgent.transform.position, wanderDestination, filter, navPath))
+                //{
+                //    Debug.LogWarning("Invalid path calculated");
+                //    //continue;
+                //}
+                //else
+                //{
+                npc.targetDestination = wanderDestination;
+                //Debug.Log("Found an new destination!");
+                //}
             }
         }
 
