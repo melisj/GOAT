@@ -11,13 +11,15 @@ public class StartGame : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private RectTransform[] menuButtons;
 
+    private const string START_SAVE = "DefaultSave/StartStore";
+
     private SceneLoaderForBuild sceneLoader;
     private Sequence hideMenu;
 
     private void Start()
     {
         sceneLoader = FindObjectOfType<SceneLoaderForBuild>();
-        startButton.onClick.AddListener(() => LoadGame());
+        startButton.onClick.AddListener(() => LoadGame(START_SAVE));
     }
 
     public void LoadGame(string saveFile = "")
