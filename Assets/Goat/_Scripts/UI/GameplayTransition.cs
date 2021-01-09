@@ -20,12 +20,15 @@ namespace Goat.UI
 {
     public class GameplayTransition : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     {
+        private const float defaultResolution = 1920;
+
         [SerializeField] private TransitionElement[] transitionElements;
         [SerializeField] private VoidEvent onNarrativeFinished;
         [SerializeField] private float transitionDurationPerElement;
         private Sequence transitionSequence;
         private bool prepared;
         private bool transitioned;
+        private float resolution;
 
         private void OnEnable()
         {
@@ -42,13 +45,14 @@ namespace Goat.UI
         {
             if (transitionSequence.NotNull())
                 transitionSequence.Complete();
-
+            resolution = Screen.width;
+            float scaleFactor = (resolution / defaultResolution);
             transitionSequence = DOTween.Sequence();
             transitionSequence.SetUpdate(UpdateType.Normal, true);
             for (int i = 0; i < transitionElements.Length; i++)
             {
                 TransitionElement element = transitionElements[i];
-                Vector3 pos = element.Transform.position + (transitioned ? -element.MoveAmount : element.MoveAmount);
+                Vector3 pos = element.Transform.position + (transitioned ? -element.MoveAmount * scaleFactor : element.MoveAmount * scaleFactor);
                 Vector3 scale = (transitioned ? element.BeforeScale : Vector3.one);
                 if (element.TransType.HasFlag(TransitionType.Move))
                     transitionSequence.Join(element.Transform.DOMove(pos, transitionDurationPerElement));

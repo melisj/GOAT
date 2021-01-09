@@ -17,16 +17,16 @@ SpriteAtlas:
       textureCompression: 0
       filterMode: 1
       generateMipMaps: 0
-      readable: 0
+      readable: 1
       crunchedCompression: 0
       sRGB: 1
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: 4
-      m_TextureCompression: 0
+      m_TextureCompression: 2
       m_CompressionQuality: 50
       m_CrunchedCompression: 0
       m_AllowsAlphaSplitting: 0
@@ -38,7 +38,7 @@ SpriteAtlas:
       padding: 4
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 0
+      enableRotation: 1
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
