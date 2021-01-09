@@ -43,8 +43,15 @@ namespace Goat.Saving
         {
             if (this.data.className == data.className)
             {
-                Load(data);
-                Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
+                try
+                {
+                    Load(data);
+                    Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarningFormat("DataContainer: {0} failed to load! {1}", data.className, e);
+                }
             }
         }
 

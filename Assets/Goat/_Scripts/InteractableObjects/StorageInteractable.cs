@@ -37,8 +37,9 @@ namespace Goat.Grid.Interactions
             Inventory.InventoryChangedEvent += Inventory_InventoryChangedEvent;
         }
 
-        protected void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             Inventory.InventoryChangedEvent -= Inventory_InventoryChangedEvent;
         }
 
