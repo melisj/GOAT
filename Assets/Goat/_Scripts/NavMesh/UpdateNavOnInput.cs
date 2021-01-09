@@ -18,7 +18,7 @@ namespace Goat.AI
                 navInitializer.RebakeMesh();
             }
         }
-    }
 
 #endif
+    }
 }
