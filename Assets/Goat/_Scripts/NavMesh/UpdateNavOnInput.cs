@@ -22,7 +22,7 @@ namespace Goat.AI
                 navInitializer.BakeNavMesh();
             }
         }
-    }
 
 #endif
+    }
 }

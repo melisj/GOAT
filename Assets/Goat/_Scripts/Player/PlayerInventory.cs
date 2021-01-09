@@ -25,20 +25,33 @@ namespace Goat.Player
 
         public void InitInventory()
         {
-            currentCapacity = defaultCapacity;
-
-            if (gamemodeCreative) currentCapacity = int.MaxValue;
-            if (currentCapacity == 0) Debug.LogError("Player inventory has zero capacity!!! Please set the default capacity.");
-
-            Inventory = new Inventory(currentCapacity);
-            if (gamemodeCreative)
+            if(gamemodeCreative)
+                InitCreativeInventory();
+            else
             {
-                for (int i = 0; i < resources.Resources.Length; i++)
-                {
-                    Inventory.Add(resources.Resources[i], 666, out int storedAmount);
-                }
+                currentCapacity = defaultCapacity;
+                if (currentCapacity == 0) Debug.LogError("Player inventory has zero capacity!!! Please set the default capacity.");
+                inventory = new Inventory(currentCapacity);
             }
-            Inventory inv = Inventory;
+        }
+
+        private void InitCreativeInventory()
+        {
+            currentCapacity = int.MaxValue;
+            inventory = new Inventory(currentCapacity);
+
+            for (int i = 0; i < resources.Resources.Length; i++)
+            {
+                Inventory.Add(resources.Resources[i], 666, out int storedAmount);
+            }
+
+            inventory.InfiniCapacity = true;
+        }
+
+        [Button("Clear Inventory")]
+        public void ClearInventory()
+        {
+            Inventory.Clear();
         }
 
         public void TryGetValue(Resource resource, out int amount)

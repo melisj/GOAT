@@ -17,6 +17,8 @@ namespace Goat.Storage
         public int ItemsInInventory => itemsInInventory;
         public int Capacity => capacity;
 
+        public bool InfiniCapacity { get; set; }
+
         public delegate void InventoryChanged(Resource resource, int amount, bool removed);
         public event InventoryChanged InventoryChangedEvent;
 
@@ -39,14 +41,20 @@ namespace Goat.Storage
             amountStored = Mathf.Min(amount, SpaceLeft);
             if (amountStored == 0) return;
 
-            itemsInInventory += amountStored;
+            if (!InfiniCapacity)
+            {
+                itemsInInventory += amountStored;
 
-            if (Items.ContainsKey(resource))
-                Items[resource] += amountStored;
-            else
-                Items.Add(resource, amountStored);
+                if (Items.ContainsKey(resource))
+                    Items[resource] += amountStored;
+                else
+                    Items.Add(resource, amountStored);
+            }
 
+            // [Warning] Might cause issues when amount is not the same as amount that is actually added
             OnInventoryChanged(amount);
+            // ---
+
             InventoryChangedEvent?.Invoke(resource, amountStored, false);
         }
 
@@ -56,16 +64,22 @@ namespace Goat.Storage
             {
                 amountRemoved = Mathf.Min(amount, Items[resource]);
 
-                Items[resource] -= amountRemoved;
-                if (Items[resource] <= 0)
-                    Items.Remove(resource);
+                if (!InfiniCapacity)
+                {
+                    Items[resource] -= amountRemoved;
+                    if (Items[resource] <= 0)
+                        Items.Remove(resource);
 
-                itemsInInventory -= amountRemoved;
+                    itemsInInventory -= amountRemoved;
+                }
             }
             else
                 amountRemoved = 0;
 
+            // [Warning] Might cause issues when amount is not the same as amount that is actually removed
             OnInventoryChanged(-amount);
+            // ---
+
             InventoryChangedEvent?.Invoke(resource, amountRemoved, true);
         }
 
@@ -98,17 +112,25 @@ namespace Goat.Storage
         {
             if (objectList == null) { Debug.LogError("Inventory could not be loaded, the GridObjectList was not found."); return; }
 
-            Items.Clear();
-            itemsInInventory = 0;
-            Dictionary<int, int> jsonItems = JsonConvert.DeserializeObject<Dictionary<int, int>>(storageString);
-            foreach (var item in jsonItems)
+            if (!InfiniCapacity)
             {
-                Items.Add((Resource)objectList.GetObject(item.Key), item.Value);
-                itemsInInventory += item.Value;
-            }
+                Items.Clear();
+                itemsInInventory = 0;
+                Dictionary<int, int> jsonItems = JsonConvert.DeserializeObject<Dictionary<int, int>>(storageString);
+                foreach (var item in jsonItems)
+                {
+                    int amountToFill = Mathf.Min(SpaceLeft, item.Value);
+
+                    if (amountToFill == 0) { Debug.LogWarning("No more room left in inventory, aborting rest of loading inventory!"); break; }
+
+                    Items.Add((Resource)objectList.GetObject(item.Key), amountToFill);
+                    itemsInInventory += amountToFill;
+                }
 
             InventoryResetEvent?.Invoke();
+            }
         }
+
 
         public void Clear()
         {
