@@ -23,6 +23,7 @@ public class StartGame : MonoBehaviour
     public void LoadGame(string saveFile = "")
     {
         hideMenu = DOTween.Sequence();
+        hideMenu.SetUpdate(true);
         hideMenu.OnComplete(() => StartCoroutine(sceneLoader.LoadAllScenes(() => LoadComplete(saveFile))));
         for (int i = 0; i < menuButtons.Length; i++)
         {
