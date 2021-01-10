@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 354f3fca31cc7854a8fa20417c0618e1, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 2017345027404832932}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -726,7 +727,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7782000946221320678}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -334000983
   m_Radius: 0.2
   m_Speed: 3.5
@@ -776,8 +777,10 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   targetStorage: {fileID: 0}
+  stateName: 
   enterTime: 0
   searchingTime: 0
+  chillin: 0
   storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
   subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
