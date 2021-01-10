@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: e724329eb7c700d46a4bae547d3a3893, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 7662238008717331642}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -63,6 +64,8 @@ GameObject:
   - component: {fileID: 3219962494889788675}
   - component: {fileID: 3708550631070552149}
   - component: {fileID: 3467048126719724173}
+  - component: {fileID: 1886429358669115398}
+  - component: {fileID: 1179107954623379784}
   m_Layer: 0
   m_Name: ShipCivilian
   m_TagString: Untagged
@@ -160,6 +163,41 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0.43, z: -0.69900006}
   m_TimeToStationary: 0.5
+--- !u!114 &1886429358669115398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012538647828178134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f8fcd11eb156249949aa0dddae910f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialValueToChanges:
+  - materialValueToChange: 0
+    propertyName: _HueShift
+    newColor: {r: 0, g: 0, b: 0, a: 0}
+    newColorHDR: {r: 0, g: 0, b: 0, a: 0}
+    newFloat: 0
+    newInt: 0
+    newTexture: {fileID: 0}
+  renderer: {fileID: 3219962494889788675}
+  propertyID: 366
+--- !u!114 &1179107954623379784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012538647828178134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25dd1a88ef17e6d4eaa1394793e97a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propSetter: {fileID: 1886429358669115398}
 --- !u!1 &7662238008269417591
 GameObject:
   m_ObjectHideFlags: 0
