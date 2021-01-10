@@ -8,18 +8,18 @@ using Goat.Pooling;
 public class MeteorMovement : MonoBehaviour, IPoolObject
 {
     [SerializeField] GameObject explosion;
-    [SerializeField] private Grid.Grid grid;
     [SerializeField] private int explosionRadius = 5;
     [SerializeField] private Placeable resourceTile;
 
     public int PoolKey { get; set; }
     public ObjectInstance ObjInstance { get; set; }
 
+    private Grid.Grid grid;
     private Tile tileHit;
 
     void Update()
     {
-        this.transform.position -= transform.up /10;
+        this.transform.position -= transform.up * 10 * Time.deltaTime;
         Explode();
     }
 
