@@ -11,22 +11,20 @@ public class StartGame : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private RectTransform[] menuButtons;
 
-    private const string START_SAVE = "DefaultSave/StartStore";
-
     private SceneLoaderForBuild sceneLoader;
     private Sequence hideMenu;
 
     private void Start()
     {
         sceneLoader = FindObjectOfType<SceneLoaderForBuild>();
-        startButton.onClick.AddListener(() => LoadGame(START_SAVE));
+        startButton.onClick.AddListener(() => LoadGame("", true));
     }
 
-    public void LoadGame(string saveFile = "")
+    public void LoadGame(string saveFile = "", bool defaultSave = false)
     {
         hideMenu = DOTween.Sequence();
         hideMenu.SetUpdate(true);
-        hideMenu.OnComplete(() => StartCoroutine(sceneLoader.LoadAllScenes(() => LoadComplete(saveFile))));
+        hideMenu.OnComplete(() => StartCoroutine(sceneLoader.LoadAllScenes(() => LoadComplete(saveFile, defaultSave))));
         for (int i = 0; i < menuButtons.Length; i++)
         {
             hideMenu.Join(menuButtons[i].DOMove(menuButtons[i].position + (RandomMoveDirection() * (Screen.width)), 0.5f));
@@ -40,9 +38,8 @@ public class StartGame : MonoBehaviour
         return random > 49 ? Vector3.right : -Vector3.right;
     }
 
-    private void LoadComplete(string saveFile)
+    private void LoadComplete(string saveFile, bool defaultSave)
     {
-        Debug.Log(saveFile);
         // Unload the first build scene
         if (SceneManager.GetSceneByBuildIndex(0).IsValid())
         {
@@ -50,10 +47,10 @@ public class StartGame : MonoBehaviour
         }
 
         // Load the selected save file
-        if (saveFile != "")
+        if (saveFile != "" || defaultSave)
         {
             DataHandler dataHandler = FindObjectOfType<DataHandler>();
-            dataHandler.LoadGame(saveFile);
+            dataHandler.LoadGame(saveFile, defaultSave);
         }
     }
 }
