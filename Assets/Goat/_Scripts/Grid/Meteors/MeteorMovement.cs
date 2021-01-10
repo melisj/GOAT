@@ -46,7 +46,7 @@ public class MeteorMovement : MonoBehaviour, IPoolObject
         }
     }
 
-    public void InitMeteor(Goat.Grid.Grid grid, Placeable resourceTile)
+    public void InitMeteor(Grid.Grid grid, Placeable resourceTile)
     {
         this.grid = grid;
         this.resourceTile = resourceTile;
@@ -56,7 +56,8 @@ public class MeteorMovement : MonoBehaviour, IPoolObject
     private void GetSpawn()
     {
         tileHit = grid.GetRandomEmptyTile();
-        transform.position = tileHit.Position + transform.up * 20;
+        if(tileHit != null)
+            transform.position = tileHit.Position + transform.up * 20;
     }
 
     private void SpawnResourceTiles()

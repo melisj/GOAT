@@ -8,7 +8,7 @@ namespace Goat.Saving
     public class NarrativeSaveHandler : SaveHandler
     {
         public NarrativeManager narrativeManager;
-        public BoolEvent OnNarrativeCompleted;
+        public VoidEvent onNarrativeCompleted;
 
         public void Awake()
         {
@@ -27,7 +27,7 @@ namespace Goat.Saving
             if (!completed)
                 narrativeHandler.narrativeManager.enabled = true;
             else
-                narrativeHandler.OnNarrativeCompleted.Raise();
+                narrativeHandler.onNarrativeCompleted.Raise();
         }
 
         public override void Save(SaveHandler handler)
