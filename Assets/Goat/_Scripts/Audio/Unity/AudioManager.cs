@@ -179,7 +179,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     public void OnEventRaised(int timeSpeed)
     {
-        audioMixer.SetFloat("SFXPitch", currentPitchSFX * Time.timeScale);
+        audioMixer.SetFloat("SFXPitch", Time.timeScale < 1 ? currentPitchSFX : currentPitchSFX * Time.timeScale);
     }
 
     private void OnDestroy()

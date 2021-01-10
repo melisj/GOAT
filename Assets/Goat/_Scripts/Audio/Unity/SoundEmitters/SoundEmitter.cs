@@ -51,11 +51,14 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
     /// <param name="position"></param>
     public void PlayAudioClip(AudioClip clip, AudioConfigurationSO settings, bool hasToLoop, Vector3 position = default)
     {
-        _audioSource.clip = clip;
         settings.ApplyTo(_audioSource);
+        _audioSource.clip = clip;
         _audioSource.transform.position = position;
         _audioSource.loop = hasToLoop;
         _audioSource.Play();
+        if (Time.timeScale == 0)
+            _audioSource.PlayOneShot(clip);
+        Debug.Log($"Playing: {clip.name} {_audioSource.ignoreListenerPause}");
         gameObject.name = $"Playing: {clip.name}";
         if (!hasToLoop)
         {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OutputAudioMixerGroup: {fileID: 8911742078530553623, guid: 548a7f001ca6d3d4cb67c8edf84f62a3,
     type: 2}
-  _priorityLevel: 128
+  _priorityLevel: 0
   Mute: 0
   Volume: 1
   Pitch: 1
@@ -29,5 +29,5 @@ MonoBehaviour:
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
-  IgnoreListenerVolume: 0
-  IgnoreListenerPause: 0
+  IgnoreListenerVolume: 1
+  IgnoreListenerPause: 1
