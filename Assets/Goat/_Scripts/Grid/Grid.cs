@@ -58,6 +58,7 @@ namespace Goat.Grid
 
         public void Reset()
         {
+            Debug.Log("Reset");
             if (tiles != null)
             {
                 for (int x = 0; x < gridSize.x; x++)
@@ -178,6 +179,7 @@ namespace Goat.Grid
 
         private void FillGrid()
         {
+            Debug.LogError("you shouldn't be here");
             ResourceTileData[] datas = Resources.LoadAll<ResourceTileData>("ResourceTiles");
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -372,6 +374,8 @@ namespace Goat.Grid
 
         private void InitializeTiles(Vector2Int gridSize, float tileSize)
         {
+            Debug.Log("Init");
+
             float tileOffset = tileSize / 2;
             tiles = new Tile[gridSize.x, gridSize.y];
             Material material = gridPlane.GetComponent<Renderer>().material;

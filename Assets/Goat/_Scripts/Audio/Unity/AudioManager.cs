@@ -149,7 +149,18 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     {
         for (int i = 0; i < musicPlayed.MusicEmitters.Count; i++)
         {
+            if (musicPlayed.MusicEmitters[i] == null)
+            {
+                musicPlayed.MusicEmitters.RemoveAt(i);
+                continue;
+            }
             musicPlayed.MusicEmitters[i].Stop();
+            if (PoolManager.Instance == null)
+            {
+                Debug.Log("Pooling null", musicPlayed.MusicEmitters[i].gameObject);
+                continue;
+            }
+            PoolManager.Instance.ReturnToPool(musicPlayed.MusicEmitters[i].gameObject);
         }
         musicPlayed.MusicEmitters.Clear();
     }
@@ -158,6 +169,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     {
         soundEmitter.OnSoundFinishedPlaying -= OnSoundEmitterFinishedPlaying;
         soundEmitter.Stop();
+        if (PoolManager.Instance == null) return;
         PoolManager.Instance.ReturnToPool(soundEmitter.gameObject);
     }
 
@@ -172,7 +184,13 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     private void OnDestroy()
     {
-        musicPlayed.MusicEmitters.Clear();
+        StopMusic();
+        audioCuesCreated = new Dictionary<GameObject, List<SoundEmitter>>();
+        _SFXEventChannel.OnAudioCueStopRequested -= StopAudioCue;
+        _musicEventChannel.OnAudioCueStopRequested -= StopAudioCue;
+        onTimeSpeedChanged.UnregisterSafe(this);
+        _SFXEventChannel.OnAudioCueRequested -= PlayAudioCue;
+        _musicEventChannel.OnAudioCueRequested -= PlayMusicCue; //TODO: Treat music requests differently?
     }
 
     //TODO: Add methods to play and cross-fade music, or to play individual sounds?

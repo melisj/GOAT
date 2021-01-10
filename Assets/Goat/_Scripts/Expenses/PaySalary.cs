@@ -28,6 +28,7 @@ namespace Goat.Expenses
 
         public override void Pay()
         {
+            if (employees.EmployeeList == null) return;
             var looper = employees.EmployeeList.GetEnumerator();
             int remainingPrice = 0;
             int fullPrice = 0;

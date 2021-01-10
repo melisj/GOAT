@@ -285,6 +285,7 @@ namespace Goat.Grid
 
         private void Destroy(ref GameObject objectToDestroy, bool isLoading)
         {
+            Debug.Log("Destroying Tiles");
             PlaceableInfo placeableInfo = objectToDestroy.GetComponent<PlaceableInfo>();
             SaveData.SetBuilding(-1, 0);
             PoolManager.Instance.ReturnToPool(objectToDestroy);

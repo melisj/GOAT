@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenePaths:
   - Assets/Goat/_Scenes/Resources/SceneLoader/EnviromentScene.unity
+  - Assets/Goat/_Scenes/Resources/SceneLoader/Expenses.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/Narrative.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/NPCSpawners.unity
   - Assets/Goat/_Scenes/Resources/SceneLoader/TemplateScene.unity
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scencesToLoad:
   - {fileID: 102900000, guid: 05d9dc7b8d9db874da6dc2c19ad37624, type: 3}
+  - {fileID: 102900000, guid: e9cf31f236936d943923cc8f159f3311, type: 3}
   - {fileID: 102900000, guid: e4f53cef77dbf324dba70b394a7b491b, type: 3}
   - {fileID: 102900000, guid: 6cfdad87ae9441c458ed7b6b89c8428e, type: 3}
   - {fileID: 102900000, guid: 9f05815438497cc41abb6c992248ace1, type: 3}

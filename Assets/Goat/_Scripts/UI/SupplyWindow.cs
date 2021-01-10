@@ -23,6 +23,7 @@ namespace Goat.UI
         [SerializeField] private RectTransform buyButtonTransform;
         [SerializeField] private TMP_InputField buyAmount;
         [SerializeField] protected TextMeshProUGUI totalPrice;
+        [SerializeField] private AudioCue errorSfx, confirmSfx;
         [Title("Content")]
         [SerializeField, ShowIf("IsSupplyWindow")] private RectTransform deliveryGrid;
         [SerializeField, ShowIf("IsSupplyWindow")] private GameObject deliveryPrefab;
@@ -95,10 +96,12 @@ namespace Goat.UI
             buyButtonAnimation = DOTween.Sequence();
             if (validated)
             {
+                confirmSfx.PlayAudioCue();
                 buyButtonAnimation.Append(buyButtonTransform.DOPunchScale(new Vector3(0.1f, 0.1f, 1), 0.2f, 15, 0.5f));
             }
             else
             {
+                errorSfx.PlayAudioCue();
                 buyButtonAnimation.Append(buyButtonTransform.DOShakeAnchorPos(0.3f, new Vector3(5, 0, 0), 90));
             }
             return validated;

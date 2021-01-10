@@ -9,15 +9,15 @@ namespace Goat.Saving
         public DataContainer data;
         public int saveOrder;
 
-        public virtual void Load(DataContainer data) 
+        public virtual void Load(DataContainer data)
         {
             this.data = data;
             this.data.Load(this);
         }
 
-        public virtual void Save() 
-        { 
-            data.Save(this); 
+        public virtual void Save()
+        {
+            data.Save(this);
         }
 
         #region Subscription
@@ -71,7 +71,7 @@ namespace Goat.Saving
             Unsubscribe();
         }
 
-        #endregion
+        #endregion Subscription
     }
 
     [Serializable]
@@ -84,13 +84,18 @@ namespace Goat.Saving
             className = GetType().Name;
         }
 
-        public virtual void Load(SaveHandler handler) { }
-        public virtual void Save(SaveHandler handler) { }
+        public virtual void Load(SaveHandler handler)
+        {
+        }
+
+        public virtual void Save(SaveHandler handler)
+        { }
     }
 
     public interface ISaveable
     {
         void Load(SaveHandler handler);
+
         void Save(SaveHandler handler);
     }
 }
