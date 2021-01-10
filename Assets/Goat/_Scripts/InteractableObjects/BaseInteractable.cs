@@ -130,7 +130,6 @@ namespace Goat.Grid.Interactions
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
-            print("sub");
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
