@@ -124,6 +124,21 @@ namespace Goat.Grid
 
         public bool CheckForFloor(Placeable placeable, float rotationAngle = 0, bool destroyMode = false, bool isLoading = false)
         {
+            if (destroyMode)
+            {
+                int objectsOnTile = 0;
+                if (floorObject)
+                    objectsOnTile++;
+                if (buildingObject)
+                    objectsOnTile++;
+                for (int i = 0; i < wallObjs.Length; i++)
+                {
+                    if (wallObjs[i])
+                        objectsOnTile++;
+                }
+                return objectsOnTile == 0;
+            }
+
             if (placeable && !isLoading)
             {
                 if (placeable.CanBuy(1) && !destroyMode)
@@ -177,6 +192,14 @@ namespace Goat.Grid
 
             //if FloorObj Resourceblabla == FarmStation.resource
             //OK!
+        }
+
+        public PlaceableInfo GetPlaceableInfo()
+        {
+            if (!floorObject) return null;
+
+            PlaceableInfo placeableInfo = floorObject.GetComponent<PlaceableInfo>();
+            return placeableInfo;
         }
 
         public bool EditAny(Placeable placeable, float rotationAngle, bool destroyMode, bool isLoading = false)

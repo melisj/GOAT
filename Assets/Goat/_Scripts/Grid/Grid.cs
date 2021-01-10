@@ -29,6 +29,7 @@ namespace Goat.Grid
         [Header("Event")]
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private GridRayCaster gridRayCaster;
+        [SerializeField] private VoidEvent onTileDestroyed, onTileCreated;
         private GameObject previewObject;              // Preview object shown on grid
         private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
@@ -144,20 +145,36 @@ namespace Goat.Grid
                 //                    }
                 //                }
                 //#endif
-
+                bool createdTile = false;
                 if ((DestroyMode ? Input.GetMouseButtonDown(0) : Input.GetMouseButton(0)))
                 {
                     if (currentTile != null)
                     {
                         checkedTiles.Clear();
+                        PlaceableInfo placeableInfo = currentTile.GetPlaceableInfo();
+                        Placeable currentPlaceable = null;
+                        if (placeableInfo)
+                        {
+                            currentPlaceable = placeableInfo.Placeable;
+                        }
                         if (currentTile.EditAny(previewPlaceableInfo, objectRotationAngle, DestroyMode))
                         {
-                            if (!previewPlaceableInfo.CreatesWallsAround & !DestroyMode) return;
+                            if (DestroyMode)
+                                onTileDestroyed.Raise();
+                            else if (!createdTile)
+                                onTileCreated.Raise();
+                            if (previewPlaceableInfo != null && (!previewPlaceableInfo.CreatesWallsAround & !DestroyMode)) return;
                             if (previewPlaceableInfo is Wall) return;
+                            if (currentPlaceable != null)
+                            {
+                                Debug.Log($"{currentPlaceable} -- {currentPlaceable.CreatesWallsAround} && {DestroyMode}");
+                                if (!currentPlaceable.CreatesWallsAround && DestroyMode) return;
+                            }
                             //if (previewPlaceableInfo != previousAutoPlaceable)
                             SetupNeighborTiles(currentTileIndex);
                         }
                         previousAutoPlaceable = previewPlaceableInfo;
+                        createdTile = true;
                     }
                 }
                 if (Input.GetKeyDown(KeyCode.R))

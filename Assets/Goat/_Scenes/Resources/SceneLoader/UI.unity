@@ -23892,7 +23892,7 @@ PrefabInstance:
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2794230
+      value: 2795670
       objectReference: {fileID: 0}
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24252,7 +24252,7 @@ PrefabInstance:
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2700000
+      value: 2701440
       objectReference: {fileID: 0}
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24427,7 +24427,7 @@ PrefabInstance:
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1306620
+      value: 1308060
       objectReference: {fileID: 0}
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -28337,7 +28337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6349357a4803bc446ab93e0ce7b35bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 9057328731336710655}
+  startButton: {fileID: 9057328731245743790}
   menuButtons: []
 --- !u!1 &2443471411984830476
 GameObject:
