@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Money
   m_EditorClassIdentifier: 
   amount: 33.75
-  starterAmount: 10000
+  starterAmount: 1000
