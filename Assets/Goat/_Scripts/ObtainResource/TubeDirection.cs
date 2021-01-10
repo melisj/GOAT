@@ -19,7 +19,7 @@ namespace Goat.Farming
         [SerializeField] private LayerMask layer;
         [SerializeField] private Vector3[] offset;
         [SerializeField] private float radius = 0.2f;
-
+        private TileAnimation tileAnimation;
         private TubeDirection previousTube;
         [SerializeField] private TubeDirection[] connectedTubes;
 
@@ -60,6 +60,9 @@ namespace Goat.Farming
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
             OnGridChange();
             connectedFarm = null;
             ObjInstance = objectInstance;
@@ -180,7 +183,8 @@ namespace Goat.Farming
         public void OnReturnObject()
         {
             onGridChange.Raise(gameObject);
-            gameObject.SetActive(false);
+
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
         }
 
         private void OnDrawGizmos()

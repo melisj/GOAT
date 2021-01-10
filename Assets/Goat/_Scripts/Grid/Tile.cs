@@ -282,6 +282,7 @@ namespace Goat.Grid
                 {
                     SaveData.SetBuilding(placeable.ID, (int)rotationAngle);
                     buildingObject = tileObject;
+                    tempTile = buildingObject;
                     if (GetWallObj(InverseRotation((int)rotationAngle)))
                         AdjustPositionAgainstWall(buildingObject);
                 }

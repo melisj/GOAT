@@ -26,6 +26,7 @@ namespace Goat.Farming
         private float timer;
         private bool isConnected;
         private ResourceTile resourceTile;
+        private TileAnimation tileAnimation;
         [SerializeField] private HashSet<GameObject> tubeEnds = new HashSet<GameObject>();
         [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
@@ -145,10 +146,14 @@ namespace Goat.Farming
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
             Setup();
             cue.PlayAudioCue();
             ObjInstance = objectInstance;
             PoolKey = poolKey;
+            tileAnimation.Create();
         }
 
         private void Setup()
@@ -170,7 +175,7 @@ namespace Goat.Farming
         public void OnReturnObject()
         {
             cue.StopAudioCue();
-            gameObject.SetActive(false);
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
         }
 
         private void OnDrawGizmos()

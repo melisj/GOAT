@@ -42,6 +42,7 @@ namespace Goat.Grid.Interactions
         protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
+        private TileAnimation tileAnimation;
 
         public bool IsClickedOn { get; set; }
         public bool UIOpen => gridUIInfo.IsUIActive;
@@ -124,7 +125,9 @@ namespace Goat.Grid.Interactions
         {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
-
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
             if (adjustPosition != null)
@@ -135,8 +138,7 @@ namespace Goat.Grid.Interactions
 
         public virtual void OnReturnObject()
         {
-            gameObject.transform.position = new Vector3(-1000, 0);
-            gameObject.SetActive(false);
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
 
             OnDisableElectricity();
             if (adjustPosition != null)

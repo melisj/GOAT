@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4631073481922635753}
   - component: {fileID: 5056222111917767179}
-  - component: {fileID: -4409471418996999259}
+  - component: {fileID: 1537214501833417237}
   m_Layer: 12
   m_Name: PlayerDoor
   m_TagString: Checkout
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
---- !u!114 &-4409471418996999259
+--- !u!114 &1537214501833417237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,9 +214,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6145975682733516645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
+  m_Script: {fileID: 11500000, guid: 98d646ea2812cbf44a2095c3d76f9c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createDuration: 0.2
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &7086761653470287407
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: edf8115571752fe4d86882df70b78582, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 9017003493625513865}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -314,6 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 935505d119565c247bda143966ba4795, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 9017003493625513865}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}

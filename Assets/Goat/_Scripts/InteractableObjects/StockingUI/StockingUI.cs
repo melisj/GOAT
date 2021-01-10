@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Goat.Player;
+using DG.Tweening;
+using Sirenix.OdinInspector;
 
 // Original Author: Stanley
 
@@ -14,30 +16,43 @@ namespace Goat.Grid.Interactions.UI
     /// </summary>
     public class StockingUI : EventListenerKeyCodeModeEvent
     {
-        [Header("Resource UI")]
+        [Title("Resource UI")]
         [SerializeField] private Resource resource;
         [SerializeField] private GameObject stockingUI;
         [SerializeField] private TextMeshProUGUI stockButtonText;
         [SerializeField] private TextMeshProUGUI resourceName;
         //[SerializeField] private TextMeshProUGUI stock;
         //[SerializeField] private Image resourceImage;
-        [Header("Inputs")]
+        [Title("Inputs")]
         [SerializeField] private TMP_InputField amountInput;
-        [Header("Buttons")]
+        [Title("Buttons")]
         [SerializeField] private Button minAmountButton;
         [SerializeField] private Button maxAmountButton;
         [SerializeField] private Button sellButton;
-
-        [Header("References")]
+        [Title("Audio")]
+        [SerializeField] private AudioCue confirmSfx, errorSfx;
+        [Title("References")]
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private InteractablesInfo interactableInfo;
         [SerializeField] private PlayerInventory playerInventory;
 
         public GameObject StockingUIElement => stockingUI;
         public TextMeshProUGUI StockButtonText => stockButtonText;
-
         private int currentAmount;
+
+        private int CurrentAmount
+        {
+            get => currentAmount;
+            set
+            {
+                currentAmount = value;
+                amountInput.text = currentAmount.ToString();
+            }
+        }
+
         private Resource previousResource;
+        private Sequence buyButtonAnimation;
+        private RectTransform sellButtonTransform;
 
         public Resource Resource
         {
@@ -164,10 +179,17 @@ namespace Goat.Grid.Interactions.UI
 
         private void ConfirmStocking(Inventory from, Inventory to)
         {
+            if (!AnimateBuyButton(from != null)) return;
             from.Items.TryGetValue(resource, out int fromResourceAmount);
-            currentAmount = (fromResourceAmount - currentAmount) <= 0 ? fromResourceAmount : currentAmount;
 
-            to.Add(resource, currentAmount, out int actualStoredAmount);
+            if (!AnimateBuyButton((fromResourceAmount - CurrentAmount) >= 0))
+            {
+                CurrentAmount = (fromResourceAmount - CurrentAmount) < 0 ? fromResourceAmount : CurrentAmount;
+                return;
+            }
+            CurrentAmount = (fromResourceAmount - CurrentAmount) < 0 ? fromResourceAmount : CurrentAmount;
+
+            to.Add(resource, CurrentAmount, out int actualStoredAmount);
             from.Remove(resource, actualStoredAmount, out int removedAmount);
 
             //stockingUI.SetActive(false);
@@ -180,16 +202,46 @@ namespace Goat.Grid.Interactions.UI
 
         private void OnEndEditAmount(string s, Inventory from)
         {
-            currentAmount = int.Parse(s);
+            CurrentAmount = int.Parse(s);
             from.Items.TryGetValue(resource, out int resourceAmount);
-            if (currentAmount > resourceAmount)
+            if (CurrentAmount > resourceAmount)
             {
-                currentAmount = resourceAmount;
-                amountInput.text = currentAmount.ToString();
+                CurrentAmount = resourceAmount;
+                amountInput.text = CurrentAmount.ToString();
             }
         }
 
         #endregion EventMethods
+
+        /// <summary>
+        /// Animated the buy button based on whether it is possible to buy
+        /// </summary>
+        /// <param name="validated"></param>
+        /// <returns></returns>
+        protected bool AnimateBuyButton(bool validated)
+        {
+            if (sellButtonTransform == null)
+            {
+                sellButtonTransform = sellButton.GetComponent<RectTransform>();
+            }
+
+            if (buyButtonAnimation != null)
+            {
+                buyButtonAnimation.Complete();
+            }
+            buyButtonAnimation = DOTween.Sequence();
+            if (validated)
+            {
+                confirmSfx.PlayAudioCue();
+                buyButtonAnimation.Append(sellButtonTransform.DOPunchScale(new Vector3(0.1f, 0.1f, 1), 0.2f, 15, 0.5f));
+            }
+            else
+            {
+                errorSfx.PlayAudioCue();
+                buyButtonAnimation.Append(sellButtonTransform.DOShakeAnchorPos(0.3f, new Vector3(5, 0, 0), 90));
+            }
+            return validated;
+        }
 
         private void RemoveListeners()
         {

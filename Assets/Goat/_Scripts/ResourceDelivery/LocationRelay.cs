@@ -7,12 +7,15 @@ namespace Goat.Delivery
     public class LocationRelay : MonoBehaviour, IPoolObject
     {
         [SerializeField] private UnloadLocations unload;
-
+        private TileAnimation tileAnimation;
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
             unload.Locations.Add(transform.position);
             ObjInstance = objectInstance;
             PoolKey = poolKey;
@@ -21,8 +24,7 @@ namespace Goat.Delivery
         public void OnReturnObject()
         {
             unload.Locations.Remove(transform.position);
-
-            gameObject.SetActive(false);
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
         }
 
         private void OnDestroy()
