@@ -528,11 +528,11 @@ namespace Goat.Grid
         public Tile GetRandomEmptyTile()
         {
             Tile selectedTile = null;
-            int maxIter = 100, iter = 0;
+            int maxIter = 10, iter = 0;
             while(selectedTile == null)
             {
                 selectedTile = tiles[Random.Range(0, gridSize.x), Random.Range(0, gridSize.y)];
-                if (!selectedTile.IsEmpty)
+                if (!selectedTile.HasNoObjects)
                     selectedTile = null;
 
                 if(iter > maxIter) { Debug.LogWarning("No empty space found!"); break; }
