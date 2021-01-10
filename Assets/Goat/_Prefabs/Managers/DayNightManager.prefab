@@ -66,3 +66,4 @@ MonoBehaviour:
   saveOrder: 0
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
   OnCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
+  OnDayChanged: {fileID: 11400000, guid: 7534cc1c2fc7db145934786afb4bf36a, type: 2}

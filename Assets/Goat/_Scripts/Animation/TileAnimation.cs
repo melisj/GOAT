@@ -20,6 +20,7 @@ public class TileAnimation : MonoBehaviour
 
         gameObject.SetActive(true);
         createSequence = DOTween.Sequence();
+        createSequence.SetUpdate(true);
         if (onComplete != null)
             createSequence.OnComplete(() => onComplete());
         createSequence.Append(transform.DOScale(Vector3.one, createDuration));
@@ -33,6 +34,7 @@ public class TileAnimation : MonoBehaviour
             destroySequence.Complete();
 
         destroySequence = DOTween.Sequence();
+        destroySequence.SetUpdate(true);
         if (onComplete != null)
             destroySequence.OnComplete(() => onComplete());
         destroySequence.Append(transform.DOScale(scaleDown, createDuration / destroyDurationMultiplier));

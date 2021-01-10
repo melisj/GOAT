@@ -46,18 +46,6 @@ namespace Goat.Grid
             SaveData = new TileInfo(gridPosition);
         }
 
-        public void Reset()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (wallObjs[i]) MonoBehaviour.Destroy(wallObjs[i]);
-            }
-            if (floorObject) MonoBehaviour.Destroy(floorObject);
-            if (buildingObject) MonoBehaviour.Destroy(buildingObject);
-            if (tileObject) MonoBehaviour.Destroy(tileObject);
-            placeable = null;
-        }
-
         public void ResetPooled()
         {
             for (int i = 0; i < 4; i++)
