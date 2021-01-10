@@ -105,15 +105,15 @@ namespace Goat.Saving
         }
 
         [Button("Load", ButtonSizes.Medium)]
-        public void LoadGame(bool defaultSave)
+        public void LoadGame()
         {
-            StartCoroutine(LoadGameCoroutine(defaultSave));
+            StartCoroutine(LoadGameCoroutine(false));
         }
 
         public void LoadGame(string saveFile, bool defaultSave)
         {
             SetPaths(saveFile);
-            LoadGame(defaultSave);
+            StartCoroutine(LoadGameCoroutine(defaultSave));
         }
 
         private void SetPaths(string fileName)
