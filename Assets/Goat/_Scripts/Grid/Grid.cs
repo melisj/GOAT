@@ -318,31 +318,27 @@ namespace Goat.Grid
                     //{
                     //    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
                     //}
-                    Debug.Log($"DESTROYING at myself {rotation}");
 
                     tile.EditAnyWall(wallPlace, rotation, true, true);
-                    Debug.Log($"DESTROYING at neighbour { InverseRotation(rotation)}");
 
                     neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), true, true);
                     if (tile.FloorObj == null)
                     {
-                        Debug.Log($"CREATING at neighbour {InverseRotation(rotation)}");
                         neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), false, true);
                     }
                     return;
                 }
             }
 
+            PlaceableInfo placeableInfo = tile.GetPlaceableInfo();
             if (tile.FloorObj == null)
             {
-                Debug.Log($"DESTROYING at myself {rotation}");
-
+                if (placeableInfo && !(placeableInfo.Placeable is ResourceTileData))
+                    return;
                 tile.EditAnyWall(wallPlace, rotation, true, true);
             }
             else
             {
-                Debug.Log($"CREATING at myself {rotation}");
-
                 tile.EditAnyWall(wallPlace, rotation, false, true);
             }
 
@@ -540,13 +536,13 @@ namespace Goat.Grid
         {
             Tile selectedTile = null;
             int maxIter = 100, iter = 0;
-            while(selectedTile == null)
+            while (selectedTile == null)
             {
                 selectedTile = tiles[Random.Range(0, gridSize.x), Random.Range(0, gridSize.y)];
                 if (!selectedTile.IsEmpty)
                     selectedTile = null;
 
-                if(iter > maxIter) { Debug.LogWarning("No empty space found!"); break; }
+                if (iter > maxIter) { Debug.LogWarning("No empty space found!"); break; }
                 iter++;
             }
             return selectedTile;
@@ -559,11 +555,11 @@ namespace Goat.Grid
         public List<Tile> GetTilesInRadius(Tile startTile, int radius)
         {
             List<Tile> selectedTiles = new List<Tile>();
-            int middleX = startTile.TilePosition.x, 
+            int middleX = startTile.TilePosition.x,
                 middleY = startTile.TilePosition.y;
-            int startX = Mathf.Clamp(middleX - radius, 0, gridSize.x), 
+            int startX = Mathf.Clamp(middleX - radius, 0, gridSize.x),
                 startY = Mathf.Clamp(middleY - radius, 0, gridSize.y);
-            int endX = Mathf.Clamp(middleX + radius, 0, gridSize.x), 
+            int endX = Mathf.Clamp(middleX + radius, 0, gridSize.x),
                 endY = Mathf.Clamp(middleY + radius, 0, gridSize.y);
 
             for (int x = startX; x < endX; x++)
@@ -573,7 +569,7 @@ namespace Goat.Grid
                     Tile tileBeingChecked = tiles[x, y];
                     if (Vector3.Distance(startTile.Position, tileBeingChecked.Position) <= radius)
                     {
-                        if(tileBeingChecked.HasNoObjects)
+                        if (tileBeingChecked.HasNoObjects)
                             selectedTiles.Add(tileBeingChecked);
                     }
                 }

@@ -28,6 +28,7 @@ namespace Goat.Grid
 
         // A tile is empty when does not have a building but does have a floor
         public bool IsEmpty => buildingObject == null && floorObject != null;
+
         public bool HasNoObjects => buildingObject == null && floorObject == null;
 
         public int TotalBeautyPoints => totalBeautyPoints;
@@ -370,6 +371,7 @@ namespace Goat.Grid
                 //        tileObjectFilter[i].mesh = null;
                 //    }
                 //}
+                Debug.Log($"Destroying {rotationAngle}");
                 DestroyWall(rotationAngle, autoMode, isLoading);
                 //  }
             }
@@ -381,6 +383,7 @@ namespace Goat.Grid
                 Vector3 size = Vector3.one * grid.GetTileSize;
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
                 //if (!wallObjs[index])
+                Debug.Log($"Created {rotationAngle}");
                 wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(wall);

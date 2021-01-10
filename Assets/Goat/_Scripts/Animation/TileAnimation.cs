@@ -18,13 +18,10 @@ public class TileAnimation : MonoBehaviour
         if (createSequence.NotNull())
             createSequence.Complete();
 
+        gameObject.SetActive(true);
         createSequence = DOTween.Sequence();
         if (onComplete != null)
-            createSequence.OnComplete(() =>
-            {
-                gameObject.SetActive(true);
-                onComplete();
-            });
+            createSequence.OnComplete(() => onComplete());
         createSequence.Append(transform.DOScale(Vector3.one, createDuration));
     }
 
