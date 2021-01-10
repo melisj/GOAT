@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeOfDay: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
   isDay: 0
-  timeSpeed: 1
   OnChangeCycle: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   timeScale: 1
@@ -66,4 +65,4 @@ MonoBehaviour:
     className: DataContainer
   saveOrder: 0
   time: {fileID: 11400000, guid: 6734b5d829c9a4e4cbf5490ba62471f5, type: 2}
-  OnCycleChange: {fileID: 0}
+  OnCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
