@@ -8,7 +8,7 @@ namespace Goat.Saving
     public class NarrativeSaveHandler : SaveHandler
     {
         public NarrativeManager narrativeManager;
-        public VoidEvent OnNarrativeCompleted;
+        public BoolEvent OnNarrativeCompleted;
 
         public void Awake()
         {

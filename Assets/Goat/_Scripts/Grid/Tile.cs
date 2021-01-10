@@ -23,10 +23,12 @@ namespace Goat.Grid
         public GameObject FloorObj => floorObject;
         public GameObject[] WallObjs => wallObjs;
         public Vector3 Position => centerPosition;
+        public Vector2Int TilePosition => gridPosition;
         public TileInfo SaveData { get; set; }
 
         // A tile is empty when does not have a building but does have a floor
         public bool IsEmpty => buildingObject == null && floorObject != null;
+        public bool HasNoObjects => buildingObject == null && floorObject == null;
 
         public int TotalBeautyPoints => totalBeautyPoints;
 

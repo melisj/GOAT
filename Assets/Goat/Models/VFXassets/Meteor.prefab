@@ -9642,6 +9642,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 6486724773047850861, guid: 539fb0c907212ff44a43eeec95e12c2a,
     type: 3}
+  grid: {fileID: 0}
+  explosionRadius: 2
+  resourceTile: {fileID: 11400000, guid: b3940516f9e778741bb788cbd8144dd5, type: 2}
 --- !u!1 &380498445362595819
 GameObject:
   m_ObjectHideFlags: 0

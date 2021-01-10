@@ -505,6 +505,55 @@ namespace Goat.Grid
         }
 
         /// <summary>
+        /// Returns tile in grid that is being selected by the mouse
+        /// </summary>
+        /// <returns></returns>
+        public Tile GetRandomEmptyTile()
+        {
+            Tile selectedTile = null;
+            int maxIter = 100, iter = 0;
+            while(selectedTile == null)
+            {
+                selectedTile = tiles[Random.Range(0, gridSize.x), Random.Range(0, gridSize.y)];
+                if (!selectedTile.IsEmpty)
+                    selectedTile = null;
+
+                if(iter > maxIter) { Debug.LogWarning("No empty space found!"); break; }
+                iter++;
+            }
+            return selectedTile;
+        }
+
+        /// <summary>
+        /// Returns tile in grid that is being selected by the mouse
+        /// </summary>
+        /// <returns></returns>
+        public List<Tile> GetTilesInRadius(Tile startTile, int radius)
+        {
+            List<Tile> selectedTiles = new List<Tile>();
+            int middleX = startTile.TilePosition.x, 
+                middleY = startTile.TilePosition.y;
+            int startX = Mathf.Clamp(middleX - radius, 0, gridSize.x), 
+                startY = Mathf.Clamp(middleY - radius, 0, gridSize.y);
+            int endX = Mathf.Clamp(middleX + radius, 0, gridSize.x), 
+                endY = Mathf.Clamp(middleY + radius, 0, gridSize.y);
+
+            for (int x = startX; x < endX; x++)
+            {
+                for (int y = startY; y < endY; y++)
+                {
+                    Tile tileBeingChecked = tiles[x, y];
+                    if (Vector3.Distance(startTile.Position, tileBeingChecked.Position) <= radius)
+                    {
+                        if(tileBeingChecked.HasNoObjects)
+                            selectedTiles.Add(tileBeingChecked);
+                    }
+                }
+            }
+            return selectedTiles;
+        }
+
+        /// <summary>
         /// Returns a Vector2 int which points to a position in the 2D Array of tiles.
         /// Casts position.x and position.y to int taking into account the tile size and grid origin.
         /// </summary>
