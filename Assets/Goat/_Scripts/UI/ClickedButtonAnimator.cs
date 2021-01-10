@@ -19,6 +19,8 @@ namespace Goat.UI
         [SerializeField] private Image barButtonImage;
         [SerializeField] private RectTransform borders;
         [SerializeField] private RectTransform borderControl;
+        [Title("Audio")]
+        [SerializeField] private AudioCue openWindowAudio, closeWindoAudio;
 
         [Title("Animation Settings")]
         [SerializeField, Range(2, 5)] private int closingDurationMultiplier;
@@ -106,7 +108,7 @@ namespace Goat.UI
             });
 
             openWindow.Append(borders.DOSizeDelta(bordersMaxSize, bordersScaleDuration));
-
+            openWindow.AppendCallback(openWindowAudio.PlayAudioCue);
             if (sizeExceeds)
             {
                 openWindow.AppendCallback(() =>
@@ -173,7 +175,7 @@ namespace Goat.UI
             }
 
             closeWindow.Append(borders.DOSizeDelta(new Vector2(BORDER_SIZE, BORDER_SIZE), bordersScaleDuration / closingDurationMultiplier));
-
+            closeWindow.AppendCallback(closeWindoAudio.PlayAudioCue);
             closeWindow.AppendCallback(() =>
             {
                 barButton.gameObject.SetActive(true);

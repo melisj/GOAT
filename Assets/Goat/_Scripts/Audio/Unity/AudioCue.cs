@@ -12,7 +12,8 @@ public class AudioCue : MonoBehaviour
     [Header("Sound definition")]
     [SerializeField, InlineEditor] private AudioCueSO _audioCue = default;
     [SerializeField] private bool _playOnStart = false;
-    [SerializeField] protected Transform parent;
+    [SerializeField] private bool setParentManually;
+    [SerializeField, ShowIf("setParentManually")] protected Transform parent;
     [Header("Configuration")]
     [SerializeField] private AudioCueEventChannelSO _audioCueEventChannel = default;
     [SerializeField, InlineEditor] private AudioConfigurationSO _audioConfiguration = default;
@@ -28,7 +29,7 @@ public class AudioCue : MonoBehaviour
 
     public void PlayAudioCue()
     {
-        if (!parent)
+        if (!parent && !setParentManually)
         {
             parent = transform;
         }
