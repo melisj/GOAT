@@ -15,7 +15,6 @@ public class SoundEmitterFactorySO : FactorySO<SoundEmitter>
             obj = PoolManager.Instance.GetFromPool(prefab.gameObject, pos, Quaternion.identity, parent);
         else
         {
-            Debug.Log("Called here");
             obj = Instantiate(prefab.gameObject, pos, Quaternion.identity, parent);
         }
 

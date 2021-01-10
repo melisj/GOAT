@@ -56,9 +56,7 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
         _audioSource.transform.position = position;
         _audioSource.loop = hasToLoop;
         _audioSource.Play();
-        if (Time.timeScale == 0)
-            _audioSource.PlayOneShot(clip);
-        Debug.Log($"Playing: {clip.name} {_audioSource.ignoreListenerPause}");
+
         gameObject.name = $"Playing: {clip.name}";
         if (!hasToLoop)
         {

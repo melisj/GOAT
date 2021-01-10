@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 2}
   _priorityLevel: 0
   Mute: 0
-  Volume: 1
+  Volume: 0.2
   Pitch: 1
   PanStereo: 0
   ReverbZoneMix: 1
