@@ -102,8 +102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759506433919531080}
-  - component: {fileID: 1035292966078176343}
   - component: {fileID: -1540092166371992034}
+  - component: {fileID: 904345171912945637}
   m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
@@ -126,18 +126,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1035292966078176343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5071828486381597130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a54542859ea7a44a2bc1d32118f545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1540092166371992034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +139,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
+--- !u!114 &904345171912945637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5071828486381597130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d646ea2812cbf44a2095c3d76f9c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.2
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &8153464355970788662
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: d5f2230a1ca014a4d9643b015c1423ea, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 6562094742737124038}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -66,6 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 66b84310389307248bcf55f64819b527, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 6562094742737124038}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -196,6 +198,7 @@ GameObject:
   - component: {fileID: 2722855070482406779}
   - component: {fileID: 5999040357800013171}
   - component: {fileID: 4339126204538731059}
+  - component: {fileID: 2392921873219260014}
   m_Layer: 18
   m_Name: CooledStorageShelf-1
   m_TagString: Storage
@@ -289,6 +292,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: -0.1
+--- !u!114 &2392921873219260014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6562094742737124038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.2
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 0, y: 0, z: 0}
 --- !u!1 &6562094743352375190
 GameObject:
   m_ObjectHideFlags: 0

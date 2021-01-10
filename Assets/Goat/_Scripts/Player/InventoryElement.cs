@@ -22,6 +22,12 @@ namespace Goat.Player
             gridUIInfo.GridUIChangedEvent += GridUIInfo_GridUIChangedEvent;
         }
 
+        public void SelectFirst()
+        {
+            if (uiCells.Count > 0 && uiCells[0] != null)
+                uiCells[0].InvokeOnClick();
+        }
+
         private void SetUI()
         {
             SetStorageLimitUI(string.Format("{0} / {1}", playerInventory.Inventory.ItemsInInventory, playerInventory.Inventory.Capacity));

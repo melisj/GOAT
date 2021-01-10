@@ -403,7 +403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15660, y: 0}
+  m_AnchoredPosition: {x: 19350, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7150629098927660853
@@ -5451,6 +5451,8 @@ GameObject:
   - component: {fileID: 8072600978033858256}
   - component: {fileID: 7372827318406473434}
   - component: {fileID: 631590960838033397}
+  - component: {fileID: 1138614509870073972}
+  - component: {fileID: 8069642807059820591}
   m_Layer: 5
   m_Name: PlayerInventory
   m_TagString: Untagged
@@ -5584,9 +5586,51 @@ MonoBehaviour:
   minAmountButton: {fileID: 0}
   maxAmountButton: {fileID: 0}
   sellButton: {fileID: 2961642301280193977}
+  confirmSfx: {fileID: 1138614509870073972}
+  errorSfx: {fileID: 8069642807059820591}
   currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   interactableInfo: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   playerInventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
+--- !u!114 &1138614509870073972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597832586075703308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: d18ae60ba7295404ba7d4845ab3fcd06, type: 2}
+  _playOnStart: 0
+  setParentManually: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: bfc7e5f01f023f74a9c9cc02694db55b,
+    type: 2}
+--- !u!114 &8069642807059820591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597832586075703308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: ba58321dd0da71b4b899fac789355ed5, type: 2}
+  _playOnStart: 0
+  setParentManually: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: bfc7e5f01f023f74a9c9cc02694db55b,
+    type: 2}
 --- !u!1 &2597832586177783134
 GameObject:
   m_ObjectHideFlags: 0
@@ -6671,6 +6715,7 @@ MonoBehaviour:
   interactableIcon: {fileID: 0}
   UIElementSlot: {fileID: 2047946471586705930}
   stockingUI: {fileID: 631590960838033397}
+  inventoryElement: {fileID: 7884085972876412993}
   slotElements:
   - {fileID: 551742211645930158}
   - {fileID: 3649280059181210677}
@@ -9520,7 +9565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 788940, y: 0}
+  m_AnchoredPosition: {x: 792630, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &688185873281710023
@@ -16842,7 +16887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2276550, y: 0}
+  m_AnchoredPosition: {x: 2280240, y: 0}
   m_SizeDelta: {x: 0, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2876276993325537561

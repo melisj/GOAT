@@ -312,26 +312,37 @@ namespace Goat.Grid
             rotation += 90;
             if (neighbourTile != null && neighbourTile.FloorObj != null)
             {
-                //if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
-                //{
-                //    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
-                //}
-
-                tile.EditAnyWall(wallPlace, rotation, true, true);
-                neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), true, true);
-                if (tile.FloorObj == null)
+                if (!(neighbourTile.GetPlaceableInfo().Placeable is ResourceTileData))
                 {
-                    neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), false, true);
+                    //if (!checkedTiles.Contains(neighbourTile.SaveData.gridPosition))
+                    //{
+                    //    SetupNeighborTiles(neighbourTile.SaveData.gridPosition);
+                    //}
+                    Debug.Log($"DESTROYING at myself {rotation}");
+
+                    tile.EditAnyWall(wallPlace, rotation, true, true);
+                    Debug.Log($"DESTROYING at neighbour { InverseRotation(rotation)}");
+
+                    neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), true, true);
+                    if (tile.FloorObj == null)
+                    {
+                        Debug.Log($"CREATING at neighbour {InverseRotation(rotation)}");
+                        neighbourTile.EditAnyWall(wallPlace, InverseRotation(rotation), false, true);
+                    }
+                    return;
                 }
-                return;
             }
 
             if (tile.FloorObj == null)
             {
+                Debug.Log($"DESTROYING at myself {rotation}");
+
                 tile.EditAnyWall(wallPlace, rotation, true, true);
             }
             else
             {
+                Debug.Log($"CREATING at myself {rotation}");
+
                 tile.EditAnyWall(wallPlace, rotation, false, true);
             }
 
