@@ -22,12 +22,12 @@ namespace Goat.AI.States
         public override void OnEnter()
         {
             base.OnEnter();
+            customerCapacity.Subtract(1);
         }
 
         public override void OnExit()
         {
             review.WriteReview();
-            customerCapacity.Subtract(1);
             base.OnExit();
         }
 

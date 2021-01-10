@@ -62,7 +62,7 @@ namespace Goat.AI
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
             // Movement
-            Func<bool> HasStorageTarget() => () => targetStorage != null  && !leavingStore;
+            Func<bool> HasStorageTarget() => () => targetStorage != null && !leavingStore;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
@@ -138,7 +138,7 @@ namespace Goat.AI
 
         public void OnEventRaised(bool isDay)
         {
-            if (!isDay)
+            if (!isDay && stateMachine.CurrentState != exitStore)
                 LeaveStore();
         }
     }

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: b4daac6c7a30ae04c9f6f46793688f25, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 7797434497063600207}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -385,6 +386,7 @@ GameObject:
   - component: {fileID: 7797434496470216267}
   - component: {fileID: 7797434496470216268}
   - component: {fileID: 7797434496470216265}
+  - component: {fileID: 409210924426362744}
   m_Layer: 0
   m_Name: ClickToMoveObject
   m_TagString: Untagged
@@ -501,6 +503,14 @@ MonoBehaviour:
   key: 52
   player: {fileID: 7797434497063600306}
   clickToMoveObject: {fileID: 7797434496470216270}
+--- !u!81 &409210924426362744
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797434496470216270}
+  m_Enabled: 1
 --- !u!1 &7797434496480886656
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,7 +870,6 @@ GameObject:
   - component: {fileID: 8263138005537368909}
   - component: {fileID: 1931067460}
   - component: {fileID: 5998634283979201203}
-  - component: {fileID: 4637933150323045104}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -974,14 +983,6 @@ MonoBehaviour:
   inventory: {fileID: 11400000, guid: 560ce3af7f70ff942ad1b0230b3e6e05, type: 2}
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
   agent: {fileID: 7797434497063600305}
---- !u!81 &4637933150323045104
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7797434497063600306}
-  m_Enabled: 1
 --- !u!1 &7797434497155546702
 GameObject:
   m_ObjectHideFlags: 0
