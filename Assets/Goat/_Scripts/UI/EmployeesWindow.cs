@@ -53,7 +53,7 @@ namespace Goat.UI
             buyButton.onClick.RemoveAllListeners();
             buyButton.onClick.AddListener(Fire);
             hireButtonText.text = "Fire";
-            multiplier = 0.75f;
+            multiplier = 0;
         }
 
         protected override void SetTotalPrice()
@@ -64,7 +64,7 @@ namespace Goat.UI
         private void Fire()
         {
             if (!AnimateBuyButton(currentAmount > 0 && selectedBuyable.Amount - currentAmount >= 0)) return;
-            selectedBuyable.Sell(currentAmount);
+            selectedBuyable.Sell(currentAmount, 0);
         }
     }
 }

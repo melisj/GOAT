@@ -15057,6 +15057,7 @@ MonoBehaviour:
   PanelToHide: {fileID: 0}
   canvasToDisable: {fileID: 0}
   type: 8
+  currentInputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   onExpenseGiven: {fileID: 11400000, guid: d1f9b0859cedac148b895b31d1c08517, type: 2}
   expensePrefab: {fileID: 1525444188674203792, guid: bf1d5fc5254f15343a0e300dca45dd89,
     type: 3}

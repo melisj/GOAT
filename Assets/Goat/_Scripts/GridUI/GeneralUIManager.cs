@@ -14,6 +14,7 @@ namespace Goat.Grid.UI
         [SerializeField, HideIf("disableCanvasInstead")] private GameObject PanelToHide;
         [SerializeField, ShowIf("disableCanvasInstead")] private Canvas canvasToDisable;
         [SerializeField] private UIElement type;
+        [SerializeField] private InputModeVariable currentInputMode;
         public UIElement Type => type;
 
         public virtual void ShowUI()
@@ -30,6 +31,7 @@ namespace Goat.Grid.UI
                 canvasToDisable.enabled = false;
             else
                 PanelToHide.SetActive(false);
+            currentInputMode.InputMode = InputMode.Select;
         }
     }
 
