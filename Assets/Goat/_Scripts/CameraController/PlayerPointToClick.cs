@@ -12,6 +12,7 @@ namespace Goat.Player
         [SerializeField] private NavMeshAgent player;
         [SerializeField] private Camera mainCam;
         [SerializeField] private InputModeVariable currentMode;
+        [SerializeField] private LayerMask gridLayer;
         private bool inSelectMode;
         private RaycastHit m_HitInfo = new RaycastHit();
 
@@ -53,7 +54,7 @@ namespace Goat.Player
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
             var ray = mainCam.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo))
+            if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo, 1000, gridLayer))
                 player.destination = m_HitInfo.point;
         }
 
