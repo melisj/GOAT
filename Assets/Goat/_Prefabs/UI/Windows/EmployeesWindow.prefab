@@ -5533,6 +5533,7 @@ MonoBehaviour:
   PanelToHide: {fileID: 0}
   canvasToDisable: {fileID: 0}
   type: 6
+  currentInputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   cellPrefab: {fileID: 1089002702369542322, guid: a4205c0ac88113c469cf257f56391e8b,
     type: 3}
   gridCells:
@@ -5572,6 +5573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: ba58321dd0da71b4b899fac789355ed5, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 0}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -5591,6 +5593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: d18ae60ba7295404ba7d4845ab3fcd06, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 0}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}

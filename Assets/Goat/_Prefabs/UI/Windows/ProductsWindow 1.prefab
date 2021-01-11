@@ -6708,6 +6708,7 @@ MonoBehaviour:
   PanelToHide: {fileID: 2754648332092802153}
   canvasToDisable: {fileID: 0}
   type: 5
+  currentInputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   titleText: {fileID: 7637193078018101026}
   headerBorderMiddle: {fileID: 8885912596998425133}
   headerBorderLeft: {fileID: 9082778439579136899}
