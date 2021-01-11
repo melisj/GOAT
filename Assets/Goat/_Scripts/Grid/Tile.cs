@@ -259,7 +259,7 @@ namespace Goat.Grid
                     interactable.grid = grid;
                 }
 
-                tileObject.transform.localScale = size;
+                //    tileObject.transform.localScale = size;
                 if (placeable is Floor)
                 {
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
@@ -373,7 +373,7 @@ namespace Goat.Grid
                 wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(wall);
-                wallObjs[index].transform.localScale = size;
+                // wallObjs[index].transform.localScale = size;
                 if (autoMode)
                     wallAuto[index] = true;
 

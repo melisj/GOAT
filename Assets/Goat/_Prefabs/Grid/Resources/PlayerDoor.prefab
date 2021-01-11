@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d646ea2812cbf44a2095c3d76f9c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createDuration: 0.2
+  createDuration: 0.4
   destroyDurationMultiplier: 2
   scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &7086761653470287407

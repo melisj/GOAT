@@ -18,6 +18,7 @@ public class TileAnimation : MonoBehaviour
         if (createSequence.NotNull())
             createSequence.Complete();
 
+        transform.localScale = scaleDown;
         gameObject.SetActive(true);
         createSequence = DOTween.Sequence();
         createSequence.SetUpdate(true);
