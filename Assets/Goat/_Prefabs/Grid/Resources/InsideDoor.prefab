@@ -202,10 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OverrideArea: 0
+  m_OverrideArea: 1
   m_Area: 1
   m_IgnoreFromBuild: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: a98c17ecf2652fae
 --- !u!95 &2326092501206763930
 Animator:
   serializedVersion: 3
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 8868109567743495978}
   - component: {fileID: 826787359662913110}
   - component: {fileID: 7515658789996681381}
-  m_Layer: 18
+  m_Layer: 20
   m_Name: DoorBehaviourController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
