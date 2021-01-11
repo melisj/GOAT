@@ -9,6 +9,8 @@ namespace Goat.AI.States
 {
     public class SetRandomDestination : IState
     {
+        private const int chanceToSpeak = 50;
+
         private NPC npc;
         private NavMeshAgent navMeshAgent;
         private LayerMask layerMask;
@@ -16,13 +18,15 @@ namespace Goat.AI.States
         private Vector3 wanderDestination;
         private NavMeshPath navPath = new NavMeshPath();
         private int areaMask;
+        private AudioCue audio;
 
-        public SetRandomDestination(NPC npc, NavMeshAgent navMeshAgent, int areaMask)
+        public SetRandomDestination(NPC npc, NavMeshAgent navMeshAgent, int areaMask, AudioCue audio = null)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
             layerMask = LayerMask.GetMask("Interactable");
             this.areaMask = areaMask;
+            this.audio = audio;
         }
 
         public void Tick()
@@ -43,6 +47,9 @@ namespace Goat.AI.States
             }
             else if (RandomWanderTarget(npc.transform.position, range: npc.wanderRange, out tempDestination))
             {
+                int random = Random.Range(0, 101);
+                if (random > chanceToSpeak && audio != null)
+                    audio.PlayAudioCue();
                 wanderDestination = tempDestination;
                 hitDestination = true;
             }

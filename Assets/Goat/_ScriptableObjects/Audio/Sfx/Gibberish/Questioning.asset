@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
+  m_Name: Questioning
+  m_EditorClassIdentifier: 
+  looping: 0
+  waitTillClipIsFinished: 1
+  _audioClipGroups:
+  - sequenceMode: 1
+    audioClips:
+    - {fileID: 8300000, guid: 03a381d6bce3b564b808ae1f2e8de86a, type: 3}
+    - {fileID: 8300000, guid: a0fa7854bc72325488df4b3553477b25, type: 3}
+    - {fileID: 8300000, guid: 06b16281d794b4a45ae1c09194680977, type: 3}
+    - {fileID: 8300000, guid: 5e9387d2578577f49b03209cd4724265, type: 3}

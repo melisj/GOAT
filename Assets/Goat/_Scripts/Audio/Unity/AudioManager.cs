@@ -107,6 +107,18 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         AudioClip[] clipsToPlay = audioCue.GetClips();
         int nOfClips = clipsToPlay.Length;
         List<SoundEmitter> soundEmitters = new List<SoundEmitter>();
+
+        if (audioCuesCreated.ContainsKey(cue.gameObject) && audioCue.waitTillClipIsFinished)
+        {
+            audioCuesCreated.TryGetValue(cue.gameObject, out List<SoundEmitter> prevSoundEmitters);
+
+            for (int i = 0; i < prevSoundEmitters.Count; i++)
+            {
+                if (prevSoundEmitters[i].IsInUse())
+                    return prevSoundEmitters;
+            }
+        }
+
         for (int i = 0; i < nOfClips; i++)
         {
             SoundEmitter soundEmitter = _factory.Create(position, parent);
