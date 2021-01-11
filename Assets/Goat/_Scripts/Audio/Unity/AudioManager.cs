@@ -7,6 +7,7 @@ using Goat.Pooling;
 using DG.Tweening;
 using UnityAtoms;
 using UnityAtoms.BaseAtoms;
+using System;
 
 public class AudioManager : MonoBehaviour, IAtomListener<int>
 {
@@ -91,7 +92,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         return (normalizedValue - 1f) * 80f;
     }
 
-    private void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
+    private void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null, Action onFinished = null)
     {
         GetAudioCue(cue, position, parent);
     }
@@ -99,7 +100,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     /// <summary>
     /// Plays an AudioCue by requesting the appropriate number of SoundEmitters from the pool.
     /// </summary>
-    public List<SoundEmitter> GetAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
+    public List<SoundEmitter> GetAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null, Action onFinished = null)
     {
         AudioCueSO audioCue = cue.GetAudioCue;
         AudioConfigurationSO settings = cue.AudioConfiguration;
@@ -127,7 +128,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
                 soundEmitters.Add(soundEmitter);
                 soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
                 if (!audioCue.looping)
-                    soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;
+                    soundEmitter.OnSoundFinishedPlaying += (SoundEmitter emitter) => OnSoundEmitterFinishedPlaying(emitter, onFinished);
             }
         }
 
@@ -137,7 +138,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
     }
 
-    public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null)
+    public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null, Action onFinished = null)
     {
         StopMusic();
         musicPlayed.MusicEmitters = new List<SoundEmitter>(GetAudioCue(cue, pos, parent));
@@ -177,9 +178,11 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         musicPlayed.MusicEmitters.Clear();
     }
 
-    private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter)
+    private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter, Action onFinished = null)
     {
-        soundEmitter.OnSoundFinishedPlaying -= OnSoundEmitterFinishedPlaying;
+        if (onFinished != null)
+            onFinished?.Invoke();
+        soundEmitter.OnSoundFinishedPlaying -= (SoundEmitter emitter) => OnSoundEmitterFinishedPlaying(emitter, onFinished);
         soundEmitter.Stop();
         if (PoolManager.Instance == null) return;
         PoolManager.Instance.ReturnToPool(soundEmitter.gameObject);

@@ -67,7 +67,7 @@ namespace Goat.Grid.Interactions.UI
         private void EnableIcon(int iconIndex, Resource resource, float price, int amount)
         {
             uiCells[iconIndex].gameObject.SetActive(true);
-            uiCells[iconIndex].Setup(resource, amount);
+            uiCells[iconIndex].Setup(resource, (int)price, amount);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Goat.Grid.Interactions.UI
                 int i = 0;
                 foreach (KeyValuePair<Resource, int> item in itemList)
                 {
-                    EnableIcon(i, item.Key, item.Key.Price, item.Value);
+                    EnableIcon(i, item.Key, item.Key.Price(true), item.Value);
                     i++;
                 }
 

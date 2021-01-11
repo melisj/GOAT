@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 
 /// <summary>
 /// Simple implementation of a MonoBehaviour that is able to request a sound being played by the <c>AudioManager</c>.
@@ -27,13 +28,13 @@ public class AudioCue : MonoBehaviour
             PlayAudioCue();
     }
 
-    public void PlayAudioCue()
+    public void PlayAudioCue(Action onFinished = null)
     {
         if (!parent && !setParentManually)
         {
             parent = transform;
         }
-        _audioCueEventChannel.RaiseEvent(this, parent.position, parent);
+        _audioCueEventChannel.RaiseEvent(this, parent.position, parent, onFinished);
     }
 
     public void StopAudioCue()
