@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using Goat.Grid.Interactions;
 using Goat.Events;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.Grid.UI
 {
@@ -40,6 +41,8 @@ namespace Goat.Grid.UI
     {
         [SerializeField] private Dictionary<UIElement, BasicGridUIElement> UIElements = new Dictionary<UIElement, BasicGridUIElement>();
         [SerializeField] private GridUIInfo gridUIInfo;
+        [SerializeField] private VoidEvent closeButtonEvent;
+        [SerializeField] private VoidEvent closeSideBar;
         private static BasicGridUIElement currentUIOpen;
 
         [Button]
@@ -95,8 +98,10 @@ namespace Goat.Grid.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
+                closeButtonEvent.Raise();
+                closeSideBar.Raise();
                 //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }
