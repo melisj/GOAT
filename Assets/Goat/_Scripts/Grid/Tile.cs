@@ -312,7 +312,6 @@ namespace Goat.Grid
 
         private void Destroy(ref GameObject objectToDestroy, bool isLoading)
         {
-            Debug.Log("Destroying Tiles");
             PlaceableInfo placeableInfo = objectToDestroy.GetComponent<PlaceableInfo>();
             SaveData.SetBuilding(-1, 0);
             PoolManager.Instance.ReturnToPool(objectToDestroy);
@@ -324,6 +323,7 @@ namespace Goat.Grid
 
             if (!isLoading)
                 placeableInfo.Placeable.Sell(1);
+            Debug.Log("Destroying tiles");
             totalBeautyPoints -= placeableInfo.Placeable.BeautyPoints;
             placeableInfo.Setup(null);
         }
@@ -371,7 +371,6 @@ namespace Goat.Grid
                 //        tileObjectFilter[i].mesh = null;
                 //    }
                 //}
-                Debug.Log($"Destroying {rotationAngle}");
                 DestroyWall(rotationAngle, autoMode, isLoading);
                 //  }
             }
@@ -383,7 +382,6 @@ namespace Goat.Grid
                 Vector3 size = Vector3.one * grid.GetTileSize;
                 //   wallObjs[index] = GameObject.Instantiate(newObject, centerPosition, rotation);
                 //if (!wallObjs[index])
-                Debug.Log($"Created {rotationAngle}");
                 wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(wall);
@@ -418,6 +416,7 @@ namespace Goat.Grid
             int index = GetWallIndex(rotationAngle);
 
             PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
+            Debug.Log("Destroying");
             if (!autoMode && !isLoading)
                 placeableInfo.Placeable.Sell(1);
 

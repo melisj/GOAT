@@ -60,7 +60,8 @@ namespace Goat.Expenses
                 }
             }
             onExpenseCreated.Raise(fullPrice);
-            expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
+            if (remainingPrice > 0)
+                expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
         }
     }
 }
