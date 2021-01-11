@@ -29,7 +29,7 @@ namespace Goat.Grid
         [Header("Event")]
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private GridRayCaster gridRayCaster;
-        [SerializeField] private VoidEvent onTileDestroyed, onTileCreated;
+        [SerializeField] private VoidEvent onTileDestroyed, onTileCreated, onGridReset;
         private GameObject previewObject;              // Preview object shown on grid
         private MeshFilter[] previewObjectMesh;
         private Placeable previewPlaceableInfo;
@@ -69,6 +69,7 @@ namespace Goat.Grid
                         tiles[x, y].ResetPooled();
                     }
                 }
+                onGridReset.Raise();
             }
         }
 

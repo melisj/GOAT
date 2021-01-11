@@ -16,6 +16,7 @@ namespace Goat.Delivery
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
+            tileAnimation.Create();
             unload.Locations.Add(transform.position);
             ObjInstance = objectInstance;
             PoolKey = poolKey;

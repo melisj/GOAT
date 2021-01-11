@@ -1730,6 +1730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6349357a4803bc446ab93e0ce7b35bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startFreshButton: 1
   startButton: {fileID: 4104772054766094693}
   menuButtons:
   - {fileID: 5586992302545757476}

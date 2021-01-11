@@ -128,6 +128,7 @@ namespace Goat.Grid.Interactions
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
+            tileAnimation.Create();
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
             if (adjustPosition != null)
