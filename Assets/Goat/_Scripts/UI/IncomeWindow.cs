@@ -12,7 +12,18 @@ namespace Goat.UI
     {
         [SerializeField] private ExpenseEvent onExpenseGiven;
         [SerializeField] private GameObject expensePrefab;
+        [SerializeField] private RectTransform grid;
         [SerializeField] private SelectedCells selectedExpensesHolder;
+
+        private void OnEnable()
+        {
+            onExpenseGiven.RegisterSafe(this);
+        }
+
+        private void OnDisable()
+        {
+            onExpenseGiven.UnregisterSafe(this);
+        }
 
         public void OnEventRaised(Expense expense)
         {
@@ -21,7 +32,7 @@ namespace Goat.UI
 
         private void CreateCell(Expense expense)
         {
-            GameObject cell = PoolManager.Instance.GetFromPool(expensePrefab);
+            GameObject cell = PoolManager.Instance.GetFromPool(expensePrefab, grid);
             ExpenseCell cellScript = cell.GetComponent<ExpenseCell>();
 
             cellScript.Setup(expense, selectedExpensesHolder);

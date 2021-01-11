@@ -19,7 +19,7 @@ namespace Goat.Farming
         [SerializeField] private LayerMask layer;
         [SerializeField] private Vector3[] offset;
         [SerializeField] private float radius = 0.2f;
-
+        private TileAnimation tileAnimation;
         private TubeDirection previousTube;
         [SerializeField] private TubeDirection[] connectedTubes;
 
@@ -60,10 +60,14 @@ namespace Goat.Farming
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
             OnGridChange();
             connectedFarm = null;
             ObjInstance = objectInstance;
             PoolKey = poolKey;
+            onGridChange.Raise(gameObject);
         }
 
         public bool HasConnection()
@@ -178,8 +182,9 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
-            onGridChange.Raise();
-            gameObject.SetActive(false);
+            onGridChange.Raise(gameObject);
+
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
         }
 
         private void OnDrawGizmos()
@@ -229,13 +234,13 @@ namespace Goat.Farming
         protected void OnEnable()
         {
             onGridChange.RegisterSafe(this);
-            onGridChange.Raise();
+            Debug.Log("activate");
         }
 
         protected void OnDisable()
         {
             onGridChange.UnregisterSafe(this);
-            onGridChange.Raise();
+            Debug.Log("DEactivate");
         }
 
         public void OnEventRaised(GameObject value)

@@ -20,12 +20,16 @@ namespace Goat.UI
 {
     public class GameplayTransition : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     {
+        private const float defaultResolution = 1920;
+
         [SerializeField] private TransitionElement[] transitionElements;
+        [SerializeField] private Canvas inGameMenuElement;
         [SerializeField] private VoidEvent onNarrativeFinished;
         [SerializeField] private float transitionDurationPerElement;
         private Sequence transitionSequence;
         private bool prepared;
         private bool transitioned;
+        private float resolution;
 
         private void OnEnable()
         {
@@ -38,22 +42,25 @@ namespace Goat.UI
             onNarrativeFinished.UnregisterSafe(this);
         }
 
-        private void Transition()
+        public void Transition()
         {
             if (transitionSequence.NotNull())
                 transitionSequence.Complete();
-
+            resolution = Screen.width;
+            float scaleFactor = (resolution / defaultResolution);
             transitionSequence = DOTween.Sequence();
-
+            transitionSequence.SetUpdate(UpdateType.Normal, true);
             for (int i = 0; i < transitionElements.Length; i++)
             {
                 TransitionElement element = transitionElements[i];
-
+                Vector3 pos = element.Transform.position + (transitioned ? -element.MoveAmount * scaleFactor : element.MoveAmount * scaleFactor);
+                Vector3 scale = (transitioned ? element.BeforeScale : Vector3.one);
                 if (element.TransType.HasFlag(TransitionType.Move))
-                    transitionSequence.Join(element.Transform.DOMove(element.Transform.position + element.MoveAmount, transitionDurationPerElement));
+                    transitionSequence.Join(element.Transform.DOMove(pos, transitionDurationPerElement));
                 if (element.TransType.HasFlag(TransitionType.Scale))
-                    transitionSequence.Join(element.Transform.DOScale(Vector3.one, transitionDurationPerElement));
+                    transitionSequence.Join(element.Transform.DOScale(scale, transitionDurationPerElement));
             }
+            transitioned = !transitioned;
         }
 
         [ButtonGroup("")]
@@ -98,8 +105,7 @@ namespace Goat.UI
 
         public void OnEventRaised(Void onNarrativeFinished)
         {
-            if (transitioned) return;
-            transitioned = true;
+            if (transitioned || inGameMenuElement.enabled) return;
             Transition();
         }
     }

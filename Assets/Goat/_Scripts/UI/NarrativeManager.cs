@@ -23,13 +23,18 @@ public class NarrativeManager : MonoBehaviour
     [SerializeField]
     private Narrative[] narrative;
     [SerializeField] private VoidEvent OnNarrativeFinished;
+    private bool narrativeFinished;
     private TextMeshProUGUI textMesh;
     private Image portrait;
     private int narrativeIndex = 0;
     private Sequence punchScaleSequence;
 
+    public bool NarrativeFinished => narrativeFinished;
+
     private void Start()
     {
+        ToggleDisplay(true);
+
         textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         portrait = gameObject.GetComponentInChildren<Image>();
 
@@ -52,6 +57,7 @@ public class NarrativeManager : MonoBehaviour
             narrativeIndex++;
             textMesh.text = narrative[narrativeIndex].Sentence;
             portrait.sprite = narrative[narrativeIndex].Sprite;
+
             if (punchScaleSequence.NotNull())
                 punchScaleSequence.Complete();
             punchScaleSequence = DOTween.Sequence();
@@ -60,7 +66,17 @@ public class NarrativeManager : MonoBehaviour
         else
         {
             OnNarrativeFinished.Raise();
-            Destroy(this.gameObject);
+            narrativeFinished = true;
+            enabled = false;
+            ToggleDisplay(false);
+        }
+    }
+
+    public void ToggleDisplay(bool show)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(show);
         }
     }
 }

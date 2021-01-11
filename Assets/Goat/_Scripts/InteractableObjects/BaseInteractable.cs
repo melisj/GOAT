@@ -36,12 +36,14 @@ namespace Goat.Grid.Interactions
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
         private PlaceableInfo placeableInfo;
+        private AudioCue audioCue;
         protected Collider clickCollider;
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
         protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
+        private TileAnimation tileAnimation;
 
         public bool IsClickedOn { get; set; }
         public bool UIOpen => gridUIInfo.IsUIActive;
@@ -124,22 +126,38 @@ namespace Goat.Grid.Interactions
         {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
-
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.PlayAudioCue();
+            tileAnimation.Prepare();
+            tileAnimation.Create();
             UpdateInteractable.AddListener(info.UpdateInteractable);
             SetupElectricity();
             if (adjustPosition != null)
                 adjustPosition.Setup();
+
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
         public virtual void OnReturnObject()
         {
-            gameObject.transform.position = new Vector3(-1000, 0);
-            gameObject.SetActive(false);
-
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.StopAudioCue();
             OnDisableElectricity();
             if (adjustPosition != null)
                 adjustPosition.ResetPosition();
+            InteractableManager.InteractableClickEvt -= IsClicked;
+            UpdateInteractable.RemoveAllListeners();
+        }
+
+        protected virtual void OnDestroy()
+        {
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
         }

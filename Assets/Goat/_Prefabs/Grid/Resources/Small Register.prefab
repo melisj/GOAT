@@ -75,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 78ab33f42b5c58c449077bf1870532eb, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 8208610754585946629}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -232,6 +233,7 @@ GameObject:
   - component: {fileID: 9213721514872725874}
   - component: {fileID: -3357384152587337995}
   - component: {fileID: -5281333529883370972}
+  - component: {fileID: 3680525453072405764}
   m_Layer: 20
   m_Name: Small Register
   m_TagString: Checkout
@@ -299,3 +301,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
+--- !u!114 &3680525453072405764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7697692447918465534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.2
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 0, y: 0, z: 0}

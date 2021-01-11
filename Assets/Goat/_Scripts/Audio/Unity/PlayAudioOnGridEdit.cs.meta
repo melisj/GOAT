@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: aced2465fca356947b2566775d9e03e2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _audioCue: {instanceID: 0}
+  - parent: {instanceID: 0}
+  - _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+      type: 2}
+  - _audioConfiguration: {instanceID: 0}
+  - onGridEdit: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

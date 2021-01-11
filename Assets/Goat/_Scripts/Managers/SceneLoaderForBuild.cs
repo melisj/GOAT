@@ -8,6 +8,18 @@ using UnityEngine.SceneManagement;
 public class SceneLoaderForBuild : MonoBehaviour
 {
     [SerializeField, ReadOnly] private string[] scenePaths;
+    private static SceneLoaderForBuild instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+            Destroy(gameObject);
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        }
+    }
 
     public void SetPaths(string[] scenePaths)
     {

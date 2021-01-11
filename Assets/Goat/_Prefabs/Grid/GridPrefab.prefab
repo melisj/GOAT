@@ -72,12 +72,15 @@ MonoBehaviour:
   gridMask:
     serializedVersion: 2
     m_Bits: 256
+  defaultPlaceable: {fileID: 0}
   previewMaterial: {fileID: 2100000, guid: 37dad2dd8857d604f8970ebbc54e663d, type: 2}
   previewPrefab: {fileID: 8854570225898694511, guid: c7b01b0813d130e4794f82630a8be13b,
     type: 3}
-  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
   currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   gridRayCaster: {fileID: 4233259508223697211}
+  onTileDestroyed: {fileID: 11400000, guid: f95dae9b9f445d04192c6b96b5e6e927, type: 2}
+  onTileCreated: {fileID: 11400000, guid: ca95266c9a041ab4e994a45dad183e4f, type: 2}
+  onGridReset: {fileID: 11400000, guid: d411c1ef5fbd3c64bb4c14229315cb75, type: 2}
 --- !u!114 &5621511813930087197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +212,7 @@ MonoBehaviour:
   saveOrder: -10
   grid: {fileID: 612029029412865795}
   objectList: {fileID: 11400000, guid: 125ad746737ea0a4f956502bfe8b68c0, type: 2}
-  onGridChange: {fileID: 11400000, guid: 00d2bde76e718a8449a6dae33ed25fb9, type: 2}
+  onGridChange: {fileID: 0}
 --- !u!114 &7784319680466284517
 MonoBehaviour:
   m_ObjectHideFlags: 0

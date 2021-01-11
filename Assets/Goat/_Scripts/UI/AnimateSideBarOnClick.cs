@@ -11,6 +11,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
 {
     [Title("Bar")]
     [SerializeField] private Button mainButton;
+    [SerializeField] private SidebarBorderContentFitter sidebarBorderContentFitter;
     [Title("BuildButton")]
     [SerializeField] private SelectDeselectSprites selectionSprites;
     [SerializeField] private GameObject headerObj;
@@ -20,7 +21,9 @@ public class AnimateSideBarOnClick : EventListenerVoid
     [Title("Selected")]
     [SerializeField] private GameObject selectedObj;
     [SerializeField] private RectTransform selectedRect;
-
+    [Title("Audio")]
+    [SerializeField] private AudioCue openSideBarAudio, closeSideBarAudio;
+    [SerializeField] private AudioCue popUpButtonsAudio;
     [TitleGroup("Bar buttons")]
     [SerializeField, HorizontalGroup("Bar buttons/Group", LabelWidth = 50)] private RectTransform[] buttonRects, headerRects;
 
@@ -35,6 +38,8 @@ public class AnimateSideBarOnClick : EventListenerVoid
     [SerializeField, FoldoutGroup("Bar button scale punch"), Range(0f, 1f)] private float elasticity;
     private bool isOpened;
     private Sequence openSideBar, closeSideBar;
+
+    public RectTransform[] ButtonRects => buttonRects;
 
     /// <summary>
     /// When a new hotbar is open close yours
@@ -65,13 +70,14 @@ public class AnimateSideBarOnClick : EventListenerVoid
 
         //Let all other bars know you want to open
         SubcribedEvent.Raise();
-
+        sidebarBorderContentFitter.FitContent();
         isOpened = true;
         if (closeSideBar.NotNull())
             closeSideBar.Complete();
         if (openSideBar.NotNull())
             openSideBar.Complete();
         openSideBar = DOTween.Sequence();
+        openSideBarAudio.PlayAudioCue();
         openSideBar.AppendCallback(() => buildButtonIcon.sprite = selectionSprites.Selected);
         openSideBar.AppendCallback(() => selectedObj.SetActive(true));
         openSideBar.Append(buildButtonIcon.rectTransform.DOPunchScale(scaleIncrease, punchScaleDuration, vibrato, elasticity));
@@ -83,12 +89,15 @@ public class AnimateSideBarOnClick : EventListenerVoid
             openSideBar.Append(buttonRects[i].DOScale(Vector3.one, buttonsAppearDuration));
             openSideBar.Append(buttonRects[i].DOPunchScale(scaleIncrease, punchScaleDuration / closingDurationMultiplier, vibrato, elasticity));
             openSideBar.Append(headerRects[i].DOScaleY(1, buttonsAppearDuration));
+            if (buttonRects[i].gameObject.activeSelf)
+                openSideBar.AppendCallback(() => popUpButtonsAudio.PlayAudioCue());
         }
     }
 
     private void CloseSideBar()
     {
         isOpened = false;
+        sidebarBorderContentFitter.FitContent();
 
         if (openSideBar.NotNull())
             openSideBar.Complete();
@@ -98,7 +107,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
 
         closeSideBar = DOTween.Sequence();
         closeSideBar.Join(buildButtonIcon.rectTransform.DOPunchScale(-scaleIncrease, punchScaleDuration, vibrato, elasticity));
-
+        closeSideBarAudio.PlayAudioCue();
         for (int i = buttonRects.Length - 1; i >= 0; i--)
         {
             closeSideBar.Join(buttonRects[i].DOScale(Vector3.zero, buttonsAppearDuration / closingDurationMultiplier));

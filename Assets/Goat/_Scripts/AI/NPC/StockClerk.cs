@@ -13,6 +13,7 @@ namespace Goat.AI
     {
         [SerializeField] private UnloadLocations entrances;
         private ExitStore exitStore;
+
         public override void OnEventRaised(bool value)
         {
             if (!value && stateMachine != null)
@@ -34,7 +35,7 @@ namespace Goat.AI
             exitStore = new ExitStore(this, navMeshAgent, animator);
             //findRestingPlace = new FindRestingPlace(this);
             waitingState = new WaitingState(this, 5);
-            SetRandomDestination setRandomDestination = new SetRandomDestination(this, navMeshAgent, 3);
+            SetRandomDestination setRandomDestination = new SetRandomDestination(this, navMeshAgent, 3, null);
 
             // Conditions
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
@@ -81,7 +82,6 @@ namespace Goat.AI
             AT(moveToDestination, waitingState, ReachedDestination());
             AT(waitingState, searchForEmptyShelves, DoneWaiting());
             AT(searchForStorageInWarehouse, setRandomDestination, NoItemsFoundInWarehouse());
-
 
             stateMachine.SetState(enterStore);
         }

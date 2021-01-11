@@ -9,25 +9,35 @@ namespace Goat.AI.States
     {
         private CustomerReview review;
         private IntVariable customerCapacity;
+        private AudioCue checkout, angry;
 
-        public ExitStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, Animator animator, CustomerReview review, IntVariable customerCapacity) : base(npc, navMeshAgent, animator)
+        public ExitStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, Animator animator, CustomerReview review, IntVariable customerCapacity, AudioCue checkout, AudioCue angry) : base(npc, navMeshAgent, animator)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
             this.animator = animator;
             this.review = review;
             this.customerCapacity = customerCapacity;
+            this.checkout = checkout;
+            this.angry = angry;
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
+            customerCapacity.Subtract(1);
+            if (npc is Customer customer)
+            {
+                if (customer.OutofTime)
+                    angry.PlayAudioCue();
+                else
+                    checkout.PlayAudioCue();
+            }
         }
 
         public override void OnExit()
         {
             review.WriteReview();
-            customerCapacity.Subtract(1);
             base.OnExit();
         }
 

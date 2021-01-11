@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PoolingAudioFactory
   m_EditorClassIdentifier: 
   prefab: {fileID: 2316073171592357300, guid: ae944d0bf7082fe4ebb832a79ef8d402, type: 3}
-  usePooling: 0
+  usePooling: 1

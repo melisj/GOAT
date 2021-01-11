@@ -77,8 +77,8 @@ public class Buyable : SerializedScriptableObject
     {
         price = price < 0 ? Price * 0.75f : price;
         int total = Amount - amount;
-        int newTotal = total <= 0 ? Amount : amount;
-
+        int newTotal = total < 0 ? Amount : amount;
+        Debug.Log($"selling for {newTotal * price} {total} : {Amount}");
         if (deliverNow)
             Amount = newTotal;
         if (payNow)

@@ -46,6 +46,7 @@ MonoBehaviour:
   _factory: {fileID: 11400000, guid: 68337328f8ff383448b6640f7998fa33, type: 2}
   _SFXEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb, type: 2}
   _musicEventChannel: {fileID: 11400000, guid: f55baf75bec443c47b014c77e223fa94, type: 2}
+  musicPlayed: {fileID: 11400000, guid: a441e23c23e1d4c4caa4a452a9c8e253, type: 2}
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   audioMixer: {fileID: 24100000, guid: 548a7f001ca6d3d4cb67c8edf84f62a3, type: 2}
   _masterVolume: 1

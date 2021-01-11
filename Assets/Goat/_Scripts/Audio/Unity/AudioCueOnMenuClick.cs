@@ -7,6 +7,6 @@ public class AudioCueOnMenuClick : AudioCue
 
     private void Awake()
     {
-        button.onClick.AddListener(PlayAudioCue);
+        button.onClick.AddListener(() => PlayAudioCue());
     }
 }

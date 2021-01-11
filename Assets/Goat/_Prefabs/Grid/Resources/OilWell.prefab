@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 4116500539755273296}
   - component: {fileID: -1485341760395434713}
   - component: {fileID: -8038335012244117649}
+  - component: {fileID: 2371828841052477500}
   m_Layer: 17
   m_Name: OilWell
   m_TagString: Untagged
@@ -222,11 +223,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: e7b4fb69b59baac4482c3f71d24f69ed, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 6257709004261703043}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
   _audioConfiguration: {fileID: 11400000, guid: e01da14375debe2419f73fc72a0ab607,
     type: 2}
+--- !u!114 &2371828841052477500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.2
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 0, y: 0, z: 0}
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0

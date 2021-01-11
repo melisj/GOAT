@@ -10,7 +10,7 @@ public class RandomHue : MonoBehaviour
 
     private void Awake()
     {
-        propSetter.MaterialValueToChanges[0].NewFloat = Random.Range(0, 1000);
+        propSetter.MaterialValueToChanges[0].NewFloat = Random.Range(0, 361);
         propSetter.ModifyValues();
     }
 }

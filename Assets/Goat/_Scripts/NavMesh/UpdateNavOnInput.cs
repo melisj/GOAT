@@ -1,38 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Goat.Events;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
-    public class UpdateNavOnInput : EventListenerKeyCodeModeEvent
+    public class UpdateNavOnInput : MonoBehaviour
     {
-        [SerializeField] private NavMeshSurface surfaceAI;
-        [SerializeField] private NavMeshSurface surfacePlayer;
-        [SerializeField] private NavMeshSurface surfaceWorker;
+        [SerializeField] private NavInitializer navInitializer;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
-                surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
-                surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
+                navInitializer.RebakeMesh();
             }
-        }
-
-        public override void OnEventRaised(KeyCodeMode value)
-        {
-            KeyCode code = KeyCode.None;
-            KeyMode mode = KeyMode.None;
-
-            value.Deconstruct(out code, out mode);
-
-            if (code == KeyCode.N && mode == KeyMode.Down)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
-                surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
-                surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
+                navInitializer.BakeNavMesh();
             }
         }
+
+#endif
     }
 }

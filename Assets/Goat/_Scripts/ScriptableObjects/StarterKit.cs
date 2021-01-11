@@ -1,5 +1,6 @@
 ﻿using Goat.Grid.UI;
 using Goat.Player;
+using Goat.Saving;
 using Goat.Storage;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class StarterKit : MonoBehaviour
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private SatisfactionLevel satisfactionLevel;
     [SerializeField] private GridUIInfo uiInfo;
+
+    [SerializeField] private VoidEvent onGridReset;
 
     private void Awake()
     {
@@ -34,8 +37,14 @@ public class StarterKit : MonoBehaviour
         uiInfo.CurrentUIElement = UIElement.None;
     }
 
+    private void OnEnable()
+    {
+        onGridReset.Register(electricity.ClearAll);
+    }
+
     private void OnDisable()
     {
         electricity.ClearAll();
+        onGridReset.Unregister(electricity.ClearAll);
     }
 }

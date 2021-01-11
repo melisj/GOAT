@@ -7,6 +7,7 @@ using Goat.Pooling;
 using DG.Tweening;
 using UnityAtoms;
 using UnityAtoms.BaseAtoms;
+using System;
 
 public class AudioManager : MonoBehaviour, IAtomListener<int>
 {
@@ -18,7 +19,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
     [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to play Music")]
     [SerializeField] private AudioCueEventChannelSO _musicEventChannel = default;
     private Dictionary<GameObject, List<SoundEmitter>> audioCuesCreated;
-    private List<SoundEmitter> musicEmitters = new List<SoundEmitter>();
+    [SerializeField] private MusicPlayed musicPlayed;
     [Header("Audio control")]
     [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField] private AudioMixer audioMixer = default;
@@ -91,10 +92,15 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         return (normalizedValue - 1f) * 80f;
     }
 
+    private void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null, Action onFinished = null)
+    {
+        GetAudioCue(cue, position, parent);
+    }
+
     /// <summary>
     /// Plays an AudioCue by requesting the appropriate number of SoundEmitters from the pool.
     /// </summary>
-    public void PlayAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null)
+    public List<SoundEmitter> GetAudioCue(AudioCue cue, Vector3 position = default, Transform parent = null, Action onFinished = null)
     {
         AudioCueSO audioCue = cue.GetAudioCue;
         AudioConfigurationSO settings = cue.AudioConfiguration;
@@ -102,6 +108,18 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
         AudioClip[] clipsToPlay = audioCue.GetClips();
         int nOfClips = clipsToPlay.Length;
         List<SoundEmitter> soundEmitters = new List<SoundEmitter>();
+
+        if (audioCuesCreated.ContainsKey(cue.gameObject) && audioCue.waitTillClipIsFinished)
+        {
+            audioCuesCreated.TryGetValue(cue.gameObject, out List<SoundEmitter> prevSoundEmitters);
+
+            for (int i = 0; i < prevSoundEmitters.Count; i++)
+            {
+                if (prevSoundEmitters[i].IsInUse())
+                    return prevSoundEmitters;
+            }
+        }
+
         for (int i = 0; i < nOfClips; i++)
         {
             SoundEmitter soundEmitter = _factory.Create(position, parent);
@@ -110,20 +128,20 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
                 soundEmitters.Add(soundEmitter);
                 soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
                 if (!audioCue.looping)
-                    soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;
+                    soundEmitter.OnSoundFinishedPlaying += (SoundEmitter emitter) => OnSoundEmitterFinishedPlaying(emitter, onFinished);
             }
         }
 
         if (!audioCuesCreated.ContainsKey(cue.gameObject))
             audioCuesCreated.Add(cue.gameObject, soundEmitters);
-
+        return soundEmitters;
         //TODO: Save the SoundEmitters that were activated, to be able to stop them if needed
     }
 
-    public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null)
+    public void PlayMusicCue(AudioCue cue, Vector3 pos = default, Transform parent = null, Action onFinished = null)
     {
         StopMusic();
-        PlayAudioCue(cue, pos, parent);
+        musicPlayed.MusicEmitters = new List<SoundEmitter>(GetAudioCue(cue, pos, parent));
     }
 
     public void StopAudioCue(GameObject audioCue)
@@ -142,17 +160,31 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     private void StopMusic()
     {
-        for (int i = 0; i < musicEmitters.Count; i++)
+        for (int i = 0; i < musicPlayed.MusicEmitters.Count; i++)
         {
-            musicEmitters[i].Stop();
+            if (musicPlayed.MusicEmitters[i] == null)
+            {
+                musicPlayed.MusicEmitters.RemoveAt(i);
+                continue;
+            }
+            musicPlayed.MusicEmitters[i].Stop();
+            if (PoolManager.Instance == null)
+            {
+                Debug.Log("Pooling null", musicPlayed.MusicEmitters[i].gameObject);
+                continue;
+            }
+            PoolManager.Instance.ReturnToPool(musicPlayed.MusicEmitters[i].gameObject);
         }
-        musicEmitters.Clear();
+        musicPlayed.MusicEmitters.Clear();
     }
 
-    private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter)
+    private void OnSoundEmitterFinishedPlaying(SoundEmitter soundEmitter, Action onFinished = null)
     {
-        soundEmitter.OnSoundFinishedPlaying -= OnSoundEmitterFinishedPlaying;
+        if (onFinished != null)
+            onFinished?.Invoke();
+        soundEmitter.OnSoundFinishedPlaying -= (SoundEmitter emitter) => OnSoundEmitterFinishedPlaying(emitter, onFinished);
         soundEmitter.Stop();
+        if (PoolManager.Instance == null) return;
         PoolManager.Instance.ReturnToPool(soundEmitter.gameObject);
     }
 
@@ -162,7 +194,18 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     public void OnEventRaised(int timeSpeed)
     {
-        audioMixer.SetFloat("SFXPitch", currentPitchSFX * Time.timeScale);
+        audioMixer.SetFloat("SFXPitch", Time.timeScale < 1 ? currentPitchSFX : currentPitchSFX * Time.timeScale);
+    }
+
+    private void OnDestroy()
+    {
+        StopMusic();
+        audioCuesCreated = new Dictionary<GameObject, List<SoundEmitter>>();
+        _SFXEventChannel.OnAudioCueStopRequested -= StopAudioCue;
+        _musicEventChannel.OnAudioCueStopRequested -= StopAudioCue;
+        onTimeSpeedChanged.UnregisterSafe(this);
+        _SFXEventChannel.OnAudioCueRequested -= PlayAudioCue;
+        _musicEventChannel.OnAudioCueRequested -= PlayMusicCue; //TODO: Treat music requests differently?
     }
 
     //TODO: Add methods to play and cross-fade music, or to play individual sounds?

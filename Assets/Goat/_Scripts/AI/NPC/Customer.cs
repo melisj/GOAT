@@ -26,6 +26,7 @@ namespace Goat.AI
         [SerializeField] private UnloadLocations entrances;
         [SerializeField] private BoolEvent onDay;
         [SerializeField] private int storeArea;
+        [SerializeField] private AudioCue angry, questioning, checkout;
         public int money = 0;
         [HideInInspector] public int remainingMoney = 0;
 
@@ -35,6 +36,9 @@ namespace Goat.AI
         [HideInInspector] public float customerSelfConstraint = 0;
         [SerializeField] private FieldOfView fov;
         public FieldOfView Fov => fov;
+
+        public bool OutofTime => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
+
         [HideInInspector] public bool enteredStore;
         [HideInInspector] public bool leavingStore;
 
@@ -49,12 +53,12 @@ namespace Goat.AI
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, animator, entrances, customerCapacity);
-            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea);
+            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea, questioning);
             moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
             MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
             takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review, customerCapacity);
+            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review, customerCapacity, checkout, angry);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
@@ -62,7 +66,7 @@ namespace Goat.AI
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
             // Movement
-            Func<bool> HasStorageTarget() => () => targetStorage != null  && !leavingStore;
+            Func<bool> HasStorageTarget() => () => targetStorage != null && !leavingStore;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
@@ -138,7 +142,7 @@ namespace Goat.AI
 
         public void OnEventRaised(bool isDay)
         {
-            if (!isDay)
+            if (!isDay && stateMachine.CurrentState != exitStore)
                 LeaveStore();
         }
     }

@@ -28,6 +28,7 @@ namespace Goat.Expenses
 
         public override void Pay()
         {
+            if (employees.EmployeeList == null) return;
             var looper = employees.EmployeeList.GetEnumerator();
             int remainingPrice = 0;
             int fullPrice = 0;
@@ -59,7 +60,8 @@ namespace Goat.Expenses
                 }
             }
             onExpenseCreated.Raise(fullPrice);
-            expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
+            if (remainingPrice > 0)
+                expenseEvent.Raise(new Expense(remainingPrice, "Salary", time.GetDate(), () => OnFullPay(employeesNotPaid)));
         }
     }
 }

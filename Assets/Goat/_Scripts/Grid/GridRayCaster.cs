@@ -16,12 +16,17 @@ namespace Goat.Grid
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Vector3 cameraPerspective = mouseWorldPosition - Camera.main.transform.position;
 
-            bool isHitting = Physics.Raycast(mouseWorldPosition, cameraPerspective, out RaycastHit mouseHit, Mathf.Infinity, mask);
-            hit = mouseHit;
+            bool isHitting = DoRaycastFromPosition(mouseWorldPosition, cameraPerspective, out hit, mask);
 
             if (EventSystem.current.IsPointerOverGameObject())
                 return false;
+
             return isHitting;
+        }
+
+        public bool DoRaycastFromPosition(Vector3 startPosition, Vector3 direction, out RaycastHit hit, LayerMask mask)
+        {
+            return Physics.Raycast(startPosition, direction, out hit, Mathf.Infinity, mask);
         }
     }
 }

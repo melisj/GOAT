@@ -32,8 +32,9 @@ public class TimeOfDay : ScriptableObject
     private DateTime date;
 
     public string EnglishTime => englishTime = timeOfDayHours / 12 >= 1 ? PM : AM;
-    public string GetTime12Hour => $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {EnglishTime}";
-    public string GetTime24Hour => $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
+    public string GetMinuteString => string.Format("{0}{1}", timeOfDayMinutes < 10 ? "0" : "", Mathf.Floor(timeOfDayMinutes));
+    public string GetTime12Hour => $"{timeOfDay12Hours}:{GetMinuteString} {EnglishTime}";
+    public string GetTime24Hour => $"{timeOfDayHours}:{GetMinuteString}";
 
     public DateTime Date { get => date; set => date = value; }
     public bool IsDay { 
@@ -94,11 +95,13 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            float temp = timeOfDayMinutes;
+            timeOfDayMinutes = value;
+
+            if (Mathf.FloorToInt(temp) != Mathf.FloorToInt(value))
             {
                 onTimeChanged.Raise();
             }
-            timeOfDayMinutes = value;
         }
     }
 

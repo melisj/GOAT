@@ -17,16 +17,16 @@ SpriteAtlas:
       textureCompression: 0
       filterMode: 1
       generateMipMaps: 0
-      readable: 0
+      readable: 1
       crunchedCompression: 0
       sRGB: 1
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: 4
-      m_TextureCompression: 0
+      m_TextureCompression: 2
       m_CompressionQuality: 50
       m_CrunchedCompression: 0
       m_AllowsAlphaSplitting: 0
@@ -38,7 +38,7 @@ SpriteAtlas:
       padding: 4
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 0
+      enableRotation: 1
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
@@ -62,6 +62,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 33659081ddc514b40ac98cafab8a87ba, type: 3}
   - {fileID: 21300000, guid: 13d4f2a16245c154aa2304153ec9d2f4, type: 3}
   - {fileID: 21300000, guid: fc6289a17ad5a3e419250ee1481b4617, type: 3}
+  - {fileID: 21300000, guid: 300b3fa185641f34586464688d4abb89, type: 3}
   - {fileID: 21300000, guid: e16b10b1d26f9fb499db6e929c684433, type: 3}
   - {fileID: 21300000, guid: eedfdce1cc7873449a50d3e95c54a623, type: 3}
   - {fileID: 21300000, guid: b94aedf1eeb45ef489abdeb3c7d11bef, type: 3}
@@ -122,6 +123,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 52907c1884370c74180bb8c827726432, type: 3}
   - {fileID: 21300000, guid: c1b07628f8bc4fb46b3f69c9c029a350, type: 3}
   - {fileID: 21300000, guid: abdb183860958f74e869ba2f1469dbe5, type: 3}
+  - {fileID: 21300000, guid: cc7bb858143ba3549a61d5edc5096978, type: 3}
+  - {fileID: 21300000, guid: 66d578c8cf8dd0143a567cff6073ee7f, type: 3}
   - {fileID: 21300000, guid: 6108bfc81ee12764f815467fe6cabc4c, type: 3}
   - {fileID: 21300000, guid: fa9501d835f88b247a7d7cb759e93572, type: 3}
   - {fileID: 21300000, guid: c4d679099be732a41ba41167bcce3c9a, type: 3}
@@ -131,6 +134,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 64dc5289d7e82dd4da92863a41bf82a7, type: 3}
   - {fileID: 21300000, guid: 0aa9a78901f731a4fbcf01e6bdae264b, type: 3}
   - {fileID: 21300000, guid: 9fa86c898461d574486be1f3a5486ed9, type: 3}
+  - {fileID: 21300000, guid: a95f00a9e4d791b4db42c643f5f27023, type: 3}
   - {fileID: 21300000, guid: fd8bc41a716baa940a18976b63f54665, type: 3}
   - {fileID: 21300000, guid: dde5fa1a19805744b8959aafa8924c4a, type: 3}
   - {fileID: 21300000, guid: db98234a7a83bc54aaaa65ea0723ccfc, type: 3}
@@ -197,6 +201,7 @@ SpriteAtlas:
   - Explore
   - icons8_delete_64
   - Wall Fence
+  - headshot_arachnid
   - Incoming Message
   - Panel
   - Build_empty
@@ -257,6 +262,8 @@ SpriteAtlas:
   - Forge
   - Customer_neutral_empty
   - Border_Purple_Right
+  - headshot_robot
+  - headshot_character
   - Big Bulk Storage Shelf
   - Border_LightBrown_Middle
   - Incoming_Message_Right_Top_Border
@@ -266,6 +273,7 @@ SpriteAtlas:
   - CobaltTile
   - Menu_Right_Top_Border
   - Store_empty
+  - headshot_alien
   - Player Door
   - icons8_squareRound
   - Menu_Left_Bottom_Border

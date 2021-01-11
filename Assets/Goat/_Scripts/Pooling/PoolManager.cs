@@ -151,7 +151,8 @@ namespace Goat.Pooling
             }
             else
             {
-                Debug.LogErrorFormat("Object: {0} with key {1} doesn't exist in dictionary", objToReturn.name, poolObject.PoolKey);
+                Debug.LogWarningFormat("Object: {0} with key {1} doesn't exist in dictionary", objToReturn.name, poolObject.PoolKey);
+                Destroy(objToReturn);
             }
         }
 

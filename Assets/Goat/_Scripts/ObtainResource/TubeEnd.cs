@@ -64,9 +64,10 @@ namespace Goat.Farming
             if (calls <= 0)
                 onGridChange.Raise(null);
             calls++;
-            if (!tubeConnection.HasConnection())
+            if (!tubeConnection.HasConnection() || ConnectedFarms.Count <= 0)
             {
                 Clear();
+                onGridChange.Raise(null);
                 return;
             }
 

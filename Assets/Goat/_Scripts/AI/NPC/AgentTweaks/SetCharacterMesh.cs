@@ -6,17 +6,21 @@ namespace Goat.AI
 {
     public class SetCharacterMesh : MonoBehaviour
     {
-        [SerializeField] private CharacterMeshes meshes;
+        [SerializeField] private Characters characters;
+        [SerializeField] private GameObject root;
+
+        public Character Character { get; private set; }
+
         private void Awake()
         {
             SkinnedMeshRenderer skinnedMesh = GetComponent<SkinnedMeshRenderer>();
-            if (meshes != null)
+            if (characters != null)
             {
-                int randex = Random.Range(0, meshes.characterMeshes.Count);
                 //print(randex);
-                skinnedMesh.sharedMesh = meshes.characterMeshes[randex];
+                Character = characters.GetCharacter;
+                skinnedMesh.sharedMesh = Character.Mesh;
+                root.name = Character.CharacterNames.GetName;
             }
         }
     }
 }
-
