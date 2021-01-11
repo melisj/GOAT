@@ -365,6 +365,9 @@ namespace Goat.Grid
 
             if (wall != null && !destroyMode)
             {
+                if (autoMode && wallObjs[index])
+                    return true;
+
                 GameObject newObject = wall.Prefab;
                 Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                 Vector3 size = Vector3.one * grid.GetTileSize;
