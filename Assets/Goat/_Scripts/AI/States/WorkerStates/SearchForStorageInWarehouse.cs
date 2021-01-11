@@ -65,6 +65,7 @@ namespace Goat.AI.States
                     Debug.LogWarningFormat("Item: {0} no longer in stock!", items.ElementAt(i).Key.name);
                 }
                 worker.ItemsToGet.Clear();
+                nothingFound = true;
             }
 
             return null;
