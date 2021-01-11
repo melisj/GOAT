@@ -865,6 +865,7 @@ MonoBehaviour:
   resourceToFind: {fileID: 8410119710526235942}
   questionMark: {fileID: 4238104300229187955}
   satisfiedSprite: {fileID: 21300000, guid: 2c56c0ec7ffe0b0488f6db5c79929c1e, type: 3}
+  questionMarkSprite: {fileID: 21300000, guid: 1686ebcc3f851114fb302c389696b0ae, type: 3}
   npc: {fileID: 2094399924142381524}
 --- !u!114 &7928473022107908286
 MonoBehaviour:

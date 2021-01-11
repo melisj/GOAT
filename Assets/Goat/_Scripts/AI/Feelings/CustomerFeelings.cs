@@ -13,7 +13,7 @@ namespace Goat.AI.Feelings
         [SerializeField] private GameObject dotObject;
         [SerializeField] private MaterialPropertySetter resourceToFind;
         [SerializeField] private MaterialPropertySetter questionMark;
-        [SerializeField] private Sprite satisfiedSprite;
+        [SerializeField] private Sprite satisfiedSprite, questionMarkSprite;
         [SerializeField] private NPC npc;
         private Vector3 dotScaleAfter = new Vector3(0.45f, 0.4f, 0.45f);
         private Vector3 dotScaleBefore = new Vector3(0.25f, 0.25f, 0.25f);
@@ -50,6 +50,7 @@ namespace Goat.AI.Feelings
         {
             if (npc.ItemsToGet.ItemsInInventory > 0)
             {
+                NotSatisfied();
                 var looper = npc.ItemsToGet.Items.GetEnumerator();
                 looper.MoveNext();
                 SearchingForResource(looper.Current.Key);
@@ -101,6 +102,17 @@ namespace Goat.AI.Feelings
             sequence = DOTween.Sequence();
             sequence.Append(dotObject.transform.DOScale(dotScaleBefore, 1));
             alreadyTransitioned = false;
+        }
+
+        private void NotSatisfied()
+        {
+            for (int i = 0; i < questionMark.MaterialValueToChanges.Count; i++)
+            {
+                MaterialValueToChange texture = questionMark.MaterialValueToChanges[i];
+                if (texture.MaterialValue != MaterialValue.Texture) continue;
+                texture.NewTexture = questionMarkSprite.texture;
+                questionMark.ModifyValues();
+            }
         }
 
         private void Satisfied()
