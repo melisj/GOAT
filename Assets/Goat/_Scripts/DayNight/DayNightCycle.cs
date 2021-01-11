@@ -56,16 +56,13 @@ public partial class DayNightCycle : MonoBehaviour, IAtomListener<int>
     {
         timeOfDay.TimeOfDayMinutes += Time.deltaTime * timeOfDay.TimeScale;
 
-        if (timeOfDay.TimeOfDayMinutes > 60)
+        if (timeOfDay.TimeOfDayMinutes >= 60)
         {
-            timeOfDay.TimeOfDayMinutes = 0;
-            timeOfDay.TimeOfDayHours += 1;
-            timeOfDay.TimeOfDay12Hours++;
+            timeOfDay.TimeOfDayHours++;
+            timeOfDay.TimeOfDay12Hours = timeOfDay.TimeOfDayHours % 12;
 
-            if (timeOfDay.TimeOfDay12Hours == 12)
-            {
-                timeOfDay.TimeOfDay12Hours = 0;
-            }
+            timeOfDay.TimeOfDayMinutes = 0;
+            
             //check if its morning, nighttime or midnight
             if (timeOfDay.TimeOfDayHours == timeOfDay.TimeOfSunrise)
             {

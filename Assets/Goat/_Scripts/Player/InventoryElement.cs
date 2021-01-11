@@ -24,8 +24,8 @@ namespace Goat.Player
 
         public void SelectFirst()
         {
-            if (uiCells.Count > 0 && uiCells[0] != null)
-                uiCells[0].InvokeOnClick();
+            /*if (uiCells.Count > 0 && uiCells[0] != null)
+                uiCells[0].InvokeOnClick();*/
         }
 
         private void SetUI()
