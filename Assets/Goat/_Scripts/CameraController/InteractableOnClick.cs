@@ -13,7 +13,7 @@ public class InteractableOnClick : CollisionDetection
         {
             currentInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
 
-            if (currentInteractable != null && currentInteractable.IsClickedOn && !currentInteractable.UIActivated)
+            if (currentInteractable != null && !currentInteractable.UIActivated)
             {
                 interactableEvent.Raise(currentInteractable);
             }
