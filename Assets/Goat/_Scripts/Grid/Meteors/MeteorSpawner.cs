@@ -47,13 +47,10 @@ public class MeteorSpawner : MonoBehaviour, IAtomListener<bool>
 
     private IEnumerator SpawnMeteor()
     {
-        float spawnTime = Random.Range(randomSpawnTime.x, randomSpawnTime.y), timer = 0;
-        while(timer < spawnTime)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        InitMeteor();
+        float spawnTime = Random.Range(randomSpawnTime.x, randomSpawnTime.y);
+        yield return new WaitForSeconds(spawnTime);
+        if(isNight)
+            InitMeteor();
 
         spawnRoutine = null;
     }
