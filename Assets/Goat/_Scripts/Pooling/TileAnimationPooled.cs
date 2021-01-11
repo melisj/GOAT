@@ -9,6 +9,7 @@ public class TileAnimationPooled : TileAnimation, IPoolObject
     {
         ObjInstance = objectInstance;
         PoolKey = poolKey;
+        Prepare();
         Create();
     }
 

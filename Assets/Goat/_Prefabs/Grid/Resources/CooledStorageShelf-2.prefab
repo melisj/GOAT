@@ -531,9 +531,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createDuration: 0.2
+  createDuration: 0.4
   destroyDurationMultiplier: 2
-  scaleDown: {x: 0, y: 0, z: 0}
+  scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &1393019459795304601
 GameObject:
   m_ObjectHideFlags: 0
