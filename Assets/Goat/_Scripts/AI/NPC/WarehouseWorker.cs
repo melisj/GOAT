@@ -37,6 +37,7 @@ namespace Goat.AI
             Func<bool> EmptiedInventory() => () => Inventory.ItemsInInventory == 0 && placeItem.filled;
             Func<bool> FindNextStorage() => () => Inventory.ItemsInInventory > 0 && placeItem.filled;
             Func<bool> EnteredStorage() => () => enterGoToStorage.entered;
+            Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
@@ -45,6 +46,7 @@ namespace Goat.AI
             AT(searchForStorageInWarehouse, moveToTarget, HasTarget());
             AT(doNothing, moveToDestination, HasDestination());
             AT(moveToDestination, doNothing, ReachedDestination());
+            AT(moveToDestination, doNothing, StuckForSeconds());
             AT(doNothing, searchForStorageInWarehouse, GoStoreItems());
             AT(moveToTarget, placeItem, ReachedTarget());
             AT(placeItem, doNothing, EmptiedInventory());
