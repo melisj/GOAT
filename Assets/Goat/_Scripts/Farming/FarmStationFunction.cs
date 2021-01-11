@@ -31,7 +31,7 @@ namespace Goat.Farming
         [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
         [SerializeField] private AudioCue cue;
-
+        private bool stopped;
         public FarmStation Settings => farmStationSettings;
 
         public int GetPath(Vector3 key)
@@ -50,6 +50,22 @@ namespace Goat.Farming
         public HashSet<GameObject> TubeEnds => tubeEnds;
 
         public List<ResourcePack> ResPacks => resPacks;
+
+        private bool Stopped
+        {
+            get => stopped;
+            set
+            {
+                if (value != stopped)
+                {
+                    if (value)
+                        cue.StopAudioCue();
+                    else
+                        cue.PlayAudioCue();
+                }
+                stopped = value;
+            }
+        }
 
         private void Awake()
         {
@@ -94,9 +110,11 @@ namespace Goat.Farming
         private void AddResource()
         {
             if (resourceTile == null) GetResourceTile();
-            if (currentCapacity >= farmStationSettings.StorageCapacity || resourceTile.Amount <= 0)
+
+            if (currentCapacity >= farmStationSettings.StorageCapacity || (resourceTile != null && resourceTile.Amount <= 0))
             {
                 animator.enabled = false;
+                Stopped = true;
                 timer = 0;
                 return;
             }
@@ -104,6 +122,8 @@ namespace Goat.Farming
             if (timer >= delay)
             {
                 animator.enabled = true;
+                Stopped = false;
+
                 timer = 0;
                 currentCapacity += farmStationSettings.AmountPerSecond;
                 resourceTile.Amount -= farmStationSettings.AmountPerSecond;
@@ -150,7 +170,6 @@ namespace Goat.Farming
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
             Setup();
-            cue.PlayAudioCue();
             ObjInstance = objectInstance;
             PoolKey = poolKey;
             tileAnimation.Create();

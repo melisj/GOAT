@@ -36,6 +36,7 @@ namespace Goat.Grid.Interactions
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
         private PlaceableInfo placeableInfo;
+        private AudioCue audioCue;
         protected Collider clickCollider;
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
@@ -127,6 +128,10 @@ namespace Goat.Grid.Interactions
             PoolKey = poolKey;
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.PlayAudioCue();
             tileAnimation.Prepare();
             tileAnimation.Create();
             UpdateInteractable.AddListener(info.UpdateInteractable);
@@ -140,7 +145,10 @@ namespace Goat.Grid.Interactions
         public virtual void OnReturnObject()
         {
             tileAnimation.Destroy(() => gameObject.SetActive(false));
-
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.StopAudioCue();
             OnDisableElectricity();
             if (adjustPosition != null)
                 adjustPosition.ResetPosition();
