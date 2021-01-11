@@ -86,7 +86,7 @@ namespace Goat.AI.Feelings
         private void ActivateQuestioMark()
         {
             dotObject.SetActive(false);
-            resourceToFind.gameObject.SetActive(true);
+            resourceToFind.gameObject.SetActive(npc.ItemsToGet.ItemsInInventory > 0);
             questionMark.gameObject.SetActive(true);
         }
 

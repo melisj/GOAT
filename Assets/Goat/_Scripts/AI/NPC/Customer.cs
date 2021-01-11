@@ -117,6 +117,11 @@ namespace Goat.AI
             stateMachine.SetState(moveToDestination);
         }
 
+        private void OnEnable()
+        {
+            onDay.RegisterSafe(this);
+        }
+
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
             searchingTime = 0;
@@ -124,13 +129,16 @@ namespace Goat.AI
             leavingStore = false;
             money = UnityEngine.Random.Range(1, 3) * 100;
             base.OnGetObject(objectInstance, poolKey);
-            onDay.RegisterSafe(this);
+        }
+
+        private void OnDisable()
+        {
+            onDay.UnregisterSafe(this);
         }
 
         public override void OnReturnObject()
         {
             feelings.OnReturn();
-            onDay.UnregisterSafe(this);
 
             base.OnReturnObject();
         }
