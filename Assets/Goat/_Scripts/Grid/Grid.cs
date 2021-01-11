@@ -559,8 +559,8 @@ namespace Goat.Grid
                 middleY = startTile.TilePosition.y;
             int startX = Mathf.Clamp(middleX - radius, 0, gridSize.x),
                 startY = Mathf.Clamp(middleY - radius, 0, gridSize.y);
-            int endX = Mathf.Clamp(middleX + radius, 0, gridSize.x),
-                endY = Mathf.Clamp(middleY + radius, 0, gridSize.y);
+            int endX = Mathf.Clamp(middleX + radius + 1, 0, gridSize.x),
+                endY = Mathf.Clamp(middleY + radius + 1, 0, gridSize.y);
 
             for (int x = startX; x < endX; x++)
             {
