@@ -58,7 +58,7 @@ namespace Goat.UI
 
         protected override void SetTotalPrice()
         {
-            totalPrice.text = (currentAmount * selectedBuyable.Price * multiplier).ToString("N0");
+            totalPrice.text = (currentAmount * selectedBuyable.Price() * multiplier).ToString("N0");
         }
 
         private void Fire()
