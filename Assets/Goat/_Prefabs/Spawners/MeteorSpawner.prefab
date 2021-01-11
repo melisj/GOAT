@@ -47,5 +47,5 @@ MonoBehaviour:
     type: 3}
   grid: {fileID: 0}
   onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  spawnPerNight: 2
+  spawnPerNight: 999999
   randomSpawnTime: {x: 30, y: 60}

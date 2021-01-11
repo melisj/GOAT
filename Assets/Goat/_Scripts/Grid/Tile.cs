@@ -402,7 +402,7 @@ namespace Goat.Grid
         private void DestroyWall(float rotationAngle, bool autoMode, bool isLoading)
         {
             int index = GetWallIndex(rotationAngle);
-
+            if (autoMode && !wallAuto[index]) return;
             PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
             Debug.Log("Destroying");
             if (!autoMode && !isLoading)

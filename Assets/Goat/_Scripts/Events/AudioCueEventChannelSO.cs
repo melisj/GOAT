@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// Event on which <c>AudioCue</c> components send a message to play SFX and music. <c>AudioManager</c> listens on these events, and actually plays the sound.
@@ -8,7 +9,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Events/AudioCue Event Channel")]
 public class AudioCueEventChannelSO : ScriptableObject
 {
-    public UnityAction<AudioCue, Vector3, Transform> OnAudioCueRequested;
+    public UnityAction<AudioCue, Vector3, Transform, Action> OnAudioCueRequested;
     public UnityAction<GameObject> OnAudioCueStopRequested;
 
     public void RaiseStopEvent(GameObject audioCue)
@@ -25,11 +26,11 @@ public class AudioCueEventChannelSO : ScriptableObject
         }
     }
 
-    public void RaiseEvent(AudioCue audioCue, Vector3 positionInSpace, Transform parent)
+    public void RaiseEvent(AudioCue audioCue, Vector3 positionInSpace, Transform parent, Action onFinished = null)
     {
         if (OnAudioCueRequested != null)
         {
-            OnAudioCueRequested.Invoke(audioCue, positionInSpace, parent);
+            OnAudioCueRequested.Invoke(audioCue, positionInSpace, parent, onFinished);
         }
         else
         {

@@ -4861,6 +4861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa2c51e16c56144a819e249d6a15b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cue: {fileID: 1215951195019384941}
 --- !u!198 &6486724773047850863
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9663,7 +9664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 9b327ebd930aa8247b7f801f213fc4fa, type: 2}
-  _playOnStart: 1
+  _playOnStart: 0
   setParentManually: 0
   parent: {fileID: 0}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,

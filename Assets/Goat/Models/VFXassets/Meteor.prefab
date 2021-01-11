@@ -9652,12 +9652,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380498444425272419}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioCue: {fileID: 11400000, guid: 9b327ebd930aa8247b7f801f213fc4fa, type: 2}
+  _audioCue: {fileID: 11400000, guid: 7e20593b5664c2845a4c7ab6e8c62770, type: 2}
   _playOnStart: 1
   setParentManually: 0
   parent: {fileID: 0}

@@ -108,7 +108,7 @@ namespace Goat.UI
             });
 
             openWindow.Append(borders.DOSizeDelta(bordersMaxSize, bordersScaleDuration));
-            openWindow.AppendCallback(openWindowAudio.PlayAudioCue);
+            openWindow.AppendCallback(() => openWindowAudio.PlayAudioCue());
             if (sizeExceeds)
             {
                 openWindow.AppendCallback(() =>
@@ -175,7 +175,7 @@ namespace Goat.UI
             }
 
             closeWindow.Append(borders.DOSizeDelta(new Vector2(BORDER_SIZE, BORDER_SIZE), bordersScaleDuration / closingDurationMultiplier));
-            closeWindow.AppendCallback(closeWindoAudio.PlayAudioCue);
+            closeWindow.AppendCallback(() => closeWindoAudio.PlayAudioCue());
             closeWindow.AppendCallback(() =>
             {
                 barButton.gameObject.SetActive(true);

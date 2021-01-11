@@ -13,6 +13,6 @@ public class PlayAudioOnClick : AudioCue
 
     private void Awake()
     {
-        button.onClick.AddListener(PlayAudioCue);
+        button.onClick.AddListener(() => PlayAudioCue());
     }
 }

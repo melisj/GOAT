@@ -7,22 +7,13 @@ public class MeteorDestroy : MonoBehaviour, IPoolObject
 {
     public int PoolKey { get; set; }
     public ObjectInstance ObjInstance { get; set; }
-
-    void Start()
-    {
-        StartCoroutine(DestroyThis());
-    }
-
-    IEnumerator DestroyThis()
-    {
-        yield return new WaitForSeconds(3);
-        PoolManager.Instance.ReturnToPool(gameObject);
-    }
+    [SerializeField] private AudioCue cue;
 
     public void OnGetObject(ObjectInstance objectInstance, int poolKey)
     {
         ObjInstance = objectInstance;
         PoolKey = poolKey;
+        cue.PlayAudioCue(() => PoolManager.Instance.ReturnToPool(gameObject));
     }
 
     public void OnReturnObject()

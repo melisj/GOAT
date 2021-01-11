@@ -90,7 +90,7 @@ public class AnimateSideBarOnClick : EventListenerVoid
             openSideBar.Append(buttonRects[i].DOPunchScale(scaleIncrease, punchScaleDuration / closingDurationMultiplier, vibrato, elasticity));
             openSideBar.Append(headerRects[i].DOScaleY(1, buttonsAppearDuration));
             if (buttonRects[i].gameObject.activeSelf)
-                openSideBar.AppendCallback(popUpButtonsAudio.PlayAudioCue);
+                openSideBar.AppendCallback(() => popUpButtonsAudio.PlayAudioCue());
         }
     }
 
