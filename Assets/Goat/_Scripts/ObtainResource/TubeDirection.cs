@@ -63,6 +63,7 @@ namespace Goat.Farming
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
+            tileAnimation.Create();
             OnGridChange();
             connectedFarm = null;
             ObjInstance = objectInstance;
