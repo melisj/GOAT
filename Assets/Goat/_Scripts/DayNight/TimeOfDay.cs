@@ -94,11 +94,13 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            float temp = timeOfDayMinutes;
+            timeOfDayMinutes = value;
+
+            if (Mathf.FloorToInt(temp) != Mathf.FloorToInt(value))
             {
                 onTimeChanged.Raise();
             }
-            timeOfDayMinutes = value;
         }
     }
 
