@@ -19,8 +19,8 @@ public class VolumeChanger : MonoBehaviour
     private void ChangeVolume()
     {
         if (!audioManager)
-            mixerVolumeToChange.SetFloat(volumeToChange, (volumeSlider.value - 1f) * 80f);
+            mixerVolumeToChange.SetFloat(volumeToChange, Mathf.Log10(volumeSlider.value) * 20 );
         else
-            audioManager.SetGroupVolume(volumeToChange, volumeSlider.value);
+            audioManager.SetGroupVolume(volumeToChange, Mathf.Log10(volumeSlider.value) * 20 );
     }
 }

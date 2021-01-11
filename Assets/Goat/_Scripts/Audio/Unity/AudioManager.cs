@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour, IAtomListener<int>
 
     public void SetGroupVolume(string parameterName, float normalizedVolume)
     {
-        bool volumeSet = audioMixer.SetFloat(parameterName, NormalizedToMixerValue(normalizedVolume));
+        bool volumeSet = audioMixer.SetFloat(parameterName, normalizedVolume);
         if (!volumeSet)
             Debug.LogError("The AudioMixer parameter was not found");
     }
