@@ -10,6 +10,7 @@ namespace Goat.Saving
     {
         public TimeOfDay time;
         public BoolEvent OnCycleChange;
+        public IntEvent OnDayChanged;
 
         private void Awake()
         {
@@ -22,7 +23,7 @@ namespace Goat.Saving
         public int day;
         public float timeSec;
         public int timeHour;
-        public DateTime time;
+        public long ticks;
 
         public override void Load(SaveHandler handler)
         {
@@ -32,10 +33,11 @@ namespace Goat.Saving
             timeHandler.time.TimeOfDayMinutes = timeSec;
             timeHandler.time.TimeOfDay12Hours = timeHour % 12;
             timeHandler.time.TimeOfDayHours = timeHour;
-            time = timeHandler.time.Date.AddDays(day);
+            timeHandler.time.Date = new DateTime(ticks);
 
             bool isDay = timeHour >= timeHandler.time.TimeOfSunrise && timeHour < timeHandler.time.TimeOfSunset;
 
+            timeHandler.OnDayChanged.Raise(timeHandler.time.Date.Day);
             timeHandler.OnCycleChange.Raise(isDay);
         }
 
@@ -46,8 +48,9 @@ namespace Goat.Saving
             day = timeHandler.time.CurrentDay;
             timeSec = timeHandler.time.TimeOfDayMinutes;
             timeHour = timeHandler.time.TimeOfDayHours;
-
-            timeHandler.time.Date = time;
+            Debug.Log(timeHandler.time.Date.Ticks);
+            Debug.Log(timeHandler.time.Date.Day);
+            ticks = timeHandler.time.Date.Ticks;
         }
     }
 }

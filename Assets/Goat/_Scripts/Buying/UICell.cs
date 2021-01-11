@@ -52,7 +52,8 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
     {
         if (hasBorder)
             imageButton.onClick.AddListener(() => OnSelect());
-        imageButton.onClick.AddListener(() => onClick());
+        if (onClick != null)
+            imageButton.onClick.AddListener(() => onClick());
     }
 
     public void InvokeOnClick()

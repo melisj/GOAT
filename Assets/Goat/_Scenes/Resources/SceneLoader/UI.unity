@@ -4128,6 +4128,7 @@ MonoBehaviour:
     transform: {fileID: 756713364737189318}
     beforeScale: {x: 0, y: 0, z: 0}
     moveAmount: {x: 150, y: 0, z: 0}
+  inGameMenuElement: {fileID: 614521267}
   onNarrativeFinished: {fileID: 11400000, guid: 70056bb678d8b484295b36eb672a842b,
     type: 2}
   transitionDurationPerElement: 0.75
@@ -9336,7 +9337,7 @@ PrefabInstance:
     - target: {fileID: 5601896149593632349, guid: af1cbec511b259849a636ddb487954b6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.999756
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5825134153127911931, guid: af1cbec511b259849a636ddb487954b6,
         type: 3}
@@ -21092,7 +21093,7 @@ PrefabInstance:
     - target: {fileID: 5601896149593632349, guid: 4bab096fed1af534d8fb41dc144dffb0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 6.499939
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 6398429470568287477, guid: 4bab096fed1af534d8fb41dc144dffb0,
         type: 3}
@@ -23892,7 +23893,7 @@ PrefabInstance:
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2795670
+      value: 2802870
       objectReference: {fileID: 0}
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24252,7 +24253,7 @@ PrefabInstance:
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2701440
+      value: 2708640
       objectReference: {fileID: 0}
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24427,7 +24428,7 @@ PrefabInstance:
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1308060
+      value: 1315260
       objectReference: {fileID: 0}
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -25484,7 +25485,7 @@ PrefabInstance:
     - target: {fileID: 580691001173958102, guid: 2d6b2baeb90283041a1ce8b0eae21678,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 20
+      value: 20.000977
       objectReference: {fileID: 0}
     - target: {fileID: 2123763924456494535, guid: 2d6b2baeb90283041a1ce8b0eae21678,
         type: 3}
@@ -27947,7 +27948,7 @@ PrefabInstance:
     - target: {fileID: 2096222349722093525, guid: f8b3d9c20505dc14184de49017011092,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6.371704
+      value: -6.3720703
       objectReference: {fileID: 0}
     - target: {fileID: 2336413153402440502, guid: f8b3d9c20505dc14184de49017011092,
         type: 3}
@@ -28337,7 +28338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6349357a4803bc446ab93e0ce7b35bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 9057328731245743790}
+  startFreshButton: 0
+  startButton: {fileID: 0}
   menuButtons: []
 --- !u!1 &2443471411984830476
 GameObject:

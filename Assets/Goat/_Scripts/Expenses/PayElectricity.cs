@@ -49,7 +49,8 @@ namespace Goat.Expenses
                 }
             }
             onExpenseCreated.Raise(fullPrice);
-            expenseEvent.Raise(new Expense(remainingPrice, "Electricity", time.GetDate(), () => OnFullPay(disabledIndexes)));
+            if (remainingPrice > 0)
+                expenseEvent.Raise(new Expense(remainingPrice, "Electricity", time.GetDate(), () => OnFullPay(disabledIndexes)));
         }
     }
 }

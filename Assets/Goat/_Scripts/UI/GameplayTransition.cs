@@ -23,6 +23,7 @@ namespace Goat.UI
         private const float defaultResolution = 1920;
 
         [SerializeField] private TransitionElement[] transitionElements;
+        [SerializeField] private Canvas inGameMenuElement;
         [SerializeField] private VoidEvent onNarrativeFinished;
         [SerializeField] private float transitionDurationPerElement;
         private Sequence transitionSequence;
@@ -104,7 +105,7 @@ namespace Goat.UI
 
         public void OnEventRaised(Void onNarrativeFinished)
         {
-            if (transitioned) return;
+            if (transitioned || inGameMenuElement.enabled) return;
             Transition();
         }
     }

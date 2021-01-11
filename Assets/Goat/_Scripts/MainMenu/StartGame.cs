@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using Goat.Saving;
+using Sirenix.OdinInspector;
 
 public class StartGame : MonoBehaviour
 {
-    [SerializeField] private Button startButton;
+    [SerializeField] private bool startFreshButton;
+    [SerializeField, ShowIf("startFreshButton")] private Button startButton;
     [SerializeField] private RectTransform[] menuButtons;
 
     private SceneLoaderForBuild sceneLoader;
@@ -17,7 +19,8 @@ public class StartGame : MonoBehaviour
     private void Start()
     {
         sceneLoader = FindObjectOfType<SceneLoaderForBuild>();
-        startButton.onClick.AddListener(() => LoadGame("", true));
+        if(startFreshButton)
+            startButton.onClick.AddListener(() => LoadGame("", true));
     }
 
     public void LoadGame(string saveFile = "", bool defaultSave = false)
