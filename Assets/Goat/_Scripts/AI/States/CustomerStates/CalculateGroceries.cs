@@ -33,9 +33,9 @@ namespace Goat.AI.States
             for (int i = 0; i < resourcesInProject.Length; i++)
                 if (resourcesInProject[i].Available) availableResources.Add(resourcesInProject[i]);
             // Sort list of avaiable resources on price;
-            availableResources = availableResources.OrderBy(x => x.Price).ToList();
+            availableResources = availableResources.OrderBy(x => x.Price(true)).ToList();
             // Check list of available resources
-            int minPrice = (int)availableResources[0].Price;
+            int minPrice = (int)availableResources[0].Price(true);
 
             // While cheapest item is still buyable
             while (minPrice < availableMoney - calculatedCost)
@@ -44,7 +44,7 @@ namespace Goat.AI.States
                 Random.seed = Random.Range(0, 1000) + (int)Time.time;
                 //Vet inefficient
                 int randomIndex = Random.Range(0, availableResources.Count);
-                if (availableResources[randomIndex].Price < availableMoney)
+                if (availableResources[randomIndex].Price(true) < availableMoney)
                     AddResourceToGroceries(availableResources[randomIndex], 1);
             }
 
@@ -60,7 +60,7 @@ namespace Goat.AI.States
                 groceries[resource] += amount;
             else
                 groceries.Add(resource, amount);
-            calculatedCost += (int)resource.Price;
+            calculatedCost += (int)resource.Price(true);
         }
 
         public void OnEnter()

@@ -1,11 +1,13 @@
 ﻿using Goat.Events;
 using Goat.Grid.Interactions;
+using Goat.Grid.UI;
 using UnityEngine;
 
 public class InteractableOnClick : CollisionDetection
 {
     private BaseInteractable currentInteractable, previousInteractable;
     [SerializeField] private InteractableEvent interactableEvent;
+    [SerializeField] private GridUIInfo gridUIInfo;
 
     public override void OnEnter()
     {
@@ -13,7 +15,7 @@ public class InteractableOnClick : CollisionDetection
         {
             currentInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
 
-            if (currentInteractable != null && currentInteractable.IsClickedOn && !currentInteractable.UIActivated)
+            if (currentInteractable != null && !currentInteractable.UIActivated && (gridUIInfo.CurrentUIElement == UIElement.None || gridUIInfo.CurrentUIElement == UIElement.Interactable))
             {
                 interactableEvent.Raise(currentInteractable);
             }

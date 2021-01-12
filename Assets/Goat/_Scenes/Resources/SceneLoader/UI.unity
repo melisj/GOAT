@@ -4897,8 +4897,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeButton: {fileID: 518469817}
-  timeScaleSet: 3
-  timeSpeedSet: 30
+  timeScaleSet: 5
+  timeSpeedSet: 1
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   onTimeButtonClicked: {fileID: 11400000, guid: d0b8316b76e39f84f93332653ffe7c85,
     type: 2}
@@ -11424,6 +11424,8 @@ MonoBehaviour:
   subscribedEvent: {fileID: 11400000, guid: 2a8a68708e76dcb4b98da7d88c70b4dd, type: 2}
   subscribers: 0
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
+  closeButtonEvent: {fileID: 11400000, guid: 3d461bdf4aacdbf45aa55c4c923ca5f2, type: 2}
+  closeSideBar: {fileID: 11400000, guid: 979d98f7aa98fd54297a5e3d30cc3e57, type: 2}
 --- !u!1 &993464088
 GameObject:
   m_ObjectHideFlags: 0
@@ -12474,7 +12476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeButton: {fileID: 1108064047}
-  timeScaleSet: 0.001
+  timeScaleSet: 0
   timeSpeedSet: 0
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   onTimeButtonClicked: {fileID: 11400000, guid: d0b8316b76e39f84f93332653ffe7c85,
@@ -13389,7 +13391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeButton: {fileID: 1160029375}
   timeScaleSet: 2
-  timeSpeedSet: 15
+  timeSpeedSet: 1
   onTimeSpeedChanged: {fileID: 11400000, guid: 970f69074b43a1646b701eb549cdeda5, type: 2}
   onTimeButtonClicked: {fileID: 11400000, guid: d0b8316b76e39f84f93332653ffe7c85,
     type: 2}
@@ -23893,7 +23895,7 @@ PrefabInstance:
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2802870
+      value: 2808630
       objectReference: {fileID: 0}
     - target: {fileID: 2448152747952091977, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24253,7 +24255,7 @@ PrefabInstance:
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2708640
+      value: 2714400
       objectReference: {fileID: 0}
     - target: {fileID: 3130158744561865869, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -24428,7 +24430,7 @@ PrefabInstance:
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1315260
+      value: 1321020
       objectReference: {fileID: 0}
     - target: {fileID: 4202426600194244469, guid: e296f86216d60784d8497edf854ec4aa,
         type: 3}
@@ -34801,7 +34803,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 63229583831815395}
   m_HandleRect: {fileID: 6281110759375520698}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -37667,7 +37669,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 5574908854215258813}
   m_HandleRect: {fileID: 2352255570088687998}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -40969,7 +40971,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 2540659076896866872}
   m_HandleRect: {fileID: 910086066659157363}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1

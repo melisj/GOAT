@@ -17,7 +17,7 @@ public class CellWithPriceAndAmount : CellWithPrice
         base.Setup(buyable);
         buyable.AmountChanged += OnAmountChanged;
         ChangeAmountText(buyable.Amount);
-        ChangeText((int)buyable.Price, priceText, priceBackground);
+        ChangeText((int)buyable.Price(), priceText, priceBackground);
     }
 
     public void Setup(Buyable buyable, int amount)
@@ -30,7 +30,14 @@ public class CellWithPriceAndAmount : CellWithPrice
 
         base.Setup(buyable);
         ChangeAmountText(amount);
-        ChangeText((int)buyable.Price, priceText, priceBackground);
+        ChangeText((int)buyable.Price(), priceText, priceBackground);
+    }
+
+    public void Setup(Buyable buyable, int price, int amount)
+    {
+        base.Setup(buyable);
+        ChangeAmountText(amount);
+        ChangeText(price, priceText, priceBackground);
     }
 
     private void ChangeAmountText(int change)

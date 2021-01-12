@@ -267,7 +267,7 @@ namespace Goat.Grid
             checkedTiles.Clear();
             SetupNeighborTilesWithoutEditing(index);
             Placeable wallPlace = previewPlaceableInfo is Wall ? previewPlaceableInfo : defaultWall;
-            float total = wallPlace.Price * (checkedTiles.Count * 2);
+            float total = wallPlace.Price() * (checkedTiles.Count * 2);
             return wallPlace.Money.Amount > total;
         }
 

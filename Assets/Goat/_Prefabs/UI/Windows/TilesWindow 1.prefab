@@ -1827,6 +1827,7 @@ MonoBehaviour:
   PanelToHide: {fileID: 0}
   canvasToDisable: {fileID: 0}
   type: 1
+  currentInputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   cellPrefab: {fileID: 1089002702369542322, guid: cb258ad61c9f50e41a1026cea49fbb18,
     type: 3}
   gridCells:

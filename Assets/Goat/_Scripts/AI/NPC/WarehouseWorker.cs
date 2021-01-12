@@ -26,6 +26,7 @@ namespace Goat.AI
             DoNothing doNothing = new DoNothing(this);
             findRestingPlace = new FindRestingPlace(this);
             waitingState = new WaitingState(this, 5);
+            EnterGoToStorage enterGoToStorage = new EnterGoToStorage(this, navMeshAgent, animator);
 
             // Conditions
             Func<bool> HasDestination() => () => resourceDetecter.detected = true && Vector3.Distance(transform.position, targetDestination) > navMeshAgent.radius;
@@ -35,19 +36,23 @@ namespace Goat.AI
             Func<bool> HasTarget() => () => targetStorage != null;
             Func<bool> EmptiedInventory() => () => Inventory.ItemsInInventory == 0 && placeItem.filled;
             Func<bool> FindNextStorage() => () => Inventory.ItemsInInventory > 0 && placeItem.filled;
+            Func<bool> EnteredStorage() => () => enterGoToStorage.entered;
+            Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
 
+            AT(enterGoToStorage, doNothing, EnteredStorage());
             AT(searchForStorageInWarehouse, moveToTarget, HasTarget());
             AT(doNothing, moveToDestination, HasDestination());
             AT(moveToDestination, doNothing, ReachedDestination());
+            AT(moveToDestination, doNothing, StuckForSeconds());
             AT(doNothing, searchForStorageInWarehouse, GoStoreItems());
             AT(moveToTarget, placeItem, ReachedTarget());
             AT(placeItem, doNothing, EmptiedInventory());
             AT(placeItem, searchForStorageInWarehouse, FindNextStorage());
 
-            stateMachine.SetState(doNothing);
+            stateMachine.SetState(enterGoToStorage);
         }
     }
 }

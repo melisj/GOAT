@@ -4862,6 +4862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cue: {fileID: 1215951195019384941}
+  onMeteorImpact: {fileID: 11400000, guid: 1cc7ac1f917792f49b020004278bdcd3, type: 2}
 --- !u!198 &6486724773047850863
 ParticleSystem:
   m_ObjectHideFlags: 0

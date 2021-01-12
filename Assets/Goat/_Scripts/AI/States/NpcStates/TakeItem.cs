@@ -10,14 +10,15 @@ namespace Goat.AI.States
 {
     public class TakeItem : IState
     {
-        NPC npc;
-        Animator animator;
-        bool returnToStock;
+        private NPC npc;
+        private Animator animator;
+        private bool returnToStock;
         public bool depleted = false;
         // Get this from npc
         private float takingSpeed = 0.5f, nextItemTime = 0;
 
         public event EventHandler eventHandler;
+
         public TakeItem(NPC npc, Animator animator, bool returnToStock)
         {
             this.npc = npc;
@@ -35,7 +36,7 @@ namespace Goat.AI.States
                 if (npc.ItemsToGet.Contains(tempResource))
                 {
                     if (npc is Customer)
-                        ((Customer)npc).totalPriceProducts += tempResource.Price;
+                        ((Customer)npc).totalPriceProducts += tempResource.Price(true);
 
                     Debug.LogFormat("Took {0} from storage container", tempResource.name);
                     npc.Inventory.Add(tempResource, 1, out int amountStored);
@@ -63,7 +64,6 @@ namespace Goat.AI.States
                 nextItemTime = Time.time + (1 / takingSpeed);
                 TakeItemFromStorage();
             }
-
         }
 
         public void OnEnter()
@@ -81,4 +81,3 @@ namespace Goat.AI.States
         }
     }
 }
-

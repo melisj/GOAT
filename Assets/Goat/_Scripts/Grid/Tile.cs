@@ -259,7 +259,7 @@ namespace Goat.Grid
                     interactable.grid = grid;
                 }
 
-                tileObject.transform.localScale = size;
+                //    tileObject.transform.localScale = size;
                 if (placeable is Floor)
                 {
                     SaveData.SetFloor(placeable.ID, (int)rotationAngle);
@@ -365,6 +365,9 @@ namespace Goat.Grid
 
             if (wall != null && !destroyMode)
             {
+                if (autoMode && wallObjs[index])
+                    return true;
+
                 GameObject newObject = wall.Prefab;
                 Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
                 Vector3 size = Vector3.one * grid.GetTileSize;
@@ -373,7 +376,7 @@ namespace Goat.Grid
                 wallObjs[index] = PoolManager.Instance.GetFromPool(newObject, centerPosition, rotation);
                 PlaceableInfo placeableInfo = wallObjs[index].GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(wall);
-                wallObjs[index].transform.localScale = size;
+                // wallObjs[index].transform.localScale = size;
                 if (autoMode)
                     wallAuto[index] = true;
 

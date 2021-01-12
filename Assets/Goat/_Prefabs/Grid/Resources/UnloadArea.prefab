@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createDuration: 0.2
+  createDuration: 0.4
   destroyDurationMultiplier: 2
   scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &2435749049012677713
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 4411860686996855945}
   - component: {fileID: 762736156222313260}
   - component: {fileID: 3274467913203623910}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TileNeutral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
