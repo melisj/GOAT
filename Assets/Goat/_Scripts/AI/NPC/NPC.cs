@@ -22,6 +22,7 @@ namespace Goat.AI
 
         protected StateMachine stateMachine;
         protected MoveToDestination moveToDestination;
+        protected MoveToTarget moveToTarget;
         [ReadOnly] public Vector3 targetDestination;
 
         [ReadOnly] public NavMeshAgent navMeshAgent;
@@ -60,7 +61,9 @@ namespace Goat.AI
             inventory = new Inventory(maxInventory);
             itemsToGet = new Inventory(maxInventory);
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
+            moveToDestination = new MoveToDestination(this, navMeshAgent);
+            moveToTarget = new MoveToTarget(this, navMeshAgent);
+            takeItem = new TakeItem(this, animator, false);
         }
 
         protected virtual void Update() => stateMachine.Tick();

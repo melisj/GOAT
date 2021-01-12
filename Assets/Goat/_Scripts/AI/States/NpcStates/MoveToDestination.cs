@@ -44,6 +44,7 @@ namespace Goat.AI.States
             timeStuck = 0f;
             Debug.Log("Arrived at destination");
             //navMeshAgent.enabled = false;
+            navMeshAgent.ResetPath();
         }
     }
 }

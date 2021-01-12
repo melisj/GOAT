@@ -45,6 +45,7 @@ namespace Goat.AI.States
             // Set animation
             //navMeshAgent.enabled = false;
             npc.enterTime = Time.time;
+            navMeshAgent.ResetPath();
         }
     }
 }

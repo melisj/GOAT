@@ -25,16 +25,9 @@ namespace Goat.AI
             base.Setup();
 
             EnterStore enterStore = new EnterStore(this, navMeshAgent, entrances);
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
-            takeItem = new TakeItem(this, animator, false);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent);
-            placeItem = new PlaceItem(this, animator);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
-            exitStore = new ExitStore(this, navMeshAgent);
-            //findRestingPlace = new FindRestingPlace(this);
-            waitingState = new WaitingState(this, 5);
             SetRandomDestination setRandomDestination = new SetRandomDestination(this, navMeshAgent, 3, null);
 
             // Conditions

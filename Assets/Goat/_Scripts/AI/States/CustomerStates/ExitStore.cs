@@ -40,7 +40,9 @@ namespace Goat.AI.States
         public virtual void OnExit()
         {
             npc.Ship.ShipReadyToFly();
+            navMeshAgent.ResetPath();
             PoolManager.Instance.ReturnToPool(npc.gameObject);
+            
         }
     }
 }

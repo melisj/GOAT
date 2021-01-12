@@ -22,6 +22,16 @@ namespace Goat.AI
 
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
 
+        protected override void Setup()
+        {
+            base.Setup();
+
+            placeItem = new PlaceItem(this, animator);
+            findRestingPlace = new FindRestingPlace(this);
+            waitingState = new WaitingState(this, 5);
+            exitStore = new ExitStore(this, navMeshAgent);
+        }
+
 
     }
 }

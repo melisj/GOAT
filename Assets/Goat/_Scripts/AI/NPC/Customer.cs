@@ -54,9 +54,6 @@ namespace Goat.AI
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
             EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, entrances, customerCapacity);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea, questioning);
-            moveToDestination = new MoveToDestination(this, navMeshAgent);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent);
-            takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
             exitStore = new ExitStoreCustomer(this, navMeshAgent, review, customerCapacity, checkout, angry);
             DoNothing doNothing = new DoNothing(this);
