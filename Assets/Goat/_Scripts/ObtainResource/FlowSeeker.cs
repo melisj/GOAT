@@ -86,7 +86,7 @@ public class FlowSeeker : EventListenerVoid
             }
             else
             {
-                for (int i = 0; i < currentTube.ConnectedTubes.Length; i++)
+                for (int i = 0; i < currentTube.ConnectedTubes.Count; i++)
                 {
                     TubeDirection newTube = currentTube.ConnectedTubes[i];
                     if (!newTube) continue;

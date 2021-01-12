@@ -161,11 +161,13 @@ MonoBehaviour:
   onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
   multiDirection: 0
+  endPoint: 1
   path:
     points:
     - {x: 0, y: 0.5, z: -0.7}
     - {x: 0, y: 0.5, z: 0.17}
   paths: []
+  connectedMultiDirections: []
   layer:
     serializedVersion: 2
     m_Bits: 131072
@@ -214,7 +216,6 @@ MonoBehaviour:
   resourcePackLayer:
     serializedVersion: 2
     m_Bits: 16384
-  resPacks: []
   pos: {x: 0, y: 0, z: 0.17}
   colls: []
 --- !u!114 &-5263532696533251496

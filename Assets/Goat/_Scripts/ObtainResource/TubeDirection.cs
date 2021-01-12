@@ -14,21 +14,26 @@ namespace Goat.Farming
         [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private VoidEvent onTubesConnected;
         [SerializeField] private bool multiDirection;
+        [SerializeField] private bool endPoint;
         [SerializeField, HideIf("multiDirection")] private Path path;
         [SerializeField, ShowIf("multiDirection")] private Path[] paths;
+        [SerializeField, ShowIf("multiDirection")] private TubeDirection[] connectedMultiDirections;
         [SerializeField] private LayerMask layer;
         [SerializeField] private Vector3[] offset;
         [SerializeField] private float radius = 0.2f;
         private TileAnimation tileAnimation;
         private TubeDirection previousTube;
-        [SerializeField] private TubeDirection[] connectedTubes;
+        [SerializeField] private List<TubeDirection> connectedTubes;
+
+        public bool ExchangePoint => multiDirection || endPoint;
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
         public FarmStationFunction ConnectedFarm { get => connectedFarm; set => connectedFarm = value; }
         public Vector3[] Offset => offset;
 
-        public TubeDirection[] ConnectedTubes => connectedTubes;
+        public List<TubeDirection> ConnectedTubes => connectedTubes;
+        public TubeDirection[] ConnectedMultiDirections => connectedMultiDirections;
 
         public Path[] Paths { get => paths; set => paths = value; }
         public Path Path { get => path; set => path = value; }
@@ -38,7 +43,7 @@ namespace Goat.Farming
             if (paths != null)
             {
                 int amountActivate = 0;
-                for (int i = 0; i < connectedTubes.Length; i++)
+                for (int i = 0; i < connectedTubes.Count; i++)
                 {
                     if (connectedTubes[i] != null)
                         amountActivate++;
@@ -63,19 +68,17 @@ namespace Goat.Farming
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
-            tileAnimation.Create();
-            OnGridChange();
+            tileAnimation.Create(SetConnections);
             connectedFarm = null;
             ObjInstance = objectInstance;
             PoolKey = poolKey;
-            onGridChange.Raise(gameObject);
         }
 
         public bool HasConnection()
         {
             int connections = 0;
             bool connectedToFarm = false;
-            for (int i = 0; i < connectedTubes.Length; i++)
+            for (int i = 0; i < connectedTubes.Count; i++)
             {
                 if (connectedTubes[i] != null)
                 {
@@ -94,7 +97,7 @@ namespace Goat.Farming
 
         private void OnGridChange()
         {
-            connectedTubes = new TubeDirection[offset.Length];
+            connectedTubes = new List<TubeDirection>();
 
             for (int i = 0; i < offset.Length; i++)
             {
@@ -106,6 +109,39 @@ namespace Goat.Farming
             }
 
             onTubesConnected.Raise();
+        }
+
+        private void SetConnections()
+        {
+            for (int i = 0; i < offset.Length; i++)
+            {
+                CheckForConnection(offset[i]);
+            }
+        }
+
+        private void CheckForConnection(Vector3 offset)
+        {
+            // Check all directions for tubes
+            Collider[] cols = Physics.OverlapSphere(CorrectPosWithRotation(offset), radius, layer);
+            // Assign those tubes as references
+            if (cols.Length > 0)
+            {
+                List<Collider> otherCols = GetOtherColliders(cols);
+                Debug.Log($"{cols.Length} -- {otherCols.Count}");
+                for (int i = 0; i < otherCols.Count; i++)
+                {
+                    Collider otherCol = otherCols[i];
+                    Debug.Log(otherCol.gameObject.name,  otherCol.gameObject);
+                    TubeDirection tubeDir = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
+                    if (tubeDir) 
+                    {
+                        connectedTubes.Add(tubeDir);
+
+                        // Assign this tube to their references
+                        tubeDir.ConnectedTubes.Add(this);
+                    }
+                }
+            }
         }
 
         private FarmStationFunction CheckForConnectionsMulti(Vector3 offset, int index)
@@ -183,8 +219,10 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
-            onGridChange.Raise(gameObject);
-
+            for (int i = 0; i < connectedTubes.Count; i++)
+            {
+                connectedTubes[i].ConnectedTubes.Remove(this);
+            }
             tileAnimation.Destroy(() => gameObject.SetActive(false));
         }
 
@@ -204,6 +242,8 @@ namespace Goat.Farming
             }
         MultiConnect:
             {
+                Gizmos.DrawSphere(transform.position + transform.up * 1, 0.3f);
+
                 if (paths != null && paths.Length > 0)
                 {
                     for (int j = 0; j < paths.Length; j++)
@@ -221,26 +261,33 @@ namespace Goat.Farming
 
         private void DrawOverlapSphere()
         {
-            for (int i = 0; i < offset.Length; i++)
+            for (int i = 0; i < connectedTubes.Count; i++)
             {
-                if (connectedTubes != null && connectedTubes.Length > 0)
+                if (connectedTubes != null && connectedTubes.Count > 0)
                 {
                     Gizmos.color = connectedTubes[i] == null ? Color.red : Color.green;
                 }
 
+            }
+            for (int i = 0; i < offset.Length; i++)
+            {
                 Gizmos.DrawWireSphere(CorrectPosWithRotation(offset[i]), radius);
             }
         }
 
         protected void OnEnable()
         {
-            onGridChange.RegisterSafe(this);
+            //onGridChange.RegisterSafe(this);
             Debug.Log("activate");
         }
 
         protected void OnDisable()
         {
-            onGridChange.UnregisterSafe(this);
+            //onGridChange.UnregisterSafe(this);
+            for (int i = 0; i < connectedTubes.Count; i++)
+            {
+                connectedTubes[i].ConnectedTubes.Remove(this);
+            }
             Debug.Log("DEactivate");
         }
 
