@@ -48,7 +48,7 @@ namespace Goat.AI.States
                 animator.SetTrigger("Interact");
                 //Delay
                 eventHandler?.Invoke(this, null);
-                    
+
                 worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
@@ -61,8 +61,8 @@ namespace Goat.AI.States
         {
             if (!filled && nextItemTime <= Time.time)
             {
-                PlaceItemInStorage();
                 nextItemTime = Time.time + (1 / placingSpeed);
+                PlaceItemInStorage();
             }
         }
 
