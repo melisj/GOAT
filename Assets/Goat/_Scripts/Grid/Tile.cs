@@ -273,6 +273,8 @@ namespace Goat.Grid
                     tempTile = buildingObject;
                     if (GetWallObj(InverseRotation((int)rotationAngle)))
                         AdjustPositionAgainstWall(buildingObject);
+
+                    SetupFarmStation(buildingObject, placeable);
                 }
                 totalBeautyPoints += placeable.BeautyPoints;
                 if (!isLoading)
@@ -474,6 +476,15 @@ namespace Goat.Grid
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
                     EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
+            }
+        }
+
+        private void SetupFarmStation(GameObject obj, Placeable placeable)
+        {
+            if (placeable is FarmStation)
+            {
+                FarmStationFunction farmStation = obj.GetComponent<FarmStationFunction>();
+                farmStation.SetResourceTile(grid.GetTilesInRange(this, 1, true));
             }
         }
 

@@ -17,13 +17,13 @@ namespace Goat.Farming
         [SerializeField] private float radius = 0.1f;
         [SerializeField] private LayerMask resourcePackLayer;
         public HashSet<GameObject> ConnectedFarms => connectedFarms;
-        [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
+        //[SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         [SerializeField] private Vector3 pos;
         [SerializeField] private Collider[] colls;
         private Sequence createResPackSequence;
         private int calls;
 
-        public TubeEndInfo Info
+      /*  public TubeEndInfo Info
         {
             get
             {
@@ -31,12 +31,12 @@ namespace Goat.Farming
                 int[] resource = new int[resPacks.Count];
                 for (int i = 0; i < resPacks.Count; i++)
                 {
-                    amount[i] = resPacks[i].Amount;
+                    amount[i] = 1;
                     resource[i] = resPacks[i].Resource.ID;
                 }
                 return new TubeEndInfo(resource, amount, transform.position, (int)transform.rotation.eulerAngles.y / 90);
             }
-        }
+        }*/
 
         private void Clear()
         {
@@ -72,22 +72,28 @@ namespace Goat.Farming
             }
 
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            colls = CheckForResPacks(pos);
-            RemovePickedResPacks(colls);
-            if (colls.Length >= connectedFarms.Count) return;
 
             var enumerator = connectedFarms.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
-                ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject);
-                if (resPack)
-                {
-                    resPacks.Add(resPack);
-                }
+                if (farmStation != null)
+                    farmStation.AddTubeEnd(pos);
+
             }
         }
 
+        private void OnDisable() 
+        {
+            var enumerator = connectedFarms.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
+                farmStation.TubeEnds.Remove(pos);
+
+            }
+        }
+/*
         public void CreateResPacks(List<Resource> resources, float[] amount)
         {
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
@@ -110,9 +116,9 @@ namespace Goat.Farming
                     }
                 }
             }
-        }
+        }*/
 
-        private void RemovePickedResPacks(Collider[] colliders)
+        /*private void RemovePickedResPacks(Collider[] colliders)
         {
             var enumerator = connectedFarms.GetEnumerator();
             while (enumerator.MoveNext())
@@ -123,14 +129,13 @@ namespace Goat.Farming
                     {
                         FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
                         farmStation.TubeEnds.Remove(gameObject);
-                        farmStation.ResPacks.Remove(resPacks[i]);
                         resPacks.RemoveAt(i);
                     }
                 }
             }
-        }
+        }*/
 
-        private void OnDisable()
+        /*private void OnDisable()
         {
             createResPackSequence.Kill();
             pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
@@ -142,12 +147,11 @@ namespace Goat.Farming
                 {
                     FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
                     farmStation.TubeEnds.Remove(gameObject);
-                    farmStation.ResPacks.Remove(resPacks[i]);
                 }
             }
 
             resPacks.Clear();
-        }
+        }*/
 
         private Collider[] CheckForResPacks(Vector3 pos)
         {
@@ -162,20 +166,5 @@ namespace Goat.Farming
         }
     }
 
-    [Serializable]
-    public class TubeEndInfo
-    {
-        public int[] resource;
-        public float[] amount;
-        public Vector3 position;
-        public int rotation;
-
-        public TubeEndInfo(int[] resource, float[] amount, Vector3 position, int rotation)
-        {
-            this.resource = resource;
-            this.amount = amount;
-            this.position = position;
-            this.rotation = rotation;
-        }
-    }
+    
 }

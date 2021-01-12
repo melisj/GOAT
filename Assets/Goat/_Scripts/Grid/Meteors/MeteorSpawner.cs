@@ -1,4 +1,5 @@
 ﻿using Goat.Pooling;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityAtoms;
@@ -45,6 +46,7 @@ public class MeteorSpawner : MonoBehaviour, IAtomListener<bool>
             spawnRoutine = StartCoroutine(SpawnMeteor());
     }
 
+    [Button("Spawn meteor")]
     private IEnumerator SpawnMeteor()
     {
         float spawnTime = Random.Range(randomSpawnTime.x, randomSpawnTime.y);

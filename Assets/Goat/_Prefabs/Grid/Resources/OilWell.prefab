@@ -138,7 +138,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: tubeEnds
       Entry: 7
-      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.Vector3, UnityEngine.CoreModule]],
         System.Core
     - Name: 
       Entry: 12
@@ -162,7 +162,6 @@ MonoBehaviour:
   debugPathIndex: 0
   connectedTubes: []
   onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
-  resPacks: []
   cue: {fileID: -8038335012244117649}
 --- !u!114 &4116500539755273296
 MonoBehaviour:

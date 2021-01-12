@@ -44,7 +44,7 @@ namespace Goat.Grid
         {
             if (amount <= 0)
             {
-                filter.mesh = null;
+                PoolManager.Instance.ReturnToPool(gameObject);
             }
         }
 
