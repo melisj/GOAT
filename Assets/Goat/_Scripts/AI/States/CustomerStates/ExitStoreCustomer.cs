@@ -11,11 +11,10 @@ namespace Goat.AI.States
         private IntVariable customerCapacity;
         private AudioCue checkout, angry;
 
-        public ExitStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, Animator animator, CustomerReview review, IntVariable customerCapacity, AudioCue checkout, AudioCue angry) : base(npc, navMeshAgent, animator)
+        public ExitStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, CustomerReview review, IntVariable customerCapacity, AudioCue checkout, AudioCue angry) : base(npc, navMeshAgent)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
             this.review = review;
             this.customerCapacity = customerCapacity;
             this.checkout = checkout;

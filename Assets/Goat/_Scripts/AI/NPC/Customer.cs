@@ -52,13 +52,13 @@ namespace Goat.AI
 
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
-            EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, animator, entrances, customerCapacity);
+            EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, entrances, customerCapacity);
             SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea, questioning);
-            moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
+            moveToDestination = new MoveToDestination(this, navMeshAgent);
+            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent);
             takeItem = new TakeItem(this, animator, false);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStoreCustomer(this, navMeshAgent, animator, review, customerCapacity, checkout, angry);
+            exitStore = new ExitStoreCustomer(this, navMeshAgent, review, customerCapacity, checkout, angry);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions

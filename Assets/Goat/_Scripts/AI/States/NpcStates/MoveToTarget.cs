@@ -9,16 +9,14 @@ namespace Goat.AI.States
     {
         private NPC npc;
         private NavMeshAgent navMeshAgent;
-        private Animator animator;
 
         private Vector3 lastLocation;
         public float timeStuck;
 
-        public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
+        public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
         }
 
         public void Tick()
@@ -31,7 +29,6 @@ namespace Goat.AI.States
 
             lastLocation = npc.transform.position;
 
-            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public void OnEnter()
@@ -49,8 +46,6 @@ namespace Goat.AI.States
             timeStuck = 0f;
             Debug.Log("Arrived at target");
             //navMeshAgent.enabled = false;
-            // Animation
-            animator.SetFloat("Move", 0);
         }
     }
 }

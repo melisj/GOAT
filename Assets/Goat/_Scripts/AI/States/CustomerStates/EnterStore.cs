@@ -9,17 +9,15 @@ namespace Goat.AI.States
     {
         protected NPC npc;
         protected NavMeshAgent navMeshAgent;
-        protected Animator animator;
         public bool enteredStore;
         protected Vector3 entrance;
         protected UnloadLocations entrances;
         protected float destinationDistance = 0.2f;
 
-        public EnterStore(NPC npc, NavMeshAgent navMeshAgent, Animator animator, UnloadLocations entrances)
+        public EnterStore(NPC npc, NavMeshAgent navMeshAgent, UnloadLocations entrances)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
             this.entrances = entrances;
         }
 
@@ -30,7 +28,6 @@ namespace Goat.AI.States
                 enteredStore = true;
                 //npc.enteredStore = this.enteredStore;
             }
-            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public virtual void OnEnter()
@@ -48,7 +45,6 @@ namespace Goat.AI.States
             // Set animation
             //navMeshAgent.enabled = false;
             npc.enterTime = Time.time;
-            animator.SetFloat("Move", 0);
         }
     }
 }
