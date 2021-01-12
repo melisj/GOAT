@@ -454,7 +454,7 @@ MonoBehaviour:
   currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   gridLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1840896
 --- !u!114 &7797434496470216267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,10 +950,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
-  size: 0.6
+  size: 0.4
   layerMask:
     serializedVersion: 2
-    m_Bits: 1835008
+    m_Bits: 512
   onlyNearest: 1
   maxAmountColliders: 0
   repeatDetectionOverTime: 1

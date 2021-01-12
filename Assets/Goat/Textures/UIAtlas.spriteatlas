@@ -56,6 +56,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: af217ea0c45381b45855c9e231e529b8, type: 3}
   - {fileID: 21300000, guid: a3d5d9b0e0441fe4794ab8730fbf603a, type: 3}
   - {fileID: 21300000, guid: 2e583be0b7139264f851e8bd373bb28d, type: 3}
+  - {fileID: 21300000, guid: c2b16af060e5a09458e1de152e9738ae, type: 3}
   - {fileID: 21300000, guid: 70c75d21c31c07046b518c19e52f235f, type: 3}
   - {fileID: 21300000, guid: dc447341e1f9faa4fa27e2bdf02e828a, type: 3}
   - {fileID: 21300000, guid: ca540551d66ca3642a47fce06a49bafd, type: 3}
@@ -195,6 +196,7 @@ SpriteAtlas:
   - Panel Cross
   - Oil well
   - OilTile
+  - Shelf
   - Wall Cross
   - Wall Corner
   - Border_Purple_Middle

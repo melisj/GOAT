@@ -44,8 +44,18 @@ namespace Goat.Grid.Interactions
 
         [HideInInspector] public Grid grid;
         private TileAnimation tileAnimation;
+        [SerializeField] private bool isClickedOn;
 
-        public bool IsClickedOn { get; set; }
+        public bool IsClickedOn
+        {
+            get => isClickedOn;
+            set
+            {
+                Debug.Log($"Clicked on = {value}", gameObject);
+                isClickedOn = value;
+            }
+        }
+
         public bool UIOpen => gridUIInfo.IsUIActive;
         public bool UIActivated { get; set; }
 
@@ -110,7 +120,7 @@ namespace Goat.Grid.Interactions
             //gridUIInfo.CurrentUIElement = UIElement.None;
             //Debug.Log("Apparently yes, but it's closed now");
 
-            IsClickedOn = false;
+            //IsClickedOn = false;
             info.CurrentSelected = null;
         }
 

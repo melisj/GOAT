@@ -27,6 +27,8 @@ namespace Goat.Grid.Interactions
         public InteractableUIElement ElementToLoad => elementToLoad;
 
         [SerializeField] private Resource mainResource;
+        [SerializeField] private MeshRenderer outlineRend;
+
         [HideInInspector] public Resource MainResource { get => mainResource; set => mainResource = value; }
         public bool selected { get; set; }
 
@@ -46,6 +48,17 @@ namespace Goat.Grid.Interactions
         private void Inventory_InventoryChangedEvent(Resource resource, int amount, bool removed)
         {
             InvokeChange();
+        }
+
+        protected override void IsClicked(Transform clickedObj)
+        {
+            base.IsClicked(clickedObj);
+            ShowOutline(IsClickedOn);
+        }
+
+        private void ShowOutline(bool clickedOn)
+        {
+            outlineRend.enabled = clickedOn;
         }
 
         public override object[] GetArgumentsForUI()

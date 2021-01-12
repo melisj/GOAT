@@ -83,7 +83,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6562094742184137499}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 6562094742628212421}
   - component: {fileID: 6562094742628212427}
   - component: {fileID: 6562094742628212426}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 5999040357800013171}
   - component: {fileID: 4339126204538731059}
   - component: {fileID: 2392921873219260014}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: CooledStorageShelf-1
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -252,6 +252,7 @@ MonoBehaviour:
   enviroment: 2
   elementToLoad: 1
   mainResource: {fileID: 0}
+  outlineRend: {fileID: 5292446327561742850}
   resourceSize: 0.6
 --- !u!114 &2722855070482406779
 MonoBehaviour:
@@ -318,7 +319,7 @@ GameObject:
   - component: {fileID: 6562094743352375191}
   - component: {fileID: 6562094743352375189}
   - component: {fileID: 6562094743352375188}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6562094743433783357}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,6 +415,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6562094743719080174}
+  - {fileID: 5846199655367527259}
   m_Father: {fileID: 6562094742737124037}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -430,7 +432,7 @@ GameObject:
   - component: {fileID: 6562094743719080172}
   - component: {fileID: 9068637438555171963}
   - component: {fileID: 5077737746935473688}
-  m_Layer: 18
+  m_Layer: 9
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -527,3 +529,82 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.314, z: 0.284}
   m_TimeToStationary: 0.5
+--- !u!1 &8838009018022919371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5846199655367527259}
+  - component: {fileID: 9009806023249132441}
+  - component: {fileID: 5292446327561742850}
+  m_Layer: 9
+  m_Name: Outline
+  m_TagString: Storage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5846199655367527259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838009018022919371}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6562094743433783357}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &9009806023249132441
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838009018022919371}
+  m_Mesh: {fileID: -2204974692380057403, guid: 3060c8298f8fc3940bcf49f99d2eab3c, type: 3}
+--- !u!23 &5292446327561742850
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838009018022919371}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 72c69694556611249ab268dc126fa6d6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

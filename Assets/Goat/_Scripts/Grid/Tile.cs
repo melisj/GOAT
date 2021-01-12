@@ -240,11 +240,10 @@ namespace Goat.Grid
                 PlaceableInfo placeableInfo = tileObject.GetComponent<PlaceableInfo>();
                 placeableInfo.Setup(placeable);
                 MeshFilter[] tileObjectFilter = tileObject.GetComponentsInChildren<MeshFilter>();
-                for (int i = 0; i < tileObjectFilter.Length; i++)
+                for (int i = 0; i < placeable.Mesh.Length; i++)
                 {
-                    if (i >= placeable.Mesh.Length)
+                    if (i >= tileObjectFilter.Length)
                     {
-                        tileObjectFilter[i].mesh = null;
                         continue;
                     }
                     tileObjectFilter[i].mesh = placeable.Mesh[i];
@@ -381,11 +380,10 @@ namespace Goat.Grid
                     wallAuto[index] = true;
 
                 tileObjectFilter = wallObjs[index].GetComponentsInChildren<MeshFilter>();
-                for (int i = 0; i < tileObjectFilter.Length; i++)
+                for (int i = 0; i < wall.Mesh.Length; i++)
                 {
-                    if (i >= wall.Mesh.Length)
+                    if (i >= tileObjectFilter.Length)
                     {
-                        tileObjectFilter[i].mesh = null;
                         continue;
                     }
                     tileObjectFilter[i].mesh = wall.Mesh[i];

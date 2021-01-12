@@ -57,7 +57,7 @@ MonoBehaviour:
   subscribers: 0
   interactableMask:
     serializedVersion: 2
-    m_Bits: 1835008
+    m_Bits: 512
   currentMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   interactableRayCaster: {fileID: 2875412690505218909}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}

@@ -507,7 +507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &151628222
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -600,7 +600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &334221182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,7 +768,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 18a1ff8df9e0cf54a99cdcd3ac54db6d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18a1ff8df9e0cf54a99cdcd3ac54db6d, type: 3}
@@ -857,12 +857,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1affb90c24845c47bbf09fe2b341aa9, type: 3}
---- !u!33 &636008185 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 4929724435497217945, guid: f1affb90c24845c47bbf09fe2b341aa9,
-    type: 3}
-  m_PrefabInstance: {fileID: 636008184}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &877253304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,7 +1794,7 @@ Camera:
   far clip plane: 1000
   field of view: 14
   orthographic: 1
-  orthographic size: 0.9
+  orthographic size: 0.42
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1824,7 +1818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646258820}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 2, y: 0.55, z: -0.08}
+  m_LocalPosition: {x: 2, y: 0.274, z: 0.249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1245575136}
@@ -1965,7 +1959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1678189426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2093,12 +2087,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: {fileID: 8400000, guid: 3bf0c4bfbccb1aa4b88f057ea3e66ecd, type: 2}
-  placeable: []
+  placeable:
+  - {fileID: 11400000, guid: 58372ce302010c64db0ba0a82b66d400, type: 2}
   width: 256
   height: 256
   testCameraSize: 0
   mesh:
-  - {fileID: 636008185}
+  - {fileID: 2130572997}
+  - {fileID: 2068089658}
+  - {fileID: 151628222}
 --- !u!4 &1815689824
 Transform:
   m_ObjectHideFlags: 0
@@ -2210,7 +2207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &2068089658
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2419,7 +2416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &2130572997
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2427,7 +2424,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130572996}
-  m_Mesh: {fileID: -6026691920816988174, guid: 7119b9008f8189641b9da7e15c176f52, type: 3}
+  m_Mesh: {fileID: 3895528892748612893, guid: e28802bdf7524934db636ba9ca4f93fa, type: 3}
 --- !u!65 &2130572998
 BoxCollider:
   m_ObjectHideFlags: 0

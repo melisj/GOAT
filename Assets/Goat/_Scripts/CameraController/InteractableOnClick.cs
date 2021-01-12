@@ -15,7 +15,7 @@ public class InteractableOnClick : CollisionDetection
         {
             currentInteractable = latestCollider.GetComponentInParent<BaseInteractable>();
 
-            if (currentInteractable != null && !currentInteractable.UIActivated && (gridUIInfo.CurrentUIElement == UIElement.None || gridUIInfo.CurrentUIElement == UIElement.Interactable))
+            if (currentInteractable != null && !currentInteractable.UIActivated && currentInteractable.IsClickedOn)
             {
                 interactableEvent.Raise(currentInteractable);
             }
