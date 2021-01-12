@@ -34,11 +34,11 @@ namespace Goat.Grid.Interactions.UI
         [SerializeField] protected Transform gridParent;
         [SerializeField] protected PlayerInventory playerInventory;
         [SerializeField] protected InteractablesInfo info;
-
+        [SerializeField] protected ClickModeVariable clickModeVariable;
         [SerializeField] protected InteractableUI interactableUI;
 
         private List<InventoryIcon> itemIcons = new List<InventoryIcon>();
-        [SerializeField, ReadOnly] protected List<UICell> uiCells = new List<UICell>();
+        [SerializeField, Sirenix.OdinInspector.ReadOnly] protected List<UICell> uiCells = new List<UICell>();
 
         private int amountOfPrewarmedStorageElements = 10;
 
@@ -138,12 +138,23 @@ namespace Goat.Grid.Interactions.UI
                 var resource = inventory.Items.ElementAt(i);
                 EnableIcon(i, resource.Key, resource.Value, () =>
                 {
-                    interactableUI.StockingScript.ChangeResource(resource.Key, interactable.Inventory, playerInventory.Inventory);
-                    interactableUI.StockingScript.StockButtonText.text = "Grab item";
+                    //interactableUI.StockingScript.ChangeResource(resource.Key, interactable.Inventory, playerInventory.Inventory);
+                    //interactableUI.StockingScript.StockButtonText.text = "Grab item";
 
-                    interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
+                    //interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
+                    playerInventory.Inventory.Add(resource.Key, GetAmountByClick(resource.Key, interactable.Inventory), out int amountStored);
+                    interactable.Inventory.Remove(resource.Key, amountStored, out int removedAmount);
                 });
             }
+        }
+
+        protected int GetAmountByClick(Resource res, Inventory inventory)
+        {
+            inventory.Items.TryGetValue(res, out int amount);
+            if (clickModeVariable.ClickMode == ClickMode.normalClick)
+                return 1;
+            else
+                return amount;
         }
 
         protected void SpawnSeperateElements(Inventory inventory, StorageInteractable interactable)

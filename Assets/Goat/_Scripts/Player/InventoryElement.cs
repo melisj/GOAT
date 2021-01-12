@@ -52,10 +52,14 @@ namespace Goat.Player
                 EnableIcon(i, resource.Key, resource.Value, () =>
                 {
                     if (info.CurrentSelected != null && info.CurrentSelected is StorageInteractable storage)
-                        interactableUI.StockingScript.ChangeResource(resource.Key, inventory, storage.Inventory);
-                    interactableUI.StockingScript.StockButtonText.text = "Stock item";
+                    {
+                        //interactableUI.StockingScript.ChangeResource(resource.Key, inventory, storage.Inventory);
+                        //interactableUI.StockingScript.StockButtonText.text = "Stock item";
 
-                    interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
+                        //interactableUI.StockingScript.StockingUIElement.gameObject.SetActive(true);
+                        storage.Inventory.Add(resource.Key, GetAmountByClick(resource.Key, playerInventory.Inventory), out int amountStored);
+                        playerInventory.Inventory.Remove(resource.Key, amountStored, out int removedAmount);
+                    }
                 });
             }
         }
