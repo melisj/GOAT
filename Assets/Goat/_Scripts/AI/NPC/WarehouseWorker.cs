@@ -18,15 +18,16 @@ namespace Goat.AI
         {
             base.Setup();
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
             //TakeItem takeItem = new TakeItem(this, animator, false);
             placeItem = new PlaceItem(this, animator);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
+            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
             DoNothing doNothing = new DoNothing(this);
             findRestingPlace = new FindRestingPlace(this);
             waitingState = new WaitingState(this, 5);
             EnterGoToStorage enterGoToStorage = new EnterGoToStorage(this, navMeshAgent, animator);
+            exitStore = new ExitStore(this, navMeshAgent);
 
             // Conditions
             Func<bool> HasDestination() => () => resourceDetecter.detected = true && Vector3.Distance(transform.position, targetDestination) > navMeshAgent.radius;

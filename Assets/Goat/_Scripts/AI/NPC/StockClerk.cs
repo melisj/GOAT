@@ -12,7 +12,7 @@ namespace Goat.AI
     public class StockClerk : WorkerWithListener<bool, BoolEvent>
     {
         [SerializeField] private UnloadLocations entrances;
-        private ExitStore exitStore;
+
 
         public override void OnEventRaised(bool value)
         {
@@ -24,15 +24,15 @@ namespace Goat.AI
         {
             base.Setup();
 
-            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            EnterStore enterStore = new EnterStore(this, navMeshAgent, entrances);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
             takeItem = new TakeItem(this, animator, false);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
+            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent);
             placeItem = new PlaceItem(this, animator);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
-            exitStore = new ExitStore(this, navMeshAgent, animator);
+            exitStore = new ExitStore(this, navMeshAgent);
             //findRestingPlace = new FindRestingPlace(this);
             waitingState = new WaitingState(this, 5);
             SetRandomDestination setRandomDestination = new SetRandomDestination(this, navMeshAgent, 3, null);
@@ -41,7 +41,7 @@ namespace Goat.AI
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
             Func<bool> HasTarget() => () => targetStorage != null;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
-            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+            Func<bool> ReachedTarget() => () => !navMeshAgent.pathPending && navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null;
             Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;

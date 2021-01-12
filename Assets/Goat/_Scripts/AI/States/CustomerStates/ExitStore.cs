@@ -10,16 +10,14 @@ namespace Goat.AI.States
     {
         protected NPC npc;
         protected NavMeshAgent navMeshAgent;
-        protected Animator animator;
         public bool exitedStore;
         protected Vector3 entrance;
         protected float destinationDistance;
 
-        public ExitStore(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
+        public ExitStore(NPC npc, NavMeshAgent navMeshAgent)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
         }
 
         public virtual void Tick()
@@ -28,7 +26,6 @@ namespace Goat.AI.States
             {
                 OnExit();
             }
-            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public virtual void OnEnter()
@@ -42,7 +39,6 @@ namespace Goat.AI.States
 
         public virtual void OnExit()
         {
-            animator.SetFloat("Move", 0);
             npc.Ship.ShipReadyToFly();
             PoolManager.Instance.ReturnToPool(npc.gameObject);
         }
