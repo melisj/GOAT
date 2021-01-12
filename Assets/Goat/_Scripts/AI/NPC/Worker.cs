@@ -18,7 +18,10 @@ namespace Goat.AI
         [HideInInspector] public PlaceItem placeItem;
         [HideInInspector] protected FindRestingPlace findRestingPlace;
         [HideInInspector] protected WaitingState waitingState;
+        protected ExitStore exitStore;
 
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+
+
     }
 }

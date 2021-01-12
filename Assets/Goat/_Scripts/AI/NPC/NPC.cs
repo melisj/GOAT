@@ -60,7 +60,7 @@ namespace Goat.AI
             inventory = new Inventory(maxInventory);
             itemsToGet = new Inventory(maxInventory);
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
         }
 
         protected virtual void Update() => stateMachine.Tick();

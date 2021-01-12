@@ -9,18 +9,16 @@ namespace Goat.AI.States
     {
         private NPC npc;
         private NavMeshAgent navMeshAgent;
-        private Animator animator;
 
         private Vector3 lastLocation;
         public float timeStuck;
 
         // Need to check somewhere is target is reachable. NavMeshAgent.CalculatePath. NavMeshAgent.PathStatus.
 
-        public MoveToDestination(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
+        public MoveToDestination(NPC npc, NavMeshAgent navMeshAgent)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
         }
 
         public void Tick()
@@ -31,7 +29,6 @@ namespace Goat.AI.States
                 timeStuck += Time.deltaTime;
 
             lastLocation = npc.transform.position;
-            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public void OnEnter()
@@ -47,8 +44,6 @@ namespace Goat.AI.States
             timeStuck = 0f;
             Debug.Log("Arrived at destination");
             //navMeshAgent.enabled = false;
-            // Animation
-            animator.SetFloat("Move", 0);
         }
     }
 }

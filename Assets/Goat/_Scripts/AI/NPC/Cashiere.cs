@@ -13,7 +13,7 @@ namespace Goat.AI
         {
             base.Setup();
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
 
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2;
 
