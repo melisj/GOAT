@@ -36,15 +36,16 @@ namespace Goat.AI
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
             Func<bool> ReachedTarget() => () => !navMeshAgent.pathPending && navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null;
-            Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            Func<bool> GoFromTakingToPlacing() => () => takeItem.depleted && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            Func<bool> GoFromPlacingToPlacing() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
 
-            Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0;
+            Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0 && placeItem.filled;
             Func<bool> TakenAllItemsFromWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
             Func<bool> NoItemsFoundInWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory == 0 && searchForStorageInWarehouse.nothingFound;
             Func<bool> EmptyShelvesFound() => () => searchForEmptyShelves.foundEmptyShelves;
             Func<bool> NoEmptyShelvesFound() => () => !searchForEmptyShelves.foundEmptyShelves;
-            Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 || takeItem.depleted;
+            Func<bool> FindItemInWarehouse() => () => (ItemsToGet.ItemsInInventory > 0 && takeItem.depleted) || takeItem.depleted;
             Func<bool> TakeItems() => () => ItemsToGet.ItemsInInventory > 0 && ReachedTarget().Invoke();
             Func<bool> PlaceItems() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory > 0 && ReachedTarget().Invoke();
 
@@ -66,8 +67,8 @@ namespace Goat.AI
             //AT(searchForStorageInWarehouse, searchForEmptyShelves, NoItemsFoundInWarehouse());
 
             AT(takeItem, searchForStorageInWarehouse, FindItemInWarehouse());
-            AT(takeItem, setStorageTarget, SetNextEmptyStorageTarget());
-            AT(placeItem, setStorageTarget, SetNextEmptyStorageTarget());
+            AT(takeItem, setStorageTarget, GoFromTakingToPlacing());
+            AT(placeItem, setStorageTarget, GoFromPlacingToPlacing());
 
             //Nothing to fill found or no items found for filling.
             AT(searchForEmptyShelves, setRandomDestination, NoEmptyShelvesFound());
