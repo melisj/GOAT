@@ -23,7 +23,20 @@ namespace Goat.Farming
 
         [SerializeField] private GameObject resPackPrefab;
         [SerializeField] private LayerMask floorLayer;
+        [SerializeField] private TubeDirection foundTubeEnd;
         [SerializeField] private TubeEnd tubeEnd;
+        public TubeDirection FoundTubeEnd { get => foundTubeEnd; set { foundTubeEnd = value; tubeEnd = null; } }
+        public TubeEnd TubeEnd 
+        { 
+            get 
+            { 
+                if (tubeEnd == null && FoundTubeEnd != null)
+                    tubeEnd = FoundTubeEnd.GetComponent<TubeEnd>();
+                return tubeEnd;
+            } 
+        }
+
+        public TubeDirection TubeDirection { get; private set; }
         private float timer;
 
         private Queue<ResourceTile> resourceTiles= new Queue<ResourceTile>();
@@ -75,6 +88,7 @@ namespace Goat.Farming
 
         private void Awake()
         {
+            TubeDirection = GetComponent<TubeDirection>();
             inventory = new Inventory(Settings.StorageCapacity);
         }
 

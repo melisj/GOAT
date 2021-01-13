@@ -152,7 +152,6 @@ namespace Goat.Farming
 
         public void OnReturnObject()
         {
-            Debug.LogError("Returning");
             if(ExchangePoint)
                 networkData.RemovePipe(this);
 

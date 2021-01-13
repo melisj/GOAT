@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityAtoms;
+using System.Threading;
 
 namespace Goat.Farming
 {
@@ -21,21 +22,30 @@ namespace Goat.Farming
         [SerializeField] private GameObjectEvent onTubeEndNeeded;
         [SerializeField] private TubeDirectionEvent tubeDirectionEvent;
 
+        Thread connectionThread;
+
+        bool networkChanged = false;
+
         private void OnEnable()
         {
             onTubeEndNeeded.RegisterSafe(this);
             onGridChange.RegisterSafe(ConnectNetwork);
+
+            StartCoroutine(StartNetworkConnection());
         }
 
         private void OnDisable()
         {
             onTubeEndNeeded.UnregisterSafe(this);
             onGridChange.UnregisterSafe(ConnectNetwork);
+
+            StopAllCoroutines();
+            connectionThread.Abort();
         }
 
         private void ConnectNetwork(GameObject nothing)
         {
-            StartNetworkConnection();
+            networkChanged = true;
         }
 
         #region Network Setup
@@ -51,28 +61,48 @@ namespace Goat.Farming
             }
         }
 
-        [Button("Connect network test")]
-        private void StartNetworkConnection()
+        private IEnumerator StartNetworkConnection()
         {
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
-            InitNetworkData();
-            ConnectNetwork();
-            SearchForEachFarm();
-            timer.Stop();
-            Debug.Log(timer.Elapsed);
+            while(true)
+            {
+                if (networkChanged)
+                {
+                    if (connectionThread != null && connectionThread.IsAlive)
+                        connectionThread.Abort();
+
+                    connectionThread = new Thread(ConnectNetwork);
+                    connectionThread.Start();
+
+                    yield return new WaitUntil(() => !connectionThread.IsAlive);
+
+                    connectionThread = new Thread(SearchForEachFarm);
+                    connectionThread.Start();
+
+                    yield return new WaitUntil(() => !connectionThread.IsAlive);
+
+                    Debug.Log("Done checking network!");
+                    networkChanged = false;
+                }
+
+                yield return new WaitForSeconds(1);
+            }
         }
 
         private void ConnectNetwork()
         {
-            for (int i = 0; i < networkData.Farms.Count; i++)
+            InitNetworkData();
+
+            for (int i = 0; i < networkData.Pipes.Count; i++)
             {
-                TubeDirection startTube = networkData.Farms[i].GetComponent<TubeDirection>();
-                if (startTube.ConnectedTubes.Count != 0)
+                if (networkData.Pipes[i].IsFarmStation)
                 {
-                    ConnectFrom(startTube, null, out int arrivalIndex, out int distance);
+                    if (networkData.Pipes[i].ConnectedTubes.Count != 0)
+                    {
+                        ConnectFrom(networkData.Pipes[i], null, out int arrivalIndex, out int distance);
+                    }
                 }
             }
+
         }
 
         private TubeDirection ConnectFrom(TubeDirection startTube, TubeDirection prevTube, out int arrivalIndex, out int distance)
@@ -106,7 +136,7 @@ namespace Goat.Farming
                                 }
                                 catch (Exception e)
                                 {
-                                    Debug.LogError(currentTube + " - " + i, currentTube);
+                                    Console.WriteLine("{0} - {1}",currentTube, i);
                                 }
 
                                 // Assigns references to the found connection
@@ -161,7 +191,8 @@ namespace Goat.Farming
         {
             for (int i = 0; i < networkData.Farms.Count; i++)
             {
-                networkData.Farms[i].FindTubeEnd();
+                //networkData.Farms[i].FindTubeEnd();
+                networkData.Farms[i].FoundTubeEnd = SearchForTubeEndDijkstra(networkData.Farms[i].TubeDirection);
             }
         }
 
