@@ -62,10 +62,11 @@ public class MeteorMovement : MonoBehaviour, IPoolObject
 
     private void SpawnResourceTiles()
     {
-        List<Tile> tiles = grid.GetTilesInRadius(tileHit, explosionRadius);
+        List<Tile> tiles = grid.GetTilesInRange(tileHit, explosionRadius, false);
         foreach(Tile tile in tiles)
         {
-            tile.EditAny(resourceTile, Random.Range(0, 4) * 90, false);
+            if (tile.HasNoObjects)
+                tile.EditAny(resourceTile, Random.Range(0, 4) * 90, false);
         }
     }
 

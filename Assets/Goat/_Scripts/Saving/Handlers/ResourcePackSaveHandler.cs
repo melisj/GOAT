@@ -10,10 +10,8 @@ namespace Goat.Saving
 {
     public class ResourcePackSaveHandler : SaveHandler
     {
-        public GameObject tubeEndPrefab;
         public GameObject resourcePackPrefab;
         public GridObjectsList objectList;
-        public Grid.Grid grid;
 
         private void Awake()
         {
@@ -37,18 +35,16 @@ namespace Goat.Saving
             return (Resource)objectList.GetObject(index);
         }
 
-        public TubeEnd GetGridEndTube(Vector3 position, int rotation)
+        public void SpawnResourcePack(ResourcePackInfo packInfo)
         {
-            GameObject[] walls = grid.ReturnTile(grid.CalculateTilePositionInArray(position)).WallObjs;
-            if(walls[rotation] != null)
-                return walls[rotation].GetComponent<TubeEnd>();
-            return null;
+            GameObject packObj = PoolManager.Instance.GetFromPool(resourcePackPrefab, packInfo.position, Quaternion.Euler(packInfo.rotation));
+            packObj.GetComponent<ResourcePack>().SetupResPack(GetResource(packInfo.resource));
         }
     }
 
     public class ResourcepackSaveData : DataContainer, ISaveable
     {
-        public List<TubeEndInfo> packInfo = new List<TubeEndInfo>();
+        public List<ResourcePackInfo> packInfo = new List<ResourcePackInfo>();
 
         public override void Load(SaveHandler handler)
         {
@@ -58,15 +54,9 @@ namespace Goat.Saving
             resourcePackHandler.RemoveResourcePacks();
             
             // Enable new resource packs
-            foreach (TubeEndInfo pack in packInfo)
+            foreach (ResourcePackInfo pack in packInfo)
             {
-                List<Resource> resources = new List<Resource>();
-                foreach(int indices in pack.resource)
-                {
-                    resources.Add(resourcePackHandler.GetResource(indices));
-                }
-
-                resourcePackHandler.GetGridEndTube(pack.position, pack.rotation)?.CreateResPacks(resources, pack.amount);
+                resourcePackHandler.SpawnResourcePack(pack);
             }
         }
 
@@ -76,12 +66,12 @@ namespace Goat.Saving
 
             packInfo.Clear();
 
-            GameObject poolParent = PoolManager.Instance.ReturnPoolParent(resourcePackHandler.tubeEndPrefab.GetInstanceID());
-            if (poolParent)
+            GameObject poolParent = PoolManager.Instance.ReturnPoolParent(resourcePackHandler.resourcePackPrefab.GetInstanceID());
+            if (poolParent != null)
             {
                 for (int i = 0; i < poolParent.transform.childCount; i++)
                 {
-                    packInfo.Add(poolParent.transform.GetChild(i).GetComponent<TubeEnd>().Info);
+                    packInfo.Add(poolParent.transform.GetChild(i).GetComponent<ResourcePack>().ResourcePackInfo);
                 }
             }
         }

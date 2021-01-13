@@ -4843,10 +4843,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6257709004261703043}
   - component: {fileID: 1110723869718704107}
-  - component: {fileID: 4116500539755273296}
   - component: {fileID: -1485341760395434713}
   - component: {fileID: -8038335012244117649}
   - component: {fileID: 2371828841052477500}
+  - component: {fileID: 8324413343033119510}
   m_Layer: 17
   m_Name: OilWell
   m_TagString: Untagged
@@ -4889,67 +4889,20 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: tubeEnds
-      Entry: 7
-      Data: 0|System.Collections.Generic.HashSet`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
-        System.Core
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  onTubeEndReceived: {fileID: 11400000, guid: 0caf431ea143b08498718759d5c65ffb, type: 2}
+  onTubeEndNeeded: {fileID: 11400000, guid: fb9b6eec132db5b4aa2db4bdffab8717, type: 2}
   farmStationSettings: {fileID: 11400000, guid: 84f536058b4f572408f3e886c0da10af,
     type: 2}
-  radius: 0.3
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
   resPackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
     type: 3}
-  currentCapacity: 0
   floorLayer:
     serializedVersion: 2
     m_Bits: 1024
-  animator: {fileID: 1086997886161398287}
-  debugPathIndex: 0
-  connectedTubes: []
-  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
-  resPacks: []
+  tubeEnd: {fileID: 0}
   cue: {fileID: -8038335012244117649}
---- !u!114 &4116500539755273296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6257709004261703041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af40323d6a007741b1e9e3dec6edc56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: endTubes
-      Entry: 6
-      Data: 
-  subscribedEvent: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
-  subscribers: 0
-  farmStation: {fileID: 1110723869718704107}
-  collidedTubes: []
-  pathsv3:
-    points: []
-  paths: []
-  colors: []
+  animator: {fileID: 1086997886161398287}
 --- !u!114 &-1485341760395434713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4998,6 +4951,37 @@ MonoBehaviour:
   createDuration: 0.4
   destroyDurationMultiplier: 2
   scaleDown: {x: 1, y: 0, z: 1}
+--- !u!114 &8324413343033119510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21092ce9286c0142920d926120d1a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectedFarm: {fileID: 0}
+  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
+  onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
+  multiDirection: 1
+  endPoint: 0
+  isFarmStation: 1
+  connectionAmount: 1
+  connectedMultiDirections: []
+  distanceTillNextDirection: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 131072
+  offset:
+  - {x: 0, y: 0.5, z: -0.5}
+  radius: 0.2
+  connectedTubes: []
+  DistanceFromStart: 0
+  VisitedByAlgorithm: 0
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0

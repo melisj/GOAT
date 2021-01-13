@@ -486,6 +486,12 @@ namespace Goat.Grid
 
         public void SetPreviewActiveMesh(Placeable placeable)
         {
+            if (previewObject == null) 
+            {
+                previewObject = Instantiate(previewPrefab);
+                previewObject.transform.SetParent(transform.parent);
+                previewObject.transform.localScale = Vector3.one * tileSize;
+            }
             previewObject.SetActive(true);
             for (int i = 0; i < previewObjectMesh.Length; i++)
             {
@@ -529,9 +535,8 @@ namespace Goat.Grid
         }
 
         /// <summary>
-        /// Returns tile in grid that is being selected by the mouse
+        /// Returns random tile
         /// </summary>
-        /// <returns></returns>
         public Tile GetRandomEmptyTile()
         {
             Tile selectedTile = null;
@@ -548,11 +553,15 @@ namespace Goat.Grid
             return selectedTile;
         }
 
+     
         /// <summary>
-        /// Returns tile in grid that is being selected by the mouse
+        /// Returns tile in a radius around the starting tile
         /// </summary>
-        /// <returns></returns>
-        public List<Tile> GetTilesInRadius(Tile startTile, int radius)
+        /// <param name="startTile"></param>
+        /// <param name="radius"></param>
+        /// <param name="square"> Returns in tiles in a square around the startingTile when true </param>
+        /// <returns></returns>        
+        public List<Tile> GetTilesInRange(Tile startTile, int radius, bool square)
         {
             List<Tile> selectedTiles = new List<Tile>();
             int middleX = startTile.TilePosition.x,
@@ -566,12 +575,8 @@ namespace Goat.Grid
             {
                 for (int y = startY; y < endY; y++)
                 {
-                    Tile tileBeingChecked = tiles[x, y];
-                    if (Vector3.Distance(startTile.Position, tileBeingChecked.Position) <= radius)
-                    {
-                        if (tileBeingChecked.HasNoObjects)
-                            selectedTiles.Add(tileBeingChecked);
-                    }
+                    if (Vector3.Distance(startTile.Position, tiles[x, y].Position) <= radius | square)
+                        selectedTiles.Add(tiles[x, y]);
                 }
             }
             return selectedTiles;
