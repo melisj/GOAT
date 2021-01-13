@@ -69,3 +69,4 @@ MonoBehaviour:
   subscribers: 0
   cargoShipPrefab: {fileID: 6505556154934124982, guid: 9478eb52f8ffa9942923ed5c21fd907c,
     type: 3}
+  unloadLocations: {fileID: 11400000, guid: 706157082f9aad142b923694830ffe3c, type: 2}

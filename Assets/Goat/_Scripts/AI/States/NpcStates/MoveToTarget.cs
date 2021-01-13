@@ -12,6 +12,7 @@ namespace Goat.AI.States
 
         private Vector3 lastLocation;
         public float timeStuck;
+        public int amountStuckCalled;
 
         public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent)
         {
@@ -22,13 +23,15 @@ namespace Goat.AI.States
         public void Tick()
         {
             npc.searchingTime += Time.deltaTime;
-
+            float dist = Vector3.Distance(npc.transform.position, lastLocation);
             // Check if agent is stuck while navigating to target
-            if (Vector3.Distance(npc.transform.position, lastLocation) <= 0)
+            if (dist <= 0.001f)
+            {
+                amountStuckCalled++;
                 timeStuck += Time.deltaTime;
+            }
 
             lastLocation = npc.transform.position;
-
         }
 
         public void OnEnter()
@@ -38,7 +41,6 @@ namespace Goat.AI.States
             navMeshAgent.enabled = true;
             //navMeshAgent.SetDestination(npc.targetDestination);
             navMeshAgent.SetDestination(npc.targetStorage.transform.position);
-
         }
 
         public void OnExit()
@@ -50,4 +52,3 @@ namespace Goat.AI.States
         }
     }
 }
-

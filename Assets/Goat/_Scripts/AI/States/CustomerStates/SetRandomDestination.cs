@@ -57,20 +57,20 @@ namespace Goat.AI.States
 
             if (hitDestination)
             {
-                //NavMeshQueryFilter filter = new NavMeshQueryFilter
-                //{
-                //    areaMask = (1 << areaMask)
-                //};
-                //if (NavMesh.CalculatePath(navMeshAgent.transform.position, wanderDestination, filter, navPath))
-                //{
-                //    Debug.LogWarning("Invalid path calculated");
-                //    //continue;
-                //}
-                //else
-                //{
-                npc.targetDestination = wanderDestination;
-                //Debug.Log("Found an new destination!");
-                //}
+                NavMeshQueryFilter filter = new NavMeshQueryFilter
+                {
+                    areaMask = (1 << areaMask)
+                };
+                if (NavMesh.CalculatePath(navMeshAgent.transform.position, wanderDestination, filter, navPath))
+                {
+                    Debug.LogWarning("Invalid path calculated");
+                    //continue;
+                }
+                else
+                {
+                    npc.targetDestination = wanderDestination;
+                    Debug.Log("Found an new destination!");
+                }
             }
         }
 
@@ -119,8 +119,7 @@ namespace Goat.AI.States
             {
                 areaMask = (1 << areaMask)
             };
-
-            if (NavMesh.SamplePosition(randomPoint, out hit, 100, filter))
+            while (!NavMesh.SamplePosition(randomPoint, out hit, range * 5, filter))
             {
                 result = hit.position;
                 Debug.LogFormat("Hit NavMesh on: {0}", result);

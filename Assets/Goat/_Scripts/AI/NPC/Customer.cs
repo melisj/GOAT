@@ -36,7 +36,7 @@ namespace Goat.AI
         [HideInInspector] public float customerSelfConstraint = 0;
         [SerializeField] private FieldOfView fov;
         public FieldOfView Fov => fov;
-
+        public int AmountGroceries { get; set; }
         public bool OutofTime => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
 
         [HideInInspector] public bool enteredStore;
@@ -65,7 +65,7 @@ namespace Goat.AI
             // Movement
             Func<bool> HasStorageTarget() => () => targetStorage != null && !leavingStore;
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
-            Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
+            Func<bool> StuckForSeconds() => () => moveToDestination.amountStuckCalled > 3 || moveToTarget.amountStuckCalled > 3;
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
             // Shopping

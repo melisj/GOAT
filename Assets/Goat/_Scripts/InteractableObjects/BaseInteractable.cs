@@ -51,7 +51,6 @@ namespace Goat.Grid.Interactions
             get => isClickedOn;
             set
             {
-                Debug.Log($"Clicked on = {value}", gameObject);
                 isClickedOn = value;
             }
         }

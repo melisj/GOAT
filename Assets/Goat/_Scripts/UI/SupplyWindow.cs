@@ -20,6 +20,8 @@ namespace Goat.UI
         [SerializeField] private AnimateTabButton tabSwitcher;
         [Title("Buying")]
         [SerializeField] protected Button buyButton;
+        [SerializeField, ShowIf("IsSupplyWindow")] private RectTransform noUnloadAreaWarning;
+        [SerializeField, ShowIf("IsSupplyWindow")] private UnloadLocations unloadLocations;
         [SerializeField] private RectTransform buyButtonTransform;
         [SerializeField] private TMP_InputField buyAmount;
         [SerializeField] protected TextMeshProUGUI totalPrice;
@@ -77,7 +79,16 @@ namespace Goat.UI
 
         protected virtual void Buy()
         {
-            if (!AnimateBuyButton(currentAmount > 0 && !selectedBuyable.CanBuy(currentAmount))) return;
+            if (!AnimateBuyButton(currentAmount > 0 && selectedBuyable != null && !selectedBuyable.CanBuy(currentAmount) && unloadLocations.Locations.Count > 0))
+            {
+                if (unloadLocations.Locations.Count <= 0)
+                    noUnloadAreaWarning.gameObject.SetActive(true);
+                return;
+            }
+            else if (unloadLocations.Locations.Count > 0)
+            {
+                noUnloadAreaWarning.gameObject.SetActive(false);
+            }
             selectedBuyable.Buy(currentAmount, -1, true, false);
             SetupDeliveryCell(selectedBuyable, deliveryGrid, currentAmount);
         }

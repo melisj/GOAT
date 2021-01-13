@@ -159,6 +159,17 @@ namespace Goat.Grid
                     return false;
             }
 
+            if (placeable is Floor && !placeable.CreatesWallsAround)
+            {
+                if (floorObject && floorObject.GetComponent<PlaceableInfo>().Placeable.CreatesWallsAround)
+                    return true;
+                for (int i = 0; i < wallObjs.Length; i++)
+                {
+                    if (wallObjs[i])
+                        return true;
+                }
+            }
+
             return ((!floorObject && !(placeable is Floor)));
         }
 
@@ -228,7 +239,6 @@ namespace Goat.Grid
 
                 tileObject.transform.rotation = rotation;
             }
-    
 
             DestroyTile(placeable, isLoading);
             if (placeable != null && !destroyMode)

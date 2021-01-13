@@ -7,11 +7,11 @@ namespace Goat.UI
 {
     public class GraphicRaycasterRaycasterExample : MonoBehaviour
     {
-        GraphicRaycaster m_Raycaster;
-        PointerEventData m_PointerEventData;
-        EventSystem m_EventSystem;
+        private GraphicRaycaster m_Raycaster;
+        private PointerEventData m_PointerEventData;
+        private EventSystem m_EventSystem;
 
-        void Start()
+        private void Start()
         {
             //Fetch the Raycaster from the GameObject (the Canvas)
             m_Raycaster = GetComponent<GraphicRaycaster>();
@@ -19,7 +19,7 @@ namespace Goat.UI
             m_EventSystem = GetComponent<EventSystem>();
         }
 
-        void Update()
+        private void Update()
         {
             //Check if the left Mouse button is clicked
             if (Input.GetKey(KeyCode.Mouse0))

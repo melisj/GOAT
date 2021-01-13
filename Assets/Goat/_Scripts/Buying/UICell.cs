@@ -111,6 +111,9 @@ public class UICell : MonoBehaviour, IAtomListener<UnityAtoms.Void>
         gameObject.name = buyable.name;
         if (hasName && nameText != null)
             nameText.text = buyable.name;
+        OnHoverInfo hoverInfo = GetComponent<OnHoverInfo>();
+        if (hoverInfo)
+            hoverInfo.InfoToShow = buyable.name;
         icon.sprite = buyable.Image;
     }
 

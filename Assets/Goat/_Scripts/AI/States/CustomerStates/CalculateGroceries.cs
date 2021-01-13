@@ -50,6 +50,7 @@ namespace Goat.AI.States
 
             Debug.LogFormat("Amount of groceries: {0}", groceries.Count);
             calculatedGroceries = true;
+            customer.AmountGroceries = groceries.Count;
             return groceries;
         }
 

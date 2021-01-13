@@ -14,6 +14,7 @@ namespace Goat.AI.States
         public float timeStuck;
 
         // Need to check somewhere is target is reachable. NavMeshAgent.CalculatePath. NavMeshAgent.PathStatus.
+        public int amountStuckCalled;
 
         public MoveToDestination(NPC npc, NavMeshAgent navMeshAgent)
         {
@@ -24,9 +25,14 @@ namespace Goat.AI.States
         public void Tick()
         {
             npc.searchingTime += Time.deltaTime;
+            float dist = Vector3.Distance(npc.transform.position, lastLocation);
             // Check if agent is stuck while navigating to target
-            if (Vector3.Distance(npc.transform.position, lastLocation) <= 0)
+            if (dist <= 0.001f)
+            {
+                amountStuckCalled++;
+                Debug.Log($"Get me outta here, im stuck {amountStuckCalled}:{dist}", npc.gameObject);
                 timeStuck += Time.deltaTime;
+            }
 
             lastLocation = npc.transform.position;
         }
@@ -35,6 +41,7 @@ namespace Goat.AI.States
         {
             Debug.LogFormat("Moving to destination");
             timeStuck = 0f;
+            amountStuckCalled = 0;
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(npc.targetDestination);
         }
@@ -48,4 +55,3 @@ namespace Goat.AI.States
         }
     }
 }
-

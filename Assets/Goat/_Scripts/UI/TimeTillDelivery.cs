@@ -14,7 +14,7 @@ namespace Goat.UI
 
         public override void OnEventRaised(Void value)
         {
-            timeTM.text = time.TimeTillDay;
+            timeTM.text = time.GetTimeTillDay();
         }
     }
 }

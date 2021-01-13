@@ -37,18 +37,31 @@ public class TimeOfDay : ScriptableObject
     public string GetTime24Hour => $"{timeOfDayHours}:{GetMinuteString}";
 
     public DateTime Date { get => date; set => date = value; }
-    public bool IsDay { 
-        get { 
-            return timeOfDayHours >= timeOfSunrise && TimeOfDayHours <= timeOfSunset; 
-        } 
+
+    public bool IsDay
+    {
+        get
+        {
+            return timeOfDayHours >= timeOfSunrise && TimeOfDayHours <= timeOfSunset;
+        }
     }
 
     public int TimeOfDayHours { get => timeOfDayHours; set => timeOfDayHours = value; }
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
-    public string TimeTillDay => $"{Mathf.Abs(timeOfDayHours - timeOfSunrise + 1)}:{Mathf.Floor(Mathf.Abs(60 - timeOfDayMinutes))}";
     private CultureInfo usInfo;
+
+    public string GetTimeTillDay()
+    {
+        int passedSunrise = 0;
+        if (timeOfDayHours >= timeOfSunrise)
+            passedSunrise = 24;
+        int timeHourDiff = Mathf.Abs(passedSunrise - (timeOfDayHours - timeOfSunrise + 1));
+        int timeMinDiff = (int)(Mathf.Floor(Mathf.Abs(60 - timeOfDayMinutes)));
+
+        return $"{timeHourDiff}:{timeMinDiff}";
+    }
 
     public string GetDate()
     {

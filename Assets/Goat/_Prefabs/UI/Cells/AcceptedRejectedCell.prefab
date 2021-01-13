@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 176295868395445767}
   - component: {fileID: 8710269668754210598}
   - component: {fileID: -2604278323963842738}
+  - component: {fileID: -8453640457306126968}
   m_Layer: 5
   m_Name: AcceptedRejectedCell
-  m_TagString: Untagged
+  m_TagString: HoverInfo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +104,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-8453640457306126968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2513628393749558606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e2e8e7bb175b74992ddffe1afb2bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoToShow: 
 --- !u!1 &7382113428032835370
 GameObject:
   m_ObjectHideFlags: 0

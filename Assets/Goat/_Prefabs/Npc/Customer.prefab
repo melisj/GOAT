@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 2094399924142381526}
   animator: {fileID: 2094399923083953303}
+  threshold: 0.1
 --- !u!1 &1966792922794723827
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +350,7 @@ MonoBehaviour:
     m_Bits: 1024
   storageMask:
     serializedVersion: 2
-    m_Bits: 262144
+    m_Bits: 512
   obstacleMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -704,7 +705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   revData: {fileID: 11400000, guid: 6bdd4b95d376cd54982c4cfaede093bd, type: 2}
   factorType: 1
-  npc: {fileID: 2094399924142381524}
+  customer: {fileID: 2094399924142381524}
 --- !u!1 &3001012932469857579
 GameObject:
   m_ObjectHideFlags: 0
