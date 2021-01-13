@@ -8,46 +8,41 @@ using System.Linq;
 using UnityAtoms.BaseAtoms;
 using System;
 using Random = UnityEngine.Random;
+using UnityAtoms;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.Farming
 {
-    public class FarmStationFunction : SerializedMonoBehaviour, IPoolObject
+    public class FarmStationFunction : SerializedMonoBehaviour, IPoolObject, IAtomListener<WithOwner<TubeDirection>>
     {
+        [SerializeField] private TubeDirectionEvent onTubeEndReceived;
+        [SerializeField] private GameObjectEvent onTubeEndNeeded;
+        [SerializeField] private GameObjectEvent onGridChange;
+
         private const float delay = 1f;
         [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStation farmStationSettings;
+        public FarmStation Settings => farmStationSettings;
         [SerializeField] private float radius = 1;
         [SerializeField] private GameObject resPackPrefab;
         [SerializeField] private LayerMask floorLayer;
         [SerializeField] private Animator animator;
         [SerializeField] private int debugPathIndex;
-        [SerializeField] private List<Path> connectedTubes = new List<Path>();
-        [SerializeField] private GameObjectEvent onGridChange;
+        [SerializeField] private TubeEnd tubeEnd;
         private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
         private float timer;
         private bool isConnected;
         private Queue<ResourceTile> resourceTiles= new Queue<ResourceTile>();
-        private Inventory inventory;
         private ResourceTile currentResourceTile;
+        private Inventory inventory;
+
         private TileAnimation tileAnimation;
         private HashSet<Vector3> tubeEnds = new HashSet<Vector3>();
         public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
         [SerializeField] private AudioCue cue;
         private bool stopped;
-        public FarmStation Settings => farmStationSettings;
-
-        public int GetPath(Vector3 key)
-        {
-            int index = 0;
-            if (offsetToPath.TryGetValue(key, out index))
-            {
-                return index;
-            }
-            return index;
-        }
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
-        public List<Path> ConnectedTubes => connectedTubes;
         public HashSet<Vector3> TubeEnds => tubeEnds;
 
         private bool Stopped
@@ -66,20 +61,41 @@ namespace Goat.Farming
             }
         }
 
+        [Button("Find end tube Dijkstra")]
+        private void FindTubeEnd()
+        {
+            onTubeEndNeeded.Raise(gameObject);
+        }
+
+        public void OnEventRaised(WithOwner<TubeDirection> item)
+        {
+            if (item.Owner == gameObject) 
+            {
+                if (item.Gtype != null)
+                {
+                    TubeEnd end = item.Gtype.GetComponent<TubeEnd>();
+                    if (end)
+                        tubeEnd = end;
+                }
+            }
+        }
+
         private void Awake()
         {
             inventory = new Inventory(Settings.StorageCapacity);
-            connectedTubes.Add(new Path());
         }
 
         private void OnEnable()
         {
             onGridChange.Raise(null);
+            onTubeEndReceived.RegisterSafe(this);
         }
 
         private void OnDisable()
         {
             onGridChange.Raise(null);
+            onTubeEndReceived.UnregisterSafe(this);
+
         }
 
         private void Update()
@@ -193,7 +209,7 @@ namespace Goat.Farming
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position, radius);
-            if (connectedTubes.Count <= debugPathIndex) return;
+            /*if (connectedTubes.Count <= debugPathIndex) return;
             if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
             Gizmos.color = Color.yellow;
             for (int i = 0; i < connectedTubes[debugPathIndex].Points.Count; i++)
@@ -206,7 +222,7 @@ namespace Goat.Farming
                 {
                     Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i + 1]);
                 }
-            }
+            }*/
         }
     }
 }

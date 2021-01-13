@@ -162,6 +162,7 @@ MonoBehaviour:
   onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
   multiDirection: 0
   endPoint: 1
+  isFarmStation: 0
   path:
     points:
     - {x: 0, y: 0.5, z: -0.7}

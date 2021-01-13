@@ -32,7 +32,7 @@ MonoBehaviour:
   - {fileID: 4814202474921946371, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   - {fileID: -6879800821504193036, guid: 97979f7aee627fc4ebf37797bc0acb76, type: 3}
   summary: 
-  amount: 102
+  amount: 100
   starterAmount: 100
   deliverable: 0
   deliveryTime: 20
@@ -40,6 +40,7 @@ MonoBehaviour:
   totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: -15
   createsWallsAround: 0
+  placeableWithoutFloor: 0
   resourceFarms:
   - {fileID: 11400000, guid: b1508e0964c63e9469db116175e087cb, type: 2}
   - {fileID: 11400000, guid: 13a62257c7f0a654bbb16079c9ac007d, type: 2}
@@ -47,9 +48,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ebcf876b28e3154081b2aab550df9c5, type: 2}
   - {fileID: 11400000, guid: 7f17de7d642febc4ca82f3c00298078c, type: 2}
   farmType: 1
-  storageCapacity: 3000
-  amountPerSecond: 2
-  amountPerResource: 2
+  range: 1
+  storageCapacity: 20
+  farmDelay: 10
   costPerSecond: 0
   resourceCost: []
   farmDeliverType: 0

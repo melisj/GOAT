@@ -106,7 +106,7 @@ public class FlowSeeker : EventListenerVoid
 
     private void AddPathPoints(TubeDirection currentTube, int i)
     {
-        for (int j = 0; j < currentTube.GetPath(i - 1).Points.Count; j++)
+       /* for (int j = 0; j < currentTube.GetPath(i - 1).Points.Count; j++)
         {
             if (j == 0)
             {
@@ -118,7 +118,7 @@ public class FlowSeeker : EventListenerVoid
             {
                 pathsv3.Points.Add(pos);
             }
-        }
+        }*/
     }
 
     private void AddPath()

@@ -71,7 +71,7 @@ namespace Goat.Farming
                 return;
             }
 
-            pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+            //pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
 
             var enumerator = connectedFarms.GetEnumerator();
             while (enumerator.MoveNext())
@@ -160,9 +160,9 @@ namespace Goat.Farming
 
         private void OnDrawGizmos()
         {
-            pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+           /* pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
             pos.y = 0;
-            Gizmos.DrawWireSphere(pos, radius);
+            Gizmos.DrawWireSphere(pos, radius);*/
         }
     }
 
