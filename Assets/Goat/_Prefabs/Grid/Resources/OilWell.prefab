@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8953088753995519699}
   - component: {fileID: 3057171055610261860}
   - component: {fileID: 2443983794667129007}
+  - component: {fileID: 4927665315712575531}
   m_Layer: 17
   m_Name: Range Particle
   m_TagString: Untagged
@@ -4754,6 +4755,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4927665315712575531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929972675607482712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d820f140188fa242b1100d8483aaff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4004467469536533115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4900,6 +4913,7 @@ MonoBehaviour:
   floorLayer:
     serializedVersion: 2
     m_Bits: 1024
+  foundTubeEnd: {fileID: 0}
   tubeEnd: {fileID: 0}
   cue: {fileID: -8038335012244117649}
   animator: {fileID: 1086997886161398287}
