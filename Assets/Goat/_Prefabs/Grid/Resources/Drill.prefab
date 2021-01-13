@@ -190,19 +190,17 @@ MonoBehaviour:
     SerializationNodes: []
   onTubeEndReceived: {fileID: 11400000, guid: 0caf431ea143b08498718759d5c65ffb, type: 2}
   onTubeEndNeeded: {fileID: 11400000, guid: fb9b6eec132db5b4aa2db4bdffab8717, type: 2}
-  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   farmStationSettings: {fileID: 11400000, guid: 26f712f9b898ce34190c02cf4aa7d3e9,
     type: 2}
-  radius: 0.3
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
   resPackPrefab: {fileID: 8242168499018428436, guid: 4c3e38fe469daa04b8ed5e7eecffe61a,
     type: 3}
   floorLayer:
     serializedVersion: 2
     m_Bits: 1024
-  animator: {fileID: 6047925324368337095}
-  debugPathIndex: 0
   tubeEnd: {fileID: 0}
   cue: {fileID: 8479345339946235243}
+  animator: {fileID: 6047925324368337095}
 --- !u!114 &8428477037894498475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +264,7 @@ MonoBehaviour:
   connectedFarm: {fileID: 0}
   onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
   multiDirection: 1
   endPoint: 0
   isFarmStation: 1

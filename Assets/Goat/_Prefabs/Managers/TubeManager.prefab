@@ -43,5 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c1650cc59487c47a5b40cf92de785e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
+  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   onTubeEndNeeded: {fileID: 11400000, guid: fb9b6eec132db5b4aa2db4bdffab8717, type: 2}
   tubeDirectionEvent: {fileID: 11400000, guid: 0caf431ea143b08498718759d5c65ffb, type: 2}

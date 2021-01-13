@@ -12,7 +12,6 @@ namespace Goat.Farming
     {
         [SerializeField] private HashSet<GameObject> connectedFarms = new HashSet<GameObject>();
         [SerializeField] private TubeDirection tubeConnection;
-        [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private float delay;
         [SerializeField] private float radius = 0.1f;
         [SerializeField] private LayerMask resourcePackLayer;
@@ -20,9 +19,7 @@ namespace Goat.Farming
         //[SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         [SerializeField] private Vector3 pos;
         [SerializeField] private Collider[] colls;
-        private Sequence createResPackSequence;
-        private int calls;
-
+        public Vector3 SpawnPos => pos;
       /*  public TubeEndInfo Info
         {
             get
@@ -38,10 +35,10 @@ namespace Goat.Farming
             }
         }*/
 
-        private void Clear()
-        {
-            connectedFarms.Clear();
-        }
+        //private void Clear()
+        //{
+        //    connectedFarms.Clear();
+        //}
 
         //private void Awake()
         //{
@@ -50,49 +47,30 @@ namespace Goat.Farming
         //    createResPackSequence.AppendInterval(delay);
         //    createResPackSequence.AppendCallback(CreateResPacks);
         //}
-        private void OnEnable()
-        {
-            calls = 0;
-            createResPackSequence = DOTween.Sequence();
-            createResPackSequence.SetLoops(-1);
-            createResPackSequence.AppendInterval(delay);
-            createResPackSequence.AppendCallback(CreateResPacks);
-        }
+        //private void OnEnable()
+        //{
+        //    calls = 0;
+        //    createResPackSequence = DOTween.Sequence();
+        //    createResPackSequence.SetLoops(-1);
+        //    createResPackSequence.AppendInterval(delay);
+        //    createResPackSequence.AppendCallback(CreateResPacks);
+        //}
 
-        private void CreateResPacks()
-        {
-            if (calls <= 0)
-                onGridChange.Raise(null);
-            calls++;
-            if (!tubeConnection.HasConnection() || ConnectedFarms.Count <= 0)
-            {
-                Clear();
-                onGridChange.Raise(null);
-                return;
-            }
+        //private void CreateResPacks()
+        //{
+        //    if (!tubeConnection.HasConnection() || ConnectedFarms.Count <= 0)
+        //    {
+        //        Clear();
+        //        return;
+        //    }
 
-            //pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+        //    //pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+        //}
 
-            var enumerator = connectedFarms.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
-                if (farmStation != null)
-                    farmStation.AddTubeEnd(pos);
-
-            }
-        }
-
-        private void OnDisable() 
-        {
-            var enumerator = connectedFarms.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
-                farmStation.TubeEnds.Remove(pos);
-
-            }
-        }
+        //private void OnDisable() 
+        //{
+        //    createResPackSequence.Kill();
+        //}
 /*
         public void CreateResPacks(List<Resource> resources, float[] amount)
         {
@@ -153,10 +131,10 @@ namespace Goat.Farming
             resPacks.Clear();
         }*/
 
-        private Collider[] CheckForResPacks(Vector3 pos)
+        /*private Collider[] CheckForResPacks(Vector3 pos)
         {
             return Physics.OverlapSphere(pos, radius, resourcePackLayer);
-        }
+        }*/
 
         private void OnDrawGizmos()
         {

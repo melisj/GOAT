@@ -13,6 +13,7 @@ namespace Goat.Farming
         [SerializeField] private FarmStationFunction connectedFarm;
         [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private VoidEvent onTubesConnected;
+        [SerializeField, ShowIf("ExchangePoint")] private FarmNetworkData networkData;
         [SerializeField] private bool multiDirection;
         [SerializeField] private bool endPoint;
         [SerializeField] private bool isFarmStation;
@@ -46,6 +47,9 @@ namespace Goat.Farming
 
         public void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
+            if (ExchangePoint)
+                networkData.AddPipe(this);
+
             if (!tileAnimation)
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
@@ -83,6 +87,7 @@ namespace Goat.Farming
             {
                 CheckForConnection(offset[i]);
             }
+            onGridChange.Raise(gameObject);
         }
 
         private void CheckForConnection(Vector3 offset)
@@ -148,11 +153,26 @@ namespace Goat.Farming
         public void OnReturnObject()
         {
             Debug.LogError("Returning");
+            if(ExchangePoint)
+                networkData.RemovePipe(this);
+
             for (int i = 0; i < connectedTubes.Count; i++)
             {
                 connectedTubes[i].ConnectedTubes.Remove(this);
             }
-            tileAnimation.Destroy(() => gameObject.SetActive(false));
+            ConnectedTubes.Clear();
+
+            tileAnimation.Destroy(() => 
+            {
+                onGridChange.Raise(gameObject);
+                gameObject.SetActive(false);
+            });
+        }
+
+        private void OnDestroy() 
+        {
+            if (ExchangePoint)
+                networkData.RemovePipe(this);
         }
 
         private void OnDrawGizmos()

@@ -13,62 +13,64 @@ namespace Goat.Farming
 {
     public class TubeManager : MonoBehaviour, IAtomListener<GameObject>
     {
-        private FarmStationFunction[] farms;
-        private TubeDirection[] tubes;
         private HashSet<TubeDirection> checkedTubes;
 
+        [SerializeField] private FarmNetworkData networkData;
+
+        [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private GameObjectEvent onTubeEndNeeded;
         [SerializeField] private TubeDirectionEvent tubeDirectionEvent;
 
         private void OnEnable()
         {
             onTubeEndNeeded.RegisterSafe(this);
+            onGridChange.RegisterSafe(ConnectNetwork);
         }
 
         private void OnDisable()
         {
             onTubeEndNeeded.UnregisterSafe(this);
+            onGridChange.UnregisterSafe(ConnectNetwork);
+        }
+
+        private void ConnectNetwork(GameObject nothing)
+        {
+            StartNetworkConnection();
         }
 
         #region Network Setup
 
         private void InitNetworkData()
         {
-            tubes = FindObjectsOfType<TubeDirection>();
-            farms = FindObjectsOfType<FarmStationFunction>();
             checkedTubes = new HashSet<TubeDirection>();
 
-            for (int i =0; i < tubes.Length; i++)
+            for (int i =0; i < networkData.Pipes.Count; i++)
             {
-                if (tubes[i].ExchangePoint)
-                {
-                    tubes[i].VisitedByAlgorithm = false;
-                    tubes[i].DistanceFromStart = 0;
-                    tubes[i].ConnectedMultiDirections = new TubeDirection[tubes[i].ConnectionAmount];
-                    tubes[i].DistanceTillNextDirection = new int[tubes[i].ConnectionAmount];
-                }
+                networkData.Pipes[i].ConnectedMultiDirections = new TubeDirection[networkData.Pipes[i].ConnectionAmount];
+                networkData.Pipes[i].DistanceTillNextDirection = new int[networkData.Pipes[i].ConnectionAmount];
             }
         }
 
         [Button("Connect network test")]
         private void StartNetworkConnection()
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
             InitNetworkData();
             ConnectNetwork();
+            SearchForEachFarm();
+            timer.Stop();
+            Debug.Log(timer.Elapsed);
         }
 
         private void ConnectNetwork()
         {
-            for (int i = 0; i < farms.Length; i++)
+            for (int i = 0; i < networkData.Farms.Count; i++)
             {
-                TubeDirection startTube = farms[i].GetComponent<TubeDirection>();
+                TubeDirection startTube = networkData.Farms[i].GetComponent<TubeDirection>();
                 if (startTube.ConnectedTubes.Count != 0)
                 {
-                    Stopwatch timer = new Stopwatch();
-                    timer.Start();
-                        ConnectFrom(startTube, null, out int arrivalIndex, out int distance);
-                    timer.Stop();
-                    Debug.Log(timer.Elapsed);
+                    ConnectFrom(startTube, null, out int arrivalIndex, out int distance);
                 }
             }
         }
@@ -155,15 +157,20 @@ namespace Goat.Farming
 
         #region PathFinding
 
+        private void SearchForEachFarm()
+        {
+            for (int i = 0; i < networkData.Farms.Count; i++)
+            {
+                networkData.Farms[i].FindTubeEnd();
+            }
+        }
+
         private void ResetTubesForPathfinding()
         {
-            for (int i = 0; i < tubes.Length; i++)
+            for (int i = 0; i < networkData.Pipes.Count; i++)
             {
-                if (tubes[i].ExchangePoint)
-                {
-                    tubes[i].VisitedByAlgorithm = false;
-                    tubes[i].DistanceFromStart = 0;
-                }
+                networkData.Pipes[i].VisitedByAlgorithm = false;
+                networkData.Pipes[i].DistanceFromStart = 0;
             }
         }
 
@@ -230,24 +237,6 @@ namespace Goat.Farming
         }
 
         #endregion
-    }
-
-    [CreateAssetMenu(fileName= "FarmNetworkData", menuName= "ScriptableObjects/RuntimeVariables/FarmNetworkData")]
-    public class FarmNetworkData : ScriptableObject
-    {
-        [SerializeField] private List<TubeEnd> tubeEnds = new List<TubeEnd>();
-        [SerializeField] private List<FarmStationFunction> farms = new List<FarmStationFunction>();
-        [SerializeField] private List<TubeDirection> pipes = new List<TubeDirection>();
-
-        public List<TubeEnd> TubeEnds => tubeEnds;
-        public List<FarmStationFunction> Farms => farms;
-        public List<TubeDirection> Pipes => pipes;
-    }
-
-    [EditorIcon("atom-icon-cherry")]
-    [CreateAssetMenu(menuName = "Unity Atoms/Events/TubeDirectionEvent", fileName = "TubeDirectionEvent")]
-    public class TubeDirectionEvent : AtomEvent<WithOwner<TubeDirection>> 
-    {
     }
 
 }

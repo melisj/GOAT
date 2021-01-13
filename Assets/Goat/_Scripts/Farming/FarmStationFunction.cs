@@ -13,38 +13,27 @@ using UnityAtoms.BaseAtoms;
 
 namespace Goat.Farming
 {
-    public class FarmStationFunction : SerializedMonoBehaviour, IPoolObject, IAtomListener<WithOwner<TubeDirection>>
+    public class FarmStationFunction : SerializedMonoBehaviour, IAtomListener<WithOwner<TubeDirection>>
     {
         [SerializeField] private TubeDirectionEvent onTubeEndReceived;
         [SerializeField] private GameObjectEvent onTubeEndNeeded;
-        [SerializeField] private GameObjectEvent onGridChange;
-
-        private const float delay = 1f;
-        [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStation farmStationSettings;
+        [SerializeField] private FarmStation farmStationSettings;
+        [SerializeField] private FarmNetworkData networkData;
         public FarmStation Settings => farmStationSettings;
-        [SerializeField] private float radius = 1;
+
         [SerializeField] private GameObject resPackPrefab;
         [SerializeField] private LayerMask floorLayer;
-        [SerializeField] private Animator animator;
-        [SerializeField] private int debugPathIndex;
         [SerializeField] private TubeEnd tubeEnd;
-        private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
         private float timer;
-        private bool isConnected;
+
         private Queue<ResourceTile> resourceTiles= new Queue<ResourceTile>();
         private ResourceTile currentResourceTile;
         private Inventory inventory;
 
-        private TileAnimation tileAnimation;
-        private HashSet<Vector3> tubeEnds = new HashSet<Vector3>();
-        public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
         [SerializeField] private AudioCue cue;
+        [SerializeField] private Animator animator;
+
         private bool stopped;
-
-        public int PoolKey { get; set; }
-        public ObjectInstance ObjInstance { get; set; }
-        public HashSet<Vector3> TubeEnds => tubeEnds;
-
         private bool Stopped
         {
             get => stopped;
@@ -62,7 +51,7 @@ namespace Goat.Farming
         }
 
         [Button("Find end tube Dijkstra")]
-        private void FindTubeEnd()
+        public void FindTubeEnd()
         {
             onTubeEndNeeded.Raise(gameObject);
         }
@@ -77,6 +66,10 @@ namespace Goat.Farming
                     if (end)
                         tubeEnd = end;
                 }
+                else
+                {
+                    tubeEnd = null;
+                }
             }
         }
 
@@ -87,15 +80,20 @@ namespace Goat.Farming
 
         private void OnEnable()
         {
-            onGridChange.Raise(null);
             onTubeEndReceived.RegisterSafe(this);
+            networkData.AddFarm(this);
         }
 
         private void OnDisable()
         {
-            onGridChange.Raise(null);
             onTubeEndReceived.UnregisterSafe(this);
+            networkData.RemoveFarm(this);
+            cue.StopAudioCue();
+        }
 
+        private void OnDestroy() 
+        {
+            networkData.RemoveFarm(this);
         }
 
         private void Update()
@@ -103,11 +101,6 @@ namespace Goat.Farming
             AddResource();
         }
 
-        public void AddTubeEnd(Vector3 pos)
-        {
-            if (!tubeEnds.Add(pos))
-                return;
-        }
 
         private Vector3 GetGroundPositionAt(Vector3 pos)
         {
@@ -145,9 +138,9 @@ namespace Goat.Farming
                 if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously && inventory.ItemsInInventory >= 1)
                 {
                     //FillResourcePacks();
-                    
-                    if(tubeEnds != null && tubeEnds.Count > 0)
-                        CreateResourcePack(tubeEnds.ElementAt(UnityEngine.Random.Range(0,tubeEnds.Count)));
+
+                    if  (tubeEnd != null)
+                        CreateResourcePack(tubeEnd.SpawnPos);
                 } 
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
@@ -168,21 +161,7 @@ namespace Goat.Farming
             resPack.SetupResPack(resource);
         }
 
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
-        {
-            if (!tileAnimation)
-                tileAnimation = GetComponent<TileAnimation>();
-            tileAnimation.Prepare();
-            Setup();
-            ObjInstance = objectInstance;
-            PoolKey = poolKey;
-            tileAnimation.Create();
-        }
 
-        private void Setup()
-        {
-            onGridChange.Raise(gameObject);
-        }
 
         public void SetResourceTile(List<Tile> tiles)
         {
@@ -200,15 +179,9 @@ namespace Goat.Farming
             }
         }
 
-        public void OnReturnObject()
-        {
-            cue.StopAudioCue();
-            tileAnimation.Destroy(() => gameObject.SetActive(false));
-        }
-
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, radius);
+            //Gizmos.DrawWireSphere(transform.position, radius);
             /*if (connectedTubes.Count <= debugPathIndex) return;
             if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
             Gizmos.color = Color.yellow;

@@ -215,6 +215,11 @@ namespace Goat.Grid
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
             GameObject tempTile = null;
+            if ((tileObject && this.placeable == placeable) && !destroyMode && tileObject.transform.rotation == rotation)
+            {
+                //No need to destroy if you want to edit the same tile with the same type
+                return false;
+            }
             // Change rotation of existing placeable
             if (this.placeable == placeable & tileObject != null && tileObject.transform.rotation != rotation)
             {
@@ -223,11 +228,7 @@ namespace Goat.Grid
 
                 tileObject.transform.rotation = rotation;
             }
-            if ((tileObject && this.placeable == placeable) && !destroyMode)
-            {
-                //No need to destroy if you want to edit the same tile with the same type
-                return false;
-            }
+    
 
             DestroyTile(placeable, isLoading);
             if (placeable != null && !destroyMode)
