@@ -2549,7 +2549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -675, y: 313}
+  m_AnchoredPosition: {x: 934, y: -178}
   m_SizeDelta: {x: 48, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8187170294470526349
@@ -2604,6 +2604,7 @@ MonoBehaviour:
   grid: {fileID: 5601896149593632349}
   revEvent: {fileID: 11400000, guid: 8c7276c304311e64da48e016b8e4c525, type: 2}
   clearReviewsAtDay: 1
+  onReviewAdded: {fileID: 11400000, guid: 6bcde93b158da9c4ba095ecc6dde55b9, type: 2}
   onDay: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
 --- !u!1 &6711411277349671643
 GameObject:

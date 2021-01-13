@@ -5,6 +5,7 @@ using UnityAtoms;
 using UnityAtoms.BaseAtoms;
 using Sirenix.OdinInspector;
 using Goat.Pooling;
+using TMPro;
 
 namespace Goat.UI
 {
@@ -14,6 +15,7 @@ namespace Goat.UI
         [SerializeField] private Transform grid;
         [SerializeField] private ReviewEvent revEvent;
         [SerializeField] private bool clearReviewsAtDay;
+        [SerializeField] private IntEvent onReviewAdded;
         [SerializeField, ShowIf("clearReviewsAtDay")] private BoolEvent onDay;
         private List<GameObject> revCellsCreated = new List<GameObject>();
 
@@ -47,6 +49,7 @@ namespace Goat.UI
                 PoolManager.Instance.ReturnToPool(cell);
             }
             revCellsCreated.Clear();
+            onReviewAdded.Raise(revCellsCreated.Count);
         }
 
         public void OnEventRaised(Review rev)
@@ -61,6 +64,7 @@ namespace Goat.UI
             cell.transform.SetAsFirstSibling();
             ReviewCell cellScript = cell.GetComponent<ReviewCell>();
             cellScript.Setup(rev);
+            onReviewAdded.Raise(revCellsCreated.Count);
         }
     }
 }
