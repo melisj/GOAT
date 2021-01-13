@@ -112,7 +112,7 @@ namespace Goat.Delivery
             ResourcePack resPack = PoolManager.Instance.GetFromPool(packPrefab, transform.position, Quaternion.identity).GetComponent<ResourcePack>();
             if (resPack)
             {
-                resPack.SetupResPack(buyable, amount);
+                resPack.SetupResPack(buyable);
             }
             if (moveSequence.NotNull())
                 moveSequence.Complete();
@@ -133,12 +133,16 @@ namespace Goat.Delivery
         {
             while (deliveryResources.Count > 0)
             {
-                yield return unloadDelaySeconds;
                 DeliveryResource deliRes = deliveryResources.Peek();
-                ResourcePack resPack = PoolManager.Instance.GetFromPool(packPrefab, transform.position, Quaternion.identity).GetComponent<ResourcePack>();
-                if (resPack)
+                
+                for (int i = 0; i < deliRes.Amount; i++)
                 {
-                    resPack.SetupResPack(deliRes.Buyable, deliRes.Amount);
+
+                    yield return unloadDelaySeconds;
+
+                    ResourcePack resPack = PoolManager.Instance.GetFromPool(packPrefab, transform.position, Quaternion.identity).GetComponent<ResourcePack>();
+                    if (resPack)
+                        resPack.SetupResPack(deliRes.Buyable);
                 }
                 deliveryResources.Dequeue();
             }

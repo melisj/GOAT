@@ -160,12 +160,13 @@ MonoBehaviour:
   connectedFarm: {fileID: 0}
   onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   onTubesConnected: {fileID: 11400000, guid: def35fff2e5b02845abb89099f976407, type: 2}
+  networkData: {fileID: 11400000, guid: 27e326e45c660c44e95b6d1536d3a638, type: 2}
   multiDirection: 0
-  path:
-    points:
-    - {x: 0, y: 0.5, z: -0.7}
-    - {x: 0, y: 0.5, z: 0.17}
-  paths: []
+  endPoint: 1
+  isFarmStation: 0
+  connectionAmount: 0
+  connectedMultiDirections: []
+  distanceTillNextDirection: 
   layer:
     serializedVersion: 2
     m_Bits: 131072
@@ -173,6 +174,8 @@ MonoBehaviour:
   - {x: 0, y: 0.5, z: -0.65}
   radius: 0.2
   connectedTubes: []
+  DistanceFromStart: 0
+  VisitedByAlgorithm: 0
 --- !u!114 &1267717291007311182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,13 +211,11 @@ MonoBehaviour:
       Entry: 8
       Data: 
   tubeConnection: {fileID: 3317845011053807668}
-  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   delay: 2
   radius: 0.5
   resourcePackLayer:
     serializedVersion: 2
     m_Bits: 16384
-  resPacks: []
   pos: {x: 0, y: 0, z: 0.17}
   colls: []
 --- !u!114 &-5263532696533251496

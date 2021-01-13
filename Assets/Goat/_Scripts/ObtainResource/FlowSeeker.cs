@@ -86,7 +86,7 @@ public class FlowSeeker : EventListenerVoid
             }
             else
             {
-                for (int i = 0; i < currentTube.ConnectedTubes.Length; i++)
+                for (int i = 0; i < currentTube.ConnectedTubes.Count; i++)
                 {
                     TubeDirection newTube = currentTube.ConnectedTubes[i];
                     if (!newTube) continue;
@@ -106,7 +106,7 @@ public class FlowSeeker : EventListenerVoid
 
     private void AddPathPoints(TubeDirection currentTube, int i)
     {
-        for (int j = 0; j < currentTube.GetPath(i - 1).Points.Count; j++)
+       /* for (int j = 0; j < currentTube.GetPath(i - 1).Points.Count; j++)
         {
             if (j == 0)
             {
@@ -118,7 +118,7 @@ public class FlowSeeker : EventListenerVoid
             {
                 pathsv3.Points.Add(pos);
             }
-        }
+        }*/
     }
 
     private void AddPath()

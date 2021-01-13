@@ -215,6 +215,11 @@ namespace Goat.Grid
             Quaternion rotation = Quaternion.Euler(0, rotationAngle, 0);
             Vector3 size = Vector3.one * grid.GetTileSize;
             GameObject tempTile = null;
+            if ((tileObject && this.placeable == placeable) && !destroyMode && tileObject.transform.rotation == rotation)
+            {
+                //No need to destroy if you want to edit the same tile with the same type
+                return false;
+            }
             // Change rotation of existing placeable
             if (this.placeable == placeable & tileObject != null && tileObject.transform.rotation != rotation)
             {
@@ -223,11 +228,7 @@ namespace Goat.Grid
 
                 tileObject.transform.rotation = rotation;
             }
-            if ((tileObject && this.placeable == placeable) && !destroyMode)
-            {
-                //No need to destroy if you want to edit the same tile with the same type
-                return false;
-            }
+    
 
             DestroyTile(placeable, isLoading);
             if (placeable != null && !destroyMode)
@@ -273,6 +274,8 @@ namespace Goat.Grid
                     tempTile = buildingObject;
                     if (GetWallObj(InverseRotation((int)rotationAngle)))
                         AdjustPositionAgainstWall(buildingObject);
+
+                    SetupFarmStation(buildingObject, placeable);
                 }
                 totalBeautyPoints += placeable.BeautyPoints;
                 if (!isLoading)
@@ -474,6 +477,15 @@ namespace Goat.Grid
                 int wallIndex = SaveData.GetWall(i, out bool isAutoWall);
                 if (wallIndex != -1 && objectList.GetObject(wallIndex) is Placeable)
                     EditAnyWall((Placeable)objectList.GetObject(wallIndex), (i * 90), false, isAutoWall, true);
+            }
+        }
+
+        private void SetupFarmStation(GameObject obj, Placeable placeable)
+        {
+            if (placeable is FarmStation)
+            {
+                FarmStationFunction farmStation = obj.GetComponent<FarmStationFunction>();
+                farmStation.SetResourceTile(grid.GetTilesInRange(this, 1, true));
             }
         }
 
