@@ -35,3 +35,8 @@ namespace Goat.AI
 
     }
 }
+
+#region
+// eigenlijk moet er nog gecheckt worden of een worker items in zijn inventory heeft bij bepaalde stappen
+// zoals het wanneer die spullen moet pakken maar al spullen heeft of de winkel uit gaat.
+#endregion
