@@ -124,7 +124,8 @@ namespace Goat.Grid.Interactions
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
-            electricityComponent.PoweredChangedEvt += ElectricityComponent_PowerChangedEvt;
+            if(producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt += ElectricityComponent_PowerChangedEvt;
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
@@ -144,7 +145,8 @@ namespace Goat.Grid.Interactions
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
 
-            electricityComponent.PoweredChangedEvt -= ElectricityComponent_PowerChangedEvt;
+            if (producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt -= ElectricityComponent_PowerChangedEvt;
         }
 
         protected virtual void OnDestroy()
