@@ -11,6 +11,7 @@ namespace Goat.Player
     {
         [SerializeField] private NavMeshAgent player;
         [SerializeField] private Camera mainCam;
+        [SerializeField] private GameObject pointObject;
         [SerializeField] private InputModeVariable currentMode;
         [SerializeField] private LayerMask gridLayer;
         private bool inSelectMode;
@@ -37,6 +38,16 @@ namespace Goat.Player
             {
                 MoveTo(Input.mousePosition);
             }
+            if (!player.pathPending)
+            {
+                if (player.remainingDistance <= Mathf.Epsilon)
+                    pointObject.SetActive(false);
+                else
+                {
+                    pointObject.transform.position = player.destination;
+                    pointObject.SetActive(true);
+                }
+            }
         }
 
         private void OnInput(KeyCode code, KeyMode keyMode)
@@ -55,7 +66,9 @@ namespace Goat.Player
             if (EventSystem.current.IsPointerOverGameObject()) return;
             var ray = mainCam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo, 1000, gridLayer))
+            {
                 player.destination = m_HitInfo.point;
+            }
         }
 
         protected override void InitOnDisable()

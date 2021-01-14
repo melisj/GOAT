@@ -15,6 +15,12 @@ public class CellWithInventoryAmount : UICell
         ChangeText(amount);
     }
 
+    public void Setup(int amount)
+    {
+        Amount = amount;
+        ChangeText(amount);
+    }
+
     private void ChangeText(int amount)
     {
         ChangeIconWidth(amount, amountText, amountBackground);

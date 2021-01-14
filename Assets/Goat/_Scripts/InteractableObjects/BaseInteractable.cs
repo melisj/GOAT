@@ -1,6 +1,6 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Farming.Electricity;
+using Goat.Grid.UI;
 using Goat.Pooling;
-using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
 using System.Reflection;
@@ -17,21 +17,15 @@ namespace Goat.Grid.Interactions
     {
         [SerializeField] protected InteractablesInfo info;
         [SerializeField] private GridUIInfo gridUIInfo;
-        [SerializeField] private Electricity electricityinfo;
         [SerializeField] private bool adjustPositionAgainstWall;
         [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
+
+        [SerializeField] private bool producesConsumesElectricity;
+        [SerializeField, ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
+
         [TextArea, Space(10)]
         [SerializeField] protected string description;
-
-        [Header("Power Settings")]
-        [SerializeField] private bool costsPower;
-        [SerializeField, ShowIf("costsPower")] private int powerCost;
-        [SerializeField, ShowIf("costsPower")] private bool isPowered;
-
-        [SerializeField] private bool producesPower;
-        [SerializeField, ShowIf("producesPower")] private int powerProduction;
-        [SerializeField, ShowIf("producesPower")] private bool isPowering;
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
@@ -40,7 +34,6 @@ namespace Goat.Grid.Interactions
         protected Collider clickCollider;
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
-        protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
         private TileAnimation tileAnimation;
@@ -51,25 +44,13 @@ namespace Goat.Grid.Interactions
             get => isClickedOn;
             set
             {
-                Debug.Log($"Clicked on = {value}", gameObject);
                 isClickedOn = value;
             }
         }
 
         public bool UIOpen => gridUIInfo.IsUIActive;
         public bool UIActivated { get; set; }
-
-        public bool IsPowered
-        {
-            get { return isPowered; }
-            set { isPowered = value; if (isPowered != value) PowerChanged?.Invoke(this, value); }
-        }
-
-        public bool IsPowering => isPowering;
-
-        public int PowerCost => powerCost;
-        public int PowerProduction => powerProduction;
-
+   
         public string Description => description;
         public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
@@ -82,6 +63,7 @@ namespace Goat.Grid.Interactions
 
         protected virtual void Awake()
         {
+
             clickCollider = GetComponentInChildren<Collider>();
             placeableInfo = GetComponent<PlaceableInfo>();
             UIActivated = false;
@@ -145,7 +127,6 @@ namespace Goat.Grid.Interactions
             tileAnimation.Prepare();
             tileAnimation.Create();
             UpdateInteractable.AddListener(info.UpdateInteractable);
-            SetupElectricity();
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
@@ -159,7 +140,6 @@ namespace Goat.Grid.Interactions
                 audioCue = GetComponent<AudioCue>();
             if (audioCue)
                 audioCue.StopAudioCue();
-            OnDisableElectricity();
             if (adjustPosition != null)
                 adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
@@ -173,30 +153,5 @@ namespace Goat.Grid.Interactions
         }
 
         #endregion Pooling
-
-        #region Electricity
-
-        private void SetupElectricity()
-        {
-            if (costsPower)
-                electricityinfo.AddDevice(this);
-
-            if (producesPower && IsPowering)
-                electricityinfo.AddGenerator(this);
-            //electricityinfo.Capacity += powerProduction;
-        }
-
-        private void OnDisableElectricity()
-        {
-            if (costsPower)
-                electricityinfo.RemoveDevice(this);
-
-            if (producesPower && IsPowering)
-                electricityinfo.RemoveGenerator(this);
-
-            //electricityinfo.Capacity -= powerProduction;
-        }
-
-        #endregion Electricity
     }
 }

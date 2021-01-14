@@ -9,52 +9,54 @@ using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
-    public class StockClerk : WorkerWithListener<bool, BoolEvent>
+    public class StockClerk : Worker
     {
         [SerializeField] private UnloadLocations entrances;
-        private ExitStore exitStore;
-
-        public override void OnEventRaised(bool value)
-        {
-            if (!value && stateMachine != null)
-                stateMachine.SetState(exitStore);
-        }
 
         protected override void Setup()
         {
             base.Setup();
 
-            EnterStore enterStore = new EnterStore(this, navMeshAgent, animator, entrances);
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
-            takeItem = new TakeItem(this, animator, false);
-            MoveToTarget moveToTarget = new MoveToTarget(this, navMeshAgent, animator);
-            placeItem = new PlaceItem(this, animator);
+            EnterStore enterStore = new EnterStore(this, navMeshAgent, entrances);
             SearchForEmptyShelves searchForEmptyShelves = new SearchForEmptyShelves(this);
             SetStorageTarget setStorageTarget = new SetStorageTarget(this);
             SearchForStorageInWarehouse searchForStorageInWarehouse = new SearchForStorageInWarehouse(this);
-            exitStore = new ExitStore(this, navMeshAgent, animator);
-            //findRestingPlace = new FindRestingPlace(this);
-            waitingState = new WaitingState(this, 5);
             SetRandomDestination setRandomDestination = new SetRandomDestination(this, navMeshAgent, 3, null);
 
             // Conditions
+            // When the customer is standing still for more than a certain amount of time while in moving to a destination
             Func<bool> StuckForSeconds() => () => moveToDestination.timeStuck > 1f || moveToTarget.timeStuck > 1f;
+            // Has a target to move to
             Func<bool> HasTarget() => () => targetStorage != null;
+            // Has a location to move to
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
-            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+            // Reached the location of the target
+            Func<bool> ReachedTarget() => () => !navMeshAgent.pathPending && navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+            // Reached to position it was moving to
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null;
-            Func<bool> SetNextEmptyStorageTarget() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            // When the stockclerk has taken its items to go and fill the shelves in the store
+            Func<bool> GoFromTakingToPlacing() => () => takeItem.depleted && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            // When its time to fill the next shelve
+            Func<bool> GoFromPlacingToPlacing() => () => placeItem.filled && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            // When stockclerk has entered the store upon opening it can go to work
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
-
-            Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0;
+            // When the stockclerk has nothing to do
+            Func<bool> NoItemsToTakeOrPlace() => () => Inventory.ItemsInInventory == 0 && ItemsToGet.ItemsInInventory == 0 && placeItem.filled;
+            // When the items the stockclerk is looking for are no longer present in the warehouse
             Func<bool> TakenAllItemsFromWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && targetStorages.Count > 0 && Inventory.ItemsInInventory > 0;
+            // When the items the stockclerk is looking for are no longer present in the warehouse
             Func<bool> NoItemsFoundInWarehouse() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory == 0 && searchForStorageInWarehouse.nothingFound;
+            // When there are shelves in the store that need to be filled
             Func<bool> EmptyShelvesFound() => () => searchForEmptyShelves.foundEmptyShelves;
+            // When there are no shelves in the store that need to be filled
             Func<bool> NoEmptyShelvesFound() => () => !searchForEmptyShelves.foundEmptyShelves;
-            Func<bool> FindItemInWarehouse() => () => ItemsToGet.ItemsInInventory > 0 || takeItem.depleted;
+            // When the stockclerk still has items to get but cant find them on the shelve he is currently looking at
+            Func<bool> FindItemInWarehouse() => () => (ItemsToGet.ItemsInInventory > 0 && takeItem.depleted) || takeItem.depleted;
+            // Take items out of storage
             Func<bool> TakeItems() => () => ItemsToGet.ItemsInInventory > 0 && ReachedTarget().Invoke();
+            // Place items in storage
             Func<bool> PlaceItems() => () => ItemsToGet.ItemsInInventory == 0 && Inventory.ItemsInInventory > 0 && ReachedTarget().Invoke();
-
+            
             Func<bool> DoneWaiting() => () => !waitingState.Waiting;
 
             // Transitions
@@ -73,8 +75,8 @@ namespace Goat.AI
             //AT(searchForStorageInWarehouse, searchForEmptyShelves, NoItemsFoundInWarehouse());
 
             AT(takeItem, searchForStorageInWarehouse, FindItemInWarehouse());
-            AT(takeItem, setStorageTarget, SetNextEmptyStorageTarget());
-            AT(placeItem, setStorageTarget, SetNextEmptyStorageTarget());
+            AT(takeItem, setStorageTarget, GoFromTakingToPlacing());
+            AT(placeItem, setStorageTarget, GoFromPlacingToPlacing());
 
             //Nothing to fill found or no items found for filling.
             AT(searchForEmptyShelves, setRandomDestination, NoEmptyShelvesFound());

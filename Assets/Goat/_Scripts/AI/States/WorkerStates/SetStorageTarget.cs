@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Set the shelve for the stockclerk to move to to fill
+    /// </summary>
     public class SetStorageTarget : IState
     {
         private StockClerk stockClerk;
@@ -19,6 +22,10 @@ namespace Goat.AI.States
 
         }
 
+        /// <summary>
+        /// Returns StorageInteractable for stockclerk to move to
+        /// </summary>
+        /// <returns> StorageInteractable </returns>
         private StorageInteractable SetNewTarget()
         {
             StorageInteractable tempStorage;

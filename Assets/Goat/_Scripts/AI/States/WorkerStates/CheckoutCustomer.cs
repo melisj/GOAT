@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Template to checkout customer for cashiere AI
+    /// </summary>
     public class CheckoutCustomer : IState
     {
         private Cashiere cashiere;

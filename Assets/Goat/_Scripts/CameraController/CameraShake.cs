@@ -36,6 +36,7 @@ namespace Goat.CameraControls
             if (shakeSequence.NotNull())
                 shakeSequence.Complete();
             shakeSequence = DOTween.Sequence();
+            shakeSequence.SetUpdate(true);
             shakeSequence.Append(DOTween.To(() => 0, x => noise.m_AmplitudeGain = x, ampGain, duration / 4));
             shakeSequence.Join(DOTween.To(() => 0, x => noise.m_FrequencyGain = x, frequencyGain, duration / 4));
             shakeSequence.Append(DOTween.To(() => ampGain, x => noise.m_AmplitudeGain = x, 0, duration / 4));

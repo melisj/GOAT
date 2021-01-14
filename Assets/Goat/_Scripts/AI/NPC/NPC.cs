@@ -12,6 +12,9 @@ using Goat.AI.Parking;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// NPC class which al AI inherret from
+    /// </summary>
     public class NPC : SerializedMonoBehaviour, IPoolObject
     {
         // Check variable visability
@@ -22,6 +25,7 @@ namespace Goat.AI
 
         protected StateMachine stateMachine;
         protected MoveToDestination moveToDestination;
+        protected MoveToTarget moveToTarget;
         [ReadOnly] public Vector3 targetDestination;
 
         [ReadOnly] public NavMeshAgent navMeshAgent;
@@ -51,6 +55,9 @@ namespace Goat.AI
 
         [HideInInspector] public TakeItem takeItem;
 
+        /// <summary>
+        /// Setup which is called everytime the AI is initialized.
+        /// </summary>
         protected virtual void Setup()
         {
             stateMachine = new StateMachine();
@@ -60,9 +67,22 @@ namespace Goat.AI
             inventory = new Inventory(maxInventory);
             itemsToGet = new Inventory(maxInventory);
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            moveToDestination = new MoveToDestination(this, navMeshAgent);
+            moveToTarget = new MoveToTarget(this, navMeshAgent);
+            takeItem = new TakeItem(this, animator, false);
         }
 
+        protected virtual void OnEnable()
+        {
+        }
+
+        protected virtual void OnDisable()
+        {
+        }
+
+        /// <summary>
+        /// Replace Update with statemachine.Tick so the tick method of a state will be executed every update
+        /// </summary>
         protected virtual void Update() => stateMachine.Tick();
 
         private void LateUpdate()

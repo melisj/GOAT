@@ -1,10 +1,8 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Farming.Electricity;
+using Goat.Grid.UI;
 using Goat.Player;
-using Goat.Saving;
-using Goat.Storage;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
-using static DayNightCycle;
 
 public class StarterKit : MonoBehaviour
 {

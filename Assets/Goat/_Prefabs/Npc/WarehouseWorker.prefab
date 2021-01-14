@@ -699,6 +699,7 @@ MonoBehaviour:
   enterTime: 0
   searchingTime: 0
   chillin: 0
+  onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
   searching: 0
@@ -726,6 +727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4699436679009684166}
   - component: {fileID: 9078441483579810345}
+  - component: {fileID: 2212865088065426685}
   m_Layer: 0
   m_Name: BaseCharacter
   m_TagString: Untagged
@@ -769,6 +771,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2212865088065426685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367182921933262972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ee6ac5ba8b9d745945dd6c4e39ba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 8970165054993010810}
+  animator: {fileID: 9078441483579810345}
+  threshold: 0.1
 --- !u!1 &6133612785858271768
 GameObject:
   m_ObjectHideFlags: 0

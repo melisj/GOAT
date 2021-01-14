@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Goat.Events;
-using Goat.Storage;
 using System.Collections.Generic;
+using Goat.Farming.Electricity;
 
 namespace Goat.Expenses
 {

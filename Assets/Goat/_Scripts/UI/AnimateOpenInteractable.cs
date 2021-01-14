@@ -20,9 +20,6 @@ namespace Goat.UI
         [SerializeField] private RectTransform crateSeperator;
         [SerializeField] private RectTransform crateInventory;
         [SerializeField] private RectTransform acceptedItems;
-        [SerializeField] private RectTransform fillingUISeperator;
-        [SerializeField] private RectTransform fillingUI;
-        [SerializeField] private RectTransform stockButton;
         [SerializeField] private RectTransform header;
 
         private Sequence openSequence, closeSequence;
@@ -73,9 +70,6 @@ namespace Goat.UI
             openSequence.Append(crateSeperator.DOScale(Vector3.one, scalingDuration));
             openSequence.Append(crateInventory.DOScale(Vector3.one, scalingDuration));
             openSequence.Join(acceptedItems.DOScale(Vector3.one, scalingDuration));
-            openSequence.Append(fillingUISeperator.DOScale(Vector3.one, scalingDuration));
-            openSequence.Append(fillingUI.DOScale(Vector3.one, scalingDuration));
-            openSequence.Append(stockButton.DOScale(Vector3.one, scalingDuration));
             openSequence.Join(header.DOScale(Vector3.one, scalingDuration));
         }
 
@@ -103,10 +97,7 @@ namespace Goat.UI
 
             closeSequence = DOTween.Sequence();
             closeSequence.OnStart(() => interactable.CloseUI());
-            closeSequence.Append(stockButton.DOScale(zeroUp, scalingDuration / closingMultiplier));
             closeSequence.Join(header.DOScale(zeroUp, scalingDuration / closingMultiplier));
-            closeSequence.Append(fillingUISeperator.DOScale(zeroRight, scalingDuration / closingMultiplier));
-            closeSequence.Append(fillingUI.DOScale(zeroRight, scalingDuration / closingMultiplier));
             closeSequence.Append(acceptedItems.DOScale(zeroRight, scalingDuration / closingMultiplier));
             closeSequence.Join(crateInventory.DOScale(zeroRight, scalingDuration / closingMultiplier));
             closeSequence.Append(crateSeperator.DOScale(zeroRight, scalingDuration / closingMultiplier));

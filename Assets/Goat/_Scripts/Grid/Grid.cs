@@ -1,4 +1,5 @@
 ﻿using Goat.Events;
+using Goat.Farming;
 using Goat.Saving;
 using System.Collections.Generic;
 using System.IO;
@@ -486,7 +487,7 @@ namespace Goat.Grid
 
         public void SetPreviewActiveMesh(Placeable placeable)
         {
-            if (previewObject == null) 
+            if (previewObject == null)
             {
                 previewObject = Instantiate(previewPrefab);
                 previewObject.transform.SetParent(transform.parent);
@@ -502,6 +503,17 @@ namespace Goat.Grid
                 }
                 previewObjectMesh[i].mesh = placeable.Mesh[i];
             }
+            ChangeRangePlane(placeable);
+        }
+
+        private void ChangeRangePlane(Placeable placeable)
+        {
+            if (placeable is FarmStation farmStation)
+            {
+                previewObjectMesh[2].transform.localScale = Vector3.one * (1 + farmStation.Range * 2);
+            }
+            else
+                previewObjectMesh[2].transform.localScale = Vector3.one * tileSize;
         }
 
         public void ChangePreviewObject(Placeable placeable)
@@ -553,14 +565,13 @@ namespace Goat.Grid
             return selectedTile;
         }
 
-     
         /// <summary>
         /// Returns tile in a radius around the starting tile
         /// </summary>
         /// <param name="startTile"></param>
         /// <param name="radius"></param>
         /// <param name="square"> Returns in tiles in a square around the startingTile when true </param>
-        /// <returns></returns>        
+        /// <returns></returns>
         public List<Tile> GetTilesInRange(Tile startTile, int radius, bool square)
         {
             List<Tile> selectedTiles = new List<Tile>();

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Do nothing in this state
+    /// </summary>
     public class DoNothing : IState
     {
         NPC npc;

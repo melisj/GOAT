@@ -9,6 +9,7 @@ TagManager:
   - Checkout
   - TubeEnd
   - Container
+  - HoverInfo
   layers:
   - Default
   - TransparentFX

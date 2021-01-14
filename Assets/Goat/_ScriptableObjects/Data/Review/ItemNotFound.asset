@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507ed166f0a1bfb4cb572a39ce101b11, type: 3}
   m_Name: ItemNotFound
   m_EditorClassIdentifier: 
-  weight: 0.1
+  weight: 1
   positiveLines:
   - 'I could easily find what I needed. '
   negativeLines:

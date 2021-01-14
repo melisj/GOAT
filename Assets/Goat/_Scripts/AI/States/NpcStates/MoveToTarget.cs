@@ -5,33 +5,36 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Move to the location of the targed.
+    /// </summary>
     public class MoveToTarget : IState
     {
         private NPC npc;
         private NavMeshAgent navMeshAgent;
-        private Animator animator;
 
         private Vector3 lastLocation;
         public float timeStuck;
+        public int amountStuckCalled;
 
-        public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent, Animator animator)
+        public MoveToTarget(NPC npc, NavMeshAgent navMeshAgent)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
         }
 
         public void Tick()
         {
             npc.searchingTime += Time.deltaTime;
-
+            float dist = Vector3.Distance(npc.transform.position, lastLocation);
             // Check if agent is stuck while navigating to target
-            if (Vector3.Distance(npc.transform.position, lastLocation) <= 0)
+            if (dist <= 0.001f)
+            {
+                amountStuckCalled++;
                 timeStuck += Time.deltaTime;
+            }
 
             lastLocation = npc.transform.position;
-
-            animator.SetFloat("Move", navMeshAgent.velocity.sqrMagnitude);
         }
 
         public void OnEnter()
@@ -39,9 +42,7 @@ namespace Goat.AI.States
             Debug.LogFormat("Moving to target");
             timeStuck = 0f;
             navMeshAgent.enabled = true;
-            //navMeshAgent.SetDestination(npc.targetDestination);
             navMeshAgent.SetDestination(npc.targetStorage.transform.position);
-
         }
 
         public void OnExit()
@@ -49,9 +50,7 @@ namespace Goat.AI.States
             timeStuck = 0f;
             Debug.Log("Arrived at target");
             //navMeshAgent.enabled = false;
-            // Animation
-            animator.SetFloat("Move", 0);
+            navMeshAgent.ResetPath();
         }
     }
 }
-

@@ -27,6 +27,10 @@ namespace Goat.AI.States
         {
         }
 
+        /// <summary>
+        /// Calculate groceries bassed on the available monney a customer has and the avaiablity of the item
+        /// </summary>
+        /// <returns> Dictionary of items and amount </returns>
         private Dictionary<Resource, int> GetGroceries()
         {
             // Build list of available resources
@@ -50,6 +54,7 @@ namespace Goat.AI.States
 
             Debug.LogFormat("Amount of groceries: {0}", groceries.Count);
             calculatedGroceries = true;
+            customer.AmountGroceries = groceries.Count;
             return groceries;
         }
 
