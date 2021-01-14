@@ -5031,6 +5031,7 @@ GameObject:
   - component: {fileID: 8479345339946235243}
   - component: {fileID: 6480385511634777753}
   - component: {fileID: 3686466531754005563}
+  - component: {fileID: 7670834833605944689}
   m_Layer: 17
   m_Name: Drill
   m_TagString: Untagged
@@ -5168,6 +5169,25 @@ MonoBehaviour:
   connectedTubes: []
   DistanceFromStart: 0
   VisitedByAlgorithm: 0
+--- !u!114 &7670834833605944689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8181b23a885d6234da336cced8596ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  costsPower: 1
+  powerCost: 10
+  isPowered: 0
+  producesPower: 0
+  powerProduction: 0
+  isPowering: 0
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0
