@@ -19,21 +19,21 @@ namespace Goat.Farming
         //[SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
         [SerializeField] private Vector3 pos;
         [SerializeField] private Collider[] colls;
-        public Vector3 SpawnPos => pos;
-      /*  public TubeEndInfo Info
-        {
-            get
-            {
-                float[] amount = new float[resPacks.Count];
-                int[] resource = new int[resPacks.Count];
-                for (int i = 0; i < resPacks.Count; i++)
-                {
-                    amount[i] = 1;
-                    resource[i] = resPacks[i].Resource.ID;
-                }
-                return new TubeEndInfo(resource, amount, transform.position, (int)transform.rotation.eulerAngles.y / 90);
-            }
-        }*/
+        public Vector3 SpawnPos => tubeConnection.CorrectPosWithRotation(pos);
+        /*  public TubeEndInfo Info
+          {
+              get
+              {
+                  float[] amount = new float[resPacks.Count];
+                  int[] resource = new int[resPacks.Count];
+                  for (int i = 0; i < resPacks.Count; i++)
+                  {
+                      amount[i] = 1;
+                      resource[i] = resPacks[i].Resource.ID;
+                  }
+                  return new TubeEndInfo(resource, amount, transform.position, (int)transform.rotation.eulerAngles.y / 90);
+              }
+          }*/
 
         //private void Clear()
         //{
@@ -67,34 +67,34 @@ namespace Goat.Farming
         //    //pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
         //}
 
-        //private void OnDisable() 
+        //private void OnDisable()
         //{
         //    createResPackSequence.Kill();
         //}
-/*
-        public void CreateResPacks(List<Resource> resources, float[] amount)
-        {
-            pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-
-            var enumerator = connectedFarms.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
-                for (int i = 0; i < farmStation.Settings.ResourceFarms.Length; i++)
+        /*
+                public void CreateResPacks(List<Resource> resources, float[] amount)
                 {
-                    Resource res = farmStation.Settings.ResourceFarms[i];
-                    if (resources.Contains(res))
+                    pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
+
+                    var enumerator = connectedFarms.GetEnumerator();
+                    while (enumerator.MoveNext())
                     {
-                        int resourceIndex = resources.IndexOf(res);
-                        ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject, (int)amount[resourceIndex]);
-                        if (resPack)
+                        FarmStationFunction farmStation = enumerator.Current.GetComponent<FarmStationFunction>();
+                        for (int i = 0; i < farmStation.Settings.ResourceFarms.Length; i++)
                         {
-                            resPacks.Add(resPack);
+                            Resource res = farmStation.Settings.ResourceFarms[i];
+                            if (resources.Contains(res))
+                            {
+                                int resourceIndex = resources.IndexOf(res);
+                                ResourcePack resPack = farmStation.CreateResourcePack(pos, gameObject, (int)amount[resourceIndex]);
+                                if (resPack)
+                                {
+                                    resPacks.Add(resPack);
+                                }
+                            }
                         }
                     }
-                }
-            }
-        }*/
+                }*/
 
         /*private void RemovePickedResPacks(Collider[] colliders)
         {
@@ -138,11 +138,7 @@ namespace Goat.Farming
 
         private void OnDrawGizmos()
         {
-           /* pos = tubeConnection.CorrectPosWithRotation(tubeConnection.Path.Points[1]);
-            pos.y = 0;
-            Gizmos.DrawWireSphere(pos, radius);*/
+            Gizmos.DrawWireSphere(SpawnPos, radius);
         }
     }
-
-    
 }

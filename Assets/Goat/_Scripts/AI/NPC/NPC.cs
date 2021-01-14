@@ -52,6 +52,14 @@ namespace Goat.AI
 
         [HideInInspector] public TakeItem takeItem;
 
+        protected virtual void OnEnable()
+        {
+        }
+
+        protected virtual void OnDisable()
+        {
+        }
+
         protected virtual void Setup()
         {
             stateMachine = new StateMachine();

@@ -9,16 +9,9 @@ using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
-    public class StockClerk : WorkerWithListener<bool, BoolEvent>
+    public class StockClerk : Worker
     {
         [SerializeField] private UnloadLocations entrances;
-
-
-        public override void OnEventRaised(bool value)
-        {
-            if (!value && stateMachine != null)
-                stateMachine.SetState(exitStore);
-        }
 
         protected override void Setup()
         {

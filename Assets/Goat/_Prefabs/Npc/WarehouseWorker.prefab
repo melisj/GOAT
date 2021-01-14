@@ -699,6 +699,7 @@ MonoBehaviour:
   enterTime: 0
   searchingTime: 0
   chillin: 0
+  onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
   searching: 0
@@ -784,6 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 8970165054993010810}
   animator: {fileID: 9078441483579810345}
+  threshold: 0.1
 --- !u!1 &6133612785858271768
 GameObject:
   m_ObjectHideFlags: 0

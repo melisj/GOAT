@@ -8,12 +8,14 @@ using Goat.AI.Satisfaction;
 using UnityAtoms.BaseAtoms;
 using System;
 using Goat.AI.States;
+using UnityAtoms;
 
 namespace Goat.AI
 {
-    public class Worker : NPC
+    public class Worker : NPC, IAtomListener<bool>
     {
         [HideInInspector] public bool chillin;
+        [SerializeField] private BoolEvent onCycleChange;
         public StorageList storageLocations;
         [HideInInspector] public PlaceItem placeItem;
         [HideInInspector] protected FindRestingPlace findRestingPlace;
@@ -21,6 +23,18 @@ namespace Goat.AI
         protected ExitStore exitStore;
 
         [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            onCycleChange.RegisterSafe(this);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            onCycleChange.UnregisterSafe(this);
+        }
 
         protected override void Setup()
         {
@@ -32,7 +46,11 @@ namespace Goat.AI
             exitStore = new ExitStore(this, navMeshAgent);
         }
 
-
+        public void OnEventRaised(bool isDay)
+        {
+            if (!isDay && stateMachine != null)
+                stateMachine.SetState(exitStore);
+        }
     }
 }
 

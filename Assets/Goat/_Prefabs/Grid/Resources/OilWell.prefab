@@ -4767,6 +4767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d820f140188fa242b1100d8483aaff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  farmFunction: {fileID: 1110723869718704107}
 --- !u!1 &4004467469536533115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4915,6 +4916,7 @@ MonoBehaviour:
     m_Bits: 1024
   foundTubeEnd: {fileID: 0}
   tubeEnd: {fileID: 0}
+  timer: 0
   cue: {fileID: -8038335012244117649}
   animator: {fileID: 1086997886161398287}
 --- !u!114 &-1485341760395434713

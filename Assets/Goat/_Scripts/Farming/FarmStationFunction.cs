@@ -9,7 +9,7 @@ using UnityAtoms.BaseAtoms;
 using System;
 using Random = UnityEngine.Random;
 using UnityAtoms;
-using UnityAtoms.BaseAtoms;
+using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
 
 namespace Goat.Farming
 {
@@ -22,24 +22,26 @@ namespace Goat.Farming
         public FarmStation Settings => farmStationSettings;
 
         [SerializeField] private GameObject resPackPrefab;
+        [SerializeField] private GameObject rangePlane;
         [SerializeField] private LayerMask floorLayer;
         [SerializeField] private TubeDirection foundTubeEnd;
         [SerializeField] private TubeEnd tubeEnd;
         public TubeDirection FoundTubeEnd { get => foundTubeEnd; set { foundTubeEnd = value; tubeEnd = null; } }
-        public TubeEnd TubeEnd 
-        { 
-            get 
-            { 
+
+        public TubeEnd TubeEnd
+        {
+            get
+            {
                 if (tubeEnd == null && FoundTubeEnd != null)
                     tubeEnd = FoundTubeEnd.GetComponent<TubeEnd>();
                 return tubeEnd;
-            } 
+            }
         }
 
         public TubeDirection TubeDirection { get; private set; }
-        private float timer;
+        [SerializeField, ReadOnly] private float timer;
 
-        private Queue<ResourceTile> resourceTiles= new Queue<ResourceTile>();
+        private Queue<ResourceTile> resourceTiles = new Queue<ResourceTile>();
         private ResourceTile currentResourceTile;
         private Inventory inventory;
 
@@ -47,6 +49,7 @@ namespace Goat.Farming
         [SerializeField] private Animator animator;
 
         private bool stopped;
+
         private bool Stopped
         {
             get => stopped;
@@ -71,7 +74,7 @@ namespace Goat.Farming
 
         public void OnEventRaised(WithOwner<TubeDirection> item)
         {
-            if (item.Owner == gameObject) 
+            if (item.Owner == gameObject)
             {
                 if (item.Gtype != null)
                 {
@@ -96,16 +99,18 @@ namespace Goat.Farming
         {
             onTubeEndReceived.RegisterSafe(this);
             networkData.AddFarm(this);
+            rangePlane.SetActive(false);
         }
 
         private void OnDisable()
         {
             onTubeEndReceived.UnregisterSafe(this);
             networkData.RemoveFarm(this);
+            rangePlane.SetActive(true);
             cue.StopAudioCue();
         }
 
-        private void OnDestroy() 
+        private void OnDestroy()
         {
             networkData.RemoveFarm(this);
         }
@@ -114,7 +119,6 @@ namespace Goat.Farming
         {
             AddResource();
         }
-
 
         private Vector3 GetGroundPositionAt(Vector3 pos)
         {
@@ -125,10 +129,10 @@ namespace Goat.Farming
 
         private void AddResource()
         {
-            if (currentResourceTile && !currentResourceTile.gameObject.activeInHierarchy) currentResourceTile = null;  
+            if (currentResourceTile && !currentResourceTile.gameObject.activeInHierarchy) currentResourceTile = null;
             if (currentResourceTile == null && resourceTiles.Count != 0) currentResourceTile = resourceTiles.Dequeue();
 
-            if (inventory.ItemsInInventory >= farmStationSettings.StorageCapacity)
+            if (inventory.ItemsInInventory >= farmStationSettings.StorageCapacity || inventory.ItemsInInventory <= 0)
             {
                 animator.enabled = false;
                 Stopped = true;
@@ -143,8 +147,8 @@ namespace Goat.Farming
 
                 timer = 0;
 
-                if (currentResourceTile != null) 
-                { 
+                if (currentResourceTile != null)
+                {
                     inventory.Add(currentResourceTile.Data.Resource, 1, out int amountStored);
                     currentResourceTile.Amount -= amountStored;
                 }
@@ -153,9 +157,9 @@ namespace Goat.Farming
                 {
                     //FillResourcePacks();
 
-                    if  (tubeEnd != null)
-                        CreateResourcePack(tubeEnd.SpawnPos);
-                } 
+                    if (TubeEnd != null)
+                        CreateResourcePack(TubeEnd.SpawnPos);
+                }
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
                 {
@@ -164,9 +168,9 @@ namespace Goat.Farming
             }
         }
 
-        private void CreateResourcePack(Vector3 pos) 
+        private void CreateResourcePack(Vector3 pos)
         {
-            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, GetGroundPositionAt(pos), Quaternion.identity, null);
+            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, pos, Quaternion.identity, null);
             ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
 
             Resource resource = inventory.Items.ElementAt(Random.Range(0, inventory.Items.Count)).Key;
@@ -175,11 +179,9 @@ namespace Goat.Farming
             resPack.SetupResPack(resource);
         }
 
-
-
         public void SetResourceTile(List<Tile> tiles)
         {
-            foreach(Tile tile in tiles)
+            foreach (Tile tile in tiles)
             {
                 if (tile.FloorObj)
                 {
