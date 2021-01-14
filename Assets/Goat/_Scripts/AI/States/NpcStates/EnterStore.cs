@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Find the store entrance and move to that entrance
+    /// </summary>
     public class EnterStore : IState
     {
         protected NPC npc;

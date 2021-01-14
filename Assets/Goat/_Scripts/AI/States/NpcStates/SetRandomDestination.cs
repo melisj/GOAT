@@ -7,6 +7,9 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Set random destination for AI to move to
+    /// </summary>
     public class SetRandomDestination : IState
     {
         private const int chanceToSpeak = 50;
@@ -36,6 +39,9 @@ namespace Goat.AI.States
             CalculateDestination();
         }
 
+        /// <summary>
+        /// Try to get a new destination for the AI to move to
+        /// </summary>
         private void CalculateDestination()
         {
             Vector3 tempDestination;
@@ -55,6 +61,7 @@ namespace Goat.AI.States
             }
             //else continue;
 
+            // If a destination was hit check if the destination is reachable
             if (hitDestination)
             {
                 NavMeshQueryFilter filter = new NavMeshQueryFilter
@@ -79,6 +86,12 @@ namespace Goat.AI.States
             return Physics.OverlapSphere(npc.transform.position, radius: 4, layerMask);
         }
 
+        /// <summary>
+        /// Tries to move to a random storage shelve inside the store
+        /// </summary>
+        /// <param name="colliders"> Correct colliders hit </param>
+        /// <param name="result"> Vector3 destination to move to </param>
+        /// <returns></returns>
         private bool RandomStorageTarget(Collider[] colliders, out Vector3 result)
         {
             result = npc.transform.position;
@@ -93,6 +106,7 @@ namespace Goat.AI.States
                 tempInteractable = colliders[randomIndex].GetComponentInParent<StorageInteractable>();
                 if (prevStorage != tempInteractable)
                 {
+                    // The location to wander to + a random offset
                     Vector3 tempResult = tempInteractable.transform.position + ((tempInteractable.transform.forward * Random.Range(0, 1f)) + (tempInteractable.transform.right * Random.Range(-.5f, .5f)));
                     result = tempResult;
                     return true;

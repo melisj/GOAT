@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Do nothing in this state for a given time
+    /// </summary>
     public class WaitingState : IState
     {
         private NPC npc;

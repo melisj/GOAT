@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Find an available checkout and move to the location in the checkout queue
+    /// </summary>
     public class SearchForCheckout : IState
     {
         private Customer customer;

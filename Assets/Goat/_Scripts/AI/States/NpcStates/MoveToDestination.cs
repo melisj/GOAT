@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Make nevmeshagent move to destination selected by NPC
+    /// </summary>
     public class MoveToDestination : IState
     {
         private NPC npc;

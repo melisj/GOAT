@@ -9,6 +9,9 @@ using System;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Place item from NPC inventory into a storage inventory
+    /// </summary>
     public class PlaceItem : IState
     {
         private Worker worker;
@@ -28,6 +31,9 @@ namespace Goat.AI.States
             this.animator = animator;
         }
 
+        /// <summary>
+        /// Set item to place based on worker type and place that item in storage
+        /// </summary>
         private void PlaceItemInStorage()
         {
             Resource resourceToPlace = null;
