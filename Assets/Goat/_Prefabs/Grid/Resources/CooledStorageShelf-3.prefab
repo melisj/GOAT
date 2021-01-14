@@ -512,8 +512,7 @@ MonoBehaviour:
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   adjustPositionAgainstWall: 1
   adjustPosition: {fileID: -2525174489482260842}
-  producesConsumesElectricity: 0
-  electricityComponent: {fileID: 0}
+  producesOrConsumesElectricity: 1
   description: 
   grid: {fileID: 0}
   isClickedOn: 0

@@ -73,7 +73,7 @@ namespace Goat.Grid.UI
             if (interactable is StorageInteractable) elementToLoad = ((StorageInteractable)interactable).ElementToLoad;
             else if (interactable is CheckoutInteractable) elementToLoad = InteractableUIElement.NPC;
 
-            SetUI(interactable.Name, interactable.Description, elementToLoad, interactable);
+            SetUI(interactable.Name, elementToLoad, interactable);
         }
 
         // Create all the UI elements defined in the resources folder
@@ -108,7 +108,6 @@ namespace Goat.Grid.UI
 
         // Set the default UI elements to the given params
         public void SetUI(string title,
-            string description,
             InteractableUIElement elementToLoad,
             BaseInteractable info)
         {
@@ -116,8 +115,6 @@ namespace Goat.Grid.UI
             {
                 titleText.text = title;
                 ChangeIconWidth(title, titleText, headerBorderMiddle, headerBorderLeft);
-                //if (descriptionText)
-                //    descriptionText.text = description;
             }
             LoadElement(elementToLoad, info.GetArgumentsForUI());
         }

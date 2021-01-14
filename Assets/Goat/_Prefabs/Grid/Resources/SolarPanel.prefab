@@ -51,8 +51,7 @@ MonoBehaviour:
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   adjustPositionAgainstWall: 0
   adjustPosition: {fileID: 0}
-  producesConsumesElectricity: 0
-  electricityComponent: {fileID: 0}
+  producesOrConsumesElectricity: 1
   description: Produces power in daylight
   grid: {fileID: 0}
   isClickedOn: 0
