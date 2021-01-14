@@ -1,11 +1,10 @@
 ﻿using Sirenix.OdinInspector;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Goat.Farming.Electricity
 {
+    // Component can be added to any object that needs to consume or produce electricity
+    // Component can call other scripts with event to change the powered state
     public class ElectricityComponent : MonoBehaviour
     {
         [SerializeField] private Electricity electricityinfo;
@@ -19,26 +18,30 @@ namespace Goat.Farming.Electricity
         [SerializeField, ShowIf("producesPower")] private int powerProduction;
         [SerializeField, ShowIf("producesPower")] private bool isPowering;
 
-        public EventHandler<bool> PowerChanged;
+        public delegate void PoweredChangedEvent(bool powered);
+        public event PoweredChangedEvent PoweredChangedEvt;
+
+        public delegate void PoweringChangedEvent(bool powered);
+        public event PoweringChangedEvent PoweringChangedEvt;
 
         public bool IsPowered
         {
             get { return isPowered; }
-            set { isPowered = value; if (isPowered != value) PowerChanged?.Invoke(this, value); }
+            set { isPowered = value; if (isPowered != value) PoweredChangedEvt?.Invoke(isPowered); }
         }
 
-        public bool IsPowering => isPowering;
+        public bool IsPowering
+        {
+            get { return isPowering; }
+            set { isPowering = value; if (isPowering != value) PoweringChangedEvt?.Invoke(isPowering); }
+        }
 
         public int PowerCost => powerCost;
         public int PowerProduction => powerProduction;
 
-
-        #region Electricity
-
         private void OnEnable()
         {
             SetupElectricity();
-
         }
 
         private void OnDisable()
@@ -53,7 +56,6 @@ namespace Goat.Farming.Electricity
 
             if (producesPower && IsPowering)
                 electricityinfo.AddGenerator(this);
-            //electricityinfo.Capacity += powerProduction;
         }
 
         private void OnDisableElectricity()
@@ -63,10 +65,6 @@ namespace Goat.Farming.Electricity
 
             if (producesPower && IsPowering)
                 electricityinfo.RemoveGenerator(this);
-
-            //electricityinfo.Capacity -= powerProduction;
         }
-
-        #endregion Electricity
     }
 }

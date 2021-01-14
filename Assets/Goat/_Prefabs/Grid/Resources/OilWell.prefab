@@ -4861,6 +4861,7 @@ GameObject:
   - component: {fileID: -8038335012244117649}
   - component: {fileID: 2371828841052477500}
   - component: {fileID: 8324413343033119510}
+  - component: {fileID: 6004022450552310926}
   m_Layer: 17
   m_Name: OilWell
   m_TagString: Untagged
@@ -4998,6 +4999,25 @@ MonoBehaviour:
   connectedTubes: []
   DistanceFromStart: 0
   VisitedByAlgorithm: 0
+--- !u!114 &6004022450552310926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257709004261703041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8181b23a885d6234da336cced8596ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  costsPower: 1
+  powerCost: 10
+  isPowered: 0
+  producesPower: 0
+  powerProduction: 0
+  isPowering: 0
 --- !u!1 &6257709004557095259
 GameObject:
   m_ObjectHideFlags: 0

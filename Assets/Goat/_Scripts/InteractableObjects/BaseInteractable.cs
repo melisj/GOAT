@@ -10,7 +10,7 @@ using UnityEngine.Events;
 namespace Goat.Grid.Interactions
 {
     /// <summary>
-    /// Base script for every interactable object in the game
+    /// Base script for every interactable object in the game.
     /// Contains information of the object
     /// </summary>
     public class BaseInteractable : MonoBehaviour, IPoolObject
@@ -20,12 +20,8 @@ namespace Goat.Grid.Interactions
         [SerializeField] private bool adjustPositionAgainstWall;
         [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
-
-        [SerializeField] private bool producesConsumesElectricity;
-        [SerializeField, ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
-
-        [TextArea, Space(10)]
-        [SerializeField] protected string description;
+        [SerializeField] private bool producesOrConsumesElectricity;
+        private ElectricityComponent electricityComponent;
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
@@ -48,10 +44,8 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        public bool UIOpen => gridUIInfo.IsUIActive;
         public bool UIActivated { get; set; }
    
-        public string Description => description;
         public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
@@ -63,7 +57,7 @@ namespace Goat.Grid.Interactions
 
         protected virtual void Awake()
         {
-
+            if (producesOrConsumesElectricity) electricityComponent = GetComponent<ElectricityComponent>();
             clickCollider = GetComponentInChildren<Collider>();
             placeableInfo = GetComponent<PlaceableInfo>();
             UIActivated = false;
@@ -130,7 +124,13 @@ namespace Goat.Grid.Interactions
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
+            if(producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt += ElectricityComponent_PowerChangedEvt;
             InteractableManager.InteractableClickEvt += IsClicked;
+        }
+
+        private void ElectricityComponent_PowerChangedEvt(bool powered)
+        {
         }
 
         public virtual void OnReturnObject()
@@ -144,6 +144,9 @@ namespace Goat.Grid.Interactions
                 adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
+
+            if (producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt -= ElectricityComponent_PowerChangedEvt;
         }
 
         protected virtual void OnDestroy()
