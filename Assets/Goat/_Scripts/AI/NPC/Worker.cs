@@ -11,6 +11,9 @@ using Goat.AI.States;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// Worker class which the worker AIs inherrit from
+    /// </summary>
     public class Worker : NPC
     {
         [HideInInspector] public bool chillin;
