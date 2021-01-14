@@ -10,7 +10,6 @@ namespace Goat.Farming
 {
     public class TubeDirection : MonoBehaviour, IPoolObject
     {
-        [SerializeField] private FarmStationFunction connectedFarm;
         [SerializeField] private GameObjectEvent onGridChange;
         [SerializeField] private VoidEvent onTubesConnected;
         [SerializeField, ShowIf("ExchangePoint")] private FarmNetworkData networkData;
@@ -32,8 +31,6 @@ namespace Goat.Farming
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
-        public FarmStationFunction ConnectedFarm { get => connectedFarm; set => connectedFarm = value; }
-        public Vector3[] Offset => offset;
 
         public List<TubeDirection> ConnectedTubes => connectedTubes;
         public int ConnectionAmount => connectionAmount;
@@ -54,30 +51,8 @@ namespace Goat.Farming
                 tileAnimation = GetComponent<TileAnimation>();
             tileAnimation.Prepare();
             tileAnimation.Create(SetConnections);
-            connectedFarm = null;
             ObjInstance = objectInstance;
             PoolKey = poolKey;
-        }
-
-        public bool HasConnection()
-        {
-            int connections = 0;
-            bool connectedToFarm = false;
-            for (int i = 0; i < connectedTubes.Count; i++)
-            {
-                if (connectedTubes[i] != null)
-                {
-                    connections++;
-                    if (connectedTubes[i].ConnectedFarm)
-                        connectedToFarm = true;
-                }
-            }
-            return (connections > 0 && connectedToFarm);
-        }
-
-        public int NewRotation(int index)
-        {
-            return (index * 90) + (int)transform.rotation.y;
         }
 
         private void SetConnections()
@@ -124,19 +99,6 @@ namespace Goat.Farming
             return pos;
         }
 
-        public Vector3 CorrectPosWithRotation(Vector3 offset, int rotation)
-        {
-            Quaternion rot = Quaternion.Euler(0, rotation, 0);
-            Vector3 pos = rot * (offset);
-            pos += transform.position;
-            return pos;
-        }
-
-        public Vector3 CorrectPosWithTransform(Vector3 offset)
-        {
-            return transform.position + (offset);
-        }
-
         private List<Collider> GetOtherColliders(Collider[] cols)
         {
             List<Collider> colList = new List<Collider>();
@@ -176,8 +138,7 @@ namespace Goat.Farming
 
         private void OnDrawGizmos()
         {
-            DrawOverlapSphere();
-            Gizmos.color = Color.cyan;
+            Gizmos.color = VisitedByAlgorithm ? Color.green : Color.cyan;
             if (ExchangePoint) 
             { 
                 Gizmos.DrawSphere(transform.position + transform.up * 1, 0.3f);
@@ -188,6 +149,11 @@ namespace Goat.Farming
                         Gizmos.DrawLine(transform.position + transform.up * 1, ConnectedMultiDirections[i].transform.position + transform.up * 1);
                 }
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            DrawOverlapSphere();
         }
 
         private void DrawOverlapSphere()
@@ -221,7 +187,5 @@ namespace Goat.Farming
             }
             Debug.Log("deactivate");
         }
-
-        
     }
 }

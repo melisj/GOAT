@@ -23,8 +23,12 @@ namespace Goat.Farming
         [SerializeField] private TubeDirectionEvent tubeDirectionEvent;
 
         Thread connectionThread;
-
         bool networkChanged = false;
+
+        [Header("Debug")]
+        // Debug for connection function
+        [SerializeField] private int debugI;
+        [SerializeField] private TubeDirection debugSelected;
 
         private void OnEnable()
         {
@@ -50,6 +54,7 @@ namespace Goat.Farming
 
         #region Network Setup
 
+        // Reset network data
         private void InitNetworkData()
         {
             checkedTubes = new HashSet<TubeDirection>();
@@ -67,14 +72,17 @@ namespace Goat.Farming
             {
                 if (networkChanged)
                 {
+                    // Stop thread if busy
                     if (connectionThread != null && connectionThread.IsAlive)
                         connectionThread.Abort();
 
+                    // Connect all tubes together
                     connectionThread = new Thread(ConnectNetwork);
                     connectionThread.Start();
 
                     yield return new WaitUntil(() => !connectionThread.IsAlive);
 
+                    // Connect 
                     connectionThread = new Thread(SearchForEachFarm);
                     connectionThread.Start();
 
@@ -112,7 +120,7 @@ namespace Goat.Farming
             arrivalIndex = 0; // Index of the incoming pipe when following the path
             distance = 0;
 
-            int maxIter = 1000, iter = 0;
+            int maxIter = 10000, iter = 0;
             do
             {
                 distance++;
@@ -127,23 +135,26 @@ namespace Goat.Farming
                             {
                                 // Recursive function <returns>distance to next connection</returns>
                                 TubeDirection foundTube = ConnectFrom(currentTube.ConnectedTubes[i], currentTube, out int foundIndex, out int foundDistance);
-                                
+
                                 // Assigns references for this tube
                                 try
                                 {
                                     currentTube.ConnectedMultiDirections[i] = foundTube;
                                     currentTube.DistanceTillNextDirection[i] = foundDistance;
+
+                                    // Assigns references to the found connection
+                                    if (foundTube && foundTube.ConnectedMultiDirections.Length > foundIndex)
+                                    {
+                                        foundTube.ConnectedMultiDirections[foundIndex] = currentTube;
+                                        foundTube.DistanceTillNextDirection[foundIndex] = foundDistance;
+                                    }
+
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.WriteLine("{0} - {1}",currentTube, i);
-                                }
-
-                                // Assigns references to the found connection
-                                if (foundTube && foundTube.ConnectedMultiDirections.Length > foundIndex)
-                                {
-                                    foundTube.ConnectedMultiDirections[foundIndex] = currentTube;
-                                    foundTube.DistanceTillNextDirection[foundIndex] = foundDistance;
+                                    debugI = i;
+                                    debugSelected = currentTube;
+                                    throw e;
                                 }
                             }
                         }
@@ -212,7 +223,7 @@ namespace Goat.Farming
             List<TubeDirection> tubesToCheck = new List<TubeDirection>();
             tubesToCheck.Add(startingTube);
 
-            int maxIter = 1000, iter = 0;
+            int maxIter = 10000, iter = 0;
 
             do
             {
@@ -253,7 +264,7 @@ namespace Goat.Farming
                 }
 
                 // Safety
-                if (iter > maxIter) { Debug.LogWarning("Tube manager has done too many iterations"); return null; }
+                if (iter > maxIter) { Debug.LogWarning("Dijkstra has done too many iterations"); return null; }
                 iter++;
 
             } while (tubesToCheck.Count > 0);

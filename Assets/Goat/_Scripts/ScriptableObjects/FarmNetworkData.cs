@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Goat.Farming
 {
+    // Saves data about the current pipe network in runtime
+    // Saves all active farms and exchange points for the pipes
     [CreateAssetMenu(fileName= "FarmNetworkData", menuName= "ScriptableObjects/RuntimeVariables/FarmNetworkData")]
     public class FarmNetworkData : ScriptableObject
     {

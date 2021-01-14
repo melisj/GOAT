@@ -195,21 +195,7 @@ namespace Goat.Farming
 
         private void OnDrawGizmos()
         {
-            //Gizmos.DrawWireSphere(transform.position, radius);
-            /*if (connectedTubes.Count <= debugPathIndex) return;
-            if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
-            Gizmos.color = Color.yellow;
-            for (int i = 0; i < connectedTubes[debugPathIndex].Points.Count; i++)
-            {
-                if (i <= 0)
-                {
-                    Gizmos.DrawLine(transform.position, connectedTubes[debugPathIndex].Points[i]);
-                }
-                else if (i + 1 < connectedTubes[debugPathIndex].Points.Count)
-                {
-                    Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i + 1]);
-                }
-            }*/
+            
         }
     }
 }
