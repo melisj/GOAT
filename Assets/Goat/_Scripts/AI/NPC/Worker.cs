@@ -12,13 +12,15 @@ using UnityAtoms;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// Worker class which the worker AIs inherrit from
+    /// </summary>
     public class Worker : NPC, IAtomListener<bool>
     {
         [HideInInspector] public bool chillin;
         [SerializeField] private BoolEvent onCycleChange;
         public StorageList storageLocations;
         [HideInInspector] public PlaceItem placeItem;
-        [HideInInspector] protected FindRestingPlace findRestingPlace;
         [HideInInspector] protected WaitingState waitingState;
         protected ExitStore exitStore;
 
@@ -41,7 +43,6 @@ namespace Goat.AI
             base.Setup();
 
             placeItem = new PlaceItem(this, animator);
-            findRestingPlace = new FindRestingPlace(this);
             waitingState = new WaitingState(this, 5);
             exitStore = new ExitStore(this, navMeshAgent);
         }

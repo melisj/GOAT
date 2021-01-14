@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Move to the location of the targed.
+    /// </summary>
     public class MoveToTarget : IState
     {
         private NPC npc;
@@ -39,7 +42,6 @@ namespace Goat.AI.States
             Debug.LogFormat("Moving to target");
             timeStuck = 0f;
             navMeshAgent.enabled = true;
-            //navMeshAgent.SetDestination(npc.targetDestination);
             navMeshAgent.SetDestination(npc.targetStorage.transform.position);
         }
 

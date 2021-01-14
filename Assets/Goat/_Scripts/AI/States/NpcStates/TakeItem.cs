@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Take item from a storage target
+    /// </summary>
     public class TakeItem : IState
     {
         private NPC npc;
@@ -26,6 +29,9 @@ namespace Goat.AI.States
             this.returnToStock = returnToStock;
         }
 
+        /// <summary>
+        /// Take item from storage target if item is available
+        /// </summary>
         private void TakeItemFromStorage()
         {
             // If target still has item grab item.

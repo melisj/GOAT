@@ -21,21 +21,19 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            //if(tickTime <= Time.time)
-            //{
-            //    tickTime = Time.time + (1 / tickSpeed);
-            //    List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
-            //    FindStorageAndItems(sortedStorages);
-            //    sortedStorages.Clear();
-            //}
+
         }
 
+        /// <summary>
+        /// Gets a list of storage which need to be filled
+        /// </summary>
+        /// <param name="storages"> Returns a list of storage that the worker is planning to fill </param>
         private void FindStorageAndItems(List<StorageInteractable> storages)
         {
             if (storages.Count == 0 || storages == null) return;
 
             bool found = false;
-            // Somehow check which shelves are already selected by other employeets
+            
             while (stockClerk.ItemsToGet.SpaceLeft > 0 && storages.Count > 0)
             {
                 StorageInteractable tempStorage = storages.First();
@@ -62,7 +60,9 @@ namespace Goat.AI.States
             tickTime = Time.time + (1/ tickSpeed);
             ClearCurrentShelves();
 
+            // Return a list of possible storages to fill
             List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
+            // Return a list of storages to fill
             FindStorageAndItems(sortedStorages);
             sortedStorages.Clear();
 

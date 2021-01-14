@@ -16,6 +16,9 @@ using UnityAtoms;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// Customer AI class that controlls customer behaviour
+    /// </summary>
     public class Customer : NPC, IAtomListener<bool>
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
@@ -59,22 +62,38 @@ namespace Goat.AI
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
+
             // Groceries
+            // When groceries are calculated inside the CalculateGroceries state
             Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
+            // When customer has entered the store
             Func<bool> EnteredStore() => () => enterStore.enteredStore;
+
             // Movement
+            // When customer has found a storage to take groceries from and the customer is not leaving the store
             Func<bool> HasStorageTarget() => () => targetStorage != null && !leavingStore;
+            // When the customer has a new destination to move to
             Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
+            // When the customer is standing still for more than a certain amount of time while in moving to a destination
             Func<bool> StuckForSeconds() => () => moveToDestination.amountStuckCalled > 3 || moveToTarget.amountStuckCalled > 3;
+            // When the customer has arrived at its destination
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
+            // When the customer has arrived at a target
             Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+
             // Shopping
+            // When the storage the customer is taking items from no longer has any of the items the customer wants
             Func<bool> StorageDepleted() => () => takeItem.depleted;
+            // When the customer wants to pay for groceries but the queue for the checkout is to long
             Func<bool> CheckoutFull() => () => leavingStore && targetDestination == Vector3.zero;
+            // When there is room in the checkout queue
             Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore)) && Inventory.ItemsInInventory > 0 && searchForCheckout.checks < 1 && navMeshAgent.remainingDistance < 1;
+            // When the customer can't find any of his groceries
             Func<bool> LeaveStore() => () => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
+            // When the customer arrives at the checkout it needs to find the first available position in the queue
             Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
             //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
+
             // Interaction
             Func<bool> AskForHelp() => () => ItemsToGet.ItemsInInventory > 0 && searchingTime >= maxSearchingTime;
             // Checkout
@@ -85,7 +104,6 @@ namespace Goat.AI
 
             AT(calculateGroceries, enterStore, CalculatedGroceries());
             AT(enterStore, SetRandomDestination, EnteredStore());
-            //AT(SetRandomDestination, moveToTarget, HasTarget());
             AT(SetRandomDestination, moveToDestination, HasDestination());
             AT(moveToDestination, SetRandomDestination, StuckForSeconds());
             AT(moveToDestination, SetRandomDestination, ReachedDestination());

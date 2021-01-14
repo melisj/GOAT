@@ -6,6 +6,10 @@ using Goat.Grid.Interactions;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Find a checkout target to move to for cashiere
+    /// setup not done/implemented
+    /// </summary>
     public class FindCheckoutTarget : IState
     {
         private Cashiere cashiere;

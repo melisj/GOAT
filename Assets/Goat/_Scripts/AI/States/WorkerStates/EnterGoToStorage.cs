@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// EnterStore state for warehouse worker so it moves to the storage area immideatly;
+    /// </summary>
     public class EnterGoToStorage : IState
     {
         public bool entered = false;

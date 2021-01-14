@@ -6,6 +6,9 @@ using Goat.AI.States;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// Unfinnished
+    /// </summary>
     public class Cashiere : NPC
     {
 

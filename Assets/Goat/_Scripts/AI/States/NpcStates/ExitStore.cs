@@ -6,6 +6,9 @@ using Goat.Pooling;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Exit the store
+    /// </summary>
     public class ExitStore : IState
     {
         protected NPC npc;
