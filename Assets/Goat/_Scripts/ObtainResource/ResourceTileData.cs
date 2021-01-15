@@ -9,6 +9,7 @@ public class ResourceTileData : Floor
     [SerializeField, InfoBox("Please set this to the initial color of the mesh")] private Color initialColor;
     [SerializeField, ProgressBar(0, 360, ColorGetter = "GetShiftedColor")] private float hueShift;
     [SerializeField, Range(0, 100)] private int chanceToSpawn;
+    [SerializeField, Range(1, 10)] private int capacity;
 
     private Color GetShiftedColor
     {
@@ -22,6 +23,7 @@ public class ResourceTileData : Floor
         }
     }
 
+    public int Capacity => capacity;
     public Resource Resource => resource;
     public float HueShift => hueShift;
     public int ChanceToSpawn => chanceToSpawn;

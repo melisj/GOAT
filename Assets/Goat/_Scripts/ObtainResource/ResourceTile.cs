@@ -35,7 +35,7 @@ namespace Goat.Grid
         public void Setup(ResourceTileData data)
         {
             this.data = data;
-            amount = Data.StarterAmount;
+            amount = Data.Capacity;
             propSetter.MaterialValueToChanges[0].NewFloat = data.HueShift;
             propSetter.ModifyValues();
         }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
+  m_Name: Beeps
+  m_EditorClassIdentifier: 
+  looping: 0
+  waitTillClipIsFinished: 0
+  _audioClipGroups:
+  - sequenceMode: 1
+    audioClips:
+    - {fileID: 8300000, guid: fa32c18fa71efb94f8588ebdf98cb3a1, type: 3}
+    - {fileID: 8300000, guid: f5352fe8b8e21f943a3c841e37591523, type: 3}
+    - {fileID: 8300000, guid: f36fce81c951d6348b4b0cfbeec3e189, type: 3}
+    - {fileID: 8300000, guid: b55d809468be9c34eabc6f98d8cc02fb, type: 3}
+    - {fileID: 8300000, guid: 04a8690d924448040976053b8bd618b8, type: 3}
+    - {fileID: 8300000, guid: 7e954cedccfe4c3438ea18f2d0b98a22, type: 3}
+    - {fileID: 8300000, guid: bfef9a6b219971b41bae9b609789f82b, type: 3}
+    - {fileID: 8300000, guid: 5b6e485363bfe0b44a056bfb9706770c, type: 3}

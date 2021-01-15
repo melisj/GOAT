@@ -17,21 +17,12 @@ public class Buyable : SerializedScriptableObject
     [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Sprite image;
     [SerializeField, FoldoutGroup("Base Buyable data")] private Money money;
     [SerializeField, FoldoutGroup("Base Buyable data")] private float price;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private bool interchangeableMesh;
-    [SerializeField, FoldoutGroup("Base Buyable data"), ShowIf("interchangeableMesh"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
-    [SerializeField, FoldoutGroup("Base Buyable data"), Multiline] private string summary;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int amount;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private int starterAmount;
-    [SerializeField, FoldoutGroup("Base Buyable data")] private bool deliverable;
-    [SerializeField, FoldoutGroup("Base Buyable data"), ShowIf("deliverable")] private int deliveryTime;
+    [SerializeField, FoldoutGroup("Base Buyable data"), PreviewField(Alignment = ObjectFieldAlignment.Left)] private Mesh[] mesh;
+    [SerializeField, FoldoutGroup("Base Buyable data"), HideIf("IsPlaceable")] private int amount;
 
-    public int DeliveryTime => deliveryTime;
+    protected bool IsPlaceable => (this.GetType().IsSubclassOf(typeof(Placeable)));
 
     public event EventHandler<int> AmountChanged;
-
-    public bool Deliverable => deliverable;
-
-    public int StarterAmount => starterAmount;
 
     public int ID { get { return id; } set { id = value; } }
 
@@ -113,5 +104,4 @@ public class Buyable : SerializedScriptableObject
 
     public Sprite Image => image;
     public Mesh[] Mesh => mesh;
-    public string Summary => summary;
 }
