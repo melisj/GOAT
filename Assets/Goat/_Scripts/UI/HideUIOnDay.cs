@@ -45,5 +45,6 @@ public class HideUIOnDay : MonoBehaviour, IAtomListener<bool>
         {
             uiToHide[i].gameObject.SetActive(true);
         }
+        onCloseSideBar.Raise();
     }
 }

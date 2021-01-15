@@ -9,6 +9,7 @@ TagManager:
   - Checkout
   - TubeEnd
   - Container
+  - HoverInfo
   layers:
   - Default
   - TransparentFX
@@ -31,8 +32,8 @@ TagManager:
   - DoorCustomer
   - DoorPlayer
   - DoorWorker
-  - 
-  - 
+  - LandingPlatform
+  - Employee
   - 
   - 
   - 

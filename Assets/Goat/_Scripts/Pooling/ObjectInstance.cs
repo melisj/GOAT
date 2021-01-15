@@ -15,7 +15,7 @@ namespace Goat.Pooling
             gameObject = objectInstance;
             gameObject.name = objectInstance.name + "(" + gameObject.GetInstanceID() + ")";
             transform = gameObject.transform;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             poolObjectScript = gameObject.GetComponent<IPoolObject>();
             if (poolObjectScript != null)
             {

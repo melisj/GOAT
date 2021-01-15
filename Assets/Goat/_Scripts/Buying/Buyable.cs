@@ -39,7 +39,10 @@ public class Buyable : SerializedScriptableObject
     private int oldAmount = 0;
     public int OldAmount => oldAmount;
 
-    public float Price => price;
+    public float Price(bool isCustomer = false)
+    {
+        return price * (isCustomer ? 2f : 1f);
+    }
 
     /// <summary>
     /// Buys the buyable
@@ -48,7 +51,7 @@ public class Buyable : SerializedScriptableObject
     /// <param name="price">If not set, you use the default price</param>
     public virtual void Buy(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
     {
-        price = price < 0 ? Price : price;
+        price = price < 0 ? Price() : price;
         float total = this.money.Amount - (price * amount);
         float newMoney = total < 0 ? this.money.Amount / price : total;
 
@@ -63,7 +66,7 @@ public class Buyable : SerializedScriptableObject
 
     public bool CanBuy(int amount, float price = -1)
     {
-        price = price < 0 ? Price : price;
+        price = price < 0 ? Price() : price;
         float total = this.money.Amount - (price * amount);
         return total < 0;
     }
@@ -75,10 +78,10 @@ public class Buyable : SerializedScriptableObject
     /// <param name="price">If not set, you use the default price</param>
     public void Sell(int amount, float price = -1, bool payNow = true, bool deliverNow = true)
     {
-        price = price < 0 ? Price * 0.75f : price;
+        price = price < 0 ? Price() * 0.75f : price;
         int total = Amount - amount;
-        int newTotal = total <= 0 ? Amount : amount;
-
+        int newTotal = total < 0 ? Amount : amount;
+        Debug.Log($"selling for {newTotal * price} {total} : {Amount}");
         if (deliverNow)
             Amount = newTotal;
         if (payNow)

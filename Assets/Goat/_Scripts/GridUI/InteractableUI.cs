@@ -1,5 +1,6 @@
 ﻿using Goat.Grid.Interactions;
 using Goat.Grid.Interactions.UI;
+using Goat.Player;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -30,6 +31,7 @@ namespace Goat.Grid.UI
 
         [SerializeField] private Transform UIElementSlot;
         [SerializeField] private StockingUI stockingUI;
+        [SerializeField] private InventoryElement inventoryElement;
         [SerializeField] private UISlotElement[] slotElements;
         [SerializeField] private InteractablesInfo interactableInfo;
         [SerializeField] private InteractableUIElements elements;
@@ -57,6 +59,11 @@ namespace Goat.Grid.UI
         private void OnDisable()
         {
             interactableInfo.InteractableUpdateEvt -= InteractableInfo_InteractableUpdateEvt;
+        }
+
+        public override void ShowUI()
+        {
+            base.ShowUI();
         }
 
         private void InteractableInfo_InteractableUpdateEvt(BaseInteractable interactable)
@@ -144,6 +151,8 @@ namespace Goat.Grid.UI
                 {
                     //activeElement.gameObject.SetActive(true);
                     activeElement.OpenUI();
+                    if (loadedType == InteractableUIElement.CrateStorage || loadedType == InteractableUIElement.ShelfStorage)
+                        inventoryElement.SelectFirst();
                     SetElementValues(args);
                 }
             }

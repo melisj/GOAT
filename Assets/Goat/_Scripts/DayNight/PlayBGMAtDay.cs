@@ -21,6 +21,7 @@ namespace Goat
 
         public void OnEventRaised(bool isDay)
         {
+            Debug.Log($"called with {isDay} at {gameObject.name}");
             if (isDay == atDay)
                 PlayAudioCue();
             else

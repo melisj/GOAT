@@ -8,11 +8,10 @@ namespace Goat.AI.States
     {
         private IntVariable customerCapacity;
 
-        public EnterStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, Animator animator, UnloadLocations entrances, IntVariable customerCapacity) : base(npc, navMeshAgent, animator, entrances)
+        public EnterStoreCustomer(NPC npc, NavMeshAgent navMeshAgent, UnloadLocations entrances, IntVariable customerCapacity) : base(npc, navMeshAgent, entrances)
         {
             this.npc = npc;
             this.navMeshAgent = navMeshAgent;
-            this.animator = animator;
             this.entrances = entrances;
             this.customerCapacity = customerCapacity;
         }

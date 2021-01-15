@@ -12,22 +12,26 @@ using Goat.AI.Parking;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// NPC class which al AI inherret from
+    /// </summary>
     public class NPC : SerializedMonoBehaviour, IPoolObject
     {
         // Check variable visability
         public float npcSize = 1f;
         public float wanderRange = 10f;
-        [HideInInspector] public int carriedItemValue;
+        [ReadOnly] public int carriedItemValue;
         [SerializeField] private int maxInventory;
 
         protected StateMachine stateMachine;
         protected MoveToDestination moveToDestination;
-        [HideInInspector] public Vector3 targetDestination;
+        protected MoveToTarget moveToTarget;
+        [ReadOnly] public Vector3 targetDestination;
 
-        [HideInInspector] public NavMeshAgent navMeshAgent;
-        [HideInInspector] public Animator animator;
+        [ReadOnly] public NavMeshAgent navMeshAgent;
+        [ReadOnly] public Animator animator;
 
-        [HideInInspector] public StorageInteractable targetStorage;
+        [ReadOnly] public StorageInteractable targetStorage;
 
         private Inventory itemsToGet;
         public Inventory ItemsToGet => itemsToGet;
@@ -37,7 +41,7 @@ namespace Goat.AI
 
         [SerializeField] private string stateName;
 
-        [HideInInspector] public float enterTime;
+        [ReadOnly] public float enterTime;
         public float searchingTime = 0;
         public NPCShip Ship { get; set; }
         public int PoolKey { get; set; }
@@ -51,6 +55,9 @@ namespace Goat.AI
 
         [HideInInspector] public TakeItem takeItem;
 
+        /// <summary>
+        /// Setup which is called everytime the AI is initialized.
+        /// </summary>
         protected virtual void Setup()
         {
             stateMachine = new StateMachine();
@@ -60,9 +67,22 @@ namespace Goat.AI
             inventory = new Inventory(maxInventory);
             itemsToGet = new Inventory(maxInventory);
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            moveToDestination = new MoveToDestination(this, navMeshAgent);
+            moveToTarget = new MoveToTarget(this, navMeshAgent);
+            takeItem = new TakeItem(this, animator, false);
         }
 
+        protected virtual void OnEnable()
+        {
+        }
+
+        protected virtual void OnDisable()
+        {
+        }
+
+        /// <summary>
+        /// Replace Update with statemachine.Tick so the tick method of a state will be executed every update
+        /// </summary>
         protected virtual void Update() => stateMachine.Tick();
 
         private void LateUpdate()

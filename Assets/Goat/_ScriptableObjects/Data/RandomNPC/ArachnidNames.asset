@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf1b8dff00289c46aff75d9061ab6f0, type: 3}
   m_Name: ArachnidNames
   m_EditorClassIdentifier: 
-  names: []
+  names:
+  - Ezurniar
+  - Krasna
+  - Caiqteb
+  - Zroutirk'is
+  - Elzit
+  - Sailzi
+  - Chiasnub
+  - Erta
+  - Qhal'zuq

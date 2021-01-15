@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: edf8115571752fe4d86882df70b78582, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 1918427386}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 935505d119565c247bda143966ba4795, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 1918427386}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -275,6 +277,7 @@ GameObject:
   - component: {fileID: 4224341978920616239}
   - component: {fileID: -6582482699782147952}
   - component: {fileID: -9220640871344340304}
+  - component: {fileID: 2672946358774285411}
   m_Layer: 12
   m_Name: CustomerEntrance
   m_TagString: Checkout
@@ -324,6 +327,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeable: {fileID: 0}
+--- !u!114 &2672946358774285411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224341978920616237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.4
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &4483196268661257208
 GameObject:
   m_ObjectHideFlags: 0

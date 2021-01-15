@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3959569668178455133}
   - component: {fileID: 1789150036}
   - component: {fileID: 1789150035}
+  - component: {fileID: 240778883469861800}
   m_Layer: 16
   m_Name: ObjectGrabber
   m_TagString: Untagged
@@ -46,7 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ec50b9192db644c9dcb0b12c8713eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forNPC: 1
   npc: {fileID: 0}
+  forPlayer: 0
+  playerInv: {fileID: 0}
+  pickupItemAudio: {fileID: 240778883469861800}
 --- !u!114 &3959569668178455133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,3 +100,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &240778883469861800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959569668178455135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: dd6847ae100c49444af2f8be4a8e292a, type: 2}
+  _playOnStart: 0
+  setParentManually: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: c5e82d8e94e5e014e981b6d895749742,
+    type: 2}

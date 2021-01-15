@@ -4,11 +4,18 @@ namespace Goat.AI.Satisfaction
 {
     public class CustomerItemsLeft : ReviewFactor
     {
-        [SerializeField] private NPC npc;
+        [SerializeField] private Customer customer;
 
         public override float GetReviewPoints()
         {
-            return -(npc.ItemsToGet.ItemsInInventory * revData.Weight);
+            float itemsFound = customer.AmountGroceries - customer.ItemsToGet.ItemsInInventory;
+
+            //Found nothing
+            if (itemsFound <= 0)
+                return -customer.AmountGroceries * revData.Weight;
+            else
+                return itemsFound * revData.Weight;
+            //Found some
         }
     }
 }

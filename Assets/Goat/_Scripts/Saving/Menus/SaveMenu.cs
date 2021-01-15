@@ -46,8 +46,10 @@ namespace Goat.Saving
         private void ShowInfoAboutSave(string message)
         {
             infoObjectText.text = message;
-            infoObjectText.DOColor(Color.white, 0);
-            infoObjectText.DOColor(Color.clear, 5);
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetUpdate(true);
+            sequence.Append(infoObjectText.DOColor(Color.white, 0));
+            sequence.Append(infoObjectText.DOColor(Color.clear, 5));
         }
     }
 }

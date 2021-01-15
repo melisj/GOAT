@@ -6,6 +6,9 @@ using Goat.AI.States;
 
 namespace Goat.AI
 {
+    /// <summary>
+    /// Unfinnished
+    /// </summary>
     public class Cashiere : NPC
     {
 
@@ -13,7 +16,7 @@ namespace Goat.AI
         {
             base.Setup();
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent, animator);
+            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
 
             Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2;
 

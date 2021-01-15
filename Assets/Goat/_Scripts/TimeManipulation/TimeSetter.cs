@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class TimeSetter : MonoBehaviour, IAtomListener<UnityAtoms.Void>
 {
     [SerializeField] private Button timeButton;
-    [SerializeField] private int timeScaleSet;
+    [SerializeField] private float timeScaleSet;
     [SerializeField] private int timeSpeedSet;
     [SerializeField] private IntEvent onTimeSpeedChanged;
     [SerializeField] private VoidEvent onTimeButtonClicked;

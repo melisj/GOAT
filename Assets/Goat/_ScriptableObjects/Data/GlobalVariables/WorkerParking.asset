@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipPrefab: {fileID: 290712558274142188, guid: 389ece5f0f0fc6047bb557a5e7c70d77,
     type: 3}
-  warpEffectPrefab: {fileID: 4328525299985402912, guid: cdfafce32221d894185c7bb55ccc61fd,
+  warpEffectPrefab: {fileID: 4328525299985402912, guid: 0fa5f9fb9f2228f4cab26bb99bd17e7f,
     type: 3}

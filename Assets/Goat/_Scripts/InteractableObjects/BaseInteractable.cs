@@ -1,6 +1,6 @@
-﻿using Goat.Grid.UI;
+﻿using Goat.Farming.Electricity;
+using Goat.Grid.UI;
 using Goat.Pooling;
-using Goat.Storage;
 using Sirenix.OdinInspector;
 using System;
 using System.Reflection;
@@ -17,47 +17,40 @@ namespace Goat.Grid.Interactions
     {
         [SerializeField] protected InteractablesInfo info;
         [SerializeField] private GridUIInfo gridUIInfo;
-        [SerializeField] private Electricity electricityinfo;
         [SerializeField] private bool adjustPositionAgainstWall;
         [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
+
+
+        [SerializeField] private bool producesConsumesElectricity;
+        [SerializeField, ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
 
         [TextArea, Space(10)]
         [SerializeField] protected string description;
 
-        [Header("Power Settings")]
-        [SerializeField] private bool costsPower;
-        [SerializeField, ShowIf("costsPower")] private int powerCost;
-        [SerializeField, ShowIf("costsPower")] private bool isPowered;
-
-        [SerializeField] private bool producesPower;
-        [SerializeField, ShowIf("producesPower")] private int powerProduction;
-        [SerializeField, ShowIf("producesPower")] private bool isPowering;
-
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
         private PlaceableInfo placeableInfo;
+        private AudioCue audioCue;
         protected Collider clickCollider;
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
-        protected EventHandler<bool> PowerChanged;
 
         [HideInInspector] public Grid grid;
+        private TileAnimation tileAnimation;
+        [SerializeField] private bool isClickedOn;
 
-        public bool IsClickedOn { get; set; }
-        public bool UIOpen => gridUIInfo.IsUIActive;
-        public bool UIActivated { get; set; }
-
-        public bool IsPowered
+        public bool IsClickedOn
         {
-            get { return isPowered; }
-            set { isPowered = value; if (isPowered != value) PowerChanged?.Invoke(this, value); }
+            get => isClickedOn;
+            set
+            {
+                isClickedOn = value;
+            }
         }
 
-        public bool IsPowering => isPowering;
-
-        public int PowerCost => powerCost;
-        public int PowerProduction => powerProduction;
-
+        public bool UIOpen => gridUIInfo.IsUIActive;
+        public bool UIActivated { get; set; }
+   
         public string Description => description;
         public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
@@ -70,6 +63,7 @@ namespace Goat.Grid.Interactions
 
         protected virtual void Awake()
         {
+
             clickCollider = GetComponentInChildren<Collider>();
             placeableInfo = GetComponent<PlaceableInfo>();
             UIActivated = false;
@@ -108,7 +102,7 @@ namespace Goat.Grid.Interactions
             //gridUIInfo.CurrentUIElement = UIElement.None;
             //Debug.Log("Apparently yes, but it's closed now");
 
-            IsClickedOn = false;
+            //IsClickedOn = false;
             info.CurrentSelected = null;
         }
 
@@ -124,51 +118,40 @@ namespace Goat.Grid.Interactions
         {
             ObjInstance = objectInstance;
             PoolKey = poolKey;
-
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.PlayAudioCue();
+            tileAnimation.Prepare();
+            tileAnimation.Create();
             UpdateInteractable.AddListener(info.UpdateInteractable);
-            SetupElectricity();
             if (adjustPosition != null)
                 adjustPosition.Setup();
+
             InteractableManager.InteractableClickEvt += IsClicked;
         }
 
         public virtual void OnReturnObject()
         {
-            gameObject.transform.position = new Vector3(-1000, 0);
-            gameObject.SetActive(false);
-
-            OnDisableElectricity();
+            tileAnimation.Destroy(() => gameObject.SetActive(false));
+            if (!audioCue)
+                audioCue = GetComponent<AudioCue>();
+            if (audioCue)
+                audioCue.StopAudioCue();
             if (adjustPosition != null)
                 adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
         }
 
+        protected virtual void OnDestroy()
+        {
+            InteractableManager.InteractableClickEvt -= IsClicked;
+            UpdateInteractable.RemoveAllListeners();
+        }
+
         #endregion Pooling
-
-        #region Electricity
-
-        private void SetupElectricity()
-        {
-            if (costsPower)
-                electricityinfo.AddDevice(this);
-
-            if (producesPower && IsPowering)
-                electricityinfo.AddGenerator(this);
-            //electricityinfo.Capacity += powerProduction;
-        }
-
-        private void OnDisableElectricity()
-        {
-            if (costsPower)
-                electricityinfo.RemoveDevice(this);
-
-            if (producesPower && IsPowering)
-                electricityinfo.RemoveGenerator(this);
-
-            //electricityinfo.Capacity -= powerProduction;
-        }
-
-        #endregion Electricity
     }
 }

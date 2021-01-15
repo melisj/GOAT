@@ -17,6 +17,7 @@ namespace Goat.CameraControls
             {
                 panOrigin = maincam.ScreenToViewportPoint(msPos);
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
 
             if (Input.GetMouseButton(1))
@@ -34,6 +35,7 @@ namespace Goat.CameraControls
             if (Input.GetMouseButtonUp(1))
             {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }

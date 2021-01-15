@@ -2292,7 +2292,6 @@ GameObject:
   - component: {fileID: 7787180544600707906}
   - component: {fileID: 6792389112447371986}
   - component: {fileID: 7621097749546577483}
-  - component: {fileID: 5164050080462772740}
   m_Layer: 5
   m_Name: Bills
   m_TagString: Untagged
@@ -2365,19 +2364,6 @@ MonoBehaviour:
   m_Spacing: {x: 36, y: 60}
   m_Constraint: 1
   m_ConstraintCount: 2
---- !u!114 &5164050080462772740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 644928415152326618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a6f119dcba5d684eb6bfb2f21a6f2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cells: []
 --- !u!1 &660519105563141540
 GameObject:
   m_ObjectHideFlags: 0
@@ -5216,6 +5202,8 @@ GameObject:
   - component: {fileID: 2063866505936579830}
   - component: {fileID: 1805728859629809853}
   - component: {fileID: 2367509141017913682}
+  - component: {fileID: 5489855439734125999}
+  - component: {fileID: 4701102854971658634}
   m_Layer: 5
   m_Name: PaySelectedButton
   m_TagString: Untagged
@@ -5341,6 +5329,48 @@ MonoBehaviour:
   paySelectedTransform: {fileID: 631747873139171139}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   priceTM: {fileID: 3164842483098322438}
+  errorSfx: {fileID: 4701102854971658634}
+  confirmSfx: {fileID: 5489855439734125999}
+--- !u!114 &5489855439734125999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2262603500995324453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: d18ae60ba7295404ba7d4845ab3fcd06, type: 2}
+  _playOnStart: 0
+  setParentManually: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: bfc7e5f01f023f74a9c9cc02694db55b,
+    type: 2}
+--- !u!114 &4701102854971658634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2262603500995324453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f92f965dbe44449b252b814ddc7137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: ba58321dd0da71b4b899fac789355ed5, type: 2}
+  _playOnStart: 0
+  setParentManually: 0
+  parent: {fileID: 0}
+  _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
+    type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: bfc7e5f01f023f74a9c9cc02694db55b,
+    type: 2}
 --- !u!1 &2280354764887593433
 GameObject:
   m_ObjectHideFlags: 0
@@ -15027,10 +15057,12 @@ MonoBehaviour:
   PanelToHide: {fileID: 0}
   canvasToDisable: {fileID: 0}
   type: 8
+  currentInputMode: {fileID: 11400000, guid: 9fdffe0facd0cf3488d84b4d43ff20ea, type: 2}
   onExpenseGiven: {fileID: 11400000, guid: d1f9b0859cedac148b895b31d1c08517, type: 2}
   expensePrefab: {fileID: 1525444188674203792, guid: bf1d5fc5254f15343a0e300dca45dd89,
     type: 3}
-  selectedExpensesHolder: {fileID: 5164050080462772740}
+  grid: {fileID: 5601896149593632349}
+  selectedExpensesHolder: {fileID: 2367509141017913682}
 --- !u!1 &6695218690333417144
 GameObject:
   m_ObjectHideFlags: 0

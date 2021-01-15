@@ -2,111 +2,78 @@
 using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using UnityAtoms;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Goat.Farming
 {
-    public class TubeDirection : MonoBehaviour, IAtomListener<GameObject>, IPoolObject
+    public class TubeDirection : MonoBehaviour, IPoolObject
     {
-        [SerializeField] private FarmStationFunction connectedFarm;
-        [SerializeField] private GameObjectEvent onGridChange;
-        [SerializeField] private VoidEvent onTubesConnected;
-        [SerializeField] private bool multiDirection;
-        [SerializeField, HideIf("multiDirection")] private Path path;
-        [SerializeField, ShowIf("multiDirection")] private Path[] paths;
-        [SerializeField] private LayerMask layer;
-        [SerializeField] private Vector3[] offset;
-        [SerializeField] private float radius = 0.2f;
+        [SerializeField, TabGroup("References"), Required] private GameObjectEvent onGridChange;
+        [SerializeField, TabGroup("References"), Required, ShowIf("ExchangePoint")] private FarmNetworkData networkData;
 
-        private TubeDirection previousTube;
-        [SerializeField] private TubeDirection[] connectedTubes;
+        // <Connection Settings>
+        [SerializeField, TabGroup("Connection")] private bool multiDirection;
+        [SerializeField, TabGroup("Connection")] private bool endPoint;
+        [SerializeField, TabGroup("Connection")] private bool isFarmStation;
+
+        [SerializeField, TabGroup("Data"), ShowIf("multiDirection"), ReadOnly] private TubeDirection[] connectedMultiDirections;
+        [SerializeField, TabGroup("Data"), ShowIf("multiDirection"), ReadOnly] private int[] distanceTillNextDirection;
+        [SerializeField, TabGroup("Data"), ReadOnly] private List<TubeDirection> connectedTubes;
+
+        [SerializeField, TabGroup("Connection")] private LayerMask layer;
+        [SerializeField, TabGroup("Connection")] private Vector3[] offset;
+        // <Connection Settings>
+
+        [SerializeField, TabGroup("Debug")] private float radius = 0.2f;
+
+        // <Dijkstra info>
+        [TabGroup("Dijkstra")] public int DistanceFromStart;
+        [TabGroup("Dijkstra")] public bool VisitedByAlgorithm;
+        // </Dijkstra info>
+
+        private TileAnimation tileAnimation;
+
+        public bool ExchangePoint => multiDirection || endPoint || isFarmStation;
+        public bool EndPoint => endPoint;
+        public bool IsFarmStation => isFarmStation;
 
         public int PoolKey { get; set; }
         public ObjectInstance ObjInstance { get; set; }
-        public FarmStationFunction ConnectedFarm { get => connectedFarm; set => connectedFarm = value; }
-        public Vector3[] Offset => offset;
 
-        public TubeDirection[] ConnectedTubes => connectedTubes;
+        public List<TubeDirection> ConnectedTubes => connectedTubes;
+        public int ConnectionAmount => offset.Length;
+        public TubeDirection[] ConnectedMultiDirections { get => connectedMultiDirections; set => connectedMultiDirections = value; }
+        public int[] DistanceTillNextDirection { get => distanceTillNextDirection; set => distanceTillNextDirection = value; }
 
-        public Path[] Paths { get => paths; set => paths = value; }
-        public Path Path { get => path; set => path = value; }
-
-        public int GetPathCount()
+        private void Connect()
         {
-            if (paths != null)
-            {
-                int amountActivate = 0;
-                for (int i = 0; i < connectedTubes.Length; i++)
-                {
-                    if (connectedTubes[i] != null)
-                        amountActivate++;
-                }
-                return amountActivate - 2;
-            }
-
-            return -1;
-        }
-
-        public Path GetPath(int index)
-        {
-            if (!multiDirection)
-                return path;
-
-            if (index < 0) index = 0;
-            return paths[index];
-        }
-
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
-        {
-            OnGridChange();
-            connectedFarm = null;
-            ObjInstance = objectInstance;
-            PoolKey = poolKey;
-        }
-
-        public bool HasConnection()
-        {
-            int connections = 0;
-            bool connectedToFarm = false;
-            for (int i = 0; i < connectedTubes.Length; i++)
-            {
-                if (connectedTubes[i] != null)
-                {
-                    connections++;
-                    if (connectedTubes[i].ConnectedFarm)
-                        connectedToFarm = true;
-                }
-            }
-            return (connections > 0 && connectedToFarm);
-        }
-
-        public int NewRotation(int index)
-        {
-            return (index * 90) + (int)transform.rotation.y;
-        }
-
-        private void OnGridChange()
-        {
-            connectedTubes = new TubeDirection[offset.Length];
-
+            Debug.Log("Set Connections!", this);
+            connectedTubes.Clear();
             for (int i = 0; i < offset.Length; i++)
             {
-                FarmStationFunction tempConnectedFarm = CheckForConnectionsMulti(offset[i], i);
-                if (tempConnectedFarm != null)
-                {
-                    connectedFarm = tempConnectedFarm;
-                }
+                CheckForConnection(offset[i]);
             }
-
-            onTubesConnected.Raise();
+            onGridChange.Raise(gameObject);
         }
 
-        private FarmStationFunction CheckForConnectionsMulti(Vector3 offset, int index)
+        private void Disconnect()
         {
+            Debug.Log("Disconnect!", this);
+            for (int i = 0; i < connectedTubes.Count; i++)
+            {
+                connectedTubes[i].ConnectedTubes.Remove(this);
+            }
+            ConnectedTubes.Clear();
+            onGridChange.Raise(gameObject);
+        }
+
+        private void CheckForConnection(Vector3 offset)
+        {
+            // Check all directions for tubes
             Collider[] cols = Physics.OverlapSphere(CorrectPosWithRotation(offset), radius, layer);
-            FarmStationFunction connectedFarm = null;
+            // Assign those tubes as references
+            Debug.LogError("Colliders found! : " + cols.Length + " - " + transform.localScale + " - " + CorrectPosWithRotation(offset), this);
             if (cols.Length > 0)
             {
                 List<Collider> otherCols = GetOtherColliders(cols);
@@ -114,33 +81,20 @@ namespace Goat.Farming
                 {
                     Collider otherCol = otherCols[i];
 
-                    connectedFarm = otherCol.transform.parent.gameObject.GetComponent<FarmStationFunction>();
-                    if (connectedFarm)
-                    {//At the first pipe
-                        FlowSeeker seeker = connectedFarm.GetComponent<FlowSeeker>();
-                        if (seeker.CollidedTubes.Count <= 0)
-                        {
-                            seeker.CollidedTubes.Add(this);
-                        }
-                    }
-                    previousTube = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
-
-                    if (previousTube)
+                    TubeDirection tubeDir = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
+                    if (tubeDir) 
                     {
-                        connectedTubes[index] = (previousTube);
-                    }
+                        if (!ConnectedTubes.Contains(tubeDir))
+                            connectedTubes.Add(tubeDir);
 
-                    if (!connectedFarm)
-                    {
-                        if (previousTube)
-                        {
-                            connectedFarm = previousTube.ConnectedFarm;
-                        }
+                        // Assign this tube to their references
+                        if(!tubeDir.ConnectedTubes.Contains(this))
+                            tubeDir.ConnectedTubes.Add(this);
+
+                        break;
                     }
                 }
             }
-
-            return connectedFarm;
         }
 
         public Vector3 CorrectPosWithRotation(Vector3 offset)
@@ -148,19 +102,6 @@ namespace Goat.Farming
             Vector3 pos = transform.rotation * (offset);
             pos += transform.position;
             return pos;
-        }
-
-        public Vector3 CorrectPosWithRotation(Vector3 offset, int rotation)
-        {
-            Quaternion rot = Quaternion.Euler(0, rotation, 0);
-            Vector3 pos = rot * (offset);
-            pos += transform.position;
-            return pos;
-        }
-
-        public Vector3 CorrectPosWithTransform(Vector3 offset)
-        {
-            return transform.position + (offset);
         }
 
         private List<Collider> GetOtherColliders(Collider[] cols)
@@ -176,74 +117,87 @@ namespace Goat.Farming
             return colList;
         }
 
+        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        {
+            if (ExchangePoint)
+                networkData.AddPipe(this);
+
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
+            tileAnimation.Create(Connect);
+            ObjInstance = objectInstance;
+            PoolKey = poolKey;
+        }
+
         public void OnReturnObject()
         {
-            onGridChange.Raise(gameObject);
-            gameObject.SetActive(false);
+            if(ExchangePoint)
+                networkData.RemovePipe(this);
+
+            Disconnect();
+
+            tileAnimation.Destroy(() => 
+            {
+                gameObject.SetActive(false);
+            });
         }
 
-        private void OnDrawGizmos()
+        private void OnDestroy() 
         {
-            DrawOverlapSphere();
-            Gizmos.color = Color.cyan;
-            if (multiDirection) goto MultiConnect;
+            if (ExchangePoint)
+                networkData.RemovePipe(this);
 
-            if (path.Points != null && path.Points.Count > 0)
-            {
-                for (int i = 0; i < path.Points.Count; i++)
-                {
-                    Gizmos.DrawSphere(CorrectPosWithRotation(path.Points[i]), 0.1f);
-                }
-                return;
-            }
-        MultiConnect:
-            {
-                if (paths != null && paths.Length > 0)
-                {
-                    for (int j = 0; j < paths.Length; j++)
-                    {
-                        if (paths[j] == null || paths[j].Points == null) continue;
-                        for (int i = 0; i < paths[j].Points.Count; i++)
-                        {
-                            Gizmos.DrawSphere(CorrectPosWithRotation(paths[j].Points[i]), 0.1f);
-                        }
-                    }
-                    return;
-                }
-            }
-        }
-
-        private void DrawOverlapSphere()
-        {
-            for (int i = 0; i < offset.Length; i++)
-            {
-                if (connectedTubes != null && connectedTubes.Length > 0)
-                {
-                    Gizmos.color = connectedTubes[i] == null ? Color.red : Color.green;
-                }
-
-                Gizmos.DrawWireSphere(CorrectPosWithRotation(offset[i]), radius);
-            }
+            Disconnect();
         }
 
         protected void OnEnable()
         {
-            onGridChange.RegisterSafe(this);
-            onGridChange.Raise(gameObject);
+            Debug.Log("activate", this);
         }
 
         protected void OnDisable()
         {
-            onGridChange.UnregisterSafe(this);
-            onGridChange.Raise(gameObject);
+            Debug.Log("deactivate", this);
         }
 
-        public void OnEventRaised(GameObject value)
+        #region Gizmos 
+        private void OnDrawGizmos()
         {
-            if (value == gameObject)
-                return;
-            OnGridChange();
-            Debug.Log("", gameObject);
+            Gizmos.color = VisitedByAlgorithm ? Color.green : Color.cyan;
+            if (ExchangePoint)
+            {
+                Gizmos.DrawSphere(transform.position + transform.up, radius);
+
+                for (int i = 0; i < ConnectedMultiDirections.Length; i++)
+                {
+                    if (ConnectedMultiDirections[i])
+                        Gizmos.DrawLine(transform.position + transform.up, ConnectedMultiDirections[i].transform.position + transform.up);
+                }
+            }
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            DrawOverlapSphere();
+        }
+
+        private void DrawOverlapSphere()
+        {
+            for (int i = 0; i < connectedTubes.Count; i++)
+            {
+                if (connectedTubes != null && connectedTubes.Count > 0)
+                {
+                    Gizmos.color = connectedTubes[i] == null ? Color.red : Color.green;
+                }
+                
+            }
+            for (int i = 0; i < offset.Length; i++)
+            {
+                Gizmos.DrawWireSphere(CorrectPosWithRotation(offset[i]), radius);
+            }
+        }
+
+        #endregion
     }
 }

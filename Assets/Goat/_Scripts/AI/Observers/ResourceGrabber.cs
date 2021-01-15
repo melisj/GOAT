@@ -15,7 +15,7 @@ namespace Goat.AI
 
         [SerializeField] private bool forPlayer;
         [SerializeField, ShowIf("forPlayer")] private PlayerInventory playerInv;
-
+        [SerializeField] private AudioCue pickupItemAudio;
         //private void Awake()
         //{
         //    layerMask = LayerMask.GetMask("ResourcePack");
@@ -28,16 +28,15 @@ namespace Goat.AI
             if (resource != null)
             {
                 int amountAdded = 0;
-                if (forNPC) npc.Inventory.Add(resource.Resource, (int)resource.Amount, out amountAdded);
-                else if (forPlayer) playerInv.Inventory.Add(resource.Resource, (int)resource.Amount, out amountAdded);
+                if (forNPC) npc.Inventory.Add(resource.Resource, 1, out amountAdded);
+                else if (forPlayer) playerInv.Inventory.Add(resource.Resource, 1, out amountAdded);
 
-                resource.Amount -= amountAdded;
-
-                if (amountAdded > 0)
+                if (amountAdded == 1)
+                {
+                    pickupItemAudio.PlayAudioCue();
                     Debug.LogFormat("picked up {0}", resource.name);
-
-                if (resource.Amount <= 0 && amountAdded != 0)
                     PoolManager.Instance.ReturnToPool(other.gameObject);
+                }
             }
         }
     }

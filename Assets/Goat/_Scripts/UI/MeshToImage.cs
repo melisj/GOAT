@@ -81,6 +81,29 @@ public class MeshToImage : MonoBehaviour
         //DeleteMesh();
     }
 
+    [Button]
+    private void CreateImageOfCurrentRender(string name)
+    {
+        byte[] bytes = ToTexture2D(rt).EncodeToPNG();
+        string path = Application.dataPath + folderPath + name + dataType;
+        //FileStream stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+        //BinaryWriter writer = new BinaryWriter(stream);
+        //for (int i = 0; i < bytes.Length; i++)
+        //{
+        //    writer.Write(bytes[i]);
+        //}
+        //writer.Close();
+        //stream.Close();
+        File.WriteAllBytes(path, bytes);
+        Debug.LogFormat("Created image of {0} at {1}", name, path);
+#if UNITY_EDITOR
+        AssetDatabase.Refresh();
+#endif
+
+        //if (testCameraSize) return;
+        //DeleteMesh();
+    }
+
     private Texture2D ToTexture2D(RenderTexture rTex)
     {
         Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);

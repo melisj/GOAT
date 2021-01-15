@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2708042629945522256}
   - component: {fileID: 4008643980373543350}
   - component: {fileID: 2560697132541466272}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1950532301162346259}
   - component: {fileID: 3446709237721469667}
   - component: {fileID: 6378093300121727612}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 2149297477915496330}
   - component: {fileID: 4674362743136751492}
   - component: {fileID: 5272659961459352164}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: Shelf
   m_TagString: Storage
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 294635011373303360}
   - component: {fileID: 1313975949483537804}
   - component: {fileID: 2521028861826798333}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 6361201828044067451}
   - component: {fileID: 2951472190069203352}
   - component: {fileID: 6421548211636821825}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 1261700788079491828}
   - component: {fileID: 2163963895632520014}
   - component: {fileID: 3153438210579469710}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 3861801102048619040}
   - component: {fileID: 5713417247347912864}
   - component: {fileID: 2495733906887528029}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6373717868442955191}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolderParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 7217556577472688069}
   - component: {fileID: 8383000399816350725}
   - component: {fileID: 8992551301794302104}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 164126640730277233}
   - component: {fileID: 8155408813008538623}
   - component: {fileID: 849255076880738171}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 5289315503813003706}
   - component: {fileID: 7059458114506631669}
   - component: {fileID: 6277099932331351585}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -871,6 +871,85 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &3512736008711592270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3714349085830666688}
+  - component: {fileID: 2683982549582702120}
+  - component: {fileID: 4629799493083332106}
+  m_Layer: 9
+  m_Name: Outline
+  m_TagString: Storage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3714349085830666688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512736008711592270}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8424306909641385427}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2683982549582702120
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512736008711592270}
+  m_Mesh: {fileID: -6077528477576961679, guid: 4cfcf00b8bc90624c9571e9335a3a600, type: 3}
+--- !u!23 &4629799493083332106
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3512736008711592270}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 72c69694556611249ab268dc126fa6d6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &3654366295410406994
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,7 +961,7 @@ GameObject:
   - component: {fileID: 8634727423223333097}
   - component: {fileID: 4388860891629655571}
   - component: {fileID: 2017879869372445229}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,7 +1040,7 @@ GameObject:
   - component: {fileID: 7127297680492438352}
   - component: {fileID: 4664808978157431976}
   - component: {fileID: 4835049851550931497}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1040,7 +1119,7 @@ GameObject:
   - component: {fileID: 6980540347266767423}
   - component: {fileID: 1534390035979473253}
   - component: {fileID: 3447179310995275638}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1119,7 +1198,7 @@ GameObject:
   - component: {fileID: 4760756058840316206}
   - component: {fileID: 8270081448649182891}
   - component: {fileID: 919937573042167974}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1198,7 +1277,7 @@ GameObject:
   - component: {fileID: 7320427664525139132}
   - component: {fileID: 1521820643831282892}
   - component: {fileID: 6463782634033487097}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1279,7 +1358,8 @@ GameObject:
   - component: {fileID: 494691696093925030}
   - component: {fileID: 8251124710622384765}
   - component: {fileID: 3482521717140079638}
-  m_Layer: 19
+  - component: {fileID: 493456651980761618}
+  m_Layer: 9
   m_Name: BulkStorageShelf-1
   m_TagString: Container
   m_Icon: {fileID: 0}
@@ -1345,6 +1425,7 @@ MonoBehaviour:
   enviroment: 0
   elementToLoad: 2
   mainResource: {fileID: 0}
+  outlineRend: {fileID: 4629799493083332106}
   resourceSize: 0.3
 --- !u!114 &8251124710622384765
 MonoBehaviour:
@@ -1372,6 +1453,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: -0.1
+--- !u!114 &493456651980761618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532921694052855740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3901d4660e2e0e3469e31faa179b8715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDuration: 0.4
+  destroyDurationMultiplier: 2
+  scaleDown: {x: 1, y: 0, z: 1}
 --- !u!1 &6665337947601759733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1479,7 @@ GameObject:
   - component: {fileID: 5092485653271650307}
   - component: {fileID: 3429222313334054852}
   - component: {fileID: 6174713107122309590}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1462,7 +1558,7 @@ GameObject:
   - component: {fileID: 5249254737930505411}
   - component: {fileID: 5363257928063134528}
   - component: {fileID: 8760581952329750907}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1541,7 +1637,7 @@ GameObject:
   - component: {fileID: 768435597634463775}
   - component: {fileID: 6478515750366694713}
   - component: {fileID: 5679458557842120738}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1620,7 +1716,7 @@ GameObject:
   - component: {fileID: 6965610492717645736}
   - component: {fileID: 2192054829422301073}
   - component: {fileID: 7887792351724090659}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1699,7 +1795,7 @@ GameObject:
   - component: {fileID: 8379362895918915034}
   - component: {fileID: 7267885676046564878}
   - component: {fileID: 5458365499612249391}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1813,6 +1909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: d5f2230a1ca014a4d9643b015c1423ea, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 6532921694052855740}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -1833,6 +1930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 66b84310389307248bcf55f64819b527, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 6532921694052855740}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -1848,7 +1946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8424306909641385427}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1867,6 +1965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 979808310172857573}
+  - {fileID: 3714349085830666688}
   m_Father: {fileID: 5739729094527512368}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1881,7 +1980,7 @@ GameObject:
   - component: {fileID: 7332494780277987634}
   - component: {fileID: 707003657288158845}
   - component: {fileID: 6930106142093873775}
-  m_Layer: 19
+  m_Layer: 9
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,9 +20,12 @@ namespace Goat.UI
         [SerializeField] private AnimateTabButton tabSwitcher;
         [Title("Buying")]
         [SerializeField] protected Button buyButton;
+        [SerializeField, ShowIf("IsSupplyWindow")] private RectTransform noUnloadAreaWarning;
+        [SerializeField, ShowIf("IsSupplyWindow")] private UnloadLocations unloadLocations;
         [SerializeField] private RectTransform buyButtonTransform;
         [SerializeField] private TMP_InputField buyAmount;
         [SerializeField] protected TextMeshProUGUI totalPrice;
+        [SerializeField] private AudioCue errorSfx, confirmSfx;
         [Title("Content")]
         [SerializeField, ShowIf("IsSupplyWindow")] private RectTransform deliveryGrid;
         [SerializeField, ShowIf("IsSupplyWindow")] private GameObject deliveryPrefab;
@@ -76,7 +79,16 @@ namespace Goat.UI
 
         protected virtual void Buy()
         {
-            if (!AnimateBuyButton(currentAmount > 0 && !selectedBuyable.CanBuy(currentAmount))) return;
+            if (!AnimateBuyButton(currentAmount > 0 && selectedBuyable != null && !selectedBuyable.CanBuy(currentAmount) && unloadLocations.Locations.Count > 0))
+            {
+                if (unloadLocations.Locations.Count <= 0)
+                    noUnloadAreaWarning.gameObject.SetActive(true);
+                return;
+            }
+            else if (unloadLocations.Locations.Count > 0)
+            {
+                noUnloadAreaWarning.gameObject.SetActive(false);
+            }
             selectedBuyable.Buy(currentAmount, -1, true, false);
             SetupDeliveryCell(selectedBuyable, deliveryGrid, currentAmount);
         }
@@ -95,10 +107,12 @@ namespace Goat.UI
             buyButtonAnimation = DOTween.Sequence();
             if (validated)
             {
+                confirmSfx.PlayAudioCue();
                 buyButtonAnimation.Append(buyButtonTransform.DOPunchScale(new Vector3(0.1f, 0.1f, 1), 0.2f, 15, 0.5f));
             }
             else
             {
+                errorSfx.PlayAudioCue();
                 buyButtonAnimation.Append(buyButtonTransform.DOShakeAnchorPos(0.3f, new Vector3(5, 0, 0), 90));
             }
             return validated;
@@ -146,7 +160,7 @@ namespace Goat.UI
         protected virtual void SetTotalPrice()
         {
             if (selectedBuyable)
-                totalPrice.text = (currentAmount * selectedBuyable.Price).ToString("N0");
+                totalPrice.text = (currentAmount * selectedBuyable.Price()).ToString("N0");
         }
 
         private void ResetAmount()

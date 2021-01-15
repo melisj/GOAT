@@ -1,7 +1,6 @@
 ﻿using Goat.Saving;
-using Goat.Storage;
-using Newtonsoft.Json;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,7 +25,7 @@ namespace Goat.Player
         public string inventoryString;
         public Vector3 position;
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             PlayerSaveHandler playerHandler = (PlayerSaveHandler)handler;
 
@@ -40,6 +39,9 @@ namespace Goat.Player
                 playerHandler.agent.ResetPath();
             }
             catch { }
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)

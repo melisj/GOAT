@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Goat.Events;
-using Goat.Storage;
 using System.Collections.Generic;
+using Goat.Farming.Electricity;
 
 namespace Goat.Expenses
 {
@@ -49,7 +49,8 @@ namespace Goat.Expenses
                 }
             }
             onExpenseCreated.Raise(fullPrice);
-            expenseEvent.Raise(new Expense(remainingPrice, "Electricity", time.GetDate(), () => OnFullPay(disabledIndexes)));
+            if (remainingPrice > 0)
+                expenseEvent.Raise(new Expense(remainingPrice, "Electricity", time.GetDate(), () => OnFullPay(disabledIndexes)));
         }
     }
 }

@@ -9,6 +9,9 @@ using System;
 
 namespace Goat.AI.States
 {
+    /// <summary>
+    /// Place item from NPC inventory into a storage inventory
+    /// </summary>
     public class PlaceItem : IState
     {
         private Worker worker;
@@ -28,6 +31,9 @@ namespace Goat.AI.States
             this.animator = animator;
         }
 
+        /// <summary>
+        /// Set item to place based on worker type and place that item in storage
+        /// </summary>
         private void PlaceItemInStorage()
         {
             Resource resourceToPlace = null;
@@ -47,8 +53,8 @@ namespace Goat.AI.States
             {
                 animator.SetTrigger("Interact");
                 //Delay
-                eventHandler.Invoke(this, null);
-                    
+                eventHandler?.Invoke(this, null);
+
                 worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
@@ -61,8 +67,8 @@ namespace Goat.AI.States
         {
             if (!filled && nextItemTime <= Time.time)
             {
-                PlaceItemInStorage();
                 nextItemTime = Time.time + (1 / placingSpeed);
+                PlaceItemInStorage();
             }
         }
 

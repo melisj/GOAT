@@ -10,7 +10,13 @@ public class SoundEmitterFactorySO : FactorySO<SoundEmitter>
 
     public override SoundEmitter Create(Vector3 pos, Transform parent = default)
     {
-        GameObject obj = PoolManager.Instance.GetFromPool(prefab.gameObject, pos, Quaternion.identity, parent);
+        GameObject obj = null;
+        if (usePooling)
+            obj = PoolManager.Instance.GetFromPool(prefab.gameObject, pos, Quaternion.identity, parent);
+        else
+        {
+            obj = Instantiate(prefab.gameObject, pos, Quaternion.identity, parent);
+        }
 
         SoundEmitter emitter = obj.GetComponent<SoundEmitter>();
         return emitter;

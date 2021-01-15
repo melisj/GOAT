@@ -20,4 +20,14 @@ public class BorderContentFitter : MonoBehaviour
         iconWidth = Mathf.Max(iconWidth, 1);
         borderMiddle.sizeDelta = new Vector2(iconWidth, borderMiddle.sizeDelta.y);
     }
+
+    public void ChangeIconWidthBetter()
+    {
+        //InitialSize
+        float initialSize = margin;
+        float iconWidth = text.fontSize * text.text.Length;
+        iconWidth -= initialSize;
+        iconWidth = Mathf.Max(iconWidth, 1);
+        borderMiddle.sizeDelta = new Vector2(iconWidth, borderMiddle.sizeDelta.y);
+    }
 }

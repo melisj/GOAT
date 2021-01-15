@@ -23,7 +23,8 @@ namespace Goat.AI.Satisfaction
             {
                 ReviewFactors = new ReviewLineInfo[reviewFactors.Length],
                 SatisfactionPoints = 0,
-                CustomerName = root.name
+                Character = root.GetComponentInChildren<SetCharacterMesh>().Character,
+                CustomerName = root.GetComponent<Customer>().ObjInstance.GetName
             };
 
             for (int i = 0; i < reviewFactors.Length; i++)

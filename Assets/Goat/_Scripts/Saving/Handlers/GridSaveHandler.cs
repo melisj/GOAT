@@ -19,31 +19,11 @@ namespace Goat.Saving
             data = new GridSaveData();
         }
 
-        public override void Load(DataContainer data)
+        public override IEnumerator Load(DataHandler handler, DataContainer data)
         {
             grid.Reset();
-            base.Load(data);
-        }
-
-        public void StartSpawingTiles(List<TileInfo> tiles)
-        {
-            StartCoroutine(CoroutineSpawnTile(tiles));
-        }
-
-        public IEnumerator CoroutineSpawnTile(List<TileInfo> tiles)
-        {
-            // Load in all the data on the tiles
-            for (int x = 0; x < grid.GetGridSize.x; x++)
-            {
-                for (int y = 0; y < grid.GetGridSize.y; y++)
-                {
-                    if (tiles[grid.GetGridSize.y * x + y].empty)
-                        continue;
-
-                    grid.tiles[x, y].LoadInData(tiles[grid.GetGridSize.y * x + y], ref objectList);
-                    yield return null;
-                }
-            }
+            StartCoroutine(base.Load(handler, data));
+            yield break;
         }
     }
 
@@ -52,7 +32,7 @@ namespace Goat.Saving
     {
         public List<TileInfo> tileData = new List<TileInfo>();
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             GridSaveHandler gridHandler = (GridSaveHandler)handler;
 
@@ -60,10 +40,23 @@ namespace Goat.Saving
             if (gridHandler.grid.GetGridSize.x * gridHandler.grid.GetGridSize.y != tileData.Count)
             {
                 Debug.LogWarning("Could not load grid, grid size is not the same!");
-                return;
+                DoneLoading(handler, DataHandler.ContainerExitCode.Failure);
             }
 
-            gridHandler.StartSpawingTiles(tileData);
+            // Load in all the data on the tiles
+            for (int x = 0; x < gridHandler.grid.GetGridSize.x; x++)
+            {
+                for (int y = 0; y < gridHandler.grid.GetGridSize.y; y++)
+                {
+                    if (tileData[gridHandler.grid.GetGridSize.y * x + y].empty)
+                        continue;
+
+                    gridHandler.grid.tiles[x, y].LoadInData(tileData[gridHandler.grid.GetGridSize.y * x + y], ref gridHandler.objectList);
+                    Debug.Log(tileData[gridHandler.grid.GetGridSize.y * x + y].empty);
+                    yield return null;
+                }
+            }
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
         }
 
         public override void Save(SaveHandler handler)

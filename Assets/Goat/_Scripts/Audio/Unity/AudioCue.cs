@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using System;
 
 /// <summary>
 /// Simple implementation of a MonoBehaviour that is able to request a sound being played by the <c>AudioManager</c>.
@@ -9,12 +11,13 @@ using UnityEngine;
 public class AudioCue : MonoBehaviour
 {
     [Header("Sound definition")]
-    [SerializeField] private AudioCueSO _audioCue = default;
+    [SerializeField, InlineEditor] private AudioCueSO _audioCue = default;
     [SerializeField] private bool _playOnStart = false;
-    [SerializeField] protected Transform parent;
+    [SerializeField] private bool setParentManually;
+    [SerializeField, ShowIf("setParentManually")] protected Transform parent;
     [Header("Configuration")]
     [SerializeField] private AudioCueEventChannelSO _audioCueEventChannel = default;
-    [SerializeField] private AudioConfigurationSO _audioConfiguration = default;
+    [SerializeField, InlineEditor] private AudioConfigurationSO _audioConfiguration = default;
 
     public AudioCueSO GetAudioCue { get => _audioCue; set => _audioCue = value; }
     public AudioConfigurationSO AudioConfiguration { get => _audioConfiguration; set => _audioConfiguration = value; }
@@ -25,13 +28,13 @@ public class AudioCue : MonoBehaviour
             PlayAudioCue();
     }
 
-    public void PlayAudioCue()
+    public void PlayAudioCue(Action onFinished = null)
     {
-        if (!parent)
+        if (!parent && !setParentManually)
         {
             parent = transform;
         }
-        _audioCueEventChannel.RaiseEvent(this, parent.position, parent);
+        _audioCueEventChannel.RaiseEvent(this, parent.position, parent, onFinished);
     }
 
     public void StopAudioCue()

@@ -3,6 +3,8 @@ using Sirenix.OdinInspector;
 using Goat.Grid.Interactions;
 using Goat.Events;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
+using UnityEngine.UI;
 
 namespace Goat.Grid.UI
 {
@@ -14,7 +16,11 @@ namespace Goat.Grid.UI
         [SerializeField, HideIf("disableCanvasInstead")] private GameObject PanelToHide;
         [SerializeField, ShowIf("disableCanvasInstead")] private Canvas canvasToDisable;
         [SerializeField] private UIElement type;
+        [SerializeField] private InputModeVariable currentInputMode;
+        [SerializeField] private GraphicRaycaster graphicRaycaster;
         public UIElement Type => type;
+        public Canvas CanvasToDisable => canvasToDisable;
+        public GraphicRaycaster GraphicRaycaster { get => graphicRaycaster; set => graphicRaycaster = value; }
 
         public virtual void ShowUI()
         {
@@ -30,6 +36,7 @@ namespace Goat.Grid.UI
                 canvasToDisable.enabled = false;
             else
                 PanelToHide.SetActive(false);
+            currentInputMode.InputMode = InputMode.Select;
         }
     }
 
@@ -38,7 +45,10 @@ namespace Goat.Grid.UI
     {
         [SerializeField] private Dictionary<UIElement, BasicGridUIElement> UIElements = new Dictionary<UIElement, BasicGridUIElement>();
         [SerializeField] private GridUIInfo gridUIInfo;
+        [SerializeField] private VoidEvent closeButtonEvent;
+        [SerializeField] private VoidEvent closeSideBar;
         private static BasicGridUIElement currentUIOpen;
+        public BasicGridUIElement CurrentUIOpen => currentUIOpen;
 
         [Button]
         private void SetupDictionary()
@@ -53,7 +63,6 @@ namespace Goat.Grid.UI
                     Debug.LogError($"Type {element.Type} already added to dictionary, click on me for the object", element.gameObject);
                     continue;
                 }
-
                 UIElements.Add(element.Type, element);
             }
         }
@@ -93,8 +102,10 @@ namespace Goat.Grid.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
+                closeButtonEvent.Raise();
+                closeSideBar.Raise();
                 //gridUIInfo.CurrentUIElement = UIElement.Buying;
             }
         }

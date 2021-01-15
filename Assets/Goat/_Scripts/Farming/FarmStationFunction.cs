@@ -7,80 +7,116 @@ using UnityEngine;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
 using System;
+using Random = UnityEngine.Random;
+using UnityAtoms;
+using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
 
 namespace Goat.Farming
 {
-    public class FarmStationFunction : SerializedMonoBehaviour, IPoolObject
+    public class FarmStationFunction : SerializedMonoBehaviour, IAtomListener<WithOwner<TubeDirection>>
     {
-        private const float delay = 1f;
-        [SerializeField, InlineEditor, AssetList(Path = "/Goat/ScriptableObjects/Farming")] private FarmStation farmStationSettings;
-        [SerializeField] private float radius = 1;
-        [SerializeField] private GameObject resPackPrefab;
-        [SerializeField] private int currentCapacity;
-        [SerializeField] private LayerMask floorLayer;
-        [SerializeField] private Animator animator;
-        [SerializeField] private int debugPathIndex;
-        [SerializeField] private List<Path> connectedTubes = new List<Path>();
-        [SerializeField] private GameObjectEvent onGridChange;
-        private Dictionary<Vector3, int> offsetToPath = new Dictionary<Vector3, int>();
-        private float timer;
-        private bool isConnected;
-        private ResourceTile resourceTile;
-        [SerializeField] private HashSet<GameObject> tubeEnds = new HashSet<GameObject>();
-        [SerializeField] private List<ResourcePack> resPacks = new List<ResourcePack>();
-        public Dictionary<Vector3, int> OffsetToPath => offsetToPath;
-        [SerializeField] private AudioCue cue;
-
+        [SerializeField] private TubeDirectionEvent onTubeEndReceived;
+        [SerializeField] private GameObjectEvent onTubeEndNeeded;
+        [SerializeField] private FarmStation farmStationSettings;
+        [SerializeField] private FarmNetworkData networkData;
         public FarmStation Settings => farmStationSettings;
 
-        public int GetPath(Vector3 key)
+        [SerializeField] private GameObject resPackPrefab;
+        [SerializeField] private GameObject rangePlane;
+        [SerializeField] private LayerMask floorLayer;
+        [SerializeField, ReadOnly] private TubeDirection foundTubeEnd;
+        [SerializeField, ReadOnly] private TubeEnd tubeEnd;
+        public TubeDirection FoundTubeEnd { get => foundTubeEnd; set { foundTubeEnd = value; tubeEnd = null; } }
+
+        public TubeEnd TubeEnd
         {
-            int index = 0;
-            if (offsetToPath.TryGetValue(key, out index))
+            get
             {
-                return index;
+                if (tubeEnd == null && FoundTubeEnd != null)
+                    tubeEnd = FoundTubeEnd.GetComponent<TubeEnd>();
+                return tubeEnd;
             }
-            return index;
         }
 
-        public int PoolKey { get; set; }
-        public ObjectInstance ObjInstance { get; set; }
-        public List<Path> ConnectedTubes => connectedTubes;
-        public HashSet<GameObject> TubeEnds => tubeEnds;
+        public TubeDirection TubeDirection { get; private set; }
+        [SerializeField, ReadOnly] private float timer;
 
-        public List<ResourcePack> ResPacks => resPacks;
+        private Queue<ResourceTile> resourceTiles = new Queue<ResourceTile>();
+        private ResourceTile currentResourceTile;
+        private Inventory inventory;
+
+        [SerializeField] private AudioCue cue;
+        [SerializeField] private Animator animator;
+
+        private bool stopped;
+
+        private bool Stopped
+        {
+            get => stopped;
+            set
+            {
+                if (value != stopped)
+                {
+                    if (value)
+                        cue.StopAudioCue();
+                    else
+                        cue.PlayAudioCue();
+                }
+                stopped = value;
+            }
+        }
+
+        public void FindTubeEnd()
+        {
+            onTubeEndNeeded.Raise(gameObject);
+        }
+
+        public void OnEventRaised(WithOwner<TubeDirection> item)
+        {
+            if (item.Owner == gameObject)
+            {
+                if (item.Gtype != null)
+                {
+                    TubeEnd end = item.Gtype.GetComponent<TubeEnd>();
+                    if (end)
+                        tubeEnd = end;
+                }
+                else
+                {
+                    tubeEnd = null;
+                }
+            }
+        }
 
         private void Awake()
         {
-            connectedTubes.Add(new Path());
+            TubeDirection = GetComponent<TubeDirection>();
+            inventory = new Inventory(Settings.StorageCapacity);
         }
 
         private void OnEnable()
         {
-            onGridChange.Raise(gameObject);
+            onTubeEndReceived.RegisterSafe(this);
+            networkData.AddFarm(this);
+            rangePlane.SetActive(false);
         }
 
         private void OnDisable()
         {
-            onGridChange.Raise(gameObject);
+            onTubeEndReceived.UnregisterSafe(this);
+            networkData.RemoveFarm(this);
+            rangePlane.SetActive(true);
+            cue.StopAudioCue();
+        }
+
+        private void OnDestroy()
+        {
+            networkData.RemoveFarm(this);
         }
 
         private void Update()
         {
             AddResource();
-        }
-
-        public ResourcePack CreateResourcePack(Vector3 pos, GameObject tubeEnd, int amount = 0)
-        {
-            if (!tubeEnds.Add(tubeEnd))
-                return null;
-            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, GetGroundPositionAt(pos), Quaternion.identity, null);
-            GetResourceTile();
-            resPackObj.name = "ResourcePack-" + resourceTile.Data.Resource.name.ToString();
-            ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
-            resPack.SetupResPack(resourceTile.Data.Resource, amount);
-            resPacks.Add(resPack);
-            return resPack;
         }
 
         private Vector3 GetGroundPositionAt(Vector3 pos)
@@ -92,24 +128,36 @@ namespace Goat.Farming
 
         private void AddResource()
         {
-            if (resourceTile == null) GetResourceTile();
-            if (currentCapacity >= farmStationSettings.StorageCapacity || resourceTile.Amount <= 0)
+            if (currentResourceTile && !currentResourceTile.gameObject.activeInHierarchy) currentResourceTile = null;
+            if (currentResourceTile == null && resourceTiles.Count != 0) currentResourceTile = resourceTiles.Dequeue();
+
+            if (inventory.ItemsInInventory >= farmStationSettings.StorageCapacity || inventory.ItemsInInventory <= 0)
             {
                 animator.enabled = false;
+                Stopped = true;
                 timer = 0;
                 return;
             }
             timer += Time.deltaTime;
-            if (timer >= delay)
+            if (timer >= farmStationSettings.FarmDelay)
             {
                 animator.enabled = true;
-                timer = 0;
-                currentCapacity += farmStationSettings.AmountPerSecond;
-                resourceTile.Amount -= farmStationSettings.AmountPerSecond;
+                Stopped = false;
 
-                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously)
+                timer = 0;
+
+                if (currentResourceTile != null)
                 {
-                    FillResourcePacks();
+                    inventory.Add(currentResourceTile.Data.Resource, 1, out int amountStored);
+                    currentResourceTile.Amount -= amountStored;
+                }
+
+                if (farmStationSettings.FarmDeliverType == FarmDeliverType.AutoContinuously && inventory.ItemsInInventory >= 1)
+                {
+                    //FillResourcePacks();
+
+                    if (TubeEnd != null)
+                        CreateResourcePack(TubeEnd.SpawnPos);
                 }
 
                 if (farmStationSettings.FarmType == FarmType.OverTimeCost)
@@ -119,73 +167,36 @@ namespace Goat.Farming
             }
         }
 
-        private void FillResourcePacks()
+        private void CreateResourcePack(Vector3 pos)
         {
-            if (resPacks.Count <= 0) return;
-            float increment = (float)farmStationSettings.AmountPerSecond / (float)resPacks.Count;
+            GameObject resPackObj = PoolManager.Instance.GetFromPool(resPackPrefab, pos, Quaternion.identity, null);
+            ResourcePack resPack = resPackObj.GetComponent<ResourcePack>();
 
-            for (int i = 0; i < resPacks.Count; i++)
+            Resource resource = inventory.Items.ElementAt(Random.Range(0, inventory.Items.Count)).Key;
+            inventory.Remove(resource, 1, out int amountRemoved);
+
+            resPack.SetupResPack(resource);
+        }
+
+        public void SetResourceTile(List<Tile> tiles)
+        {
+            foreach (Tile tile in tiles)
             {
-                ResourcePack resPack = resPacks[i];
-                if (!resPack.gameObject.activeInHierarchy)
+                if (tile.FloorObj)
                 {
-                    resPacks.RemoveAt(i);
-                    continue;
+                    ResourceTile resourceTile = tile.FloorObj.GetComponent<ResourceTile>();
+                    if (resourceTile)
+                    {
+                        if (farmStationSettings.ResourceFarms.Contains(resourceTile.Data.Resource))
+                            resourceTiles.Enqueue(resourceTile);
+                    }
                 }
-
-                resPacks[i].Amount += increment;
             }
-
-            currentCapacity -= farmStationSettings.AmountPerSecond;
-        }
-
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
-        {
-            Setup();
-            cue.PlayAudioCue();
-            ObjInstance = objectInstance;
-            PoolKey = poolKey;
-        }
-
-        private void Setup()
-        {
-            GetResourceTile();
-            onGridChange.Raise(gameObject);
-        }
-
-        private void GetResourceTile()
-        {
-            resourceTile = null;
-            Collider[] cols = Physics.OverlapSphere(transform.position, radius, floorLayer);
-            if (cols.Length > 0)
-            {
-                resourceTile = cols[0].gameObject.GetComponent<ResourceTile>();
-            }
-        }
-
-        public void OnReturnObject()
-        {
-            cue.StopAudioCue();
-            gameObject.SetActive(false);
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, radius);
-            if (connectedTubes.Count <= debugPathIndex) return;
-            if (connectedTubes[debugPathIndex] == null || connectedTubes[debugPathIndex].Points == null) return;
-            Gizmos.color = Color.yellow;
-            for (int i = 0; i < connectedTubes[debugPathIndex].Points.Count; i++)
-            {
-                if (i <= 0)
-                {
-                    Gizmos.DrawLine(transform.position, connectedTubes[debugPathIndex].Points[i]);
-                }
-                else if (i + 1 < connectedTubes[debugPathIndex].Points.Count)
-                {
-                    Gizmos.DrawLine(connectedTubes[debugPathIndex].Points[i], connectedTubes[debugPathIndex].Points[i + 1]);
-                }
-            }
+            
         }
     }
 }

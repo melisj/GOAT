@@ -1,25 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Goat.Events;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
     public class UpdateNavOnInputModeChange : EventListenerInputMode
     {
-        [SerializeField] private NavMeshSurface surfaceAI;
-        [SerializeField] private NavMeshSurface surfacePlayer;
-        [SerializeField] private NavMeshSurface surfaceWorker;
+        [SerializeField] private NavInitializer navInitializer;
 
         public override void OnEventRaised(InputMode value)
         {
             if (value != InputMode.Edit)
             {
-                if(surfaceAI.navMeshData)
-                    surfaceAI.UpdateNavMesh(surfaceAI.navMeshData);
-                if (surfacePlayer.navMeshData)
-                    surfacePlayer.UpdateNavMesh(surfacePlayer.navMeshData);
-                if (surfaceWorker.navMeshData)
-                    surfaceWorker.UpdateNavMesh(surfaceWorker.navMeshData);
+                navInitializer.RebakeMesh();
             }
         }
     }

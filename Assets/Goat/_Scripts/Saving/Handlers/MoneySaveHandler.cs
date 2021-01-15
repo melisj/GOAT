@@ -19,11 +19,14 @@ namespace Goat.Saving
     {
         public float moneyAmount;
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             MoneySaveHandler moneyHandler = (MoneySaveHandler)handler;
 
             moneyHandler.money.Amount = moneyAmount;
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)

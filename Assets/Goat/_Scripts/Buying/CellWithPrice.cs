@@ -18,7 +18,7 @@ public class CellWithPrice : UICell
     public override void Setup(Buyable buyable)
     {
         base.Setup(buyable);
-        ChangeText((int)buyable.Price, priceText, priceBackground);
+        ChangeText((int)buyable.Price(), priceText, priceBackground);
     }
 
     protected void ChangeText(int change, TextMeshProUGUI textUI, RectTransform amountHolder)
@@ -30,7 +30,7 @@ public class CellWithPrice : UICell
     protected void ChangeIconWidth(int change, TextMeshProUGUI textUI, RectTransform amountHolder)
     {
         float iconWidth = (textUI.fontSize) + ((textUI.fontSize + margin) * (change.ToString().Length));
-        if(amountHolder != null)
+        if (amountHolder != null)
             amountHolder.sizeDelta = new Vector2(iconWidth, amountHolder.sizeDelta.y);
     }
 }

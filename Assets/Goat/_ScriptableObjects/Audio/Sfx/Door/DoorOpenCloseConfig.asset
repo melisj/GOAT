@@ -15,12 +15,12 @@ MonoBehaviour:
   OutputAudioMixerGroup: {fileID: 0}
   _priorityLevel: 128
   Mute: 0
-  Volume: 1
+  Volume: 0.125
   Pitch: 1
   PanStereo: 0
   ReverbZoneMix: 1
   SpatialBlend: 1
-  RolloffMode: 1
+  RolloffMode: 2
   MinDistance: 0.1
   MaxDistance: 30
   Spread: 0

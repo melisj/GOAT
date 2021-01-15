@@ -56,7 +56,8 @@ namespace Goat.Saving
 
         JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-        private const string SAVE_FOLDER = "/Goat/SaveData/";
+        private const string SAVE_FOLDER = "/SaveData/";
+        private const string DEFAULT_STORE_PATH = "DefaultSave/StartStore";
 
         [Header("Paths")]
         [SerializeField] private string fileName = "DefaultSave";
@@ -65,14 +66,27 @@ namespace Goat.Saving
         [SerializeField, ReadOnly] private string relativePath;
         private bool fileNotFound;
 
+        private string folderPath;
         private string completePath;
 
-        // Boolean for controlling the loading stages of the containers
-        public bool HasLoadedContainer { get; set; }
+        // Exit code for loading containers -1 = Not started, 0 = failure, 1 = success 
+        public ContainerExitCode LoadContainerExitCode { get; set; }
+        public enum ContainerExitCode
+        {
+            NotStarted = -1,
+            Failure = 0,
+            Success = 1
+        }
 
         private void OnValidate() {
             SetPaths(fileName);
             fileNotFound = !File.Exists(completePath);
+        }
+
+        private string GetDefaultSave()
+        {
+            TextAsset asset = Resources.Load<TextAsset>(DEFAULT_STORE_PATH);
+            return asset.text;
         }
 
         /// <summary>
@@ -102,36 +116,41 @@ namespace Goat.Saving
         [Button("Load", ButtonSizes.Medium)]
         public void LoadGame()
         {
-            StartCoroutine(LoadGameCoroutine());
+            StartCoroutine(LoadGameCoroutine(false));
         }
 
-        public void LoadGame(string saveFile)
+        public void LoadGame(string saveFile, bool defaultSave)
         {
             SetPaths(saveFile);
-            LoadGame();
+            StartCoroutine(LoadGameCoroutine(defaultSave));
         }
 
         private void SetPaths(string fileName)
         {
             this.fileName = fileName;
+            folderPath = string.Format("{0}{1}", Application.persistentDataPath, SAVE_FOLDER);
             relativePath = string.Format("{0}{1}.Json", SAVE_FOLDER, fileName);
-            completePath = string.Format("{0}{1}", Application.dataPath, relativePath);
+            completePath = string.Format("{0}{1}", Application.persistentDataPath, relativePath);
         }
 
         /// <summary>
         /// Load the game file found in the path given in the inspector
         /// </summary>
-        public IEnumerator LoadGameCoroutine() {
+        public IEnumerator LoadGameCoroutine(bool defaultSave) {
             if (Application.isPlaying)
             {
-                SaveData data = JsonConvert.DeserializeObject<SaveData>(LoadFromFile(), jsonSettings);
+                string jsonData = defaultSave ? GetDefaultSave() : LoadFromFile();
+                SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData, jsonSettings);
 
                 if (data != null)
                 {
                     foreach (DataContainer container in data.data)
                     {
+                        LoadContainerExitCode = ContainerExitCode.NotStarted;
                         StartLoadEvent.Invoke(this, container);
-                        yield return new WaitUntil(() => HasLoadedContainer);
+                        yield return new WaitUntil(() => LoadContainerExitCode != ContainerExitCode.NotStarted);
+
+                        Debug.LogFormat("DataContainer: {0} Exit code: {1}", container, LoadContainerExitCode) ;
                     }
 
                     LevelLoaded?.Invoke();
@@ -154,7 +173,7 @@ namespace Goat.Saving
         /// </summary>
         /// <param name="json"> json string to be saved </param>
         private void SaveToFile(string json) {
-            if (Directory.Exists(Application.dataPath + SAVE_FOLDER)) {
+            if (Directory.Exists(folderPath)) {
                 File.WriteAllText(completePath, json);
             } else {
                 Debug.LogWarningFormat("Saving could not be completed, path invalid: {0}", completePath);
@@ -178,12 +197,12 @@ namespace Goat.Saving
 
         public static string[] GetAllSaves()
         {
-            if (Directory.Exists(Application.dataPath + SAVE_FOLDER))
+            if (!Directory.Exists(Application.persistentDataPath + SAVE_FOLDER))
             {
-                Debug.LogFormat("Loaded all saves in folder: {0}", SAVE_FOLDER);
-                return Directory.GetFiles(Application.dataPath + SAVE_FOLDER, "*.json");
+                Directory.CreateDirectory(Application.persistentDataPath + SAVE_FOLDER);
             }
-            return null;
+            Debug.LogFormat("Loaded all saves in folder: {0}", Application.persistentDataPath + SAVE_FOLDER);
+            return Directory.GetFiles(Application.persistentDataPath + SAVE_FOLDER, "*.json");
         }
 
         /// <summary>

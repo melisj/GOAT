@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using Goat.Saving;
+using Sirenix.OdinInspector;
 
 public class StartGame : MonoBehaviour
 {
-    [SerializeField] private Button startButton;
+    [SerializeField] private bool startFreshButton;
+    [SerializeField, ShowIf("startFreshButton")] private Button startButton;
     [SerializeField] private RectTransform[] menuButtons;
 
     private SceneLoaderForBuild sceneLoader;
@@ -17,13 +19,15 @@ public class StartGame : MonoBehaviour
     private void Start()
     {
         sceneLoader = FindObjectOfType<SceneLoaderForBuild>();
-        startButton.onClick.AddListener(() => LoadGame());
+        if(startFreshButton)
+            startButton.onClick.AddListener(() => LoadGame("", true));
     }
 
-    public void LoadGame(string saveFile = "")
+    public void LoadGame(string saveFile = "", bool defaultSave = false)
     {
         hideMenu = DOTween.Sequence();
-        hideMenu.OnComplete(() => StartCoroutine(sceneLoader.LoadAllScenes(() => LoadComplete(saveFile))));
+        hideMenu.SetUpdate(true);
+        hideMenu.OnComplete(() => StartCoroutine(sceneLoader.LoadAllScenes(() => LoadComplete(saveFile, defaultSave))));
         for (int i = 0; i < menuButtons.Length; i++)
         {
             hideMenu.Join(menuButtons[i].DOMove(menuButtons[i].position + (RandomMoveDirection() * (Screen.width)), 0.5f));
@@ -37,7 +41,7 @@ public class StartGame : MonoBehaviour
         return random > 49 ? Vector3.right : -Vector3.right;
     }
 
-    private void LoadComplete(string saveFile)
+    private void LoadComplete(string saveFile, bool defaultSave)
     {
         // Unload the first build scene
         if (SceneManager.GetSceneByBuildIndex(0).IsValid())
@@ -46,10 +50,10 @@ public class StartGame : MonoBehaviour
         }
 
         // Load the selected save file
-        if (saveFile != "")
+        if (saveFile != "" || defaultSave)
         {
             DataHandler dataHandler = FindObjectOfType<DataHandler>();
-            dataHandler.LoadGame(saveFile);
+            dataHandler.LoadGame(saveFile, defaultSave);
         }
     }
 }

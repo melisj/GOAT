@@ -18,8 +18,15 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
 
     private void Awake()
     {
-        _audioSource = this.GetComponent<AudioSource>();
-        _audioSource.playOnAwake = false;
+        Setup();
+    }
+
+    private void Setup()
+    {
+        if (!_audioSource)
+            _audioSource = this.GetComponent<AudioSource>();
+        if (_audioSource)
+            _audioSource.playOnAwake = false;
     }
 
     public void OnGetObject(ObjectInstance objectInstance, int poolKey)
@@ -30,6 +37,8 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
 
     public void OnReturnObject()
     {
+        gameObject.name = $"Stopped: {_audioSource.clip.name}";
+
         gameObject.SetActive(false);
     }
 
@@ -42,12 +51,13 @@ public class SoundEmitter : MonoBehaviour, IPoolObject
     /// <param name="position"></param>
     public void PlayAudioClip(AudioClip clip, AudioConfigurationSO settings, bool hasToLoop, Vector3 position = default)
     {
-        _audioSource.clip = clip;
         settings.ApplyTo(_audioSource);
+        _audioSource.clip = clip;
         _audioSource.transform.position = position;
         _audioSource.loop = hasToLoop;
         _audioSource.Play();
 
+        gameObject.name = $"Playing: {clip.name}";
         if (!hasToLoop)
         {
             StartCoroutine(FinishedPlaying(clip.length));

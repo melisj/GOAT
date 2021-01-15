@@ -41,15 +41,18 @@ namespace Goat.Saving
         {
             string[] saves = DataHandler.GetAllSaves();
 
-            foreach(string save in saves)
+            if (saves != null)
             {
-                int firstIndex = save.LastIndexOf("/") + 1;
-                int secondIndex = save.LastIndexOf(".");
+                foreach (string save in saves)
+                {
+                    int firstIndex = save.LastIndexOf("/") + 1;
+                    int secondIndex = save.LastIndexOf(".");
 
-                string saveName = save.Substring(firstIndex, secondIndex - firstIndex);
+                    string saveName = save.Substring(firstIndex, secondIndex - firstIndex);
 
-                GameObject saveObject = Instantiate(savePrefab, Vector3.zero, Quaternion.identity, saveParent); //PoolManager.Instance.GetFromPool(savePrefab, Vector3.zero, Quaternion.identity, transform);
-                saveObject.GetComponent<SaveUIObject>().SetName(this, saveName);
+                    GameObject saveObject = Instantiate(savePrefab, Vector3.zero, Quaternion.identity, saveParent); //PoolManager.Instance.GetFromPool(savePrefab, Vector3.zero, Quaternion.identity, transform);
+                    saveObject.GetComponent<SaveUIObject>().SetName(this, saveName);
+                }
             }
         }
 
@@ -89,8 +92,10 @@ namespace Goat.Saving
         private void ShowInfoAboutSave(string message)
         {
             infoObjectText.text = message;
-            infoObjectText.DOColor(Color.white, 0);
-            infoObjectText.DOColor(Color.clear, 5);
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetUpdate(true);
+            sequence.Append(infoObjectText.DOColor(Color.white, 0));
+            sequence.Append(infoObjectText.DOColor(Color.clear, 5));
         }
     } 
 }

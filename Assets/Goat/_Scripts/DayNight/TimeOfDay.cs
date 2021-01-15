@@ -32,22 +32,36 @@ public class TimeOfDay : ScriptableObject
     private DateTime date;
 
     public string EnglishTime => englishTime = timeOfDayHours / 12 >= 1 ? PM : AM;
-    public string GetTime12Hour => $"{timeOfDay12Hours}:{Mathf.Floor(timeOfDayMinutes)} {EnglishTime}";
-    public string GetTime24Hour => $"{timeOfDayHours}:{Mathf.Floor(timeOfDayMinutes)}";
+    public string GetMinuteString => string.Format("{0}{1}", timeOfDayMinutes < 10 ? "0" : "", Mathf.Floor(timeOfDayMinutes));
+    public string GetTime12Hour => $"{timeOfDay12Hours}:{GetMinuteString} {EnglishTime}";
+    public string GetTime24Hour => $"{timeOfDayHours}:{GetMinuteString}";
 
     public DateTime Date { get => date; set => date = value; }
-    public bool IsDay { 
-        get { 
-            return timeOfDayHours >= timeOfSunrise && TimeOfDayHours <= timeOfSunset; 
-        } 
+
+    public bool IsDay
+    {
+        get
+        {
+            return timeOfDayHours >= timeOfSunrise && TimeOfDayHours <= timeOfSunset;
+        }
     }
 
     public int TimeOfDayHours { get => timeOfDayHours; set => timeOfDayHours = value; }
     public int TimeOfDay12Hours { get => timeOfDay12Hours; set => timeOfDay12Hours = value; }
     public int TimeOfSunrise => timeOfSunrise;
     public int TimeOfSunset => timeOfSunset;
-    public string TimeTillDay => $"{Mathf.Abs(timeOfDayHours - timeOfSunrise + 1)}:{Mathf.Floor(Mathf.Abs(60 - timeOfDayMinutes))}";
     private CultureInfo usInfo;
+
+    public string GetTimeTillDay()
+    {
+        int passedSunrise = 0;
+        if (timeOfDayHours >= timeOfSunrise)
+            passedSunrise = 24;
+        int timeHourDiff = Mathf.Abs(passedSunrise - (timeOfDayHours - timeOfSunrise + 1));
+        int timeMinDiff = (int)(Mathf.Floor(Mathf.Abs(60 - timeOfDayMinutes)));
+
+        return $"{timeHourDiff}:{timeMinDiff}";
+    }
 
     public string GetDate()
     {
@@ -94,11 +108,13 @@ public class TimeOfDay : ScriptableObject
         get => timeOfDayMinutes;
         set
         {
-            if (Mathf.FloorToInt(timeOfDayMinutes) != Mathf.FloorToInt(value))
+            float temp = timeOfDayMinutes;
+            timeOfDayMinutes = value;
+
+            if (Mathf.FloorToInt(temp) != Mathf.FloorToInt(value))
             {
                 onTimeChanged.Raise();
             }
-            timeOfDayMinutes = value;
         }
     }
 

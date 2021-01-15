@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
+  m_Name: Checkout
+  m_EditorClassIdentifier: 
+  looping: 0
+  waitTillClipIsFinished: 0
+  _audioClipGroups:
+  - sequenceMode: 1
+    audioClips:
+    - {fileID: 8300000, guid: 379e84d0b7ff2b245b2c7241b9e1d126, type: 3}
+    - {fileID: 8300000, guid: 100595252ebae33498c6f3e407f80b43, type: 3}
+    - {fileID: 8300000, guid: 7056dae9ab0e16141bba67c4c453686d, type: 3}
+    - {fileID: 8300000, guid: 1633ded5ad537f442babbac102275d65, type: 3}
+    - {fileID: 8300000, guid: 0ee955b1526f92a419aced41005263f5, type: 3}
+    - {fileID: 8300000, guid: fe35a3580c33621428713ee8bdf72293, type: 3}

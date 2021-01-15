@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioCue: {fileID: 11400000, guid: 354f3fca31cc7854a8fa20417c0618e1, type: 2}
   _playOnStart: 0
+  setParentManually: 0
   parent: {fileID: 2017345027404832932}
   _audioCueEventChannel: {fileID: 11400000, guid: 2a3322e38e8515848b480324b96baccb,
     type: 2}
@@ -62,6 +63,7 @@ GameObject:
   m_Component:
   - component: {fileID: 203027561634482487}
   - component: {fileID: 5667550324596530611}
+  - component: {fileID: 6362307767179647188}
   m_Layer: 0
   m_Name: BaseCharacter
   m_TagString: Untagged
@@ -105,6 +107,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6362307767179647188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692037915297321869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ee6ac5ba8b9d745945dd6c4e39ba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 6827547609000740628}
+  animator: {fileID: 5667550324596530611}
+  threshold: 0.1
 --- !u!1 &1845605543197404334
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +592,7 @@ GameObject:
   - component: {fileID: 6760908536570752574}
   - component: {fileID: 8024662172909082901}
   - component: {fileID: 583779347327433942}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +743,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7782000946221320678}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -334000983
   m_Radius: 0.2
   m_Speed: 3.5
@@ -776,12 +793,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   targetStorage: {fileID: 0}
+  stateName: 
   enterTime: 0
   searchingTime: 0
+  chillin: 0
+  onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
   storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
   targetStorages: []
-  subscribedEvent: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  subscribers: 0
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
 --- !u!114 &270845328
 MonoBehaviour:

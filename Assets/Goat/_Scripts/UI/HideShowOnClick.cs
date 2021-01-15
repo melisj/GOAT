@@ -17,7 +17,12 @@ public class HideShowOnClick : MonoBehaviour
     {
         for (int i = 0; i < elements.Length; i++)
         {
-            elements[i].Transform.gameObject.SetActive(elements[i].Show);
+            ShowHideElement element = elements[i];
+
+            if (element.UiHideType == UIHide.transform)
+                element.Transform.gameObject.SetActive(element.Show);
+            else if (element.UiHideType == UIHide.canvas)
+                element.Canvas.enabled = element.Show;
         }
     }
 }
