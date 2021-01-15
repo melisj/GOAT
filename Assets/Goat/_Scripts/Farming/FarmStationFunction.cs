@@ -10,6 +10,7 @@ using System;
 using Random = UnityEngine.Random;
 using UnityAtoms;
 using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
+using Goat.Helper;
 
 namespace Goat.Farming
 {
@@ -19,10 +20,12 @@ namespace Goat.Farming
         [SerializeField] private GameObjectEvent onTubeEndNeeded;
         [SerializeField] private FarmStation farmStationSettings;
         [SerializeField] private FarmNetworkData networkData;
+        [SerializeField] private FarmRangeParticle rangeParticle;
+        [SerializeField] private MaterialPropertySetter capacityBarSetter;
         public FarmStation Settings => farmStationSettings;
 
         [SerializeField] private GameObject resPackPrefab;
-        [SerializeField] private GameObject rangePlane;
+        //[SerializeField] private GameObject rangePlane;
         [SerializeField] private LayerMask floorLayer;
         [SerializeField, ReadOnly] private TubeDirection foundTubeEnd;
         [SerializeField, ReadOnly] private TubeEnd tubeEnd;
@@ -99,14 +102,12 @@ namespace Goat.Farming
         {
             onTubeEndReceived.RegisterSafe(this);
             networkData.AddFarm(this);
-            rangePlane.SetActive(false);
         }
 
         private void OnDisable()
         {
             onTubeEndReceived.UnregisterSafe(this);
             networkData.RemoveFarm(this);
-            rangePlane.SetActive(true);
             cue.StopAudioCue();
         }
 
@@ -132,19 +133,20 @@ namespace Goat.Farming
             if (currentResourceTile && !currentResourceTile.gameObject.activeInHierarchy) currentResourceTile = null;
             if (currentResourceTile == null && resourceTiles.Count != 0) currentResourceTile = resourceTiles.Dequeue();
 
-            if (inventory.ItemsInInventory >= farmStationSettings.StorageCapacity || inventory.ItemsInInventory <= 0)
+            animator.enabled = currentResourceTile != null;
+            rangeParticle.gameObject.SetActive(currentResourceTile != null);
+            Stopped = currentResourceTile == null;
+            if (inventory.ItemsInInventory >= farmStationSettings.StorageCapacity)
             {
-                animator.enabled = false;
-                Stopped = true;
                 timer = 0;
                 return;
             }
             timer += Time.deltaTime;
+            capacityBarSetter.gameObject.SetActive(currentResourceTile != null || TubeEnd != null);
+            capacityBarSetter.MaterialValueToChanges[0].NewFloat = timer / farmStationSettings.FarmDelay;
+            capacityBarSetter.ModifyValues();
             if (timer >= farmStationSettings.FarmDelay)
             {
-                animator.enabled = true;
-                Stopped = false;
-
                 timer = 0;
 
                 if (currentResourceTile != null)
@@ -197,7 +199,6 @@ namespace Goat.Farming
 
         private void OnDrawGizmos()
         {
-            
         }
     }
 }

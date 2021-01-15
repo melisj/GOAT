@@ -22,8 +22,8 @@ namespace Goat.Farming
         [SerializeField] private GameObjectEvent onTubeEndNeeded;
         [SerializeField] private TubeDirectionEvent tubeDirectionEvent;
 
-        Thread connectionThread;
-        bool networkChanged = false;
+        private Thread connectionThread;
+        private bool networkChanged = false;
 
         [Header("Debug")]
         // Debug for connection function
@@ -44,7 +44,8 @@ namespace Goat.Farming
             onGridChange.UnregisterSafe(ConnectNetwork);
 
             StopAllCoroutines();
-            connectionThread.Abort();
+            if (connectionThread != null && connectionThread.IsAlive)
+                connectionThread.Abort();
         }
 
         private void ConnectNetwork(GameObject nothing)
@@ -59,7 +60,7 @@ namespace Goat.Farming
         {
             checkedTubes = new HashSet<TubeDirection>();
 
-            for (int i =0; i < networkData.Pipes.Count; i++)
+            for (int i = 0; i < networkData.Pipes.Count; i++)
             {
                 networkData.Pipes[i].ConnectedMultiDirections = new TubeDirection[networkData.Pipes[i].ConnectionAmount];
                 networkData.Pipes[i].DistanceTillNextDirection = new int[networkData.Pipes[i].ConnectionAmount];
@@ -68,7 +69,7 @@ namespace Goat.Farming
 
         private IEnumerator StartNetworkConnection()
         {
-            while(true)
+            while (true)
             {
                 if (networkChanged)
                 {
@@ -82,7 +83,7 @@ namespace Goat.Farming
 
                     yield return new WaitUntil(() => !connectionThread.IsAlive);
 
-                    // Connect 
+                    // Connect
                     connectionThread = new Thread(SearchForEachFarm);
                     connectionThread.Start();
 
@@ -110,7 +111,6 @@ namespace Goat.Farming
                     }
                 }
             }
-
         }
 
         private TubeDirection ConnectFrom(TubeDirection startTube, TubeDirection prevTube, out int arrivalIndex, out int distance)
@@ -148,7 +148,6 @@ namespace Goat.Farming
                                         foundTube.ConnectedMultiDirections[foundIndex] = currentTube;
                                         foundTube.DistanceTillNextDirection[foundIndex] = foundDistance;
                                     }
-
                                 }
                                 catch (Exception e)
                                 {
@@ -168,7 +167,7 @@ namespace Goat.Farming
                     arrivalIndex = currentTube.ConnectedTubes.IndexOf(previousTube);
                     return currentTube;
                 }
-                else 
+                else
                 {
                     // For dead ends
                     if (currentTube.ConnectedTubes.Count <= 1)
@@ -194,7 +193,7 @@ namespace Goat.Farming
             return null;
         }
 
-        #endregion
+        #endregion Network Setup
 
         #region PathFinding
 
@@ -254,7 +253,7 @@ namespace Goat.Farming
                         {
                             // Add the cost from start to the node
                             nextTube.DistanceFromStart = currentTube.DistanceFromStart + currentTube.DistanceTillNextDirection[IConnection];
-                                
+
                             // Add this childNode when it was not already checked by the algorithm
                             if (!tubesToCheck.Contains(nextTube))
                                 tubesToCheck.Add(nextTube);
@@ -266,7 +265,6 @@ namespace Goat.Farming
                 // Safety
                 if (iter > maxIter) { Debug.LogWarning("Dijkstra has done too many iterations"); return null; }
                 iter++;
-
             } while (tubesToCheck.Count > 0);
 
             return null;
@@ -278,7 +276,6 @@ namespace Goat.Farming
             tubeDirectionEvent.Raise(new WithOwner<TubeDirection>(SearchForTubeEndDijkstra(farmTubeDir), item));
         }
 
-        #endregion
+        #endregion PathFinding
     }
-
 }
