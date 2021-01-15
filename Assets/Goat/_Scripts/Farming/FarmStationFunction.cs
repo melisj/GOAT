@@ -66,7 +66,6 @@ namespace Goat.Farming
             }
         }
 
-        [Button("Find end tube Dijkstra")]
         public void FindTubeEnd()
         {
             onTubeEndNeeded.Raise(gameObject);
