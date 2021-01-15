@@ -20,7 +20,7 @@ namespace Goat.Saving
     {
         public bool completed;
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             NarrativeSaveHandler narrativeHandler = (NarrativeSaveHandler)handler;
 
@@ -28,6 +28,9 @@ namespace Goat.Saving
                 narrativeHandler.narrativeManager.enabled = true;
             else
                 narrativeHandler.onNarrativeCompleted.Raise();
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)

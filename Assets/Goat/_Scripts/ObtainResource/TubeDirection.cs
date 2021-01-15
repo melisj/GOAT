@@ -2,7 +2,6 @@
 using Goat.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using UnityAtoms;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
@@ -10,20 +9,30 @@ namespace Goat.Farming
 {
     public class TubeDirection : MonoBehaviour, IPoolObject
     {
-        [SerializeField] private GameObjectEvent onGridChange;
-        [SerializeField] private VoidEvent onTubesConnected;
-        [SerializeField, ShowIf("ExchangePoint")] private FarmNetworkData networkData;
-        [SerializeField] private bool multiDirection;
-        [SerializeField] private bool endPoint;
-        [SerializeField] private bool isFarmStation;
-        [SerializeField, ShowIf("multiDirection")] private int connectionAmount;
-        [SerializeField, ShowIf("multiDirection")] private TubeDirection[] connectedMultiDirections;
-        [SerializeField, ShowIf("multiDirection")] private int[] distanceTillNextDirection;
-        [SerializeField] private LayerMask layer;
-        [SerializeField] private Vector3[] offset;
-        [SerializeField] private float radius = 0.2f;
+        [SerializeField, TabGroup("References"), Required] private GameObjectEvent onGridChange;
+        [SerializeField, TabGroup("References"), Required, ShowIf("ExchangePoint")] private FarmNetworkData networkData;
+
+        // <Connection Settings>
+        [SerializeField, TabGroup("Connection")] private bool multiDirection;
+        [SerializeField, TabGroup("Connection")] private bool endPoint;
+        [SerializeField, TabGroup("Connection")] private bool isFarmStation;
+
+        [SerializeField, TabGroup("Data"), ShowIf("multiDirection"), ReadOnly] private TubeDirection[] connectedMultiDirections;
+        [SerializeField, TabGroup("Data"), ShowIf("multiDirection"), ReadOnly] private int[] distanceTillNextDirection;
+        [SerializeField, TabGroup("Data"), ReadOnly] private List<TubeDirection> connectedTubes;
+
+        [SerializeField, TabGroup("Connection")] private LayerMask layer;
+        [SerializeField, TabGroup("Connection")] private Vector3[] offset;
+        // <Connection Settings>
+
+        [SerializeField, TabGroup("Debug")] private float radius = 0.2f;
+
+        // <Dijkstra info>
+        [TabGroup("Dijkstra")] public int DistanceFromStart;
+        [TabGroup("Dijkstra")] public bool VisitedByAlgorithm;
+        // </Dijkstra info>
+
         private TileAnimation tileAnimation;
-        [SerializeField] private List<TubeDirection> connectedTubes;
 
         public bool ExchangePoint => multiDirection || endPoint || isFarmStation;
         public bool EndPoint => endPoint;
@@ -33,30 +42,13 @@ namespace Goat.Farming
         public ObjectInstance ObjInstance { get; set; }
 
         public List<TubeDirection> ConnectedTubes => connectedTubes;
-        public int ConnectionAmount => connectionAmount;
+        public int ConnectionAmount => offset.Length;
         public TubeDirection[] ConnectedMultiDirections { get => connectedMultiDirections; set => connectedMultiDirections = value; }
         public int[] DistanceTillNextDirection { get => distanceTillNextDirection; set => distanceTillNextDirection = value; }
 
-        // <Dijkstra info>
-        public int DistanceFromStart;
-        public bool VisitedByAlgorithm;
-        // </Dijkstra info>
-
-        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        private void Connect()
         {
-            if (ExchangePoint)
-                networkData.AddPipe(this);
-
-            if (!tileAnimation)
-                tileAnimation = GetComponent<TileAnimation>();
-            tileAnimation.Prepare();
-            tileAnimation.Create(SetConnections);
-            ObjInstance = objectInstance;
-            PoolKey = poolKey;
-        }
-
-        private void SetConnections()
-        {
+            Debug.Log("Set Connections!", this);
             connectedTubes.Clear();
             for (int i = 0; i < offset.Length; i++)
             {
@@ -65,18 +57,29 @@ namespace Goat.Farming
             onGridChange.Raise(gameObject);
         }
 
+        private void Disconnect()
+        {
+            Debug.Log("Disconnect!", this);
+            for (int i = 0; i < connectedTubes.Count; i++)
+            {
+                connectedTubes[i].ConnectedTubes.Remove(this);
+            }
+            ConnectedTubes.Clear();
+            onGridChange.Raise(gameObject);
+        }
+
         private void CheckForConnection(Vector3 offset)
         {
             // Check all directions for tubes
             Collider[] cols = Physics.OverlapSphere(CorrectPosWithRotation(offset), radius, layer);
             // Assign those tubes as references
+            Debug.LogError("Colliders found! : " + cols.Length + " - " + transform.localScale + " - " + CorrectPosWithRotation(offset), this);
             if (cols.Length > 0)
             {
                 List<Collider> otherCols = GetOtherColliders(cols);
                 for (int i = 0; i < otherCols.Count; i++)
                 {
                     Collider otherCol = otherCols[i];
-                    Debug.Log(otherCol.gameObject.name,  otherCol.gameObject);
 
                     TubeDirection tubeDir = otherCol.transform.parent.gameObject.GetComponent<TubeDirection>();
                     if (tubeDir) 
@@ -87,6 +90,8 @@ namespace Goat.Farming
                         // Assign this tube to their references
                         if(!tubeDir.ConnectedTubes.Contains(this))
                             tubeDir.ConnectedTubes.Add(this);
+
+                        break;
                     }
                 }
             }
@@ -112,20 +117,28 @@ namespace Goat.Farming
             return colList;
         }
 
+        public void OnGetObject(ObjectInstance objectInstance, int poolKey)
+        {
+            if (ExchangePoint)
+                networkData.AddPipe(this);
+
+            if (!tileAnimation)
+                tileAnimation = GetComponent<TileAnimation>();
+            tileAnimation.Prepare();
+            tileAnimation.Create(Connect);
+            ObjInstance = objectInstance;
+            PoolKey = poolKey;
+        }
+
         public void OnReturnObject()
         {
             if(ExchangePoint)
                 networkData.RemovePipe(this);
 
-            for (int i = 0; i < connectedTubes.Count; i++)
-            {
-                connectedTubes[i].ConnectedTubes.Remove(this);
-            }
-            ConnectedTubes.Clear();
+            Disconnect();
 
             tileAnimation.Destroy(() => 
             {
-                onGridChange.Raise(gameObject);
                 gameObject.SetActive(false);
             });
         }
@@ -134,19 +147,32 @@ namespace Goat.Farming
         {
             if (ExchangePoint)
                 networkData.RemovePipe(this);
+
+            Disconnect();
         }
 
+        protected void OnEnable()
+        {
+            Debug.Log("activate", this);
+        }
+
+        protected void OnDisable()
+        {
+            Debug.Log("deactivate", this);
+        }
+
+        #region Gizmos 
         private void OnDrawGizmos()
         {
             Gizmos.color = VisitedByAlgorithm ? Color.green : Color.cyan;
-            if (ExchangePoint) 
-            { 
-                Gizmos.DrawSphere(transform.position + transform.up * 1, 0.3f);
+            if (ExchangePoint)
+            {
+                Gizmos.DrawSphere(transform.position + transform.up, radius);
 
                 for (int i = 0; i < ConnectedMultiDirections.Length; i++)
                 {
-                    if(ConnectedMultiDirections[i])
-                        Gizmos.DrawLine(transform.position + transform.up * 1, ConnectedMultiDirections[i].transform.position + transform.up * 1);
+                    if (ConnectedMultiDirections[i])
+                        Gizmos.DrawLine(transform.position + transform.up, ConnectedMultiDirections[i].transform.position + transform.up);
                 }
             }
         }
@@ -164,7 +190,7 @@ namespace Goat.Farming
                 {
                     Gizmos.color = connectedTubes[i] == null ? Color.red : Color.green;
                 }
-
+                
             }
             for (int i = 0; i < offset.Length; i++)
             {
@@ -172,20 +198,6 @@ namespace Goat.Farming
             }
         }
 
-        protected void OnEnable()
-        {
-            //onGridChange.RegisterSafe(this);
-            Debug.Log("activate");
-        }
-
-        protected void OnDisable()
-        {
-            //onGridChange.UnregisterSafe(this);
-            for (int i = 0; i < connectedTubes.Count; i++)
-            {
-                connectedTubes[i].ConnectedTubes.Remove(this);
-            }
-            Debug.Log("deactivate");
-        }
+        #endregion
     }
 }

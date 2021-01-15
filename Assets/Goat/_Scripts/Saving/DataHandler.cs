@@ -45,7 +45,7 @@ namespace Goat.Saving
     /// </summary>
     public class DataHandler : MonoBehaviour
     {
-        public delegate void StartLoadLevelEvent(DataContainer data);
+        public delegate void StartLoadLevelEvent(DataHandler handler, DataContainer data);
         public static event StartLoadLevelEvent StartLoadEvent;
 
         public delegate void StartSaveLevelEvent(SaveData data);
@@ -57,7 +57,10 @@ namespace Goat.Saving
         JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
         private const string SAVE_FOLDER = "/SaveData/";
-        private const string DEFAULT_STORE_PATH = "DefaultSave/StartStore";
+
+        private const string DEFAULT_STORE_PATH = "DefaultSave/";
+        private const string DEFAULT_STORE_NAME = "StartStore";
+        private const string DEFAULT_STORE_COMPLETE_PATH = DEFAULT_STORE_PATH + DEFAULT_STORE_NAME;
 
         [Header("Paths")]
         [SerializeField] private string fileName = "DefaultSave";
@@ -69,29 +72,37 @@ namespace Goat.Saving
         private string folderPath;
         private string completePath;
 
+        // Exit code for loading containers -1 = Not started, 0 = failure, 1 = success 
+        public ContainerExitCode LoadContainerExitCode { get; set; }
+        public enum ContainerExitCode
+        {
+            NotStarted = -1,
+            Failure = 0,
+            Success = 1
+        }
+
         private void OnValidate() {
             SetPaths(fileName);
             fileNotFound = !File.Exists(completePath);
         }
 
-        private string GetDefaultSave()
+        private TextAsset GetDefaultSave()
         {
-            TextAsset asset = Resources.Load<TextAsset>(DEFAULT_STORE_PATH);
-            return asset.text;
+            return Resources.Load<TextAsset>(DEFAULT_STORE_COMPLETE_PATH);
         }
 
         /// <summary>
         /// Save the current game status
         /// </summary>
         [Button("Save", ButtonSizes.Medium)]
-        public void SaveGame() {
+        public void SaveGame(bool defaultSave) {
             if (Application.isPlaying)
             {
                 SaveData data = new SaveData();
                 StartSaveEvent.Invoke(data);
                 data.SetData();
 
-                SaveToFile(JsonConvert.SerializeObject(data, jsonSettings));
+                SaveToFile(JsonConvert.SerializeObject(data, jsonSettings), defaultSave);
                 Debug.LogFormat("Saved: {0} successfully", fileName);
             }
             else
@@ -101,7 +112,11 @@ namespace Goat.Saving
         public void SaveGame(string saveFile)
         {
             SetPaths(saveFile);
-            SaveGame();
+            bool defaultSaveOverwrite = false;
+#if UNITY_EDITOR
+            defaultSaveOverwrite = saveFile.Contains(DEFAULT_STORE_NAME);
+#endif
+            SaveGame(defaultSaveOverwrite);
         }
 
         [Button("Load", ButtonSizes.Medium)]
@@ -130,15 +145,18 @@ namespace Goat.Saving
         public IEnumerator LoadGameCoroutine(bool defaultSave) {
             if (Application.isPlaying)
             {
-                string jsonData = defaultSave ? GetDefaultSave() : LoadFromFile();
+                string jsonData = defaultSave ? GetDefaultSave().text : LoadFromFile();
                 SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData, jsonSettings);
 
                 if (data != null)
                 {
                     foreach (DataContainer container in data.data)
                     {
-                        StartLoadEvent.Invoke(container);
-                        yield return null;
+                        LoadContainerExitCode = ContainerExitCode.NotStarted;
+                        StartLoadEvent.Invoke(this, container);
+                        yield return new WaitUntil(() => LoadContainerExitCode != ContainerExitCode.NotStarted);
+
+                        Debug.LogFormat("DataContainer: {0} Exit code: {1}", container, LoadContainerExitCode) ;
                     }
 
                     LevelLoaded?.Invoke();
@@ -160,12 +178,25 @@ namespace Goat.Saving
         /// Save the string to the given file
         /// </summary>
         /// <param name="json"> json string to be saved </param>
-        private void SaveToFile(string json) {
-            if (Directory.Exists(folderPath)) {
-                File.WriteAllText(completePath, json);
-            } else {
-                Debug.LogWarningFormat("Saving could not be completed, path invalid: {0}", completePath);
+        private void SaveToFile(string json, bool defaultSave) {
+            // Save to the given file
+            if (!defaultSave) {
+                if (Directory.Exists(folderPath)) {
+                    File.WriteAllText(completePath, json);
+                } else {
+                    Debug.LogWarningFormat("Saving could not be completed, path invalid: {0}", completePath);
+                }
             }
+#if UNITY_EDITOR
+            // Save to default save editor only
+            else
+            {
+                TextAsset defaultSaveFile = GetDefaultSave();
+                string path = AssetDatabase.GetAssetPath(defaultSaveFile);
+                File.WriteAllText(path, json);
+                Debug.Log("Start Store has been overwriten!");
+            }
+#endif
         }
 
         /// <summary>

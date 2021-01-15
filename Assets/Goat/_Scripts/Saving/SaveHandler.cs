@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Goat.Saving
@@ -8,16 +10,34 @@ namespace Goat.Saving
     {
         public DataContainer data;
         public int saveOrder;
+        public float timeoutLoadSec = 10;
 
-        public virtual void Load(DataContainer data)
+        public bool DataDoneLoading { get; set; }
+        public DataHandler.ContainerExitCode ExitCode { get; set; }
+        float timeLoading;
+
+        public virtual IEnumerator Load(DataHandler handler, DataContainer data) 
         {
+            DataDoneLoading = false;
             this.data = data;
-            this.data.Load(this);
+            StartCoroutine(this.data.Load(this));
+
+            // Wait untill is done loading or times out
+            yield return new WaitUntil(() => 
+            { 
+                timeLoading += Time.deltaTime; 
+                return DataDoneLoading || timeLoading > timeoutLoadSec; 
+            });
+
+            // Check if the loading was succesful
+            handler.LoadContainerExitCode = timeLoading > timeoutLoadSec ? DataHandler.ContainerExitCode.Failure : ExitCode;
+            if(handler.LoadContainerExitCode == DataHandler.ContainerExitCode.Failure) 
+                Debug.LogErrorFormat("Loading {0} took too long: {1}", data, timeLoading);
         }
 
-        public virtual void Save()
-        {
-            data.Save(this);
+        public virtual void Save() 
+        { 
+            data.Save(this); 
         }
 
         #region Subscription
@@ -34,23 +54,23 @@ namespace Goat.Saving
             DataHandler.StartLoadEvent -= LoadEvent;
         }
 
-        public virtual void SaveEvent(SaveData data)
+        private void SaveEvent(SaveData data)
         {
             AddContainerToSave(data);
         }
 
-        public virtual void LoadEvent(DataContainer data)
+        private void LoadEvent(DataHandler handler, DataContainer data)
         {
             if (this.data.className == data.className)
             {
                 try
                 {
-                    Load(data);
-                    Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
+                    StartCoroutine(Load(handler, data));
                 }
                 catch (Exception e)
                 {
                     Debug.LogWarningFormat("DataContainer: {0} failed to load! {1}", data.className, e);
+                    handler.LoadContainerExitCode = DataHandler.ContainerExitCode.Failure;
                 }
             }
         }
@@ -71,7 +91,7 @@ namespace Goat.Saving
             Unsubscribe();
         }
 
-        #endregion Subscription
+        #endregion
     }
 
     [Serializable]
@@ -84,8 +104,16 @@ namespace Goat.Saving
             className = GetType().Name;
         }
 
-        public virtual void Load(SaveHandler handler)
+        public virtual IEnumerator Load(SaveHandler handler)
         {
+            handler.DataDoneLoading = true;
+            yield break;
+        }
+
+        public void DoneLoading(SaveHandler handler, DataHandler.ContainerExitCode exitCode)
+        {
+            handler.DataDoneLoading = true;
+            handler.ExitCode = exitCode;
         }
 
         public virtual void Save(SaveHandler handler)
@@ -94,8 +122,8 @@ namespace Goat.Saving
 
     public interface ISaveable
     {
-        void Load(SaveHandler handler);
-
+        IEnumerator Load(SaveHandler handler);
+        void DoneLoading(SaveHandler handler, DataHandler.ContainerExitCode exitCode);
         void Save(SaveHandler handler);
     }
 }

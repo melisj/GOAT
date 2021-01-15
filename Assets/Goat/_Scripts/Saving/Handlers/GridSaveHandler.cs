@@ -19,10 +19,11 @@ namespace Goat.Saving
             data = new GridSaveData();
         }
 
-        public override void Load(DataContainer data)
+        public override IEnumerator Load(DataHandler handler, DataContainer data)
         {
             grid.Reset();
-            base.Load(data);
+            StartCoroutine(base.Load(handler, data));
+            yield break;
         }
     }
 
@@ -31,7 +32,7 @@ namespace Goat.Saving
     {
         public List<TileInfo> tileData = new List<TileInfo>();
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             GridSaveHandler gridHandler = (GridSaveHandler)handler;
 
@@ -39,7 +40,7 @@ namespace Goat.Saving
             if (gridHandler.grid.GetGridSize.x * gridHandler.grid.GetGridSize.y != tileData.Count)
             {
                 Debug.LogWarning("Could not load grid, grid size is not the same!");
-                return;
+                DoneLoading(handler, DataHandler.ContainerExitCode.Failure);
             }
 
             // Load in all the data on the tiles
@@ -47,9 +48,14 @@ namespace Goat.Saving
             {
                 for (int y = 0; y < gridHandler.grid.GetGridSize.y; y++)
                 {
+                    if (tileData[gridHandler.grid.GetGridSize.y * x + y].empty)
+                        continue;
+
                     gridHandler.grid.tiles[x, y].LoadInData(tileData[gridHandler.grid.GetGridSize.y * x + y], ref gridHandler.objectList);
+                    yield return null;
                 }
             }
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
         }
 
         public override void Save(SaveHandler handler)
@@ -61,7 +67,7 @@ namespace Goat.Saving
             {
                 for (int y = 0; y < gridHandler.grid.tiles.GetLength(1); y++)
                 {
-                    gridHandler.grid.tiles[x, y].SaveStorageData();
+                    gridHandler.grid.tiles[x, y].SaveAllData();
                     tileData.Add(gridHandler.grid.tiles[x, y].SaveData);
                 }
             }

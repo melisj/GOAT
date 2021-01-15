@@ -509,9 +509,10 @@ namespace Goat.Grid
             }
         }
 
-        public void SaveStorageData()
+        public void SaveAllData()
         {
             SaveData.SaveStorageData(buildingObject);
+            SaveData.empty = HasNoObjects;
         }
     }
 }
@@ -524,6 +525,7 @@ public class TileInfo
     public int[] rotations;
     public bool[] wallAuto;
     public string storage;
+    public bool empty;
 
     public TileInfo(Vector2Int gridPosition)
     {
@@ -532,6 +534,7 @@ public class TileInfo
         rotations = new int[2];
         wallAuto = new bool[4];
         storage = "";
+        empty = false;
     }
 
     public void SaveStorageData(GameObject building)

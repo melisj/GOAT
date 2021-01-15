@@ -25,7 +25,7 @@ namespace Goat.Saving
         public int timeHour;
         public long ticks;
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             TimeSaveHandler timeHandler = (TimeSaveHandler)handler;
 
@@ -39,6 +39,9 @@ namespace Goat.Saving
 
             timeHandler.OnDayChanged.Raise(timeHandler.time.Date.Day);
             timeHandler.OnCycleChange.Raise(isDay);
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)
@@ -48,8 +51,6 @@ namespace Goat.Saving
             day = timeHandler.time.CurrentDay;
             timeSec = timeHandler.time.TimeOfDayMinutes;
             timeHour = timeHandler.time.TimeOfDayHours;
-            Debug.Log(timeHandler.time.Date.Ticks);
-            Debug.Log(timeHandler.time.Date.Day);
             ticks = timeHandler.time.Date.Ticks;
         }
     }

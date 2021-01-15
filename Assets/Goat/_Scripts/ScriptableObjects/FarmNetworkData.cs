@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Goat.Farming
@@ -8,8 +9,8 @@ namespace Goat.Farming
     [CreateAssetMenu(fileName= "FarmNetworkData", menuName= "ScriptableObjects/RuntimeVariables/FarmNetworkData")]
     public class FarmNetworkData : ScriptableObject
     {
-        [SerializeField] private List<FarmStationFunction> farms = new List<FarmStationFunction>();
-        [SerializeField] private List<TubeDirection> pipes = new List<TubeDirection>();
+        [SerializeField, ReadOnly] private List<FarmStationFunction> farms = new List<FarmStationFunction>();
+        [SerializeField, ReadOnly] private List<TubeDirection> pipes = new List<TubeDirection>();
 
         public List<FarmStationFunction> Farms => farms;
         public List<TubeDirection> Pipes => pipes;

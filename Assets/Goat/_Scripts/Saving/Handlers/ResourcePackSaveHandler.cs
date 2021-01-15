@@ -46,7 +46,7 @@ namespace Goat.Saving
     {
         public List<ResourcePackInfo> packInfo = new List<ResourcePackInfo>();
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             ResourcePackSaveHandler resourcePackHandler = (ResourcePackSaveHandler)handler;
 
@@ -58,6 +58,9 @@ namespace Goat.Saving
             {
                 resourcePackHandler.SpawnResourcePack(pack);
             }
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)

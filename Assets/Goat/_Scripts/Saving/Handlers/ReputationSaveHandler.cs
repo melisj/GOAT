@@ -18,11 +18,14 @@ namespace Goat.Saving
     {
         public int satisfaction;
 
-        public override void Load(SaveHandler handler)
+        public override IEnumerator Load(SaveHandler handler)
         {
             ReputationSaveHandler reputationHandler = (ReputationSaveHandler)handler;
 
             reputationHandler.satisfaction.Satisfaction = satisfaction;
+
+            DoneLoading(handler, DataHandler.ContainerExitCode.Success);
+            yield break;
         }
 
         public override void Save(SaveHandler handler)
