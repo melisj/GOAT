@@ -52,7 +52,6 @@ namespace Goat.Saving
                         continue;
 
                     gridHandler.grid.tiles[x, y].LoadInData(tileData[gridHandler.grid.GetGridSize.y * x + y], ref gridHandler.objectList);
-                    Debug.Log(tileData[gridHandler.grid.GetGridSize.y * x + y].empty);
                     yield return null;
                 }
             }
