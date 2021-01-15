@@ -24,6 +24,27 @@ namespace Goat.Saving
             grid.Reset();
             base.Load(data);
         }
+
+        public void StartSpawingTiles(List<TileInfo> tiles)
+        {
+            StartCoroutine(CoroutineSpawnTile(tiles));
+        }
+
+        public IEnumerator CoroutineSpawnTile(List<TileInfo> tiles)
+        {
+            // Load in all the data on the tiles
+            for (int x = 0; x < grid.GetGridSize.x; x++)
+            {
+                for (int y = 0; y < grid.GetGridSize.y; y++)
+                {
+                    if (tiles[grid.GetGridSize.y * x + y].empty)
+                        continue;
+
+                    grid.tiles[x, y].LoadInData(tiles[grid.GetGridSize.y * x + y], ref objectList);
+                    yield return null;
+                }
+            }
+        }
     }
 
     [Serializable]
@@ -42,14 +63,7 @@ namespace Goat.Saving
                 return;
             }
 
-            // Load in all the data on the tiles
-            for (int x = 0; x < gridHandler.grid.GetGridSize.x; x++)
-            {
-                for (int y = 0; y < gridHandler.grid.GetGridSize.y; y++)
-                {
-                    gridHandler.grid.tiles[x, y].LoadInData(tileData[gridHandler.grid.GetGridSize.y * x + y], ref gridHandler.objectList);
-                }
-            }
+            gridHandler.StartSpawingTiles(tileData);
         }
 
         public override void Save(SaveHandler handler)
@@ -61,7 +75,7 @@ namespace Goat.Saving
             {
                 for (int y = 0; y < gridHandler.grid.tiles.GetLength(1); y++)
                 {
-                    gridHandler.grid.tiles[x, y].SaveStorageData();
+                    gridHandler.grid.tiles[x, y].SaveAllData();
                     tileData.Add(gridHandler.grid.tiles[x, y].SaveData);
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Goat.Saving
@@ -34,17 +35,26 @@ namespace Goat.Saving
             DataHandler.StartLoadEvent -= LoadEvent;
         }
 
-        public virtual void SaveEvent(SaveData data)
+        private void SaveEvent(SaveData data)
         {
             AddContainerToSave(data);
         }
 
-        public virtual void LoadEvent(DataContainer data)
+        private async void LoadEvent(DataHandler handler, DataContainer data)
         {
             if (this.data.className == data.className)
             {
-                Load(data);
-                Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
+                try
+                {
+                    await Task.Run(() => Load(data));
+                    handler.HasLoadedContainer = true;
+                    Debug.LogFormat("DataContainer: {0} has been loaded!", data.className);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarningFormat("DataContainer: {0} failed to load! {1}", data.className, e);
+                }
+                handler.HasLoadedContainer = false;
             }
         }
 
@@ -77,8 +87,12 @@ namespace Goat.Saving
             className = GetType().Name;
         }
 
-        public virtual void Load(SaveHandler handler) { }
-        public virtual void Save(SaveHandler handler) { }
+        public virtual void Load(SaveHandler handler)
+        {
+        }
+
+        public virtual void Save(SaveHandler handler)
+        { }
     }
 
     public interface ISaveable

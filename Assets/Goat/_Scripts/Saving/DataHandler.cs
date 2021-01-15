@@ -45,7 +45,7 @@ namespace Goat.Saving
     /// </summary>
     public class DataHandler : MonoBehaviour
     {
-        public delegate void StartLoadLevelEvent(DataContainer data);
+        public delegate void StartLoadLevelEvent(DataHandler handler, DataContainer data);
         public static event StartLoadLevelEvent StartLoadEvent;
 
         public delegate void StartSaveLevelEvent(SaveData data);
@@ -66,6 +66,9 @@ namespace Goat.Saving
         private bool fileNotFound;
 
         private string completePath;
+
+        // Boolean for controlling the loading stages of the containers
+        public bool HasLoadedContainer { get; set; }
 
         private void OnValidate() {
             SetPaths(fileName);
@@ -127,8 +130,8 @@ namespace Goat.Saving
                 {
                     foreach (DataContainer container in data.data)
                     {
-                        StartLoadEvent.Invoke(container);
-                        yield return null;
+                        StartLoadEvent.Invoke(this, container);
+                        yield return new WaitUntil(() => HasLoadedContainer);
                     }
 
                     LevelLoaded?.Invoke();
