@@ -48,7 +48,6 @@ namespace Goat.Farming
 
         private void Connect()
         {
-            Debug.Log("Set Connections!", this);
             connectedTubes.Clear();
             for (int i = 0; i < offset.Length; i++)
             {
@@ -59,7 +58,6 @@ namespace Goat.Farming
 
         private void Disconnect()
         {
-            Debug.Log("Disconnect!", this);
             for (int i = 0; i < connectedTubes.Count; i++)
             {
                 connectedTubes[i].ConnectedTubes.Remove(this);
@@ -73,7 +71,6 @@ namespace Goat.Farming
             // Check all directions for tubes
             Collider[] cols = Physics.OverlapSphere(CorrectPosWithRotation(offset), radius, layer);
             // Assign those tubes as references
-            Debug.LogError("Colliders found! : " + cols.Length + " - " + transform.localScale + " - " + CorrectPosWithRotation(offset), this);
             if (cols.Length > 0)
             {
                 List<Collider> otherCols = GetOtherColliders(cols);
@@ -153,12 +150,10 @@ namespace Goat.Farming
 
         protected void OnEnable()
         {
-            Debug.Log("activate", this);
         }
 
         protected void OnDisable()
         {
-            Debug.Log("deactivate", this);
         }
 
         #region Gizmos 
