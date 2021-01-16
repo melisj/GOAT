@@ -11,7 +11,7 @@ namespace Goat.Grid.Interactions
     public class ShelfInteractable : StorageInteractable
     {
         [Header("Shelf Settings")]
-        [SerializeField] private float resourceSize = 1;
+        [SerializeField, TabGroup("Storage")] private float resourceSize = 1;
 
         private List<MeshFilter> itemHolderMeshList = new List<MeshFilter>();
         private Resource[] itemResourceArray;
@@ -67,7 +67,7 @@ namespace Goat.Grid.Interactions
         /// <summary>
         /// Initialize the holder items for the objects
         /// </summary>
-        [Button("Generate/Get Item Holders")]
+        [Button("Generate/Get Item Holders"), TabGroup("Storage")]
         private void InitStorage()
         {
             itemHolderMeshList.Clear();
@@ -108,7 +108,7 @@ namespace Goat.Grid.Interactions
         }
 
         // Render out locations where meshes will be placed from the inventory
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (itemHolderMeshList != null)
             {

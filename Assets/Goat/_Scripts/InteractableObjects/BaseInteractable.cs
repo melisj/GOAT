@@ -15,17 +15,14 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class BaseInteractable : MonoBehaviour, IPoolObject
     {
-        [SerializeField] protected InteractablesInfo info;
-        [SerializeField] private GridUIInfo gridUIInfo;
-        [SerializeField] private bool adjustPositionAgainstWall;
-        [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
+        [SerializeField, TabGroup("References")] protected InteractablesInfo info;
+        [SerializeField, TabGroup("References")] private GridUIInfo gridUIInfo;
+        [SerializeField, TabGroup("Settings")] private bool adjustPositionAgainstWall;
+        [SerializeField, TabGroup("Settings"), ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
 
-        [SerializeField] private bool producesConsumesElectricity;
-        [SerializeField, ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
-
-        [TextArea, Space(10)]
-        [SerializeField] protected string description;
+        [SerializeField, TabGroup("Settings")] private bool producesConsumesElectricity;
+        [SerializeField, TabGroup("Settings"), ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
@@ -35,9 +32,10 @@ namespace Goat.Grid.Interactions
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
 
-        [HideInInspector] public Grid grid;
+        private Grid grid;
+        public Grid Grid { get => grid; set => grid = value; }
         private TileAnimation tileAnimation;
-        [SerializeField] private bool isClickedOn;
+        private bool isClickedOn;
 
         public bool IsClickedOn
         {
@@ -51,7 +49,6 @@ namespace Goat.Grid.Interactions
         public bool UIOpen => gridUIInfo.IsUIActive;
         public bool UIActivated { get; set; }
    
-        public string Description => description;
         public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
