@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: -8600267933786493760}
   - component: {fileID: 580404025977797647}
   - component: {fileID: 6978889676742775506}
+  - component: {fileID: 8711069022689675363}
   m_Layer: 9
   m_Name: CooledStorageShelf-2
   m_TagString: Storage
@@ -467,8 +468,10 @@ MonoBehaviour:
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   adjustPositionAgainstWall: 1
   adjustPosition: {fileID: 580404025977797647}
-  producesConsumesElectricity: 1
-  electricityComponent: {fileID: 0}
+  producesOrConsumesElectricity: 1
+  description: 
+  grid: {fileID: 0}
+  isClickedOn: 0
   maxResources: 4
   enviroment: 2
   elementToLoad: 1
@@ -529,6 +532,25 @@ MonoBehaviour:
   createDuration: 0.4
   destroyDurationMultiplier: 2
   scaleDown: {x: 1, y: 0, z: 1}
+--- !u!114 &8711069022689675363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393019459576907963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8181b23a885d6234da336cced8596ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
+  costsPower: 1
+  powerCost: 2
+  isPowered: 0
+  producesPower: 0
+  powerProduction: 0
+  isPowering: 0
 --- !u!1 &1393019459795304601
 GameObject:
   m_ObjectHideFlags: 0

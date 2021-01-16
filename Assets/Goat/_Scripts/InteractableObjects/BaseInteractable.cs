@@ -21,8 +21,8 @@ namespace Goat.Grid.Interactions
         [SerializeField, TabGroup("Settings"), ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
 
-        [SerializeField, TabGroup("Settings")] private bool producesConsumesElectricity;
-        [SerializeField, TabGroup("Settings"), ShowIf("producesConsumesElectricity")] private ElectricityComponent electricityComponent;
+        [SerializeField, TabGroup("Settings")] private bool producesOrConsumesElectricity;
+        private ElectricityComponent electricityComponent;
 
         protected Vector2Int gridPosition;
         protected Vector3 centerPosition;
@@ -46,7 +46,6 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        public bool UIOpen => gridUIInfo.IsUIActive;
         public bool UIActivated { get; set; }
    
         public string Name => placeableInfo.Placeable.name;
@@ -60,7 +59,7 @@ namespace Goat.Grid.Interactions
 
         protected virtual void Awake()
         {
-
+            if (producesOrConsumesElectricity) electricityComponent = GetComponent<ElectricityComponent>();
             clickCollider = GetComponentInChildren<Collider>();
             placeableInfo = GetComponent<PlaceableInfo>();
             UIActivated = false;
@@ -127,7 +126,13 @@ namespace Goat.Grid.Interactions
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
+            if(producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt += ElectricityComponent_PowerChangedEvt;
             InteractableManager.InteractableClickEvt += IsClicked;
+        }
+
+        private void ElectricityComponent_PowerChangedEvt(bool powered)
+        {
         }
 
         public virtual void OnReturnObject()
@@ -141,6 +146,9 @@ namespace Goat.Grid.Interactions
                 adjustPosition.ResetPosition();
             InteractableManager.InteractableClickEvt -= IsClicked;
             UpdateInteractable.RemoveAllListeners();
+
+            if (producesOrConsumesElectricity)
+                electricityComponent.PoweredChangedEvt -= ElectricityComponent_PowerChangedEvt;
         }
 
         protected virtual void OnDestroy()
