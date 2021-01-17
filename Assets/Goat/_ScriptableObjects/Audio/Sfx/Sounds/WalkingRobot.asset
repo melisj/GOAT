@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507ed166f0a1bfb4cb572a39ce101b11, type: 3}
-  m_Name: BeautyPoints
+  m_Script: {fileID: 11500000, guid: 08e854ccd8588da4694c3ae040c10c5e, type: 3}
+  m_Name: WalkingRobot
   m_EditorClassIdentifier: 
-  weight: 3.24
-  positiveLines:
-  - 'The store looks beautiful. '
-  - 'I liked being there. '
-  negativeLines:
-  - 'This place looks like a dump. '
-  - 'I''d like to stare at the sun now. '
+  looping: 0
+  waitTillClipIsFinished: 0
+  _audioClipGroups:
+  - sequenceMode: 2
+    audioClips:
+    - {fileID: 8300000, guid: 807e389eaacd516478deb78eaf244f50, type: 3}

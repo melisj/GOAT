@@ -27,19 +27,14 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 2ba5cf7231eed7041a86b3dc70e66b36, type: 3}
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
   price: 0
-  interchangeableMesh: 1
   mesh:
   - {fileID: -2384067733600373924, guid: 617bbbc2444976c49a81f10dda1af3ff, type: 3}
-  summary: 
   amount: 2
-  starterAmount: 2
-  deliverable: 0
-  deliveryTime: 0
   prefab: {fileID: 5071828486381597130, guid: f1affb90c24845c47bbf09fe2b341aa9, type: 3}
-  totalBeautyPoints: {fileID: 11400000, guid: a5103abe14ad6df4ea2405673e553e3f, type: 2}
   beautyPoints: 0
   createsWallsAround: 0
   resource: {fileID: 11400000, guid: f654da135504cdb4995e276b2aecffa0, type: 2}
   initialColor: {r: 0.5568628, g: 0.53333336, b: 0.6745098, a: 1}
   hueShift: 273.77814
   chanceToSpawn: 71
+  capacity: 2
