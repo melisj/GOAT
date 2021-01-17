@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507ed166f0a1bfb4cb572a39ce101b11, type: 3}
   m_Name: BeautyPoints
   m_EditorClassIdentifier: 
-  weight: 0.1
+  weight: 3.24
   positiveLines:
   - 'The store looks beautiful. '
   - 'I liked being there. '

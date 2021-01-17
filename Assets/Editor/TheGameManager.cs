@@ -7,6 +7,11 @@ using Sirenix.Utilities;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using System;
+using System.Linq;
+using Goat.AI.Parking;
+using Goat.Farming;
+using Goat.Storage;
+using Goat.Grid;
 
 public class TheGameManager : OdinMenuEditorWindow
 {
@@ -15,14 +20,15 @@ public class TheGameManager : OdinMenuEditorWindow
     public enum ManagerState
     {
         Review,
-        Employees,
-        Farming,
-        Floors,
-        Furniture,
-        Resource,
-        ResourceTiles,
-        Tubes,
-        Walls,
+        //Employees,
+        //Farming,
+        //Floors,
+        //Furniture,
+        //Resource,
+        //ResourceTiles,
+        //Tubes,
+        //Walls,
+        Buyables,
         Characters,
         Sfx,
         Music
@@ -36,18 +42,38 @@ public class TheGameManager : OdinMenuEditorWindow
     private ManagerState managerState;
     private int enumIndex = 0;
     private bool treeRebuild = true;
-    private DrawSelected<Buyable> drawBuyables = new DrawSelected<Buyable>();
-    private DrawSelected<Characters> drawCharacters = new DrawSelected<Characters>();
-    private DrawSelected<AudioCueSO> drawAudio = new DrawSelected<AudioCueSO>();
-    private DrawSelected<AudioConfigurationSO> drawAudioConfig = new DrawSelected<AudioConfigurationSO>();
-    private DrawSelected<ReviewData> drawReviews = new DrawSelected<ReviewData>();
+    private DrawSelected<Buyable> drawBuyables = new DrawSelected<Buyable>(0);
+    private DrawSelected<HiredEmployee> drawEmployees = new DrawSelected<HiredEmployee>(1);
+    private DrawSelected<FarmStation> drawFarms = new DrawSelected<FarmStation>(2);
+    private DrawSelected<Floor> drawFloors = new DrawSelected<Floor>(3);
+    private DrawSelected<Building> drawFurniture = new DrawSelected<Building>(4);
+    private DrawSelected<Resource> drawResource = new DrawSelected<Resource>(5);
+    private DrawSelected<ResourceTileData> drawResourceTiles = new DrawSelected<ResourceTileData>(6);
+    private DrawSelected<Buyable> drawTubes = new DrawSelected<Buyable>(7);
+    private DrawSelected<Wall> drawWalls = new DrawSelected<Wall>(8);
+    private DrawSelected<Characters> drawCharacters = new DrawSelected<Characters>(9);
+    private DrawSelected<AudioCueSO> drawAudio = new DrawSelected<AudioCueSO>(10);
+    private DrawSelected<AudioCueSO> drawMusic = new DrawSelected<AudioCueSO>(11);
+    private DrawSelected<AudioConfigurationSO> drawAudioConfig = new DrawSelected<AudioConfigurationSO>(12);
+    private DrawSelected<AudioConfigurationSO> drawMusicConfig = new DrawSelected<AudioConfigurationSO>(13);
+    private DrawSelected<ReviewData> drawReviews = new DrawSelected<ReviewData>(14);
 
     private string buyablePath = "Resources";
+    private string employeesPath => $"{ScriptableObjectPath}{buyablePath}/{"Employees"}";
+    private string farmingPath => $"{ScriptableObjectPath}{buyablePath}/{"Farming"}";
+    private string floorsPath => $"{ScriptableObjectPath}{buyablePath}/{"Floors"}";
+    private string furniturePath => $"{ScriptableObjectPath}{buyablePath}/{"Furniture"}";
+    private string resourcePath => $"{ScriptableObjectPath}{buyablePath}/{"Resource"}";
+    private string resourceTilesPath => $"{ScriptableObjectPath}{buyablePath}/{"ResourceTiles"}";
+    private string tubesPath => $"{ScriptableObjectPath}{buyablePath}/{"Tubes"}";
+    private string wallsPath => $"{ScriptableObjectPath}{buyablePath}/{"Walls"}";
     private string characterPath = "Data/RandomNPC";
     private string audioPath = "Audio";
     private string settingsPath = "Settings";
     private string soundsPath = "Sounds";
     private string reviewPath = "Data/Review";
+
+    private bool guiInitialized;
 
     [MenuItem("Tools/The Game Manager")]
     public static void OpenWindow()
@@ -68,14 +94,30 @@ public class TheGameManager : OdinMenuEditorWindow
     protected override void Initialize()
     {
         drawBuyables.SetPath(ScriptableObjectPath + buyablePath);
-        drawBuyables.OnChanged += ItemChanged;
         drawCharacters.SetPath(ScriptableObjectPath + characterPath);
-        drawCharacters.OnChanged += ItemChanged;
         drawAudio.SetPath(ScriptableObjectPath + audioPath);
-        drawAudio.OnChanged += ItemChanged;
         drawAudioConfig.SetPath(ScriptableObjectPath + audioPath);
-        drawAudioConfig.OnChanged += ItemChanged;
         drawReviews.SetPath(ScriptableObjectPath + reviewPath);
+        //drawEmployees
+        //drawFarms
+        //drawFloors
+        //drawFurniture
+        //drawResource
+        //drawResourceTiles
+        //drawTubes
+        //drawWalls
+        drawEmployees.OnChanged += ItemChanged;
+        drawFarms.OnChanged += ItemChanged;
+        drawFloors.OnChanged += ItemChanged;
+        drawFurniture.OnChanged += ItemChanged;
+        drawResource.OnChanged += ItemChanged;
+        drawResourceTiles.OnChanged += ItemChanged;
+        drawTubes.OnChanged += ItemChanged;
+        drawWalls.OnChanged += ItemChanged;
+        drawCharacters.OnChanged += ItemChanged;
+        drawAudio.OnChanged += ItemChanged;
+        drawAudioConfig.OnChanged += ItemChanged;
+        drawBuyables.OnChanged += ItemChanged;
         drawReviews.OnChanged += ItemChanged;
     }
 
@@ -83,11 +125,19 @@ public class TheGameManager : OdinMenuEditorWindow
     {
         base.OnDestroy();
 
-        drawBuyables.OnChanged -= ItemChanged;
+        drawEmployees.OnChanged -= ItemChanged;
+        drawFarms.OnChanged -= ItemChanged;
+        drawFloors.OnChanged -= ItemChanged;
+        drawFurniture.OnChanged -= ItemChanged;
+        drawResource.OnChanged -= ItemChanged;
+        drawResourceTiles.OnChanged -= ItemChanged;
+        drawTubes.OnChanged -= ItemChanged;
+        drawWalls.OnChanged -= ItemChanged;
         drawCharacters.OnChanged -= ItemChanged;
         drawAudio.OnChanged -= ItemChanged;
-        drawReviews.OnChanged -= ItemChanged;
         drawAudioConfig.OnChanged -= ItemChanged;
+        drawBuyables.OnChanged -= ItemChanged;
+        drawReviews.OnChanged -= ItemChanged;
     }
 
     protected override OdinMenuTree BuildMenuTree()
@@ -100,16 +150,31 @@ public class TheGameManager : OdinMenuEditorWindow
 
                 break;
 
-            case ManagerState.Employees:
-            case ManagerState.Farming:
-            case ManagerState.Floors:
-            case ManagerState.Furniture:
-            case ManagerState.Resource:
-            case ManagerState.ResourceTiles:
-            case ManagerState.Tubes:
-            case ManagerState.Walls:
-                drawBuyables.SetPath(ScriptableObjectPath + buyablePath + "/" + managerState.ToString());
-                tree.AddAllAssetsAtPath(managerState.ToString(), ScriptableObjectPath + buyablePath + "/" + managerState.ToString(), typeof(Buyable));
+            //case ManagerState.Employees:
+            //case ManagerState.Farming:
+            //case ManagerState.Floors:
+            //case ManagerState.Furniture:
+            //case ManagerState.Resource:
+            //case ManagerState.ResourceTiles:
+            //case ManagerState.Tubes:
+            case ManagerState.Buyables:
+                //drawBuyables.SetPath($"{ScriptableObjectPath}{buyablePath}/{soundsPath}");
+                drawEmployees.SetPath(employeesPath);
+                drawFarms.SetPath(farmingPath);
+                drawFloors.SetPath(floorsPath);
+                drawFurniture.SetPath(furniturePath);
+                drawResource.SetPath(resourcePath);
+                drawResourceTiles.SetPath(resourceTilesPath);
+                drawTubes.SetPath(tubesPath);
+                drawWalls.SetPath(wallsPath);
+                tree.AddAllAssetsAtPath("Employees", employeesPath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Farms", farmingPath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Floors", floorsPath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Furniture", furniturePath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Resources", resourcePath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("ResourceTiles", resourceTilesPath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Tubes", tubesPath, typeof(Buyable));
+                tree.AddAllAssetsAtPath("Walls", wallsPath, typeof(Buyable));
 
                 break;
 
@@ -119,10 +184,15 @@ public class TheGameManager : OdinMenuEditorWindow
                 break;
 
             case ManagerState.Sfx:
-            case ManagerState.Music:
                 drawAudio.SetPath($"{ScriptableObjectPath}{audioPath}/{managerState}/{soundsPath}");
                 drawAudioConfig.SetPath($"{ScriptableObjectPath}{audioPath}/{managerState}/{settingsPath}");
+                tree.AddAllAssetsAtPath(managerState.ToString(), $"{ScriptableObjectPath}{audioPath}/{managerState}/{soundsPath}", typeof(AudioCueSO));
+                tree.AddAllAssetsAtPath(managerState.ToString() + " Settings", $"{ScriptableObjectPath}{audioPath}/{managerState}/{settingsPath}", typeof(AudioConfigurationSO));
+                break;
 
+            case ManagerState.Music:
+                drawMusic.SetPath($"{ScriptableObjectPath}{audioPath}/{managerState}/{soundsPath}");
+                drawMusicConfig.SetPath($"{ScriptableObjectPath}{audioPath}/{managerState}/{settingsPath}");
                 tree.AddAllAssetsAtPath(managerState.ToString(), $"{ScriptableObjectPath}{audioPath}/{managerState}/{soundsPath}", typeof(AudioCueSO));
                 tree.AddAllAssetsAtPath(managerState.ToString() + " Settings", $"{ScriptableObjectPath}{audioPath}/{managerState}/{settingsPath}", typeof(AudioConfigurationSO));
                 break;
@@ -143,28 +213,32 @@ public class TheGameManager : OdinMenuEditorWindow
         }
 
         SirenixEditorGUI.Title("The Game Manager", "", TextAlignment.Center, true);
-        switch (managerState)
-        {
-            case ManagerState.Employees:
-            case ManagerState.Farming:
-            case ManagerState.Floors:
-            case ManagerState.Furniture:
-            case ManagerState.Resource:
-            case ManagerState.ResourceTiles:
-            case ManagerState.Tubes:
-            case ManagerState.Walls:
-            case ManagerState.Characters:
-            case ManagerState.Sfx:
-            case ManagerState.Music:
-                DrawEditor(enumIndex);
+        EditorGUILayout.Space();
+        //switch (managerState)
+        //{
+        //    //case ManagerState.Employees:
+        //    //case ManagerState.Farming:
+        //    //case ManagerState.Floors:
+        //    //case ManagerState.Furniture:
+        //    //case ManagerState.Resource:
+        //    //case ManagerState.ResourceTiles:
+        //    //case ManagerState.Tubes:
+        //    case ManagerState.Buyables:
+        //    case ManagerState.Characters:
+        //    case ManagerState.Sfx:
+        //    case ManagerState.Music:
+        //        DrawEditor(enumIndex);
 
-                break;
+        //        break;
 
-            default:
-                break;
-        }
-
+        //    default:
+        //        break;
+        //}
+        if (guiInitialized)
+            DrawEditor(enumIndex);
+        EditorGUILayout.Space();
         base.OnGUI();
+        guiInitialized = true;
     }
 
     protected override void DrawEditors()
@@ -172,26 +246,32 @@ public class TheGameManager : OdinMenuEditorWindow
         switch (managerState)
         {
             case ManagerState.Review:
-                DrawEditor(enumIndex);
-
-                drawReviews.SetSelected(this.MenuTree.Selection.SelectedValue);
+                if (DrawAndSetSelected<ReviewData>(drawReviews))
+                    return;
                 break;
 
-            case ManagerState.Employees:
-            case ManagerState.Farming:
-            case ManagerState.Floors:
-            case ManagerState.Furniture:
-            case ManagerState.Resource:
-            case ManagerState.ResourceTiles:
-            case ManagerState.Tubes:
-            case ManagerState.Walls:
-                drawBuyables.SetSelected(this.MenuTree.Selection.SelectedValue);
-
+            case ManagerState.Buyables:
+                if (DrawAndSetSelected<HiredEmployee>(drawEmployees))
+                    return;
+                if (DrawAndSetSelected<FarmStation>(drawFarms))
+                    return;
+                if (DrawAndSetSelected<Floor>(drawFloors))
+                    return;
+                if (DrawAndSetSelected<Building>(drawFurniture))
+                    return;
+                if (DrawAndSetSelected<Resource>(drawResource))
+                    return;
+                if (DrawAndSetSelected<ResourceTileData>(drawResourceTiles))
+                    return;
+                if (DrawAndSetSelected<Buyable>(drawTubes))
+                    return;
+                if (DrawAndSetSelected<Wall>(drawWalls))
+                    return;
                 break;
 
             case ManagerState.Characters:
-                drawCharacters.SetSelected(this.MenuTree.Selection.SelectedValue);
-
+                if (DrawAndSetSelected<Characters>(drawCharacters))
+                    return;
                 break;
 
             case ManagerState.Sfx:
@@ -199,13 +279,13 @@ public class TheGameManager : OdinMenuEditorWindow
                 if (this.MenuTree.Selection.SelectedValue is AudioCueSO)
                 {
                     drawAudio.SetSelected(this.MenuTree.Selection.SelectedValue);
-                    DrawEditor((int)managerState);
+                    DrawEditor(drawAudio.Index);
                     return;
                 }
                 else if (this.MenuTree.Selection.SelectedValue is AudioConfigurationSO)
                 {
                     drawAudioConfig.SetSelected(this.MenuTree.Selection.SelectedValue);
-                    DrawEditor((int)managerState + 2);
+                    DrawEditor(drawAudioConfig.Index);
                     return;
                 }
                 break;
@@ -213,30 +293,76 @@ public class TheGameManager : OdinMenuEditorWindow
             default:
                 break;
         }
+        if (this.MenuTree.Selection.SelectedValue != null)
+            DrawEditor(enumIndex);
+    }
 
-        DrawEditor((int)managerState);
+    private bool DrawAndSetSelected<T>(DrawSelected<T> selected) where T : ScriptableObject
+    {
+        bool isTypeOf = this.MenuTree.Selection.SelectedValue is T;
+        if (isTypeOf)
+        {
+            selected.SetSelected(this.MenuTree.Selection.SelectedValue);
+            DrawEditor(selected.Index);
+        }
+        return isTypeOf;
     }
 
     protected override IEnumerable<object> GetTargets()
     {
-        List<object> targets = new List<object>();
-        targets.Add(drawReviews);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawBuyables);
-        targets.Add(drawCharacters);
-        targets.Add(drawAudio);
-        targets.Add(drawAudio);
-        targets.Add(drawAudioConfig);
-        targets.Add(drawAudioConfig);
-        targets.Add(base.GetTarget());
-        enumIndex = targets.Count - 1;
-        return targets;
+        //List<object> targets = new List<object>(14);
+        object[] targets = new object[15];
+        //Debug.Log(targets.Count);
+        //targets.Insert(drawReviews.Index, drawReviews);
+        //targets.Insert(drawEmployees.Index, drawEmployees);
+        //targets.Insert(drawFarms.Index, drawFarms);
+        //targets.Insert(drawFloors.Index, drawFloors);
+        //targets.Insert(drawFurniture.Index, drawFurniture);
+        //targets.Insert(drawResource.Index, drawResource);
+        //targets.Insert(drawResourceTiles.Index, drawResourceTiles);
+        //targets.Insert(drawTubes.Index, drawTubes);
+        //targets.Insert(drawWalls.Index, drawWalls);
+        //targets.Insert(drawCharacters.Index, drawCharacters);
+        //targets.Insert(drawAudio.Index, drawAudio);
+        //targets.Insert(drawMusic.Index, drawMusic);
+        //targets.Insert(drawMusicConfig.Index, drawMusicConfig);
+        //targets.Insert(drawAudioConfig.Index, drawAudioConfig);
+
+        targets[drawReviews.Index] = drawReviews;
+        targets[drawEmployees.Index] = drawEmployees;
+        targets[drawFarms.Index] = drawFarms;
+        targets[drawFloors.Index] = drawFloors;
+        targets[drawFurniture.Index] = drawFurniture;
+        targets[drawResource.Index] = drawResource;
+        targets[drawResourceTiles.Index] = drawResourceTiles;
+        targets[drawTubes.Index] = drawTubes;
+        targets[drawWalls.Index] = drawWalls;
+        targets[drawCharacters.Index] = drawCharacters;
+        targets[drawAudio.Index] = drawAudio;
+        targets[drawMusic.Index] = drawMusic;
+        targets[drawMusicConfig.Index] = drawMusicConfig;
+        targets[drawAudioConfig.Index] = drawAudioConfig;
+
+        //targets.Add(drawReviews);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawBuyables);
+        //targets.Add(drawCharacters);
+        //targets.Add(drawAudio);
+        //targets.Add(drawAudio);
+        //targets.Add(drawAudioConfig);
+        //targets.Add(drawAudioConfig);
+        //targets.Add(base.GetTarget());
+        List<object> allTargets = targets.ToList<object>();
+        //List<object> allTargets = new List<object>();
+        allTargets.Add(base.GetTarget());
+        enumIndex = allTargets.Count - 1;
+        return allTargets;
     }
 
     protected override void DrawMenu()
@@ -255,7 +381,17 @@ public class DrawSelected<T> where T : ScriptableObject
     [BoxGroup("CreateNew", showLabel: false)]
     [HorizontalGroup("CreateNew/Horizontal")]
     public string nameForNew;
+    [ShowInInspector, VerticalGroup("CreateNew/Vertical")] private string defaultPath => path + "\\" + nameForNew + ".asset";
+    [SerializeField, VerticalGroup("CreateNew/Vertical")] private bool overridePath;
+    [SerializeField, ShowIf("overridePath"), VerticalGroup("CreateNew/Vertical")]
     private string path;
+    private int index;
+    public int Index => index;
+
+    public DrawSelected(int index)
+    {
+        this.index = index;
+    }
 
     public event EventHandler OnChanged;
 
