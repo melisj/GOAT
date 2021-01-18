@@ -10,18 +10,17 @@ using UnityEngine.Events;
 namespace Goat.Grid.Interactions
 {
     /// <summary>
-    /// Base script for every interactable object in the game.
+    /// Base script for every interactable object in the game
     /// Contains information of the object
     /// </summary>
     public class BaseInteractable : MonoBehaviour, IPoolObject
     {
-        [SerializeField] protected InteractablesInfo info;
-        [SerializeField] private GridUIInfo gridUIInfo;
-        [SerializeField] private bool adjustPositionAgainstWall;
-        [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
-        [SerializeField] private MeshRenderer outlineRend;
+        [SerializeField, TabGroup("References")] protected InteractablesInfo info;
+        [SerializeField, TabGroup("References")] private GridUIInfo gridUIInfo;
+        [SerializeField, TabGroup("Settings")] private bool adjustPositionAgainstWall;
+        [SerializeField, TabGroup("Settings"), ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
-        [SerializeField] private bool producesOrConsumesElectricity;
+        [SerializeField, TabGroup("Settings")] private bool producesOrConsumesElectricity;
         private ElectricityComponent electricityComponent;
 
         protected Vector2Int gridPosition;
@@ -32,9 +31,10 @@ namespace Goat.Grid.Interactions
 
         protected UnityEvent UpdateInteractable = new UnityEvent();
 
-        [HideInInspector] public Grid grid;
+        private Grid grid;
+        public Grid Grid { get => grid; set => grid = value; }
         private TileAnimation tileAnimation;
-        [SerializeField] private bool isClickedOn;
+        private bool isClickedOn;
 
         public bool IsClickedOn
         {
@@ -69,7 +69,6 @@ namespace Goat.Grid.Interactions
         protected virtual void IsClicked(Transform clickedObj)
         {
             IsClickedOn = clickCollider.transform == clickedObj;
-            ShowOutline(IsClickedOn);
         }
 
         public virtual object[] GetArgumentsForUI()
@@ -93,11 +92,6 @@ namespace Goat.Grid.Interactions
         public virtual void CloseUI()
         {
             info.CurrentSelected = null;
-        }
-
-        protected void ShowOutline(bool clickedOn)
-        {
-            outlineRend.enabled = clickedOn;
         }
 
         // Update the UI when something has changed

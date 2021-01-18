@@ -352,18 +352,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
-  electricityinfo: {fileID: 11400000, guid: 0665f8e036b66a7419272f3db02a4c9a, type: 2}
   adjustPositionAgainstWall: 0
   adjustPosition: {fileID: 0}
-  description: Register for customers
-  costsPower: 0
-  powerCost: 0
-  isPowered: 0
-  producesPower: 0
-  powerProduction: 0
-  isPowering: 0
-  grid: {fileID: 0}
+  producesConsumesElectricity: 0
+  electricityComponent: {fileID: 0}
   outlineRend: {fileID: 7301943912328672873}
+  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
   maxQueue: 5
   queueStartingPosition: {fileID: 6811335577567325641}
   overrideQueueDirection: 1

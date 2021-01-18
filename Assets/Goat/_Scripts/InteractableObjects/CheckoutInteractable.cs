@@ -4,24 +4,28 @@ using UnityEngine;
 using Goat.AI;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Goat.Saving;
+using UnityAtoms.BaseAtoms;
+using UnityAtoms;
 
 namespace Goat.Grid.Interactions
 {
-    public class CheckoutInteractable : BaseInteractable
+    public class CheckoutInteractable : BaseInteractable, IAtomListener<GameObject>
     {
         // Queue lists
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
         private List<Customer> customerQueue = new List<Customer>();
+        [SerializeField, TabGroup("References")] private MeshRenderer outlineRend;
+        [SerializeField, TabGroup("References")] private GameObjectEvent onGridChange;
         [Header("Queue Settings")]
-        [SerializeField] private int maxQueue = 20;
-        [SerializeField] private Transform queueStartingPosition;
-        [SerializeField] private bool overrideQueueDirection;
-        [SerializeField, ShowIf("overrideQueueDirection")] private float queueStartingRotation;
+        [SerializeField, TabGroup("Checkout")] private int maxQueue = 20;
+        [SerializeField, TabGroup("References")] private Transform queueStartingPosition;
+        [SerializeField, TabGroup("Checkout")] private bool overrideQueueDirection;
+        [SerializeField, TabGroup("Checkout"), ShowIf("overrideQueueDirection")] private float queueStartingRotation;
 
         // Properties
         public int PositionAmount => queuePositions.Count;
-
         public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count]; } }
@@ -29,12 +33,14 @@ namespace Goat.Grid.Interactions
         // Direction data for the queue
         private List<Vector2Int> directionArray = new List<Vector2Int> { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right };
 
-        [SerializeField] private CheckoutChaChing chaChing;
+        [SerializeField, TabGroup("References")] private CheckoutChaChing chaChing;
 
         public override object[] GetArgumentsForUI()
         {
             return new object[] { PeekCustomerFromQueue(), this };
         }
+
+        #region Queue Behaviour
 
         public void AddCustomerToQueue(Customer customer)
         {
@@ -45,7 +51,7 @@ namespace Goat.Grid.Interactions
             }
         }
 
-        [Button("Remove customer")]
+        [Button("Remove customer"), TabGroup("Checkout")]
         public void RemoveCustomerFromQueue()
         {
             StartCoroutine(RemoveEndOfFrame());
@@ -86,14 +92,31 @@ namespace Goat.Grid.Interactions
             return customerQueue.First();
         }
 
+        #endregion
+
         protected void OnEnable()
         {
-            StartCoroutine(GenerateQueue());
+            DataHandler.LevelLoaded += StartGeneration;
+            onGridChange.RegisterSafe(this);
         }
 
         protected void OnDisable()
         {
             StopAllCoroutines();
+            DataHandler.LevelLoaded -= StartGeneration;
+            onGridChange.UnregisterSafe(this);
+        }
+
+        public void OnEventRaised(GameObject item)
+        {
+            StartGeneration();
+        }
+
+        #region Queue Generation
+
+        private void StartGeneration()
+        {
+            StartCoroutine(GenerateQueue());
         }
 
         // Create a path for the queue
@@ -103,9 +126,9 @@ namespace Goat.Grid.Interactions
             queuePositions.Clear();
 
             float rotY = transform.rotation.eulerAngles.y + (overrideQueueDirection ? queueStartingRotation : 0);
-            float tileOffset = grid.GetTileSize / 2;
+            float tileOffset = Grid.GetTileSize / 2;
 
-            Vector2Int gridStartPosition = grid.CalculateTilePositionInArray(queueStartingPosition.position);
+            Vector2Int gridStartPosition = Grid.CalculateTilePositionInArray(queueStartingPosition.position);
             Vector2Int currentGridPosition = gridStartPosition;
 
             // Check direction the queue should start growing towards
@@ -144,8 +167,8 @@ namespace Goat.Grid.Interactions
         // Get tile info and check if it has a floor and not a building
         private bool CheckIfTileEmpty(Vector2Int currentPosition, Vector2Int direction)
         {
-            Tile oldTile = grid.ReturnTile(currentPosition);
-            Tile newTile = grid.ReturnTile(currentPosition + direction);
+            Tile oldTile = Grid.ReturnTile(currentPosition);
+            Tile newTile = Grid.ReturnTile(currentPosition + direction);
             if (newTile == null) return false;
 
             return newTile.IsEmpty &&
@@ -159,6 +182,8 @@ namespace Goat.Grid.Interactions
             yield return new WaitForEndOfFrame();
             CreateQueue();
         }
+
+        #endregion
 
         protected override void IsClicked(Transform clickedObj)
         {

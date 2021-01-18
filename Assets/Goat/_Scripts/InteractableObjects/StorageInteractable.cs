@@ -20,15 +20,16 @@ namespace Goat.Grid.Interactions
         public Inventory Inventory => inventory;
 
         [Header("Storage")]
-        [SerializeField] protected int maxResources = 4;
-        [SerializeField] protected StorageEnviroment enviroment;
-        [SerializeField] protected InteractableUIElement elementToLoad = InteractableUIElement.ShelfStorage;
+        [SerializeField, TabGroup("Storage")] protected int maxResources = 4;
+        [SerializeField, TabGroup("Storage")] protected StorageEnviroment enviroment;
+        [SerializeField, TabGroup("Storage")] protected InteractableUIElement elementToLoad = InteractableUIElement.ShelfStorage;
 
         public InteractableUIElement ElementToLoad => elementToLoad;
 
-        [SerializeField] private Resource mainResource;
+        private Resource mainResource;
+        [SerializeField, TabGroup("References")] private MeshRenderer outlineRend;
 
-        [HideInInspector] public Resource MainResource { get => mainResource; set => mainResource = value; }
+        public Resource MainResource { get => mainResource; set => mainResource = value; }
         public bool selected { get; set; }
 
         protected override void Awake()

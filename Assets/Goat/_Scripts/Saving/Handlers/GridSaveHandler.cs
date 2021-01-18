@@ -12,7 +12,6 @@ namespace Goat.Saving
     {
         public Grid.Grid grid;
         public GridObjectsList objectList;
-        public VoidEvent onGridChange;
 
         public void Awake()
         {

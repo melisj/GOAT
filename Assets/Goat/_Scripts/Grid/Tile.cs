@@ -266,7 +266,7 @@ namespace Goat.Grid
                 {
                     interactable.GridPosition = gridPosition;
                     interactable.CenterPosition = centerPosition;
-                    interactable.grid = grid;
+                    interactable.Grid = grid;
                 }
 
                 //    tileObject.transform.localScale = size;
