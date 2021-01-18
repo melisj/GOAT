@@ -27,7 +27,6 @@ namespace Goat.Grid.Interactions
         public InteractableUIElement ElementToLoad => elementToLoad;
 
         private Resource mainResource;
-        [SerializeField, TabGroup("References")] private MeshRenderer outlineRend;
 
         public Resource MainResource { get => mainResource; set => mainResource = value; }
         public bool selected { get; set; }
@@ -53,12 +52,6 @@ namespace Goat.Grid.Interactions
         protected override void IsClicked(Transform clickedObj)
         {
             base.IsClicked(clickedObj);
-            ShowOutline(IsClickedOn);
-        }
-
-        private void ShowOutline(bool clickedOn)
-        {
-            outlineRend.enabled = clickedOn;
         }
 
         public override object[] GetArgumentsForUI()

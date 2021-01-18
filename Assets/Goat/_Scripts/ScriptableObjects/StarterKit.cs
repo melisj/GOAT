@@ -22,12 +22,6 @@ public class StarterKit : MonoBehaviour
 
     private void ResetValues()
     {
-        Buyable[] buyables = Resources.LoadAll<Buyable>("");
-
-        for (int i = 0; i < buyables.Length; i++)
-        {
-            buyables[i].Amount = buyables[i].StarterAmount;
-        }
         timeOfDay.Reset();
         satisfactionLevel.Satisfaction = 0;
         money.Amount = money.StarterAmount;

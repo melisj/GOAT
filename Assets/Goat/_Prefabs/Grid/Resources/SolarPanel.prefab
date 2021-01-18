@@ -49,12 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
+  outlineRend: {fileID: 0}
   adjustPositionAgainstWall: 0
+  selectable: 0
   adjustPosition: {fileID: 0}
   producesOrConsumesElectricity: 1
-  description: Produces power in daylight
-  grid: {fileID: 0}
-  isClickedOn: 0
 --- !u!114 &-4423948767853251809
 MonoBehaviour:
   m_ObjectHideFlags: 0

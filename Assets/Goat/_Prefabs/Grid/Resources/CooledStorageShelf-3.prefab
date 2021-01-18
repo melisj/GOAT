@@ -510,17 +510,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: b937302e6fd406142aa97510af3740e7, type: 2}
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
+  outlineRend: {fileID: 7104972955072617822}
   adjustPositionAgainstWall: 1
+  selectable: 1
   adjustPosition: {fileID: -2525174489482260842}
   producesOrConsumesElectricity: 1
-  description: 
-  grid: {fileID: 0}
-  isClickedOn: 0
   maxResources: 6
   enviroment: 2
   elementToLoad: 1
-  mainResource: {fileID: 0}
-  outlineRend: {fileID: 7104972955072617822}
   resourceSize: 0.6
 --- !u!114 &4709982844820687041
 MonoBehaviour:

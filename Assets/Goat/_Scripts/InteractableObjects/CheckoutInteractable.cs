@@ -16,13 +16,12 @@ namespace Goat.Grid.Interactions
         private HashSet<Tile> queueTiles = new HashSet<Tile>();
         private List<Customer> customerQueue = new List<Customer>();
 
-        [SerializeField, TabGroup("References"), Required] private MeshRenderer outlineRend;
-        [SerializeField, TabGroup("References")] private VoidEvent onTileCreated;
-        [SerializeField, TabGroup("References")] private VoidEvent onTileDestroyed;
-        [SerializeField, TabGroup("References")] private VoidEvent onLevelLoaded;
+        [Required, SerializeField, TabGroup("References")] private VoidEvent onTileCreated;
+        [Required, SerializeField, TabGroup("References")] private VoidEvent onTileDestroyed;
+        [Required, SerializeField, TabGroup("References")] private VoidEvent onLevelLoaded;
 
-        [SerializeField, TabGroup("References")] private Transform queueStartingPosition;
-        [SerializeField, TabGroup("References")] private CheckoutChaChing chaChing;
+        [Required, SerializeField, TabGroup("References")] private Transform queueStartingPosition;
+        [Required, SerializeField, TabGroup("References")] private CheckoutChaChing chaChing;
 
         [Header("Queue Settings")]
         [SerializeField, TabGroup("Checkout")] private int maxQueue = 20;
@@ -223,17 +222,6 @@ namespace Goat.Grid.Interactions
         }
 
         #endregion
-
-        protected override void IsClicked(Transform clickedObj)
-        {
-            base.IsClicked(clickedObj);
-            ShowOutline(IsClickedOn);
-        }
-
-        private void ShowOutline(bool clickedOn)
-        {
-            outlineRend.enabled = clickedOn;
-        }
 
         private void OnDrawGizmos()
         {
