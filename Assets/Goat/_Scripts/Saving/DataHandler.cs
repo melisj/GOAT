@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 using UnityEditor;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.Saving
 {
@@ -51,8 +52,7 @@ namespace Goat.Saving
         public delegate void StartSaveLevelEvent(SaveData data);
         public static event StartSaveLevelEvent StartSaveEvent;
 
-        public delegate void LoadCompleteEvent();
-        public static event LoadCompleteEvent LevelLoaded;
+        [SerializeField] private VoidEvent LevelLoadedEvent;
 
         JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
@@ -159,7 +159,7 @@ namespace Goat.Saving
                         Debug.LogFormat("DataContainer: {0} Exit code: {1}", container, LoadContainerExitCode) ;
                     }
 
-                    LevelLoaded?.Invoke();
+                    LevelLoadedEvent?.Raise();
 
                     Debug.LogFormat("Loaded: {0} successfully", fileName);
                 }

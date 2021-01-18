@@ -3,16 +3,20 @@ using Goat.Pooling;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityAtoms;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Goat.Saving 
 {
-    public class LoadMenu : MonoBehaviour
+    public class LoadMenu : MonoBehaviour, IAtomListener<Void>
     {
         [SerializeField] private GameObject savePrefab;
         [SerializeField] private Transform saveParent;
         [SerializeField] private StartGame gameStarter;
+
+        [SerializeField] private VoidEvent onLevelLoaded;
 
         [SerializeField] private Button loadGameTrigger;
         [SerializeField] private TextMeshProUGUI selectedSaveText;
@@ -74,7 +78,7 @@ namespace Goat.Saving
         {
             if (selectedSave != null && selectedSave != "")
             {
-                DataHandler.LevelLoaded += DataHandler_LevelLoaded;
+                onLevelLoaded.RegisterSafe(this);
                 gameStarter.LoadGame(selectedSave);
             }
             else
@@ -84,11 +88,6 @@ namespace Goat.Saving
             }
         }
 
-        private void DataHandler_LevelLoaded()
-        {
-            ShowInfoAboutSave("Save game loaded!");
-        }
-
         private void ShowInfoAboutSave(string message)
         {
             infoObjectText.text = message;
@@ -96,6 +95,12 @@ namespace Goat.Saving
             sequence.SetUpdate(true);
             sequence.Append(infoObjectText.DOColor(Color.white, 0));
             sequence.Append(infoObjectText.DOColor(Color.clear, 5));
+        }
+
+        public void OnEventRaised(Void item)
+        {
+            ShowInfoAboutSave("Save game loaded!");
+            onLevelLoaded.UnregisterSafe(this);
         }
     } 
 }

@@ -2,12 +2,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 using Sirenix.OdinInspector;
+using UnityAtoms;
+using UnityAtoms.BaseAtoms;
 
 namespace Goat.AI
 {
-    public class NavInitializer : MonoBehaviour
+    public class NavInitializer : MonoBehaviour, IAtomListener<Void>
     {
         [SerializeField] private NavMeshSurface[] surfaces;
+        [SerializeField] private VoidEvent onLevelLoaded;
 
         [Button]
         private void FillSurfacesArray()
@@ -34,15 +37,15 @@ namespace Goat.AI
 
         private void OnEnable()
         {
-            DataHandler.LevelLoaded += GridDataHandler_LevelLoaded;
+            onLevelLoaded.RegisterSafe(this);
         }
 
         private void OnDisable()
         {
-            DataHandler.LevelLoaded -= GridDataHandler_LevelLoaded;
+            onLevelLoaded.UnregisterSafe(this);
         }
 
-        private void GridDataHandler_LevelLoaded()
+        public void OnEventRaised(Void item)
         {
             RebakeMesh();
         }

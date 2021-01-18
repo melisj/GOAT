@@ -144,6 +144,7 @@ MonoBehaviour:
   - {fileID: 8488590340979480729}
   - {fileID: 679318863}
   - {fileID: 400161996615391859}
+  onLevelLoaded: {fileID: 11400000, guid: 1fb04a4082607834798659ff9ffb028a, type: 2}
 --- !u!114 &1527252795599047950
 MonoBehaviour:
   m_ObjectHideFlags: 0

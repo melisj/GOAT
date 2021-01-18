@@ -82,15 +82,19 @@ MonoBehaviour:
   gridUIInfo: {fileID: 11400000, guid: 5efb5e88b64379744984617847e06495, type: 2}
   adjustPositionAgainstWall: 0
   adjustPosition: {fileID: 0}
-  producesConsumesElectricity: 0
-  electricityComponent: {fileID: 0}
+  producesOrConsumesElectricity: 0
   outlineRend: {fileID: 8674809541927616661}
-  onGridChange: {fileID: 11400000, guid: 5acc9f87e23b22441b6a9a0332f092e8, type: 2}
-  maxQueue: 10
+  onTileCreated: {fileID: 11400000, guid: ca95266c9a041ab4e994a45dad183e4f, type: 2}
+  onTileDestroyed: {fileID: 11400000, guid: f95dae9b9f445d04192c6b96b5e6e927, type: 2}
+  onLevelLoaded: {fileID: 11400000, guid: 1fb04a4082607834798659ff9ffb028a, type: 2}
   queueStartingPosition: {fileID: 7921306109534318761}
+  chaChing: {fileID: 2757264863918180443}
+  maxQueue: 10
   overrideQueueDirection: 1
   queueStartingRotation: -90
-  chaChing: {fileID: 2757264863918180443}
+  queueMask:
+    serializedVersion: 2
+    m_Bits: 143872
 --- !u!114 &3596553023212253081
 MonoBehaviour:
   m_ObjectHideFlags: 0
