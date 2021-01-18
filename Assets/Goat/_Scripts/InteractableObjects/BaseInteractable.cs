@@ -17,7 +17,9 @@ namespace Goat.Grid.Interactions
     {
         [SerializeField, TabGroup("References")] protected InteractablesInfo info;
         [SerializeField, TabGroup("References")] private GridUIInfo gridUIInfo;
+        [SerializeField, TabGroup("References"), ShowIf("selectable")] private MeshRenderer outlineRend;
         [SerializeField, TabGroup("Settings")] private bool adjustPositionAgainstWall;
+        [SerializeField, TabGroup("Settings")] private bool selectable = true;
         [SerializeField, TabGroup("Settings"), ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
 
         [SerializeField, TabGroup("Settings")] private bool producesOrConsumesElectricity;
@@ -69,6 +71,7 @@ namespace Goat.Grid.Interactions
         protected virtual void IsClicked(Transform clickedObj)
         {
             IsClickedOn = clickCollider.transform == clickedObj;
+            ShowOutline();
         }
 
         public virtual object[] GetArgumentsForUI()
@@ -92,6 +95,13 @@ namespace Goat.Grid.Interactions
         public virtual void CloseUI()
         {
             info.CurrentSelected = null;
+            IsClicked(null);
+        }
+
+        private void ShowOutline()
+        {
+            if (selectable)
+                outlineRend.enabled = IsClickedOn;
         }
 
         // Update the UI when something has changed

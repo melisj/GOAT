@@ -16,7 +16,6 @@ namespace Goat.Grid.Interactions
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
         private List<Customer> customerQueue = new List<Customer>();
-        [SerializeField, TabGroup("References")] private MeshRenderer outlineRend;
         [SerializeField, TabGroup("References")] private GameObjectEvent onGridChange;
         [Header("Queue Settings")]
         [SerializeField, TabGroup("Checkout")] private int maxQueue = 20;
@@ -26,6 +25,7 @@ namespace Goat.Grid.Interactions
 
         // Properties
         public int PositionAmount => queuePositions.Count;
+
         public int QueueLength => customerQueue.Count;
         public bool QueueAvailable => customerQueue.Count < queuePositions.Count;
         public Vector3 LastPositionInQueue { get { return queuePositions[customerQueue.Count]; } }
@@ -92,7 +92,7 @@ namespace Goat.Grid.Interactions
             return customerQueue.First();
         }
 
-        #endregion
+        #endregion Queue Behaviour
 
         protected void OnEnable()
         {
@@ -183,7 +183,7 @@ namespace Goat.Grid.Interactions
             CreateQueue();
         }
 
-        #endregion
+        #endregion Queue Generation
 
         protected override void IsClicked(Transform clickedObj)
         {

@@ -27,7 +27,6 @@ namespace Goat.Grid.Interactions
         public InteractableUIElement ElementToLoad => elementToLoad;
 
         private Resource mainResource;
-        [SerializeField, TabGroup("References")] private MeshRenderer outlineRend;
 
         public Resource MainResource { get => mainResource; set => mainResource = value; }
         public bool selected { get; set; }
