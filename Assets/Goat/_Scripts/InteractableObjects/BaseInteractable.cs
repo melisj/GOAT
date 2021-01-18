@@ -19,6 +19,7 @@ namespace Goat.Grid.Interactions
         [SerializeField] private GridUIInfo gridUIInfo;
         [SerializeField] private bool adjustPositionAgainstWall;
         [SerializeField, ShowIf("adjustPositionAgainstWall")] private AdjustPositionAgainstWall adjustPosition;
+        [SerializeField] private MeshRenderer outlineRend;
 
         [SerializeField] private bool producesOrConsumesElectricity;
         private ElectricityComponent electricityComponent;
@@ -45,7 +46,7 @@ namespace Goat.Grid.Interactions
         }
 
         public bool UIActivated { get; set; }
-   
+
         public string Name => placeableInfo.Placeable.name;
         public Vector2Int GridPosition { get { return gridPosition; } set { gridPosition = value; } }
         public Vector3 CenterPosition { get { return centerPosition; } set { centerPosition = value; } }
@@ -67,8 +68,8 @@ namespace Goat.Grid.Interactions
         // If clicked then open UI
         protected virtual void IsClicked(Transform clickedObj)
         {
-            //  if (clickCollider.transform == clickedObj)
             IsClickedOn = clickCollider.transform == clickedObj;
+            ShowOutline(IsClickedOn);
         }
 
         public virtual object[] GetArgumentsForUI()
@@ -85,19 +86,18 @@ namespace Goat.Grid.Interactions
         // Open the UI for the this
         public virtual void OpenUI()
         {
-            //gridUIInfo.CurrentUIElement = UIElement.Interactable;
-            //Debug.Log("Is this even called?");
             info.CurrentSelected = this;
         }
 
         // Hide this UI
         public virtual void CloseUI()
         {
-            //gridUIInfo.CurrentUIElement = UIElement.None;
-            //Debug.Log("Apparently yes, but it's closed now");
-
-            //IsClickedOn = false;
             info.CurrentSelected = null;
+        }
+
+        protected void ShowOutline(bool clickedOn)
+        {
+            outlineRend.enabled = clickedOn;
         }
 
         // Update the UI when something has changed
@@ -124,7 +124,7 @@ namespace Goat.Grid.Interactions
             if (adjustPosition != null)
                 adjustPosition.Setup();
 
-            if(producesOrConsumesElectricity)
+            if (producesOrConsumesElectricity)
                 electricityComponent.PoweredChangedEvt += ElectricityComponent_PowerChangedEvt;
             InteractableManager.InteractableClickEvt += IsClicked;
         }

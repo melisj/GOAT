@@ -13,7 +13,6 @@ namespace Goat.Grid.Interactions
         private List<Vector2Int> queueGridPositions = new List<Vector2Int>();
         private List<Vector3> queuePositions = new List<Vector3>();
         private List<Customer> customerQueue = new List<Customer>();
-        [SerializeField] private MeshRenderer outlineRend;
         [Header("Queue Settings")]
         [SerializeField] private int maxQueue = 20;
         [SerializeField] private Transform queueStartingPosition;
@@ -164,12 +163,6 @@ namespace Goat.Grid.Interactions
         protected override void IsClicked(Transform clickedObj)
         {
             base.IsClicked(clickedObj);
-            ShowOutline(IsClickedOn);
-        }
-
-        private void ShowOutline(bool clickedOn)
-        {
-            outlineRend.enabled = clickedOn;
         }
 
         private void OnDrawGizmos()
