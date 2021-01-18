@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GridObjectsList", menuName = "ScriptableObjects/GlobalVariables/GridObjectsList")]
 public class GridObjectsList : SerializedScriptableObject
 {
-    [SerializeField] private List<Buyable> buyables = new List<Buyable>();
+    [SerializeField, ReadOnly] private List<Buyable> buyables = new List<Buyable>();
 
     [Button("Set ID's", ButtonSizes.Large)]
     private void SetInteractables()

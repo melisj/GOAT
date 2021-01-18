@@ -200,7 +200,6 @@ namespace Goat.Grid.Interactions
 
             if (Physics.Raycast(startPosition, startDirection, out RaycastHit hit, float.MaxValue, queueMask))
             {
-                //Debug.Log(hit.distance + " - " + currentLongestDistance, hit.transform.gameObject);
                 if (hit.distance > currentLongestDistance)
                 {
                     int tilesToGet = Mathf.FloorToInt(hit.distance);
