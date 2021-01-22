@@ -1239,6 +1239,7 @@ MonoBehaviour:
     type: 3}
   saveParent: {fileID: 6661686814555433808}
   gameStarter: {fileID: 730966217}
+  onLevelLoaded: {fileID: 11400000, guid: 1fb04a4082607834798659ff9ffb028a, type: 2}
   loadGameTrigger: {fileID: 6661686813322320110}
   selectedSaveText: {fileID: 6661686813667188553}
   infoObjectText: {fileID: 5874725861569446006}
@@ -1254,6 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6349357a4803bc446ab93e0ce7b35bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startFreshButton: 0
   startButton: {fileID: 0}
   menuButtons: []
 --- !u!1 &6661686814116789596
@@ -2327,9 +2329,13 @@ MonoBehaviour:
   button: {fileID: 6661686815181804224}
   elements:
   - transform: {fileID: 0}
+    canvas: {fileID: 0}
     show: 1
+    uiHideType: 0
   - transform: {fileID: 6661686814062863601}
+    canvas: {fileID: 0}
     show: 0
+    uiHideType: 0
 --- !u!1 &9038180039558351859
 GameObject:
   m_ObjectHideFlags: 0

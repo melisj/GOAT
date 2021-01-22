@@ -15,8 +15,8 @@ namespace Goat.Grid.Interactions
     /// </summary>
     public class BaseInteractable : MonoBehaviour, IPoolObject
     {
-        [SerializeField, TabGroup("References")] protected InteractablesInfo info;
-        [SerializeField, TabGroup("References")] private GridUIInfo gridUIInfo;
+        [Required, SerializeField, TabGroup("References")] protected InteractablesInfo info;
+        [Required, SerializeField, TabGroup("References")] private GridUIInfo gridUIInfo;
         [SerializeField, TabGroup("References"), ShowIf("selectable")] private MeshRenderer outlineRend;
         [SerializeField, TabGroup("Settings")] private bool adjustPositionAgainstWall;
         [SerializeField, TabGroup("Settings")] private bool selectable = true;

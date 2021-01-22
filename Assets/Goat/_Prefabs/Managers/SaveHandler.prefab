@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0639de00bf612cd4bb5d2bfe9ff8a24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveFolder: /Goat/SaveData/
+  LevelLoadedEvent: {fileID: 11400000, guid: 1fb04a4082607834798659ff9ffb028a, type: 2}
   fileName: DefaultSave
-  relativePath: /Goat/SaveData/DefaultSave.Json
+  relativePath: /SaveData/DefaultSave.Json
 --- !u!114 &3255775460644688845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +63,7 @@ MonoBehaviour:
   data:
     className: DataContainer
   saveOrder: 0
+  timeoutLoadSec: 10
   money: {fileID: 11400000, guid: ccc618498edce6d488db2def9ffe594c, type: 2}
 --- !u!114 &3255775460644688842
 MonoBehaviour:
@@ -79,4 +80,5 @@ MonoBehaviour:
   data:
     className: DataContainer
   saveOrder: 0
+  timeoutLoadSec: 10
   satisfaction: {fileID: 11400000, guid: ef8bb54073bc05246b6329a5150d2607, type: 2}

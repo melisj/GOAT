@@ -38,7 +38,7 @@ public class SaveDataEditor : OdinMenuEditorWindow
 
     protected override void DrawEditors()
     {
-        saveHandlers.SetSelected(MenuTree.Selection.SelectedValue);
+        saveHandlers?.SetSelected(MenuTree.Selection.SelectedValue);
 
         base.DrawEditors();
     }
