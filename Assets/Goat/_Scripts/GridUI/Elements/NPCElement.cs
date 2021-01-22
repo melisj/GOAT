@@ -117,7 +117,7 @@ namespace Goat.Grid.Interactions.UI
 
             // Set the texts
             if (totalPrice)
-                totalPrice.text = string.Format("Total price: {0}", customer ? customer.totalPriceProducts.ToString() : "-");
+                totalPrice.text = string.Format("Total price: {0}", customer ? customer.TotalPriceProducts.ToString() : "-");
             if (customerName)
             {
                 customerName.text = string.Format("Name: {0}", customer ? customer.ObjInstance.GetName : "No customer");
@@ -128,8 +128,8 @@ namespace Goat.Grid.Interactions.UI
         private void Sell(Customer customer, CheckoutInteractable checkout)
         {
             checkout.RemoveCustomerFromQueue();
-            money.Amount += customer.totalPriceProducts;
-            onSale.Raise((int)customer.totalPriceProducts);
+            money.Amount += customer.TotalPriceProducts;
+            onSale.Raise((int)customer.TotalPriceProducts);
         }
 
         protected void ChangeIconWidth(string change, TextMeshProUGUI textUI, RectTransform amountHolder, RectTransform leftBorder)

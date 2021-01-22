@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI.States
 {
     /// <summary>
     /// Do nothing in this state for a given time
     /// </summary>
+    [System.Serializable]
     public class WaitingState : IState
     {
         private NPC npc;
-        private float waitingTime, timeWaiting;
-        private bool waiting;
+        [SerializeField, ReadOnly] private float waitingTime, timeWaiting;
+        [SerializeField, ReadOnly] private bool waiting;
         public bool Waiting => waiting;
 
         public WaitingState(NPC npc, float waitingTime)
@@ -36,8 +38,5 @@ namespace Goat.AI.States
         public void OnExit()
         {
         }
-
-
     }
 }
-

@@ -6,29 +6,34 @@ using Goat.Storage;
 using Goat.Grid.Interactions;
 using System.Linq;
 using System;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI.States
 {
     /// <summary>
     /// Place item from NPC inventory into a storage inventory
     /// </summary>
+    [System.Serializable]
     public class PlaceItem : IState
     {
+        private const string STORAGETAG = "Storage", CONTAINERTAG = "Container";
+
         private Worker worker;
         private Animator animator;
-        public bool filled = false;
+        private float placingSpeed;
 
         // Get this from npc
-        private float placingSpeed = 0.5f, nextItemTime = 0;
-
-        private string storage = "Storage", container = "Container";
+        [SerializeField, ReadOnly] private bool filled;
+        [SerializeField, ReadOnly] private float nextItemTime = 0;
 
         public EventHandler eventHandler;
+        public bool Filled => filled;
 
-        public PlaceItem(Worker worker, Animator animator)
+        public PlaceItem(Worker worker, Animator animator, float placingSpeed)
         {
             this.worker = worker;
             this.animator = animator;
+            this.placingSpeed = placingSpeed;
         }
 
         /// <summary>
@@ -38,9 +43,9 @@ namespace Goat.AI.States
         {
             Resource resourceToPlace = null;
 
-            if (worker.targetStorage.tag == storage)
-                resourceToPlace = worker.targetStorage.MainResource;
-            else if (worker.targetStorage.tag == container && worker.Inventory.ItemsInInventory > 0)
+            if (worker.TargetStorage.CompareTag(STORAGETAG))
+                resourceToPlace = worker.TargetStorage.MainResource;
+            else if (worker.TargetStorage.CompareTag(CONTAINERTAG) && worker.Inventory.ItemsInInventory > 0)
                 resourceToPlace = worker.Inventory.Items.First().Key;
 
             if (resourceToPlace == null)
@@ -49,13 +54,13 @@ namespace Goat.AI.States
                 return;
             }
 
-            if (worker.targetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
+            if (worker.TargetStorage.Inventory.SpaceLeft > 0 && worker.Inventory.Contains(resourceToPlace))
             {
                 animator.SetTrigger("Interact");
                 //Delay
                 eventHandler?.Invoke(this, null);
 
-                worker.targetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
+                worker.TargetStorage.Inventory.Add(resourceToPlace, 1, out int amountPlaced);
                 worker.Inventory.Remove(resourceToPlace, amountPlaced, out int amountRemoved);
                 Debug.LogFormat("Placed {0} in storage", resourceToPlace.name);
             }
@@ -65,7 +70,7 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            if (!filled && nextItemTime <= Time.time)
+            if (!Filled && nextItemTime <= Time.time)
             {
                 nextItemTime = Time.time + (1 / placingSpeed);
                 PlaceItemInStorage();
@@ -80,8 +85,8 @@ namespace Goat.AI.States
 
         public void OnExit()
         {
-            worker.targetStorage.selected = false;
-            worker.targetStorage = null;
+            worker.TargetStorage.selected = false;
+            worker.TargetStorage = null;
             animator.speed = 1;
         }
     }

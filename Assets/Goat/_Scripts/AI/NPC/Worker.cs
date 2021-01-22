@@ -9,6 +9,8 @@ using UnityAtoms.BaseAtoms;
 using System;
 using Goat.AI.States;
 using UnityAtoms;
+using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
@@ -17,14 +19,24 @@ namespace Goat.AI
     /// </summary>
     public class Worker : NPC, IAtomListener<bool>
     {
-        [HideInInspector] public bool chillin;
-        [SerializeField] private BoolEvent onCycleChange;
-        public StorageList storageLocations;
-        [HideInInspector] public PlaceItem placeItem;
-        [HideInInspector] protected WaitingState waitingState;
-        protected ExitStore exitStore;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private bool chilling;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+        [SerializeField, TabGroup("Settings"), Range(5, 10)] private float waitingTime;
+        [SerializeField, TabGroup("Settings"), Range(0.5f, 2f)] private float placingSpeed;
+        [SerializeField, TabGroup("References")] private BoolEvent onCycleChange;
+        [SerializeField, TabGroup("References")] private StorageList shelves;
+        [SerializeField, TabGroup("References")] private StorageList warehouseStorages;
+        [SerializeField, HideLabel, TabGroup("StateMachine/States/In", "PlaceItem")] private PlaceItem placeItem;
+        [SerializeField, HideLabel, TabGroup("StateMachine/States/In", "WaitingState")] private WaitingState waitingState;
+        [SerializeField, HideLabel, TabGroup("StateMachine/States/In", "ExitStore")] private ExitStore exitStore;
 
-        [HideInInspector] public List<StorageInteractable> targetStorages = new List<StorageInteractable>();
+        public PlaceItem PlaceItem => placeItem;
+        protected WaitingState WaitingState => waitingState;
+        protected ExitStore ExitStore => exitStore;
+        public bool Chilling => chilling;
+        public StorageList Shelves => shelves;
+        public StorageList WarehouseStorages => warehouseStorages;
+        public List<StorageInteractable> TargetStorages { get => targetStorages; set => targetStorages = value; }
 
         protected override void OnEnable()
         {
@@ -42,15 +54,15 @@ namespace Goat.AI
         {
             base.Setup();
 
-            placeItem = new PlaceItem(this, animator);
-            waitingState = new WaitingState(this, 5);
-            exitStore = new ExitStore(this, navMeshAgent);
+            placeItem = new PlaceItem(this, Animator, placingSpeed);
+            waitingState = new WaitingState(this, waitingTime);
+            exitStore = new ExitStore(this, NavMeshAgent);
         }
 
         public void OnEventRaised(bool isDay)
         {
             if (!isDay && stateMachine != null)
-                stateMachine.SetState(exitStore);
+                stateMachine.SetState(ExitStore);
         }
     }
 }

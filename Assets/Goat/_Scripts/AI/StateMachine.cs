@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
+    [System.Serializable]
     public class StateMachine
     {
         /// <summary>
@@ -14,17 +16,17 @@ namespace Goat.AI
         /// <summary>
         /// Dictionary of all transitions
         /// </summary>
-        private Dictionary<Type, List<Transition>> transitions = new Dictionary<Type, List<Transition>>();
+        [SerializeField] private Dictionary<Type, List<Transition>> transitions = new Dictionary<Type, List<Transition>>();
         /// <summary>
         /// List of transitions that can occur out of the current state
         /// </summary>
-        private List<Transition> currentTransitions = new List<Transition>();
+        [SerializeField, ReadOnly] private List<Transition> currentTransitions = new List<Transition>();
         /// <summary>
         /// List of transitions that can happen at any time
         /// </summary>
-        private List<Transition> anyTransitions = new List<Transition>();
+        [SerializeField, ReadOnly] private List<Transition> anyTransitions = new List<Transition>();
 
-        private static List<Transition> EmptyTransitions = new List<Transition>(capacity:0);
+        private static List<Transition> EmptyTransitions = new List<Transition>(capacity: 0);
 
         public IState CurrentState => currentState;
 
@@ -109,6 +111,7 @@ namespace Goat.AI
         /// <summary>
         /// Transition
         /// </summary>
+        [System.Serializable]
         private class Transition
         {
             public Func<bool> Condition { get; }
@@ -122,4 +125,3 @@ namespace Goat.AI
         }
     }
 }
-

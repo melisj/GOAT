@@ -447,20 +447,38 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: takeItem
+    - Name: stateMachine
       Entry: 6
       Data: 
   npcSize: 1
   wanderRange: 10
-  carriedItemValue: 0
   maxInventory: 10
+  stateName: 
   targetDestination: {x: 0, y: 0, z: 0}
+  targetStorage: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  targetStorage: {fileID: 0}
-  stateName: 
   enterTime: 0
   searchingTime: 0
+  moveToDestination:
+    npc: {fileID: 0}
+    navMeshAgent: {fileID: 0}
+    lastLocation: {x: 0, y: 0, z: 0}
+    timeStuck: 0
+    amountStuckCalled: 0
+  moveToTarget:
+    npc: {fileID: 0}
+    navMeshAgent: {fileID: 0}
+    lastLocation: {x: 0, y: 0, z: 0}
+    timeStuck: 0
+    amountStuckCalled: 0
+  takeItem:
+    npc: {fileID: 0}
+    animator: {fileID: 0}
+    returnToStock: 0
+    depleted: 0
+    takingSpeed: 0
+    nextItemTime: 0
   maxSearchingTime: 10
   review: {fileID: 1771665820897415727}
   feelings: {fileID: 3148984614122792479}
@@ -477,8 +495,22 @@ MonoBehaviour:
   customerSatisfaction: 100
   customerSelfConstraint: 0
   fov: {fileID: 2094399923763774073}
+  calculatedGroceries: 0
   enteredStore: 0
-  leavingStore: 0
+  hasStorageTarget: 0
+  hasDestination: 0
+  stuckForSeconds: 0
+  reachedDestination: 0
+  reachedTarget: 0
+  storageDepleted: 0
+  checkoutFull: 0
+  goToCheckout: 0
+  leaveStore: 0
+  findShortestCheckoutQueue: 0
+  askForHelp: 0
+  waitingInQueue: 0
+  EnteredStore: 0
+  LeavingStore: 0
   totalPriceProducts: 0
 --- !u!114 &421086372
 MonoBehaviour:

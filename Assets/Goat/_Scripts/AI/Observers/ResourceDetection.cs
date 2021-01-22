@@ -18,7 +18,7 @@ namespace Goat.AI
 
         private void FixedUpdate()
         {
-            if (worker.searching)
+            if (worker.Searching)
             {
                 DetectResources();
             }
@@ -34,7 +34,7 @@ namespace Goat.AI
             {
                 detected = true;
                 resourcePosition = colliders[0].transform.position;
-                worker.targetDestination = resourcePosition;
+                worker.TargetDestination = resourcePosition;
             }
         }
     }

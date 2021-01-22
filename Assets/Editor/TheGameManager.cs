@@ -20,14 +20,6 @@ public class TheGameManager : OdinMenuEditorWindow
     public enum ManagerState
     {
         Review,
-        //Employees,
-        //Farming,
-        //Floors,
-        //Furniture,
-        //Resource,
-        //ResourceTiles,
-        //Tubes,
-        //Walls,
         Buyables,
         Characters,
         Sfx,
@@ -98,14 +90,7 @@ public class TheGameManager : OdinMenuEditorWindow
         drawAudio.SetPath(ScriptableObjectPath + audioPath);
         drawAudioConfig.SetPath(ScriptableObjectPath + audioPath);
         drawReviews.SetPath(ScriptableObjectPath + reviewPath);
-        //drawEmployees
-        //drawFarms
-        //drawFloors
-        //drawFurniture
-        //drawResource
-        //drawResourceTiles
-        //drawTubes
-        //drawWalls
+
         drawEmployees.OnChanged += ItemChanged;
         drawFarms.OnChanged += ItemChanged;
         drawFloors.OnChanged += ItemChanged;
@@ -150,15 +135,7 @@ public class TheGameManager : OdinMenuEditorWindow
 
                 break;
 
-            //case ManagerState.Employees:
-            //case ManagerState.Farming:
-            //case ManagerState.Floors:
-            //case ManagerState.Furniture:
-            //case ManagerState.Resource:
-            //case ManagerState.ResourceTiles:
-            //case ManagerState.Tubes:
             case ManagerState.Buyables:
-                //drawBuyables.SetPath($"{ScriptableObjectPath}{buyablePath}/{soundsPath}");
                 drawEmployees.SetPath(employeesPath);
                 drawFarms.SetPath(farmingPath);
                 drawFloors.SetPath(floorsPath);
@@ -214,26 +191,7 @@ public class TheGameManager : OdinMenuEditorWindow
 
         SirenixEditorGUI.Title("The Game Manager", "", TextAlignment.Center, true);
         EditorGUILayout.Space();
-        //switch (managerState)
-        //{
-        //    //case ManagerState.Employees:
-        //    //case ManagerState.Farming:
-        //    //case ManagerState.Floors:
-        //    //case ManagerState.Furniture:
-        //    //case ManagerState.Resource:
-        //    //case ManagerState.ResourceTiles:
-        //    //case ManagerState.Tubes:
-        //    case ManagerState.Buyables:
-        //    case ManagerState.Characters:
-        //    case ManagerState.Sfx:
-        //    case ManagerState.Music:
-        //        DrawEditor(enumIndex);
 
-        //        break;
-
-        //    default:
-        //        break;
-        //}
         if (guiInitialized)
             DrawEditor(enumIndex);
         EditorGUILayout.Space();
@@ -310,23 +268,7 @@ public class TheGameManager : OdinMenuEditorWindow
 
     protected override IEnumerable<object> GetTargets()
     {
-        //List<object> targets = new List<object>(14);
         object[] targets = new object[15];
-        //Debug.Log(targets.Count);
-        //targets.Insert(drawReviews.Index, drawReviews);
-        //targets.Insert(drawEmployees.Index, drawEmployees);
-        //targets.Insert(drawFarms.Index, drawFarms);
-        //targets.Insert(drawFloors.Index, drawFloors);
-        //targets.Insert(drawFurniture.Index, drawFurniture);
-        //targets.Insert(drawResource.Index, drawResource);
-        //targets.Insert(drawResourceTiles.Index, drawResourceTiles);
-        //targets.Insert(drawTubes.Index, drawTubes);
-        //targets.Insert(drawWalls.Index, drawWalls);
-        //targets.Insert(drawCharacters.Index, drawCharacters);
-        //targets.Insert(drawAudio.Index, drawAudio);
-        //targets.Insert(drawMusic.Index, drawMusic);
-        //targets.Insert(drawMusicConfig.Index, drawMusicConfig);
-        //targets.Insert(drawAudioConfig.Index, drawAudioConfig);
 
         targets[drawReviews.Index] = drawReviews;
         targets[drawEmployees.Index] = drawEmployees;
@@ -343,23 +285,7 @@ public class TheGameManager : OdinMenuEditorWindow
         targets[drawMusicConfig.Index] = drawMusicConfig;
         targets[drawAudioConfig.Index] = drawAudioConfig;
 
-        //targets.Add(drawReviews);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawBuyables);
-        //targets.Add(drawCharacters);
-        //targets.Add(drawAudio);
-        //targets.Add(drawAudio);
-        //targets.Add(drawAudioConfig);
-        //targets.Add(drawAudioConfig);
-        //targets.Add(base.GetTarget());
         List<object> allTargets = targets.ToList<object>();
-        //List<object> allTargets = new List<object>();
         allTargets.Add(base.GetTarget());
         enumIndex = allTargets.Count - 1;
         return allTargets;

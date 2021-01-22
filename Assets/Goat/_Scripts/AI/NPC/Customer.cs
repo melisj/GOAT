@@ -13,6 +13,8 @@ using Goat.AI.Parking;
 using Goat.AI.Feelings;
 using UnityAtoms.BaseAtoms;
 using UnityAtoms;
+using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI
 {
@@ -22,32 +24,48 @@ namespace Goat.AI
     public class Customer : NPC, IAtomListener<bool>
     {
         // Choosen for player money instead of grocery amount because money gives a more dynamic way of handeling groceries and buying behaviour.
-        [SerializeField] private float maxSearchingTime = 60;
-        [SerializeField] private CustomerReview review;
-        [SerializeField] private CustomerFeelings feelings;
-        [SerializeField] private IntVariable customerCapacity;
-        [SerializeField] private UnloadLocations entrances;
-        [SerializeField] private BoolEvent onDay;
-        [SerializeField] private int storeArea;
-        [SerializeField] private AudioCue angry, questioning, checkout;
-        public int money = 0;
-        [HideInInspector] public int remainingMoney = 0;
+        [SerializeField, TabGroup("Settings")] private float maxSearchingTime = 60;
+        [SerializeField, ReadOnly, TabGroup("Settings")] private int storeArea;
+        [SerializeField, TabGroup("References")] private CustomerReview review;
+        [SerializeField, TabGroup("References")] private CustomerFeelings feelings;
+        [SerializeField, TabGroup("References")] private IntVariable customerCapacity;
+        [SerializeField, TabGroup("References")] private UnloadLocations entrances;
+        [SerializeField, TabGroup("References")] private BoolEvent onDay;
+        [SerializeField, TabGroup("References")] private AudioCue angry, questioning, checkout;
+        [SerializeField, TabGroup("References")] private ResourceArray resourcesInProject;
+        [SerializeField, TabGroup("References")] private FieldOfView fov;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private int money;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private int remainingMoney;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private bool leavingStore;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private float totalPriceProducts;
+        [SerializeField, TabGroup("Debug"), ReadOnly] private float customerSelfConstraint = 0;
 
-        [SerializeField] private ResourceArray resourcesInProject;
+        //Bool Functions
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool calculatedGroceries;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool enteredStore;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool hasStorageTarget;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool hasDestination;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool stuckForSeconds;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool reachedDestination;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool reachedTarget;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool storageDepleted;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool checkoutFull;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool goToCheckout;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool leaveStore;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool findShortestCheckoutQueue;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool askForHelp;
+        [SerializeField, ReadOnly, TabGroup("StateMachine", "Conditions")] private bool waitingInQueue;
 
-        public float customerSatisfaction = 100;
-        [HideInInspector] public float customerSelfConstraint = 0;
-        [SerializeField] private FieldOfView fov;
+        [SerializeField, HideLabel, TabGroup("StateMachine/States/In", "ExitStore")] private ExitStore exitStore;
         public FieldOfView Fov => fov;
+        public int Money { get => money; set => money = value; }
+        public int RemainingMoney { get => remainingMoney; set => remainingMoney = value; }
         public int AmountGroceries { get; set; }
-        public bool OutofTime => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
-
-        [HideInInspector] public bool enteredStore;
-        [HideInInspector] public bool leavingStore;
-
-        [HideInInspector] public float totalPriceProducts;
-
-        private ExitStore exitStore;
+        public bool OutofTime => SearchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
+        public float TotalPriceProducts { get => totalPriceProducts; set => totalPriceProducts = value; }
+        public bool LeavingStore { get => leavingStore; set => leavingStore = value; }
+        public bool EnteredStore { get => enteredStore; set => enteredStore = value; }
+        public float CustomerSelfConstraint { get => customerSelfConstraint; set => customerSelfConstraint = value; }
 
         protected override void Setup()
         {
@@ -55,49 +73,107 @@ namespace Goat.AI
 
             // States
             CalculateGroceries calculateGroceries = new CalculateGroceries(this, resourcesInProject.Resources);
-            EnterStoreCustomer enterStore = new EnterStoreCustomer(this, navMeshAgent, entrances, customerCapacity);
-            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, navMeshAgent, storeArea, questioning);
+            EnterStoreCustomer enterStore = new EnterStoreCustomer(this, NavMeshAgent, entrances, customerCapacity);
+            SetRandomDestination SetRandomDestination = new SetRandomDestination(this, NavMeshAgent, storeArea, questioning);
             SearchForCheckout searchForCheckout = new SearchForCheckout(this);
-            exitStore = new ExitStoreCustomer(this, navMeshAgent, review, customerCapacity, checkout, angry);
+            exitStore = new ExitStoreCustomer(this, NavMeshAgent, review, customerCapacity, checkout, angry);
             DoNothing doNothing = new DoNothing(this);
 
             // Conditions
 
             // Groceries
             // When groceries are calculated inside the CalculateGroceries state
-            Func<bool> CalculatedGroceries() => () => calculateGroceries.calculatedGroceries;
+            Func<bool> CalculatedGroceries() => () =>
+            {
+                calculatedGroceries = calculateGroceries.calculatedGroceries;
+                return calculatedGroceries;
+            };
             // When customer has entered the store
-            Func<bool> EnteredStore() => () => enterStore.enteredStore;
+            Func<bool> EnteredStore() => () =>
+            {
+                enteredStore = enterStore.enteredStore;
+                return enteredStore;
+            };
 
             // Movement
             // When customer has found a storage to take groceries from and the customer is not leaving the store
-            Func<bool> HasStorageTarget() => () => targetStorage != null && !leavingStore;
+            Func<bool> HasStorageTarget() => () =>
+            {
+                hasStorageTarget = TargetStorage != null && !LeavingStore;
+                return hasStorageTarget;
+            };
             // When the customer has a new destination to move to
-            Func<bool> HasDestination() => () => Vector3.Distance(transform.position, targetDestination) >= npcSize / 2 && targetStorage == null && targetDestination != Vector3.zero;
+            Func<bool> HasDestination() => () =>
+            {
+                hasDestination = Vector3.Distance(transform.position, TargetDestination) >= NpcSize / 2 && TargetStorage == null && TargetDestination != Vector3.zero;
+                return hasDestination;
+            };
             // When the customer is standing still for more than a certain amount of time while in moving to a destination
-            Func<bool> StuckForSeconds() => () => moveToDestination.amountStuckCalled > 3 || moveToTarget.amountStuckCalled > 3;
+            Func<bool> StuckForSeconds() => () =>
+            {
+                stuckForSeconds = moveToDestination.AmountStuckCalled > 3 || moveToTarget.AmountStuckCalled > 3;
+                return stuckForSeconds;
+            };
             // When the customer has arrived at its destination
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage == null && !searchForCheckout.inQueue && !leavingStore;
+            Func<bool> ReachedDestination() => () =>
+            {
+                reachedDestination = NavMeshAgent.remainingDistance < NpcSize / 2 && TargetStorage == null && !searchForCheckout.inQueue && !LeavingStore;
+                return reachedDestination;
+            };
             // When the customer has arrived at a target
-            Func<bool> ReachedTarget() => () => navMeshAgent.remainingDistance < npcSize / 2 && targetStorage != null;
+            Func<bool> ReachedTarget() => () =>
+            {
+                reachedTarget = NavMeshAgent.remainingDistance < NpcSize / 2 && TargetStorage != null;
+                return reachedTarget;
+            };
 
             // Shopping
             // When the storage the customer is taking items from no longer has any of the items the customer wants
-            Func<bool> StorageDepleted() => () => takeItem.depleted;
+            Func<bool> StorageDepleted() => () =>
+            {
+                storageDepleted = TakeItem.Depleted;
+                return storageDepleted;
+            };
             // When the customer wants to pay for groceries but the queue for the checkout is to long
-            Func<bool> CheckoutFull() => () => leavingStore && targetDestination == Vector3.zero;
+            Func<bool> CheckoutFull() => () =>
+            {
+                checkoutFull = LeavingStore && TargetDestination == Vector3.zero;
+                return checkoutFull;
+            };
             // When there is room in the checkout queue
-            Func<bool> GoToCheckout() => () => (searchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore)) && Inventory.ItemsInInventory > 0 && searchForCheckout.checks < 1 && navMeshAgent.remainingDistance < 1;
+            Func<bool> GoToCheckout() => () =>
+            {
+                goToCheckout = (SearchingTime >= maxSearchingTime || (ItemsToGet.ItemsInInventory == 0 && enterStore.enteredStore))
+                                && Inventory.ItemsInInventory > 0
+                                && searchForCheckout.checks < 1
+                                && NavMeshAgent.remainingDistance < 1;
+                return goToCheckout;
+            };
             // When the customer can't find any of his groceries
-            Func<bool> LeaveStore() => () => searchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
+            Func<bool> LeaveStore() => () =>
+            {
+                leaveStore = SearchingTime >= maxSearchingTime && Inventory.ItemsInInventory == 0;
+                return leaveStore;
+            };
             // When the customer arrives at the checkout it needs to find the first available position in the queue
-            Func<bool> FindShortestCheckoutQueue() => () => navMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
-            //Func<bool> ArrivedAtCheckout() => () => itemsToGet.Count == 0 && Vector3.Distance(transform.position, targetDestination) < npcSize && targetStorage == null;
+            Func<bool> FindShortestCheckoutQueue() => () =>
+            {
+                findShortestCheckoutQueue = NavMeshAgent.remainingDistance < 4 && (searchForCheckout.checks < 2 && searchForCheckout.checks > 0);
+                return findShortestCheckoutQueue;
+            };
 
             // Interaction
-            Func<bool> AskForHelp() => () => ItemsToGet.ItemsInInventory > 0 && searchingTime >= maxSearchingTime;
+            Func<bool> AskForHelp() => () =>
+            {
+                askForHelp = ItemsToGet.ItemsInInventory > 0 && SearchingTime >= maxSearchingTime;
+                return askForHelp;
+            };
             // Checkout
-            Func<bool> WaitingInQueue() => () => searchForCheckout.inQueue && navMeshAgent.remainingDistance < 0.1f;
+            Func<bool> WaitingInQueue() => () =>
+            {
+                waitingInQueue = searchForCheckout.inQueue && NavMeshAgent.remainingDistance < 0.1f;
+                return waitingInQueue;
+            };
 
             // Transitions
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
@@ -107,8 +183,8 @@ namespace Goat.AI
             AT(SetRandomDestination, moveToDestination, HasDestination());
             AT(moveToDestination, SetRandomDestination, StuckForSeconds());
             AT(moveToDestination, SetRandomDestination, ReachedDestination());
-            AT(moveToTarget, takeItem, ReachedTarget());
-            AT(takeItem, SetRandomDestination, StorageDepleted());
+            AT(moveToTarget, TakeItem, ReachedTarget());
+            AT(TakeItem, SetRandomDestination, StorageDepleted());
             AT(moveToDestination, moveToTarget, HasStorageTarget());
             AT(SetRandomDestination, moveToTarget, HasStorageTarget());
 
@@ -128,7 +204,7 @@ namespace Goat.AI
 
         public void UpdatePositionInCheckoutQueue(Vector3 newPosition)
         {
-            targetDestination = newPosition;
+            TargetDestination = newPosition;
             stateMachine.SetState(moveToDestination);
         }
 
@@ -139,10 +215,10 @@ namespace Goat.AI
 
         public override void OnGetObject(ObjectInstance objectInstance, int poolKey)
         {
-            searchingTime = 0;
-            enteredStore = false;
-            leavingStore = false;
-            money = UnityEngine.Random.Range(1, 3) * 100;
+            SearchingTime = 0;
+            EnteredStore = false;
+            LeavingStore = false;
+            Money = UnityEngine.Random.Range(1, 3) * 100;
             base.OnGetObject(objectInstance, poolKey);
         }
 

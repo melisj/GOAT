@@ -25,18 +25,17 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            if (navAgent.remainingDistance < worker.npcSize / 2)
+            if (navAgent.remainingDistance < worker.NpcSize / 2)
                 entered = true;
 
             animator.SetFloat("Move", navAgent.velocity.sqrMagnitude);
         }
 
-        //fuck this fix.
         private void FindStorageThing()
         {
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Container");
 
-            if(targets != null && targets.Length > 0)
+            if (targets != null && targets.Length > 0)
             {
                 target = targets[Random.Range(0, targets.Length)].transform.position;
             }
@@ -58,4 +57,3 @@ namespace Goat.AI.States
         }
     }
 }
-

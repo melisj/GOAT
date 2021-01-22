@@ -779,26 +779,57 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: takeItem
+    - Name: inventory
+      Entry: 7
+      Data: 0|Goat.Storage.Inventory, Assembly-CSharp
+    - Name: items
       Entry: 6
       Data: 
-    - Name: placeItem
-      Entry: 6
+    - Name: itemsInInventory
+      Entry: 3
+      Data: 0
+    - Name: capacity
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
   npcSize: 1
   wanderRange: 10
-  carriedItemValue: 0
   maxInventory: 20
-  targetDestination: {x: 0, y: 0, z: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  targetStorage: {fileID: 0}
   stateName: 
+  targetDestination: {x: 0, y: 0, z: 0}
+  targetStorage: {fileID: 0}
   enterTime: 0
   searchingTime: 0
-  chillin: 0
+  moveToDestination:
+    lastLocation: {x: 0, y: 0, z: 0}
+    timeStuck: 0
+    amountStuckCalled: 0
+  moveToTarget:
+    lastLocation: {x: 0, y: 0, z: 0}
+    timeStuck: 0
+    amountStuckCalled: 0
+  takeItem:
+    returnToStock: 0
+    depleted: 0
+    takingSpeed: 0
+    nextItemTime: 0
+  chilling: 0
+  waitingTime: 5
+  placingSpeed: 0.5
   onCycleChange: {fileID: 11400000, guid: 82c2ee903a6ece641bfd4232c166be42, type: 2}
-  storageLocations: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+  shelves: {fileID: 11400000, guid: 0ef055cee72311243a7e8de6bec4352e, type: 2}
+  warehouseStorages: {fileID: 11400000, guid: 86aecaebbb4a0114da72372ac15e286d, type: 2}
+  placeItem:
+    filled: 0
+    nextItemTime: 0
+  exitStore:
+    entrance: {x: 0, y: 0, z: 0}
+    destinationDistance: 0
+    exitedStore: 0
   targetStorages: []
   entrances: {fileID: 11400000, guid: 09dd0e1d048fb7d4b91f4a10dd825440, type: 2}
 --- !u!114 &270845328

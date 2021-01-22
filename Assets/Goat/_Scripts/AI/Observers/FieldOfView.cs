@@ -178,8 +178,8 @@ namespace Goat.AI
             if (customer.ItemsToGet.ItemsInInventory > 0 && ContainsGroceries(out StorageInteractable targetStorage))
             {
                 Debug.Log(targetStorage);
-                customer.targetStorage = targetStorage;
-                customer.targetDestination = targetStorage.transform.position;
+                customer.TargetStorage = targetStorage;
+                customer.TargetDestination = targetStorage.transform.position;
                 //Debug.Log("Found target to get item from!");
             }
         }

@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Goat.Pooling;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI.States
 {
     /// <summary>
     /// Exit the store
     /// </summary>
+    [System.Serializable]
     public class ExitStore : IState
     {
         protected NPC npc;
         protected NavMeshAgent navMeshAgent;
-        public bool exitedStore;
-        protected Vector3 entrance;
-        protected float destinationDistance;
+        [SerializeField, ReadOnly] protected Vector3 entrance;
+        [SerializeField, ReadOnly] protected float destinationDistance;
+        [SerializeField, ReadOnly] private bool exitedStore;
+        public bool ExitedStore => exitedStore;
 
         public ExitStore(NPC npc, NavMeshAgent navMeshAgent)
         {
@@ -25,7 +28,7 @@ namespace Goat.AI.States
 
         public virtual void Tick()
         {
-            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < npc.npcSize / 2)
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < npc.NpcSize / 2)
             {
                 OnExit();
             }
@@ -45,7 +48,6 @@ namespace Goat.AI.States
             npc.Ship.ShipReadyToFly();
             navMeshAgent.ResetPath();
             PoolManager.Instance.ReturnToPool(npc.gameObject);
-            
         }
     }
 }

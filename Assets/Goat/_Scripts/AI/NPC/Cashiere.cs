@@ -16,9 +16,9 @@ namespace Goat.AI
         {
             base.Setup();
 
-            MoveToDestination moveToDestination = new MoveToDestination(this, navMeshAgent);
+            MoveToDestination moveToDestination = new MoveToDestination(this, NavMeshAgent);
 
-            Func<bool> ReachedDestination() => () => navMeshAgent.remainingDistance < npcSize / 2;
+            Func<bool> ReachedDestination() => () => NavMeshAgent.remainingDistance < NpcSize / 2;
 
             void AT(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
 

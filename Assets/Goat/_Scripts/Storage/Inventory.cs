@@ -3,15 +3,17 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Goat.Storage
 {
     [Serializable]
     public class Inventory
     {
-        public Dictionary<Resource, int> Items { get; private set; }
-        private int itemsInInventory;
-        private int capacity;
+        [SerializeField, ReadOnly] private Dictionary<Resource, int> items;
+        public Dictionary<Resource, int> Items { get => items; private set => items = value; }
+        [SerializeField, ReadOnly] private int itemsInInventory;
+        [SerializeField, ReadOnly] private int capacity;
 
         public int SpaceLeft => capacity - itemsInInventory;
         public int ItemsInInventory => itemsInInventory;
@@ -20,9 +22,11 @@ namespace Goat.Storage
         public bool InfiniCapacity { get; set; }
 
         public delegate void InventoryChanged(Resource resource, int amount, bool removed);
+
         public event InventoryChanged InventoryChangedEvent;
 
         public delegate void InventoryReset();
+
         public event InventoryReset InventoryResetEvent;
 
         [HideInInspector] public event EventHandler InventoryAddedEvent, InventoryRemovedEvent;
@@ -91,7 +95,8 @@ namespace Goat.Storage
         public void SetInventory(Dictionary<Resource, int> newInventory)
         {
             Items = newInventory;
-            foreach (var item in Items) {
+            foreach (var item in Items)
+            {
                 itemsInInventory += item.Value;
             }
 
@@ -127,10 +132,9 @@ namespace Goat.Storage
                     itemsInInventory += amountToFill;
                 }
 
-            InventoryResetEvent?.Invoke();
+                InventoryResetEvent?.Invoke();
             }
         }
-
 
         public void Clear()
         {

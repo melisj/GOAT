@@ -29,10 +29,10 @@ namespace Goat.AI.States
         private StorageInteractable SetNewTarget()
         {
             StorageInteractable tempStorage;
-            if(stockClerk.targetStorages != null && stockClerk.targetStorages.Count > 0)
+            if(stockClerk.TargetStorages != null && stockClerk.TargetStorages.Count > 0)
             {
-                tempStorage = stockClerk.targetStorages.First();
-                stockClerk.targetStorages.RemoveAt(0);
+                tempStorage = stockClerk.TargetStorages.First();
+                stockClerk.TargetStorages.RemoveAt(0);
                 return tempStorage;
             }
             else
@@ -44,7 +44,7 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            stockClerk.targetStorage = SetNewTarget();
+            stockClerk.TargetStorage = SetNewTarget();
         }
 
         public void OnExit()

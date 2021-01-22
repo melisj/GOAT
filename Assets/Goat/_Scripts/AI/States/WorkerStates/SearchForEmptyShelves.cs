@@ -10,7 +10,7 @@ namespace Goat.AI.States
 {
     public class SearchForEmptyShelves : IState
     {
-        StockClerk stockClerk;
+        private StockClerk stockClerk;
         public bool foundEmptyShelves { get; private set; }
         private float tickTime = 0, tickSpeed = 1;
 
@@ -21,7 +21,6 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-
         }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace Goat.AI.States
             if (storages.Count == 0 || storages == null) return;
 
             bool found = false;
-            
+
             while (stockClerk.ItemsToGet.SpaceLeft > 0 && storages.Count > 0)
             {
                 StorageInteractable tempStorage = storages.First();
@@ -45,7 +44,7 @@ namespace Goat.AI.States
                 {
                     found = true;
                     tempStorage.selected = true;
-                    stockClerk.targetStorages.Add(tempStorage);                    
+                    stockClerk.TargetStorages.Add(tempStorage);
                 }
                 storages.RemoveAt(0);
             }
@@ -55,29 +54,26 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.Log("StockClerk started searching for empty shelves");
             foundEmptyShelves = false;
-            tickTime = Time.time + (1/ tickSpeed);
+            tickTime = Time.time + (1 / tickSpeed);
             ClearCurrentShelves();
 
             // Return a list of possible storages to fill
-            List<StorageInteractable> sortedStorages = stockClerk.storageLocations.Storages.Where(x => x.tag == "Storage" && x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
+            List<StorageInteractable> sortedStorages = stockClerk.Shelves.Storages.Where(x => x.MainResource != null && x.Inventory.SpaceLeft > 0 && !x.selected).OrderBy(y => y.Inventory.ItemsInInventory).ToList();
             // Return a list of storages to fill
             FindStorageAndItems(sortedStorages);
             sortedStorages.Clear();
-
         }
 
         private void ClearCurrentShelves()
         {
-            if(stockClerk.targetStorage != null)
-                stockClerk.targetStorage.selected = false;
-            for (int i = 0; i < stockClerk.targetStorages.Count; i++)
-                stockClerk.targetStorages[i].selected = false;
+            if (stockClerk.TargetStorage != null)
+                stockClerk.TargetStorage.selected = false;
+            for (int i = 0; i < stockClerk.TargetStorages.Count; i++)
+                stockClerk.TargetStorages[i].selected = false;
 
-
-            stockClerk.targetStorage = null;
-            stockClerk.targetStorages = new List<StorageInteractable>();
+            stockClerk.TargetStorage = null;
+            stockClerk.TargetStorages = new List<StorageInteractable>();
         }
 
         public void OnExit()
@@ -85,4 +81,3 @@ namespace Goat.AI.States
         }
     }
 }
-

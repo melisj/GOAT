@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI.States
 {
     /// <summary>
     /// Make nevmeshagent move to destination selected by NPC
     /// </summary>
+    [System.Serializable]
     public class MoveToDestination : IState
     {
         private NPC npc;
         private NavMeshAgent navMeshAgent;
-
-        private Vector3 lastLocation;
-        public float timeStuck;
+        [SerializeField, ReadOnly] private Vector3 lastLocation;
+        [SerializeField, ReadOnly] private float timeStuck;
+        [SerializeField, ReadOnly] private int amountStuckCalled;
 
         // Need to check somewhere is target is reachable. NavMeshAgent.CalculatePath. NavMeshAgent.PathStatus.
-        public int amountStuckCalled;
+        public float TimeStuck => timeStuck;
+
+        public int AmountStuckCalled => amountStuckCalled;
 
         public MoveToDestination(NPC npc, NavMeshAgent navMeshAgent)
         {
@@ -27,13 +31,12 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            npc.searchingTime += Time.deltaTime;
+            npc.SearchingTime += Time.deltaTime;
             float dist = Vector3.Distance(npc.transform.position, lastLocation);
             // Check if agent is stuck while navigating to target
             if (dist <= 0.001f)
             {
                 amountStuckCalled++;
-                Debug.Log($"Get me outta here, im stuck {amountStuckCalled}:{dist}", npc.gameObject);
                 timeStuck += Time.deltaTime;
             }
 
@@ -42,18 +45,15 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.LogFormat("Moving to destination");
             timeStuck = 0f;
             amountStuckCalled = 0;
             navMeshAgent.enabled = true;
-            navMeshAgent.SetDestination(npc.targetDestination);
+            navMeshAgent.SetDestination(npc.TargetDestination);
         }
 
         public void OnExit()
         {
             timeStuck = 0f;
-            Debug.Log("Arrived at destination");
-            //navMeshAgent.enabled = false;
             navMeshAgent.ResetPath();
         }
     }

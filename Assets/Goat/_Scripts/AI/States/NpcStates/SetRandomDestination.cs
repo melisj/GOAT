@@ -34,7 +34,7 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            npc.searchingTime += Time.deltaTime;
+            npc.SearchingTime += Time.deltaTime;
 
             CalculateDestination();
         }
@@ -51,7 +51,7 @@ namespace Goat.AI.States
                 wanderDestination = tempDestination;
                 hitDestination = true;
             }
-            else if (RandomWanderTarget(npc.transform.position, range: npc.wanderRange, out tempDestination))
+            else if (RandomWanderTarget(npc.transform.position, range: npc.WanderRange, out tempDestination))
             {
                 int random = Random.Range(0, 101);
                 if (random > chanceToSpeak && audio != null)
@@ -75,7 +75,7 @@ namespace Goat.AI.States
                 }
                 else
                 {
-                    npc.targetDestination = wanderDestination;
+                    npc.TargetDestination = wanderDestination;
                     Debug.Log("Found an new destination!");
                 }
             }
@@ -148,8 +148,8 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             Debug.Log("Searching for target");
-            npc.targetStorage = null;
-            npc.targetDestination = npc.transform.position;
+            npc.TargetStorage = null;
+            npc.TargetDestination = npc.transform.position;
             wanderDestination = npc.transform.position;
             navMeshAgent.enabled = true;
         }

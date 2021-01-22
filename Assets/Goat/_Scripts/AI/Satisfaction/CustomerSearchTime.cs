@@ -8,7 +8,7 @@ namespace Goat.AI.Satisfaction
 
         public override float GetReviewPoints()
         {
-            return -(npc.searchingTime * revData.Weight);
+            return -(npc.SearchingTime * revData.Weight);
         }
     }
 }

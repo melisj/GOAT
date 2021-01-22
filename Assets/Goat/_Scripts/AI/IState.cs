@@ -25,5 +25,23 @@ namespace Goat.AI
         /// </summary>
         void OnExit();
     }
-}
 
+    [System.Serializable]
+    public abstract class State
+    {
+        /// <summary>
+        /// Happens every Update
+        /// </summary>
+        public abstract void Tick();
+
+        /// <summary>
+        /// Happens when the AI enters the state
+        /// </summary>
+        public abstract void OnEnter();
+
+        /// <summary>
+        /// Happens when the AI exits the state
+        /// </summary>
+        public abstract void OnExit();
+    }
+}

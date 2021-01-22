@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 906b8c645c26cb64cba108c60bfd0116, type: 3}
-  m_Name: StorageList
+  m_Name: WarehouseStorage
   m_EditorClassIdentifier: 
-  storageTransformLocation: []
+  storages: []

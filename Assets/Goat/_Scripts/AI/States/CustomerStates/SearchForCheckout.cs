@@ -58,8 +58,8 @@ namespace Goat.AI.States
             checks++;
             Vector3 checkoutPosition = FindCheckout();
             if (checkoutPosition == Vector3.zero) checks = 0;
-            customer.targetDestination = checkoutPosition;
-            customer.leavingStore = true;
+            customer.TargetDestination = checkoutPosition;
+            customer.LeavingStore = true;
         }
 
         public void OnExit()

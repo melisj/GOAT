@@ -18,21 +18,21 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            npc.searchingTime += Time.deltaTime;
+            npc.SearchingTime += Time.deltaTime;
         }
 
         public void OnEnter()
         {
             Debug.Log("Doing nothing");
             if (npc is WarehouseWorker)
-                ((WarehouseWorker)npc).searching = true;
-            npc.targetDestination = npc.transform.position;
+                ((WarehouseWorker)npc).Searching = true;
+            npc.TargetDestination = npc.transform.position;
         }
 
         public void OnExit()
         {
             if (npc is WarehouseWorker)
-                ((WarehouseWorker)npc).searching = false;
+                ((WarehouseWorker)npc).Searching = false;
         }
     }
 }

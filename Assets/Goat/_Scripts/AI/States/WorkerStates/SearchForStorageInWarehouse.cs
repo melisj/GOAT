@@ -14,8 +14,9 @@ namespace Goat.AI.States
     /// </summary>
     public class SearchForStorageInWarehouse : IState
     {
-        Worker worker;
+        private Worker worker;
         public bool nothingFound;
+
         public SearchForStorageInWarehouse(Worker worker)
         {
             this.worker = worker;
@@ -23,7 +24,6 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-
         }
 
         /// <summary>
@@ -83,17 +83,16 @@ namespace Goat.AI.States
         public void OnEnter()
         {
             nothingFound = false;
-            worker.targetStorage = null;
-            Debug.Log("Started searching for containers in warehouse");
+            worker.TargetStorage = null;
             if (worker is StockClerk)
             {
-                StorageInteractable[] possibleStorages = worker.storageLocations.Storages.Where(x => x.tag == "Container" && x.Inventory.ItemsInInventory > 0).ToArray();
-                worker.targetStorage = SetStorageTarget(worker.ItemsToGet.Items, possibleStorages);
+                StorageInteractable[] possibleStorages = worker.WarehouseStorages.Storages.Where(x => x.Inventory.ItemsInInventory > 0).ToArray();
+                worker.TargetStorage = SetStorageTarget(worker.ItemsToGet.Items, possibleStorages);
             }
             else if (worker is WarehouseWorker)
             {
-                StorageInteractable[] sortedStorages = worker.storageLocations.Storages.Where(x => x.tag == "Container" && x.Inventory.SpaceLeft > 0).OrderBy(y => y.Inventory.ItemsInInventory).ToArray();
-                worker.targetStorage = SetStorageTarget(worker.Inventory.Items, sortedStorages);
+                StorageInteractable[] sortedStorages = worker.WarehouseStorages.Storages.Where(x => x.Inventory.SpaceLeft > 0).OrderBy(y => y.Inventory.ItemsInInventory).ToArray();
+                worker.TargetStorage = SetStorageTarget(worker.Inventory.Items, sortedStorages);
             }
         }
 
@@ -102,4 +101,3 @@ namespace Goat.AI.States
         }
     }
 }
-

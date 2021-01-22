@@ -5,20 +5,24 @@ using Goat.Storage;
 using Goat.Grid.Interactions;
 using System;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Goat.AI.States
 {
     /// <summary>
     /// Take item from a storage target
     /// </summary>
+    [System.Serializable]
     public class TakeItem : IState
     {
         private NPC npc;
         private Animator animator;
-        private bool returnToStock;
-        public bool depleted = false;
+        [SerializeField, ReadOnly] private bool returnToStock;
+        [SerializeField, ReadOnly] private bool depleted;
+        [SerializeField, ReadOnly] private float takingSpeed = 0.5f, nextItemTime = 0;
         // Get this from npc
-        private float takingSpeed = 0.5f, nextItemTime = 0;
+
+        public bool Depleted => depleted;
 
         public event EventHandler eventHandler;
 
@@ -36,18 +40,17 @@ namespace Goat.AI.States
         {
             // If target still has item grab item.
             bool nothingFound = true;
-            for (int i = 0; i < npc.targetStorage.Inventory.Items.Count; i++)
+            for (int i = 0; i < npc.TargetStorage.Inventory.Items.Count; i++)
             {
-                Resource tempResource = npc.targetStorage.Inventory.Items.ElementAt(i).Key;
+                Resource tempResource = npc.TargetStorage.Inventory.Items.ElementAt(i).Key;
                 if (npc.ItemsToGet.Contains(tempResource))
                 {
-                    if (npc is Customer)
-                        ((Customer)npc).totalPriceProducts += tempResource.Price(true);
+                    if (npc is Customer customer)
+                        customer.TotalPriceProducts += tempResource.Price(true);
 
-                    Debug.LogFormat("Took {0} from storage container", tempResource.name);
                     npc.Inventory.Add(tempResource, 1, out int amountStored);
                     npc.ItemsToGet.Remove(tempResource, amountStored, out int itemsRemoved);
-                    npc.targetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
+                    npc.TargetStorage.Inventory.Remove(tempResource, amountStored, out int storageRemoved);
 
                     animator.SetTrigger("Interact");
                     eventHandler?.Invoke(this, null);
@@ -62,10 +65,10 @@ namespace Goat.AI.States
 
         public void Tick()
         {
-            npc.searchingTime += Time.deltaTime;
+            npc.SearchingTime += Time.deltaTime;
 
             // If time to grab next item
-            if (!depleted && nextItemTime <= Time.time)
+            if (!Depleted && nextItemTime <= Time.time)
             {
                 nextItemTime = Time.time + (1 / takingSpeed);
                 TakeItemFromStorage();
@@ -74,16 +77,13 @@ namespace Goat.AI.States
 
         public void OnEnter()
         {
-            Debug.Log("Started taking items");
-            // Start animation?
             depleted = false;
         }
 
         public void OnExit()
         {
-            // End animation?
-            npc.targetStorage = null;
-            npc.targetDestination = npc.transform.position;
+            npc.TargetStorage = null;
+            npc.TargetDestination = npc.transform.position;
         }
     }
 }
